@@ -1,6 +1,7 @@
 const white = "#FFFFFF";
 const black = "#000000";
 const grey = "#707070";
+const grey2 = "#dedee7";
 const yellow = "#ffc415";
 const green = "#00bc56";
 
@@ -22,7 +23,7 @@ const background = {
 
 const text = {
   primary: "#212121",
-  secondary: "#bcbcbc",
+  secondary: "#4c4b52",
   tertiary: primary,
   quaternary: "#707070",
   accent: "#ff2824"
@@ -33,26 +34,6 @@ const navbar = {
   text: text.primary
 };
 
-const dateColors = [
-  red,
-  yellow,
-  blue,
-  blue,
-  yellow,
-  green,
-  blue,
-  blue,
-  green,
-  yellow,
-  green,
-  red,
-  yellow,
-  blue,
-  green,
-  yellow,
-  iceblue
-];
-const border = "#f2f2f2";
 const separator = "#f2f2f2";
 
 const windowTint = "rgba(0, 0, 0, 0.4)";
@@ -62,6 +43,7 @@ export default {
   white,
   black,
   grey,
+  grey2,
   yellow,
   transparent,
   red,
@@ -74,9 +56,7 @@ export default {
   background,
   navbar,
   text,
-  border,
   separator,
   windowTint,
-  windowTintWhite,
-  dateColors
+  windowTintWhite
 };

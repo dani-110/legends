@@ -23,8 +23,8 @@ const navigator = Actions.create(
     headerStyle={styles.header}
     headerTintColor={Colors.navbar.text}
   >
-    <Scene key="login" component={Login} hideNavBar />
-    <Scene key="welcome" component={Welcome} hideNavBar initial />
+    <Scene key="login" component={Login} hideNavBar initial />
+    <Scene key="welcome" component={Welcome} hideNavBar />
   </Stack>
 );
 

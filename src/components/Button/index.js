@@ -129,7 +129,12 @@ const Button = (props: Object) => {
   }
 
   return (
-    <TouchableOpacity disabled={disabled} style={buttonStyle} {...rest}>
+    <TouchableOpacity
+      activeOpacity={0.7}
+      disabled={disabled}
+      style={buttonStyle}
+      {...rest}
+    >
       {renderInnerText(
         children,
         color,

@@ -50,8 +50,8 @@ export default {
   horizontalLineHeight: StyleSheet.hairlineWidth,
   navBarHeight: NAVBAR_HEIGHT + STATUSBAR_HEIGHT,
   tabBarHeight: 49, // Default tab bar height in iOS 10 (source react-navigation)
-  borderRadius: 5,
-  defaultUIHeight: ratio(45),
+  borderRadius: 9,
+  defaultUIHeight: ratio(47),
   viewMaxWidthForLandscape: ratio(400),
   icon: {
     tiny: ratio(8),

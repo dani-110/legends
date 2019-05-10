@@ -99,6 +99,10 @@ class Util {
     final = final.slice(0, -1);
     return final;
   }
+
+  isRequiredMessage(field) {
+    this.topAlertError(`${this.capitalizeFirstLetter(field)} is required`);
+  }
 }
 
 export default new Util();

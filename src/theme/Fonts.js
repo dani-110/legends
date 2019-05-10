@@ -3,20 +3,8 @@
 import { Platform } from "react-native";
 
 const type = {
-  /* base: "ParalucentText-Book",
-  medium: "Paralucent-Medium" */
-  base: Platform.select({
-    ios: "Helvetica Neue",
-    android: "Roboto"
-  }),
-  bold: Platform.select({
-    ios: "HelveticaNeue-Medium",
-    android: "Roboto"
-  }),
-  italic: Platform.select({
-    ios: "HelveticaNeue-Italic",
-    android: "Roboto"
-  })
+  base: "CircularStd-Book",
+  medium: "CircularStd-Medium"
 };
 
 // Metrics.generatedFontSize(ios, android)
@@ -27,13 +15,13 @@ const size = {
   xxSmall: 13,
   xSmall: 14,
   small: 15,
-  normal: 17,
-  medium: 18,
-  large: 20,
-  xLarge: 24,
-  xxLarge: 30,
-  xxxLarge: 36,
-  xxxxLarge: 40
+  normal: 16,
+  medium: 17,
+  large: 18,
+  xLarge: 22,
+  xxLarge: 24,
+  xxxLarge: 30,
+  xxxxLarge: 46
 };
 
 export default {

@@ -2,7 +2,7 @@
 import _ from "lodash";
 import { connect } from "react-redux";
 import React, { Component } from "react";
-import { View, Image } from "react-native";
+import { View, Image, ImageBackground } from "react-native";
 import PropTypes from "prop-types";
 import { Actions } from "react-native-router-flux";
 
@@ -30,7 +30,17 @@ class Welcome extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Image source={Images.logo} style={styles.image} resizeMode="contain" />
+        <ImageBackground
+          source={Images.splash_bg}
+          style={styles.imageBackground}
+          resizeMode="stretch"
+        >
+          <Image
+            source={Images.logo}
+            style={styles.image}
+            resizeMode="contain"
+          />
+        </ImageBackground>
       </View>
     );
   }

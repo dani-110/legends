@@ -1,36 +1,34 @@
 // @flow
 import { StyleSheet } from "react-native";
-import { Colors, Metrics, AppStyles } from "../../theme";
+import { Colors, AppStyles, Metrics, Fonts } from "../../theme";
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    padding: Metrics.baseMargin,
     backgroundColor: Colors.background.primary,
-    paddingTop: Metrics.statusBarHeight,
     ...AppStyles.pBottom0
   },
-  button: {
-    marginTop: Metrics.ratio(30)
-  },
+
   logo: { width: 96, height: 112 },
-  lineThrough: {
-    height: 0.5,
-    backgroundColor: Colors.grey4,
-    position: "absolute",
-    top: 6,
-    left: 0,
-    right: 0
+  heroBg: { width: "100%", height: 350 },
+  logoImage: {
+    marginTop: Metrics.navBarHeight,
+    width: 120,
+    height: 120
   },
-  ORTextWrapper: {
-    backgroundColor: Colors.white,
-    width: 110,
-    alignSelf: "center"
+  cardBoard: {
+    paddingTop: 70,
+    marginHorizontal: 25,
+    paddingBottom: 50
   },
-  socialIcon: {
-    width: 50,
-    height: 50,
-    ...AppStyles.mLeft10,
-    ...AppStyles.mRight10
+  inputStyle1: {
+    fontFamily: "CircularStd-Book",
+    fontSize: Fonts.size.normal,
+    borderWidth: 1,
+    borderColor: Colors.grey2,
+    paddingHorizontal: 10,
+    ...AppStyles.mBottom10,
+    borderRadius: Metrics.borderRadius,
+    paddingVertical: 12
   }
 });

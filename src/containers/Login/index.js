@@ -1,13 +1,18 @@
 // @flow
 import _ from "lodash";
 import { connect } from "react-redux";
-import { View, Image, ScrollView, Platform } from "react-native";
+import {
+  View,
+  Image,
+  Platform,
+  ImageBackground,
+  TextInput
+} from "react-native";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Actions } from "react-native-router-flux";
 import { INVALID_EMAIL_ERROR, INVALID_PASSWORD_ERROR } from "../../constants";
 import { userSigninRequest } from "../../actions/UserActions";
-import { Text, ButtonView, TextInput, Loader } from "../../components";
+import { Text, ButtonView, Loader, Button } from "../../components";
 import { Images, AppStyles, Colors } from "../../theme";
 import styles from "./styles";
 import Util from "../../util";
@@ -18,21 +23,14 @@ class Login extends Component {
   };
   state = {
     errors: {},
-    loading: false
+    loading: false,
+    email: "",
+    password: ""
   };
 
   email;
   password;
 
-  // emailValue = "chris@yopmail.com";
-  // passwordValue = "123456";
-  // emailValue = "johd@doe.com";
-  // passwordValue = "123456";
-  // emailValue = "zain23@yopmail.com";
-  // passwordValue = "123456";
-
-  emailValue = "";
-  passwordValue = "";
   _onSubmitEmail = () => {
     this.password.focus();
   };
@@ -41,52 +39,40 @@ class Login extends Component {
     this.password.blur();
   };
 
-  _onChange = (element, value) => {
-    const valueRef = `${element}Value`;
-    this[valueRef] = value;
-
-    if (!_.isEmpty(this.state.errors)) {
-      this.setState({
-        errors: { ...this.state.errors, ...{ [element]: "" } }
-      });
-    }
-  };
-
-  _validateForm() {
-    const errors = {};
-    if (_.isEmpty(this.emailValue)) {
+  _validateForm = () => {
+    const { email, password } = this.state;
+    if (_.isEmpty(email)) {
       // email is required
-
-      errors.email = Util.isRequiredMessage("email");
+      Util.isRequiredMessage("email");
+      this.email.focus();
+      return false;
     }
-    if (!Util.isEmailValid(this.emailValue)) {
+    if (!Util.isEmailValid(email)) {
       // invalid email
-      errors.email = INVALID_EMAIL_ERROR;
+      Util.topAlertError(INVALID_EMAIL_ERROR);
+      this.email.focus();
+
+      return false;
     }
-    if (_.isEmpty(this.passwordValue)) {
+    if (_.isEmpty(password)) {
       // password is required
-      errors.password = Util.isRequiredMessage("password");
+      Util.isRequiredMessage("password");
+      this.password.focus();
+      return false;
     }
-    if (!Util.isPasswordValid(this.passwordValue)) {
+    if (!Util.isPasswordValid(password)) {
       // invalid password
-      errors.password = INVALID_PASSWORD_ERROR;
-    }
-
-    if (!_.isEmpty(errors)) {
-      this[_.keys(errors)[0]].focus();
-      this.setState({
-        errors
-      });
-
+      Util.topAlertError(INVALID_PASSWORD_ERROR);
+      this.password.focus();
       return false;
     }
 
     return true;
-  }
+  };
 
   _onSubmit = () => {
     if (this._validateForm()) {
-      this.password.blur();
+      /* this.password.blur();
       this.email.blur();
 
       const payload = {
@@ -96,16 +82,60 @@ class Login extends Component {
         // device_token: asd
       };
       Util.showLoader(this);
-      this.props.userSigninRequest(payload, data => {});
+      this.props.userSigninRequest(payload, data => {}); */
     }
   };
 
-  renderLogo() {
+  renderHeroArea() {
     return (
-      <View
-        style={[AppStyles.centerInner, AppStyles.mTop30, AppStyles.mBottom30]}
-      >
-        <Image source={Images.logo} style={AppStyles.logoImage} />
+      <View style={[AppStyles.centerInner, AppStyles.mBottom30]}>
+        <Image
+          source={Images.logo}
+          style={[AppStyles.logoImage, styles.logoImage]}
+        />
+      </View>
+    );
+  }
+
+  renderLoginForm() {
+    const { email, password } = this.state;
+    return (
+      <View style={[AppStyles.cardView, styles.cardBoard]}>
+        <TextInput
+          placeholder="Email"
+          style={[styles.inputStyle1]}
+          autoCapitalize="none"
+          selectionColor={Colors.black}
+          value={email}
+          ref={ref => (this.email = ref)}
+          onChangeText={value => this.setState({ email: value })}
+        />
+
+        <TextInput
+          placeholder="Password"
+          style={styles.inputStyle1}
+          secureTextEntry
+          selectionColor={Colors.black}
+          value={password}
+          ref={ref => (this.password = ref)}
+          onChangeText={value => this.setState({ password: value })}
+        />
+
+        <ButtonView style={AppStyles.mTop5}>
+          <Text textAlign="right" color={Colors.green}>
+            Forgot your password?
+          </Text>
+        </ButtonView>
+
+        <Button
+          background={Colors.green}
+          color={Colors.white}
+          style={[AppStyles.mTop20]}
+          indicatorColor={Colors.white}
+          onPress={this._onSubmit}
+        >
+          LOG IN
+        </Button>
       </View>
     );
   }
@@ -115,12 +145,15 @@ class Login extends Component {
 
     return (
       <View style={styles.container}>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          keyboardShouldPersistTaps="handled"
+        <ImageBackground
+          source={Images.login_header_wrapper}
+          style={styles.heroBg}
+          resizeMode="stretch"
         >
-          {this.renderLogo()}
-        </ScrollView>
+          {this.renderHeroArea()}
+          {this.renderLoginForm()}
+        </ImageBackground>
+
         <Loader loading={loading} />
       </View>
     );
