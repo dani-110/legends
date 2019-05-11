@@ -11,7 +11,7 @@ import { Images, AppStyles, Colors } from "../../theme";
 export default class CustomNavbar extends React.Component {
   static propTypes = {
     hasBack: PropTypes.bool,
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
     leftBtnImage: PropTypes.number,
     leftBtnPress: PropTypes.func,
     leftBtnText: PropTypes.string,
@@ -28,6 +28,7 @@ export default class CustomNavbar extends React.Component {
 
   static defaultProps = {
     hasBack: true,
+    title: "",
     titleColor: "",
     leftBtnImage: undefined,
     leftBtnPress: Actions.pop,
@@ -53,7 +54,7 @@ export default class CustomNavbar extends React.Component {
           <Image source={leftBtnImage} size={styles.btnImage} />
         )}
         {renderBack && (
-          <Image source={Images.back_btn} size={styles.btnImage} />
+          <Image source={Images.back_icon} size={styles.btnImage} />
         )}
       </ButtonView>
     );
@@ -66,12 +67,7 @@ export default class CustomNavbar extends React.Component {
         style={[styles.btnWrapper, styles.rightBtn]}
       >
         {!_.isEmpty(rightBtnText) && (
-          <Text
-            type="medium"
-            numberOfLines={1}
-            ellipsizeMode="tail"
-            size="small"
-          >
+          <Text numberOfLines={1} ellipsizeMode="tail" size="small">
             {rightBtnText}
           </Text>
         )}
@@ -87,7 +83,6 @@ export default class CustomNavbar extends React.Component {
       <View style={[AppStyles.flex, AppStyles.centerInner]}>
         <Text
           color={titleColor || Colors.blue1}
-          type="medium"
           numberOfLines={1}
           ellipsizeMode="tail"
           size="medium"

@@ -2,6 +2,7 @@ const white = "#FFFFFF";
 const black = "#000000";
 const grey = "#707070";
 const grey2 = "#dedee7";
+const grey3 = "#a3a3b5";
 const yellow = "#ffc415";
 const green = "#00bc56";
 
@@ -44,6 +45,7 @@ export default {
   black,
   grey,
   grey2,
+  grey3,
   yellow,
   transparent,
   red,

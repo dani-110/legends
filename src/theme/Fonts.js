@@ -4,7 +4,7 @@ import { Platform } from "react-native";
 
 const type = {
   base: "CircularStd-Book",
-  medium: "CircularStd-Medium"
+  bold: "CircularStd-Medium"
 };
 
 // Metrics.generatedFontSize(ios, android)
