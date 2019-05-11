@@ -1,12 +1,19 @@
 // @flow
 import React from "react";
 import { connect } from "react-redux";
-import { Stack, Scene, Router, Actions } from "react-native-router-flux";
+import {
+  Stack,
+  Scene,
+  Router,
+  Actions,
+  Drawer,
+  Tabs
+} from "react-native-router-flux";
 
 import styles from "./styles";
 import { Colors } from "../theme";
-
-import { Login, Welcome, ForgotPassword } from "../containers";
+import { SideMenu, Tabbar } from "../components";
+import { Login, Welcome, ForgotPassword, Dashboard } from "../containers";
 
 function onBackPress() {
   if (Actions.state.index === 0) {
@@ -26,6 +33,27 @@ const navigator = Actions.create(
     <Scene key="welcome" component={Welcome} hideNavBar />
     <Scene key="login" component={Login} hideNavBar />
     <Scene key="forgotPassword" component={ForgotPassword} hideNavBar />
+
+    <Drawer
+      hideNavBar
+      key="drawerMenu"
+      contentComponent={SideMenu}
+      drawerWidth={250}
+      drawerPosition="left"
+      initial
+    >
+      <Scene hideNavBar key="dashboard">
+        <Tabs
+          key="tabbar"
+          swipeEnabled={false}
+          tabBarComponent={() => <Tabbar />}
+          labelStyle={{ fontSize: 12 }}
+          tabBarPosition="bottom"
+        >
+          <Scene key="dashboard_tab" component={Dashboard} hideNavBar />
+        </Tabs>
+      </Scene>
+    </Drawer>
   </Stack>
 );
 

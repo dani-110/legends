@@ -4,11 +4,23 @@ const login_header_wrapper = require("../assets/images/login_header_wrapper/logi
 const forgot_lock = require("../assets/images/forgot_lock/forgot_lock.png");
 
 const back_icon = require("../assets/icon/back_icon/back_icon.png");
+const drawer_black = require("../assets/icon/drawer_black/drawer_black.png");
+const home_black = require("../assets/icon/home_black/home_black.png");
+const home_outline = require("../assets/icon/home_outline/home_outline.png");
+const live_black = require("../assets/icon/live_black/live_black.png");
+const live_outline = require("../assets/icon/live_outline/live_outline.png");
+const notification_black = require("../assets/icon/notification_black/notification_black.png");
 
 export default {
   logo,
   splash_bg,
   login_header_wrapper,
   forgot_lock,
-  back_icon
+  back_icon,
+  drawer_black,
+  home_black,
+  home_outline,
+  live_black,
+  live_outline,
+  notification_black
 };

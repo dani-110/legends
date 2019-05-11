@@ -8,6 +8,8 @@ import MessageBar from "./MessageBar";
 import SearchBar from "./SearchBar";
 import Loader from "./Loader";
 import EmptyStateText from "./EmptyStateText";
+import SideMenu from "./SideMenu";
+import Tabbar from "./Tabbar";
 
 export {
   Button,
@@ -18,5 +20,7 @@ export {
   MessageBar,
   SearchBar,
   Loader,
-  EmptyStateText
+  EmptyStateText,
+  SideMenu,
+  Tabbar
 };
