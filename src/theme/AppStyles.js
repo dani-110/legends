@@ -435,7 +435,13 @@ const cardView = {
 
 const inputStyle1 = {
   fontFamily: "CircularStd-Book",
-  fontSize: Fonts.size.normal
+  fontSize: Fonts.size.normal,
+  borderWidth: 1,
+  borderColor: Colors.grey2,
+  paddingHorizontal: 10,
+  ...mBottom10,
+  borderRadius: Metrics.borderRadius,
+  paddingVertical: 12
 };
 
 export default {

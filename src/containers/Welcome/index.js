@@ -18,6 +18,10 @@ class Welcome extends Component {
   componentDidMount() {
     const { userData } = this.props;
 
+    setTimeout(() => {
+      Actions.reset("login");
+    }, 1000);
+
     /* setTimeout(() => {
       if (!_.isEmpty(userData) && !_.isEmpty(userData.access_token)) {
         Actions.reset("dashboard");

@@ -1,15 +1,11 @@
 // @flow
 import _ from "lodash";
 import { connect } from "react-redux";
-import {
-  View,
-  Image,
-  Platform,
-  ImageBackground,
-  TextInput
-} from "react-native";
+import { View, Image, Keyboard, TextInput, ScrollView } from "react-native";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { Actions } from "react-native-router-flux";
+import KeyboardSpacer from "react-native-keyboard-spacer";
 import { INVALID_EMAIL_ERROR, INVALID_PASSWORD_ERROR } from "../../constants";
 import { userSigninRequest } from "../../actions/UserActions";
 import { Text, ButtonView, Loader, Button } from "../../components";
@@ -70,8 +66,13 @@ class Login extends Component {
     return true;
   };
 
+  _onSubmitEmail = () => {
+    this.password.focus();
+  };
+
   _onSubmit = () => {
     if (this._validateForm()) {
+      Keyboard.dismiss();
       /* this.password.blur();
       this.email.blur();
 
@@ -103,25 +104,29 @@ class Login extends Component {
       <View style={[AppStyles.cardView, styles.cardBoard]}>
         <TextInput
           placeholder="Email"
-          style={[styles.inputStyle1]}
+          style={AppStyles.inputStyle1}
           autoCapitalize="none"
           selectionColor={Colors.black}
           value={email}
           ref={ref => (this.email = ref)}
           onChangeText={value => this.setState({ email: value })}
+          returnKeyType="next"
+          onSubmitEditing={this._onSubmitEmail}
         />
 
         <TextInput
           placeholder="Password"
-          style={styles.inputStyle1}
+          style={AppStyles.inputStyle1}
           secureTextEntry
           selectionColor={Colors.black}
           value={password}
           ref={ref => (this.password = ref)}
           onChangeText={value => this.setState({ password: value })}
+          returnKeyType="done"
+          onSubmitEditing={this._onSubmit}
         />
 
-        <ButtonView style={AppStyles.mTop5}>
+        <ButtonView style={AppStyles.mTop5} onPress={Actions.forgotPassword}>
           <Text textAlign="right" color={Colors.green}>
             Forgot your password?
           </Text>
@@ -141,20 +146,20 @@ class Login extends Component {
   }
 
   render() {
-    const { errors, loading } = this.state;
+    const { loading } = this.state;
 
     return (
       <View style={styles.container}>
-        <ImageBackground
+        <Image
           source={Images.login_header_wrapper}
           style={styles.heroBg}
           resizeMode="stretch"
-        >
-          {this.renderHeroArea()}
+        />
+        {this.renderHeroArea()}
+        <ScrollView style={AppStyles.flex} keyboardShouldPersistTaps>
           {this.renderLoginForm()}
-        </ImageBackground>
-
-        <Loader loading={loading} />
+          {!Util.isPlatformAndroid() && <KeyboardSpacer />}
+        </ScrollView>
       </View>
     );
   }

@@ -10,7 +10,7 @@ export default StyleSheet.create({
   },
 
   logo: { width: 96, height: 112 },
-  heroBg: { width: "100%", height: 350 },
+  heroBg: { width: "100%", height: 350, position: "absolute" },
   logoImage: {
     marginTop: Metrics.navBarHeight,
     width: 120,
@@ -20,15 +20,5 @@ export default StyleSheet.create({
     paddingTop: 70,
     marginHorizontal: 25,
     paddingBottom: 50
-  },
-  inputStyle1: {
-    fontFamily: "CircularStd-Book",
-    fontSize: Fonts.size.normal,
-    borderWidth: 1,
-    borderColor: Colors.grey2,
-    paddingHorizontal: 10,
-    ...AppStyles.mBottom10,
-    borderRadius: Metrics.borderRadius,
-    paddingVertical: 12
   }
 });
