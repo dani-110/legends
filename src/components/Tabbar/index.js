@@ -2,41 +2,115 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { View, Image } from "react-native";
+import { Actions } from "react-native-router-flux";
 import { Text, ButtonView } from "../";
 import styles from "./styles";
-import { Images } from "../../theme";
+import { Images, Colors } from "../../theme";
+
+const BUTTON_TYPES = {
+  icon: "icon",
+  textIcon: "textIcon"
+};
 
 const tabsData = [
-  { type: "drawer", image: Images.drawer_black },
   {
-    type: "home",
-    image: Images.home_black,
-    selectedImage: Images.home_outline
+    name: "drawer",
+    image: Images.drawer_black,
+    selectedImage: Images.drawer_black,
+    type: BUTTON_TYPES.icon,
+    onPress: Actions.drawerOpen
   },
   {
-    type: "live",
-    image: Images.live_black,
-    selectedImage: Images.live_outline
+    name: "home",
+    image: Images.home_outline,
+    selectedImage: Images.home_black,
+    type: BUTTON_TYPES.icon,
+    onPress: () => {}
   },
   {
-    type: "notifications",
-    image: Images.notification_black,
-    selectedImage: Images.notification_black
+    name: "live",
+    image: Images.live_outline,
+    selectedImage: Images.live_black,
+    type: BUTTON_TYPES.icon,
+    onPress: () => {}
+  },
+  {
+    name: "notifications",
+    image: Images.notification_outline,
+    selectedImage: Images.notification_black,
+    type: BUTTON_TYPES.icon,
+    onPress: () => {}
+  },
+  {
+    name: "Join Game",
+    image: Images.arrow_circle_green,
+    selectedImage: Images.arrow_circle_green,
+    disableImage: Images.arrow_circle_grey,
+    type: BUTTON_TYPES.textIcon,
+    onPress: () => {}
   }
 ];
 
 export default class Tabbar extends React.PureComponent {
-  static propTypes = {};
+  static propTypes = {
+    selectedIndex: PropTypes.number.isRequired
+  };
 
-  static defaultProps = {};
+  static defaultProps = {
+    selectedIndex: 3
+  };
+
+  renderSelectedBar() {
+    return <View style={styles.selectedBar} />;
+  }
 
   render() {
+    const { selectedIndex } = this.props;
+    // const selectedIndex = 4;
     return (
       <View style={styles.container}>
-        {tabsData.map(element => {
+        {tabsData.map((element, index) => {
+          if (element.type === BUTTON_TYPES.icon) {
+            return (
+              <ButtonView
+                key={index}
+                style={styles.itemWrapper}
+                onPress={element.onPress}
+              >
+                <View style={styles.btn1}>
+                  <Image
+                    source={
+                      selectedIndex === index
+                        ? element.selectedImage
+                        : element.image
+                    }
+                  />
+                </View>
+                {selectedIndex === index && this.renderSelectedBar()}
+              </ButtonView>
+            );
+          }
+
           return (
-            <ButtonView>
-              <Image source={element.image} />
+            <ButtonView
+              key={index}
+              style={styles.itemWrapper}
+              onPress={element.onPress}
+            >
+              <View style={styles.btn2}>
+                <Image
+                  source={
+                    selectedIndex === index
+                      ? element.selectedImage
+                      : element.image
+                  }
+                  style={styles.btn2Image}
+                />
+                <Text size="xSmall" color={Colors.green}>
+                  {element.name}
+                </Text>
+              </View>
+              {selectedIndex === index && this.renderSelectedBar()}
             </ButtonView>
           );
         })}

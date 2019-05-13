@@ -444,6 +444,11 @@ const inputStyle1 = {
   paddingVertical: 12
 };
 
+const borderBottomGrey = {
+  borderBottomWidth: 1,
+  borderBottomColor: Colors.grey2
+};
+
 export default {
   flex,
   flex2,
@@ -583,5 +588,6 @@ export default {
   lHeight22,
   lHeight10,
   cardView,
-  inputStyle1
+  inputStyle1,
+  borderBottomGrey
 };

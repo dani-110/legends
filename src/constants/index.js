@@ -25,3 +25,6 @@ export const MESSAGE_TYPES = {
 
 // File Types
 export const FILE_TYPES = { VIDEO: "video", IMAGE: "image", AUDIO: "audi" };
+
+// Navbar theme
+export const NAVBAR_THEME = { GREEN: "green", WHITE: "white" };

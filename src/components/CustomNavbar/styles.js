@@ -22,12 +22,13 @@ export default StyleSheet.create({
   btnWrapper: {
     padding: Metrics.smallMargin,
     justifyContent: "center",
-    minWidth: 80
+    minWidth: 50
   },
   rightBtn: {
     alignItems: "flex-end"
   },
   searchHeader: {
     height: Metrics.navBarHeight + 50
-  }
+  },
+  title: { width: "100%", paddingHorizontal: 15 }
 });

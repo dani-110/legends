@@ -6,6 +6,7 @@ import { View, Image } from "react-native";
 import { Actions } from "react-native-router-flux";
 import { Text, ButtonView, SearchBar } from "../";
 import styles from "./styles";
+import { NAVBAR_THEME } from "../../constants";
 import { Images, AppStyles, Colors } from "../../theme";
 
 export default class CustomNavbar extends React.Component {
@@ -15,15 +16,13 @@ export default class CustomNavbar extends React.Component {
     leftBtnImage: PropTypes.number,
     leftBtnPress: PropTypes.func,
     leftBtnText: PropTypes.string,
-    rightBtnImage: PropTypes.number,
-    rightBtnPress: PropTypes.func,
-    rightBtnText: PropTypes.string,
     titleColor: PropTypes.string,
     hasBorder: PropTypes.bool,
     style: PropTypes.object,
     hasSearch: PropTypes.bool,
     onSearchText: PropTypes.func,
-    isSearching: PropTypes.bool
+    isSearching: PropTypes.bool,
+    theme: PropTypes.string
   };
 
   static defaultProps = {
@@ -33,19 +32,21 @@ export default class CustomNavbar extends React.Component {
     leftBtnImage: undefined,
     leftBtnPress: Actions.pop,
     leftBtnText: "",
-    rightBtnImage: undefined,
-    rightBtnPress: () => {},
-    rightBtnText: "",
     hasBorder: true,
     style: {},
     hasSearch: false,
     onSearchText: () => {},
-    isSearching: false
+    isSearching: false,
+    theme: NAVBAR_THEME.WHITE
   };
 
   renderLeft(leftBtnImage, leftBtnPress, leftBtnText, hasBack) {
     const renderBack =
       hasBack && _.isEmpty(leftBtnText) && _.isEmpty(leftBtnImage);
+
+    if (!renderBack && _.isUndefined(leftBtnImage) && _.isEmpty(leftBtnText)) {
+      return null;
+    }
 
     return (
       <ButtonView onPress={leftBtnPress} style={styles.btnWrapper}>
@@ -60,32 +61,16 @@ export default class CustomNavbar extends React.Component {
     );
   }
 
-  renderRight(rightBtnImage, rightBtnPress, rightBtnText) {
-    return (
-      <ButtonView
-        onPress={rightBtnPress}
-        style={[styles.btnWrapper, styles.rightBtn]}
-      >
-        {!_.isEmpty(rightBtnText) && (
-          <Text numberOfLines={1} ellipsizeMode="tail" size="small">
-            {rightBtnText}
-          </Text>
-        )}
-        {!_.isUndefined(rightBtnImage) && (
-          <Image source={rightBtnImage} size={styles.btnImage} />
-        )}
-      </ButtonView>
-    );
-  }
-
-  renderTitle(title, titleColor) {
+  renderTitle(title, titleColor, theme) {
     return (
       <View style={[AppStyles.flex, AppStyles.centerInner]}>
         <Text
-          color={titleColor || Colors.blue1}
+          color={theme === NAVBAR_THEME.GREEN ? Colors.white : Colors.green}
           numberOfLines={1}
           ellipsizeMode="tail"
           size="medium"
+          type="bold"
+          style={styles.title}
         >
           {title || ""}
         </Text>
@@ -104,15 +89,13 @@ export default class CustomNavbar extends React.Component {
       leftBtnImage,
       leftBtnPress,
       leftBtnText,
-      rightBtnImage,
-      rightBtnPress,
-      rightBtnText,
       titleColor,
       hasBorder,
       style,
       hasSearch,
       onSearchText,
-      isSearching
+      isSearching,
+      theme
     } = this.props;
     return (
       <View
@@ -120,13 +103,15 @@ export default class CustomNavbar extends React.Component {
           styles.container,
           style,
           hasBorder ? styles.borderBottom : {},
-          hasSearch ? styles.searchHeader : {}
+          hasSearch ? styles.searchHeader : {},
+          theme === NAVBAR_THEME.GREEN
+            ? { backgroundColor: Colors.green }
+            : { backgroundColor: Colors.white }
         ]}
       >
         <View style={AppStyles.flexRow}>
           {this.renderLeft(leftBtnImage, leftBtnPress, leftBtnText, hasBack)}
-          {this.renderTitle(title, titleColor)}
-          {this.renderRight(rightBtnImage, rightBtnPress, rightBtnText)}
+          {this.renderTitle(title, titleColor, theme)}
         </View>
 
         {hasSearch && (

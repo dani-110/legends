@@ -3,6 +3,7 @@ const black = "#000000";
 const grey = "#707070";
 const grey2 = "#dedee7";
 const grey3 = "#a3a3b5";
+const grey4 = "#fbfbfb";
 const yellow = "#ffc415";
 const green = "#00bc56";
 
@@ -39,6 +40,7 @@ const separator = "#f2f2f2";
 
 const windowTint = "rgba(0, 0, 0, 0.4)";
 const windowTintWhite = "rgba(255, 255, 255, 0.1)";
+const greenTint = "rgba(0, 188, 86, 0.1)";
 
 export default {
   white,
@@ -46,6 +48,7 @@ export default {
   grey,
   grey2,
   grey3,
+  grey4,
   yellow,
   transparent,
   red,
@@ -60,5 +63,6 @@ export default {
   text,
   separator,
   windowTint,
-  windowTintWhite
+  windowTintWhite,
+  greenTint
 };

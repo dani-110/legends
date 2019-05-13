@@ -103,6 +103,10 @@ class Util {
   isRequiredMessage(field) {
     this.topAlertError(`${this.capitalizeFirstLetter(field)} is required`);
   }
+
+  getTrimmedDataFromArray(data, length) {
+    return data.slice(0, length);
+  }
 }
 
 export default new Util();
