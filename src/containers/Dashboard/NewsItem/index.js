@@ -3,8 +3,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import moment from "moment";
-import { View, Image } from "react-native";
-import { Text, ButtonView } from "../../../components";
+import { View, Image as RNImage } from "react-native";
+import { Text, ButtonView, Image } from "../../../components";
 import styles from "./styles";
 import { AppStyles, Colors, Images } from "../../../theme";
 
@@ -24,12 +24,17 @@ class NewsItem extends React.Component {
           Latest News
         </Text>
         <View
-          style={[AppStyles.borderGrey, AppStyles.mTop15, AppStyles.flexRow]}
+          style={[
+            AppStyles.borderGrey,
+            AppStyles.mTop15,
+            AppStyles.flexRow,
+            styles.innerWrapper
+          ]}
         >
           <Image source={{ uri: data.image }} style={styles.image} />
           <View style={[AppStyles.basePadding, AppStyles.flex]}>
             <View style={[AppStyles.flexRow, AppStyles.alignItemsCenter]}>
-              <Image source={Images.clock} />
+              <RNImage source={Images.clock} />
 
               <Text
                 type="bold"

@@ -77,7 +77,10 @@ class Tabbar extends React.PureComponent {
                 key={index}
                 style={styles.itemWrapper}
                 onPress={() => {
-                  this.props.setSelectedTab(index);
+                  if (index !== 0) {
+                    this.props.setSelectedTab(index);
+                  }
+
                   element.onPress();
                 }}
               >

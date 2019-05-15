@@ -11,6 +11,7 @@ import EmptyStateText from "./EmptyStateText";
 import SideMenu from "./SideMenu";
 import Tabbar from "./Tabbar";
 import GreenBgFlayer from "./GreenBgFlayer";
+import Image from "./Image";
 
 export {
   Button,
@@ -24,5 +25,6 @@ export {
   EmptyStateText,
   SideMenu,
   Tabbar,
-  GreenBgFlayer
+  GreenBgFlayer,
+  Image
 };
