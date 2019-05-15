@@ -45,11 +45,11 @@ export default {
   listBottomPadding: LIST_BOTTOM_PADDING,
   smallMargin: ratio(8),
   baseMargin: ratio(16),
-  doubleBaseMargin: ratio(32),
+  doubleBaseMargin: ratio(20),
   statusBarHeight: STATUSBAR_HEIGHT,
   horizontalLineHeight: StyleSheet.hairlineWidth,
   navBarHeight: NAVBAR_HEIGHT + STATUSBAR_HEIGHT,
-  tabBarHeight: 49, // Default tab bar height in iOS 10 (source react-navigation)
+  tabBarHeight: Platform.OS === "ios" ? (isIphoneX() ? 83 : 49) : 49, // Default tab bar height in iOS 10 (source react-navigation)
   borderRadius: 9,
   defaultUIHeight: ratio(47),
   viewMaxWidthForLandscape: ratio(400),

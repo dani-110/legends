@@ -407,12 +407,19 @@ const baseAlign = {
 const alignItemsFlexEnd = {
   alignItems: "flex-end"
 };
+const alignItemsFlexStart = {
+  alignItems: "flex-start"
+};
 
 const basePadding = {
   padding: Metrics.baseMargin
 };
 const baseMargin = {
   margin: Metrics.baseMargin
+};
+
+const doubleBaseMargin = {
+  margin: Metrics.doubleBaseMargin
 };
 const primaryBackground = {
   backgroundColor: Colors.background.primary
@@ -442,6 +449,15 @@ const inputStyle1 = {
   ...mBottom10,
   borderRadius: Metrics.borderRadius,
   paddingVertical: 12
+};
+
+const borderBottomGrey = {
+  borderBottomWidth: 1,
+  borderBottomColor: Colors.grey2
+};
+const borderGrey = {
+  borderWidth: 1,
+  borderColor: Colors.grey2
 };
 
 export default {
@@ -575,6 +591,7 @@ export default {
   alignItemsCenter,
   baseAlign,
   alignItemsFlexEnd,
+  alignItemsFlexStart,
   basePadding,
   baseMargin,
   primaryBackground,
@@ -583,5 +600,8 @@ export default {
   lHeight22,
   lHeight10,
   cardView,
-  inputStyle1
+  inputStyle1,
+  borderBottomGrey,
+  doubleBaseMargin,
+  borderGrey
 };

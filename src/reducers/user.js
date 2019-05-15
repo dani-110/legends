@@ -1,17 +1,19 @@
 // @flow
 import Immutable from "seamless-immutable";
 import _ from "lodash";
-import {
-  USER_SIGNIN,
-  USER_SIGNUP,
-  USER_SIGNOUT,
-  UPDATE_USER_PROFILE,
-  GET_PROFILE_SECTIONS
-} from "../actions/ActionTypes";
+import { USER_SIGNIN } from "../actions/ActionTypes";
 
 const initialState = Immutable({
-  data: {},
-  profileSections: []
+  data: {
+    handicap: 9.6,
+    scores: {
+      blue: 10,
+      white: 9,
+      fir: "30.6%",
+      gir: "28.6%",
+      ppr: 30.14
+    }
+  }
 });
 
 export default (state = initialState, action) => {
@@ -21,25 +23,7 @@ export default (state = initialState, action) => {
         data: action.data
       });
     }
-    case USER_SIGNUP.SUCCESS: {
-      return Immutable.merge(state, {
-        data: action.data
-      });
-    }
-    case UPDATE_USER_PROFILE.SUCCESS: {
-      return Immutable.merge(state, {
-        data: { ...state.data, ...action.data }
-      });
-    }
-    case USER_SIGNOUT.SUCCESS: {
-      return Immutable.merge(state, initialState);
-    }
 
-    case GET_PROFILE_SECTIONS.SUCCESS: {
-      return Immutable.merge(state, {
-        profileSections: action.data
-      });
-    }
     default:
       return state;
   }
