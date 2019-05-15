@@ -1,14 +1,14 @@
 // @flow
-import React from "react";
+import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { View, FlatList } from "react-native";
-import { Text, ButtonView } from "../";
+import { Text, ButtonView } from "../../../components";
 import styles from "./styles";
 import Util from "../../../util";
 import { AppStyles, Colors } from "../../../theme";
 
-class PotyLeaderboardDB extends React.PureComponent {
+class PotyLeaderboardDB extends PureComponent {
   static propTypes = {
     potyData: PropTypes.array.isRequired
   };

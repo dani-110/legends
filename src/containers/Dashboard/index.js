@@ -2,13 +2,12 @@
 import { connect } from "react-redux";
 import React, { Component } from "react";
 import { View } from "react-native";
-import {
-  CustomNavbar,
-  GreenBgFlayer,
-  PotyLeaderboardDB
-} from "../../components";
+import { CustomNavbar, GreenBgFlayer } from "../../components";
+import PotyLeaderboardDB from "./PotyLeaderboardDB";
 import styles from "./styles";
 import { NAVBAR_THEME } from "../../constants";
+import Scores from "./Scores";
+import { from } from "rxjs";
 
 class Dashboard extends Component {
   componentDidMount() {
@@ -19,7 +18,9 @@ class Dashboard extends Component {
     return <PotyLeaderboardDB />;
   }
 
-  renderUserStatistics() {}
+  renderScores() {
+    return <Scores />;
+  }
 
   render() {
     return (
@@ -32,6 +33,7 @@ class Dashboard extends Component {
         />
         <GreenBgFlayer />
         {this.renderLeaderboard()}
+        {this.renderScores()}
       </View>
     );
   }

@@ -5,11 +5,14 @@ import { USER_SIGNIN } from "../actions/ActionTypes";
 
 const initialState = Immutable({
   data: {
-    blue: 10,
-    white: 9,
-    fir: "30.6%",
-    gir: "28.6%",
-    PPR: "30.14"
+    handicap: 9.6,
+    scores: {
+      blue: 10,
+      white: 9,
+      fir: "30.6%",
+      gir: "28.6%",
+      ppr: 30.14
+    }
   }
 });
 

@@ -407,6 +407,9 @@ const baseAlign = {
 const alignItemsFlexEnd = {
   alignItems: "flex-end"
 };
+const alignItemsFlexStart = {
+  alignItems: "flex-start"
+};
 
 const basePadding = {
   padding: Metrics.baseMargin
@@ -580,6 +583,7 @@ export default {
   alignItemsCenter,
   baseAlign,
   alignItemsFlexEnd,
+  alignItemsFlexStart,
   basePadding,
   baseMargin,
   primaryBackground,
