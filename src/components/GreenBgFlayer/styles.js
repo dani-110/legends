@@ -6,7 +6,7 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     position: "absolute",
-    top: Metrics.navBarHeight
+    top: 0 // Metrics.navBarHeight
   },
   image: {
     width: Metrics.screenWidth,

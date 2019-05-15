@@ -1,5 +1,6 @@
 const white = "#FFFFFF";
 const black = "#000000";
+const black2 = "#283045";
 const grey = "#707070";
 const grey2 = "#dedee7";
 const grey3 = "#a3a3b5";
@@ -11,7 +12,8 @@ const iceblue = "#f5f8ff";
 
 const transparent = "rgba(0,0,0,0)";
 const red = "#f94242";
-const blue = "#4965b3";
+const red2 = "#FF5733";
+const blue = "#033FFF";
 const primary = white;
 const secondary = white;
 const tertiary = black;
@@ -64,5 +66,7 @@ export default {
   separator,
   windowTint,
   windowTintWhite,
-  greenTint
+  greenTint,
+  red2,
+  black2
 };

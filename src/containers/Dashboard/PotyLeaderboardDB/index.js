@@ -66,7 +66,7 @@ class PotyLeaderboardDB extends PureComponent {
             ListHeaderComponent={this._renderHeader}
           />
         </View>
-        <ButtonView style={[{ alignItems: "flex-end" }, AppStyles.pRight25]}>
+        <ButtonView style={[AppStyles.alignItemsFlexEnd, AppStyles.pRight25]}>
           <Text
             type="bold"
             size="xSmall"

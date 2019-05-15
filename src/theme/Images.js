@@ -14,6 +14,7 @@ const notification_black = require("../assets/icon/notification_black/notificati
 const notification_outline = require("../assets/icon/notification_outline/notification_outline.png");
 const arrow_circle_grey = require("../assets/icon/arrow_circle_grey/arrow_circle_grey.png");
 const arrow_circle_green = require("../assets/icon/arrow_circle_green/arrow_circle_green.png");
+const clock = require("../assets/icon/clock/clock.png");
 
 export default {
   logo,
@@ -30,5 +31,6 @@ export default {
   notification_outline,
   arrow_circle_grey,
   arrow_circle_green,
-  dummy_user
+  dummy_user,
+  clock
 };

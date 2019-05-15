@@ -45,7 +45,7 @@ export default {
   listBottomPadding: LIST_BOTTOM_PADDING,
   smallMargin: ratio(8),
   baseMargin: ratio(16),
-  doubleBaseMargin: ratio(32),
+  doubleBaseMargin: ratio(20),
   statusBarHeight: STATUSBAR_HEIGHT,
   horizontalLineHeight: StyleSheet.hairlineWidth,
   navBarHeight: NAVBAR_HEIGHT + STATUSBAR_HEIGHT,

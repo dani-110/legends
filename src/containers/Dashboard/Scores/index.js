@@ -3,12 +3,12 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { View } from "react-native";
-import { Text } from "../../../components";
+import { Text, ButtonView } from "../../../components";
 import styles from "./styles";
 // import Util from "../../../util";
 import { AppStyles, Colors } from "../../../theme";
 
-class Scores extends React.PureComponent {
+class Scores extends React.Component {
   static propTypes = {
     userData: PropTypes.object.isRequired
   };
@@ -27,11 +27,15 @@ class Scores extends React.PureComponent {
           { backgroundColor: bgColor }
         ]}
       >
-        <Text color={bgColor !== "#ffffff" ? Colors.white : Colors.black}>
+        <Text color={bgColor !== Colors.white ? Colors.white : Colors.black}>
           {score}
         </Text>
       </View>
-      {!labelOnTop && <Text textAlign="center">{label}</Text>}
+      {!labelOnTop && (
+        <Text textAlign="center" color={Colors.grey}>
+          {label}
+        </Text>
+      )}
     </View>
   );
 
@@ -40,15 +44,25 @@ class Scores extends React.PureComponent {
       userData: { handicap, scores }
     } = this.props;
     return (
-      <View style={AppStyles.baseMargin}>
-        <Text color={Colors.black}>Handicap {handicap}</Text>
+      <View style={[AppStyles.doubleBaseMargin, AppStyles.mBottom10]}>
+        <Text color={Colors.black}>
+          Handicap <Text>{handicap}</Text>
+        </Text>
         <View style={[AppStyles.flexRow, AppStyles.spaceBetween]}>
-          {this.getSingleScore("blue", false, scores.blue, "#033FFF")}
-          {this.getSingleScore("white", false, scores.white, "#ffffff")}
-          {this.getSingleScore("FIR", true, scores.fir, "#00BC56")}
-          {this.getSingleScore("GIR", true, scores.gir, "#FF5733")}
-          {this.getSingleScore("PPR", true, scores.ppr, "#293045")}
+          {this.getSingleScore("blue", false, scores.blue, Colors.blue)}
+          {this.getSingleScore("white", false, scores.white, Colors.white)}
+          {this.getSingleScore("FIR", true, scores.fir, Colors.green)}
+          {this.getSingleScore("GIR", true, scores.gir, Colors.red2)}
+          {this.getSingleScore("PPR", true, scores.ppr, Colors.black2)}
         </View>
+
+        <ButtonView style={AppStyles.alignItemsFlexEnd}>
+          <Text
+            type="bold"
+            size="xSmall"
+            color={Colors.green}
+          >{`VIEW PROFILE >`}</Text>
+        </ButtonView>
       </View>
     );
   };

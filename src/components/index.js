@@ -11,7 +11,6 @@ import EmptyStateText from "./EmptyStateText";
 import SideMenu from "./SideMenu";
 import Tabbar from "./Tabbar";
 import GreenBgFlayer from "./GreenBgFlayer";
-import PotyLeaderboardDB from "./PotyLeaderboardDB";
 
 export {
   Button,
@@ -25,6 +24,5 @@ export {
   EmptyStateText,
   SideMenu,
   Tabbar,
-  GreenBgFlayer,
-  PotyLeaderboardDB
+  GreenBgFlayer
 };

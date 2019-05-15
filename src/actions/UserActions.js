@@ -5,13 +5,7 @@ import {
   USER_SIGNIN,
   USER_SIGNOUT,
   UPDATE_USER_PROFILE,
-  USER_FORGOT_PASSWORD,
-  USER_CONFIRM_OTP_FGPASS,
-  USER_UPDATE_PASSWORD,
-  CONTACT_ADMIN,
-  GET_PROFILE_SECTIONS,
-  POST_PROFILE_DATA,
-  DELETE_PROFILE_SUBSECTION_DATA
+  USER_FORGOT_PASSWORD
 } from "./ActionTypes";
 
 export function userSignupRequest(payload, responseCallback) {
@@ -79,59 +73,5 @@ export function forgotPasswordRequest(payload, responseCallback) {
     payload,
     responseCallback,
     type: USER_FORGOT_PASSWORD.REQUEST
-  };
-}
-
-export function confirmOTPRequest(payload, responseCallback) {
-  return {
-    payload,
-    responseCallback,
-    type: USER_CONFIRM_OTP_FGPASS.REQUEST
-  };
-}
-
-export function updatePasswordRequest(payload, responseCallback) {
-  return {
-    payload,
-    responseCallback,
-    type: USER_UPDATE_PASSWORD.REQUEST
-  };
-}
-
-export function contactAdminRequest(payload, responseCallback) {
-  return {
-    payload,
-    responseCallback,
-    type: CONTACT_ADMIN.REQUEST
-  };
-}
-
-export function getProfileSectionsRequest(responseCallback) {
-  return {
-    responseCallback,
-    type: GET_PROFILE_SECTIONS.REQUEST
-  };
-}
-
-export function getProfileSectionsSuccess(data) {
-  return {
-    data,
-    type: GET_PROFILE_SECTIONS.SUCCESS
-  };
-}
-
-export function postProfileDataRequest(payload, responseCallback) {
-  return {
-    payload,
-    responseCallback,
-    type: POST_PROFILE_DATA.REQUEST
-  };
-}
-
-export function deleteProfileSubSectionDataRequest(payload, responseCallback) {
-  return {
-    payload,
-    responseCallback,
-    type: DELETE_PROFILE_SUBSECTION_DATA.REQUEST
   };
 }

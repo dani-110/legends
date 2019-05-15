@@ -417,6 +417,10 @@ const basePadding = {
 const baseMargin = {
   margin: Metrics.baseMargin
 };
+
+const doubleBaseMargin = {
+  margin: Metrics.doubleBaseMargin
+};
 const primaryBackground = {
   backgroundColor: Colors.background.primary
 };
@@ -450,6 +454,10 @@ const inputStyle1 = {
 const borderBottomGrey = {
   borderBottomWidth: 1,
   borderBottomColor: Colors.grey2
+};
+const borderGrey = {
+  borderWidth: 1,
+  borderColor: Colors.grey2
 };
 
 export default {
@@ -593,5 +601,7 @@ export default {
   lHeight10,
   cardView,
   inputStyle1,
-  borderBottomGrey
+  borderBottomGrey,
+  doubleBaseMargin,
+  borderGrey
 };

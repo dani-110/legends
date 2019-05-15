@@ -1,25 +1,25 @@
 // @flow
 import { connect } from "react-redux";
 import React, { Component } from "react";
-import { View } from "react-native";
+import { View, ScrollView } from "react-native";
 import { CustomNavbar, GreenBgFlayer } from "../../components";
 import PotyLeaderboardDB from "./PotyLeaderboardDB";
+import NewsItem from "./NewsItem";
+import Scores from "./Scores";
 import styles from "./styles";
 import { NAVBAR_THEME } from "../../constants";
-import Scores from "./Scores";
-import { from } from "rxjs";
 
 class Dashboard extends Component {
-  componentDidMount() {
-    console.log({ prop: this.props });
-  }
-
   renderLeaderboard() {
     return <PotyLeaderboardDB />;
   }
 
   renderScores() {
     return <Scores />;
+  }
+
+  renderLatestNews() {
+    return <NewsItem />;
   }
 
   render() {
@@ -31,9 +31,13 @@ class Dashboard extends Component {
           hasBorder={false}
           theme={NAVBAR_THEME.GREEN}
         />
-        <GreenBgFlayer />
-        {this.renderLeaderboard()}
-        {this.renderScores()}
+
+        <ScrollView>
+          <GreenBgFlayer />
+          {this.renderLeaderboard()}
+          {this.renderScores()}
+          {this.renderLatestNews()}
+        </ScrollView>
       </View>
     );
   }

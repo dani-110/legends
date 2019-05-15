@@ -1,8 +1,10 @@
 // @flow
 import React from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { View, Image } from "react-native";
 import { Actions } from "react-native-router-flux";
+import { setSelectedTab } from "../../actions/GeneralActions";
 import { Text, ButtonView } from "../";
 import styles from "./styles";
 import { Images, Colors } from "../../theme";
@@ -51,14 +53,13 @@ const tabsData = [
   }
 ];
 
-export default class Tabbar extends React.PureComponent {
+class Tabbar extends React.PureComponent {
   static propTypes = {
-    selectedIndex: PropTypes.number.isRequired
+    selectedIndex: PropTypes.number.isRequired,
+    setSelectedTab: PropTypes.func.isRequired
   };
 
-  static defaultProps = {
-    selectedIndex: 3
-  };
+  static defaultProps = {};
 
   renderSelectedBar() {
     return <View style={styles.selectedBar} />;
@@ -75,7 +76,10 @@ export default class Tabbar extends React.PureComponent {
               <ButtonView
                 key={index}
                 style={styles.itemWrapper}
-                onPress={element.onPress}
+                onPress={() => {
+                  this.props.setSelectedTab(index);
+                  element.onPress();
+                }}
               >
                 <View style={styles.btn1}>
                   <Image
@@ -118,3 +122,14 @@ export default class Tabbar extends React.PureComponent {
     );
   }
 }
+
+const mapStateToProps = ({ general }) => ({
+  selectedIndex: general.selectedIndex
+});
+
+const actions = { setSelectedTab };
+
+export default connect(
+  mapStateToProps,
+  actions
+)(Tabbar);
