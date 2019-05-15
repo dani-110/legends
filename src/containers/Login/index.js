@@ -73,6 +73,10 @@ class Login extends Component {
   _onSubmit = () => {
     if (this._validateForm()) {
       Keyboard.dismiss();
+
+      setTimeout(() => {
+        Actions.reset("drawerMenu");
+      }, 500);
       /* this.password.blur();
       this.email.blur();
 

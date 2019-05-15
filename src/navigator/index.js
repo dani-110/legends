@@ -13,7 +13,13 @@ import {
 import styles from "./styles";
 import { Colors } from "../theme";
 import { SideMenu, Tabbar } from "../components";
-import { Login, Welcome, ForgotPassword, Dashboard } from "../containers";
+import {
+  Login,
+  Welcome,
+  ForgotPassword,
+  Dashboard,
+  LiveTab
+} from "../containers";
 
 function onBackPress() {
   if (Actions.state.index === 0) {
@@ -40,7 +46,6 @@ const navigator = Actions.create(
       contentComponent={SideMenu}
       drawerWidth={250}
       drawerPosition="left"
-      initial
     >
       <Scene hideNavBar key="dashboard">
         <Tabs
@@ -51,6 +56,7 @@ const navigator = Actions.create(
           tabBarPosition="bottom"
         >
           <Scene key="dashboard_tab" component={Dashboard} hideNavBar />
+          <Scene key="live_tab" component={LiveTab} hideNavBar />
         </Tabs>
       </Scene>
     </Drawer>

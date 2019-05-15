@@ -22,7 +22,8 @@ export default class CustomNavbar extends React.Component {
     hasSearch: PropTypes.bool,
     onSearchText: PropTypes.func,
     isSearching: PropTypes.bool,
-    theme: PropTypes.string
+    theme: PropTypes.string,
+    titleAlign: PropTypes.string
   };
 
   static defaultProps = {
@@ -37,7 +38,8 @@ export default class CustomNavbar extends React.Component {
     hasSearch: false,
     onSearchText: () => {},
     isSearching: false,
-    theme: NAVBAR_THEME.WHITE
+    theme: NAVBAR_THEME.WHITE,
+    titleAlign: "center"
   };
 
   renderLeft(leftBtnImage, leftBtnPress, leftBtnText, hasBack) {
@@ -61,16 +63,23 @@ export default class CustomNavbar extends React.Component {
     );
   }
 
-  renderTitle(title, titleColor, theme) {
+  renderTitle(title, titleColor, theme, titleAlign) {
     return (
-      <View style={[AppStyles.flex, AppStyles.centerInner]}>
+      <View
+        style={[
+          AppStyles.flex,
+          AppStyles.centerInner,
+          { position: "absolute", left: 50, right: 50 }
+        ]}
+      >
         <Text
-          color={theme === NAVBAR_THEME.GREEN ? Colors.white : Colors.green}
+          color={theme === NAVBAR_THEME.GREEN ? Colors.white : Colors.black2}
           numberOfLines={1}
           ellipsizeMode="tail"
-          size="medium"
+          size="large"
           type="bold"
           style={styles.title}
+          textAlign={titleAlign}
         >
           {title || ""}
         </Text>
@@ -95,7 +104,8 @@ export default class CustomNavbar extends React.Component {
       hasSearch,
       onSearchText,
       isSearching,
-      theme
+      theme,
+      titleAlign
     } = this.props;
     return (
       <View
@@ -111,7 +121,7 @@ export default class CustomNavbar extends React.Component {
       >
         <View style={AppStyles.flexRow}>
           {this.renderLeft(leftBtnImage, leftBtnPress, leftBtnText, hasBack)}
-          {this.renderTitle(title, titleColor, theme)}
+          {this.renderTitle(title, titleColor, theme, titleAlign)}
         </View>
 
         {hasSearch && (

@@ -13,7 +13,9 @@ const iceblue = "#f5f8ff";
 const transparent = "rgba(0,0,0,0)";
 const red = "#f94242";
 const red2 = "#FF5733";
+const red3 = "#ff4c3e";
 const blue = "#033FFF";
+const blue2 = "#2556db";
 const primary = white;
 const secondary = white;
 const tertiary = black;
@@ -41,7 +43,7 @@ const navbar = {
 const separator = "#f2f2f2";
 
 const windowTint = "rgba(0, 0, 0, 0.4)";
-const windowTintWhite = "rgba(255, 255, 255, 0.1)";
+const windowTintWhite = "rgba(255, 255, 255, 0.7)";
 const greenTint = "rgba(0, 188, 86, 0.1)";
 
 export default {
@@ -68,5 +70,7 @@ export default {
   windowTintWhite,
   greenTint,
   red2,
-  black2
+  black2,
+  blue2,
+  red3
 };
