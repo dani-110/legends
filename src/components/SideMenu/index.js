@@ -13,7 +13,12 @@ const DRAWER_ITEMS = [
   { text: "LMP", onPress: () => {} },
   { text: "DMP", onPress: () => {} },
   { text: "Rules", onPress: () => {} },
-  { text: "News", onPress: () => {} },
+  {
+    text: "News",
+    onPress: () => {
+      Actions.news();
+    }
+  },
   { text: "Settings", onPress: () => {} },
   { text: "Logout", onPress: () => {} }
 ];

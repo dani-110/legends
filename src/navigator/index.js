@@ -18,7 +18,8 @@ import {
   Welcome,
   ForgotPassword,
   Dashboard,
-  LiveTab
+  LiveTab,
+  News
 } from "../containers";
 
 function onBackPress() {
@@ -59,6 +60,7 @@ const navigator = Actions.create(
           <Scene key="live_tab" component={LiveTab} hideNavBar />
         </Tabs>
       </Scene>
+      <Scene key="news" component={News} hideNavBar />
     </Drawer>
   </Stack>
 );
