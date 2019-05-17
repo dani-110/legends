@@ -8,6 +8,7 @@ import { NAVBAR_THEME } from "../../constants";
 import styles from "./styles";
 import Util from "../../util";
 import NewsItem from "./NewsItem";
+import { AppStyles } from "../../theme";
 
 class News extends Component {
   static propTypes = {
@@ -17,11 +18,16 @@ class News extends Component {
   static defaultProps = {};
 
   _renderNews = newsData => (
-    <FlatList
-      data={newsData}
-      renderItem={this._renderItem}
-      keyExtractor={Util.keyExtractor}
-    />
+    <View style={[AppStyles.flex, AppStyles.pBottomListBottom]}>
+      <FlatList
+        data={newsData}
+        renderItem={this._renderItem}
+        keyExtractor={Util.keyExtractor}
+        ItemSeparatorComponent={() => (
+          <View style={AppStyles.borderBottomGrey} />
+        )}
+      />
+    </View>
   );
 
   _renderItem = ({ item }) => <NewsItem data={item} />;

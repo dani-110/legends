@@ -15,25 +15,23 @@ export default class NewsItem extends React.Component {
   render() {
     const { data } = this.props;
     return (
-      <View style={AppStyles.borderBottomGrey}>
-        <View style={[AppStyles.basePadding, AppStyles.flex]}>
-          <View style={[AppStyles.flexRow, AppStyles.alignItemsCenter]}>
-            <RNImage source={Images.clock} />
-            <Text
-              type="bold"
-              color={Colors.green}
-              style={[AppStyles.alignItemsCenter]}
-            >
-              {` ${moment(data.date).fromNow()}`}
-            </Text>
-          </View>
-          <Text style={AppStyles.mTop10}>
-            <Text type="bold">{data.title}</Text>
-            {`  ${data.desc}`}
+      <View style={[AppStyles.basePadding, AppStyles.flex]}>
+        <View style={[AppStyles.flexRow, AppStyles.alignItemsCenter]}>
+          <RNImage source={Images.clock} />
+          <Text
+            type="bold"
+            color={Colors.green}
+            style={[AppStyles.alignItemsCenter]}
+          >
+            {` ${moment(data.date).fromNow()}`}
           </Text>
-          <View style={[styles.imageContainer, AppStyles.mTop15]}>
-            <Image source={{ uri: data.image }} style={[styles.image]} />
-          </View>
+        </View>
+        <Text style={AppStyles.mTop10}>
+          <Text type="bold">{data.title}</Text>
+          {`  ${data.desc}`}
+        </Text>
+        <View style={[styles.imageContainer, AppStyles.mTop15]}>
+          <Image source={{ uri: data.image }} style={[styles.image]} />
         </View>
       </View>
     );
