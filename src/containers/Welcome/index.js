@@ -19,7 +19,8 @@ class Welcome extends Component {
     const { userData } = this.props;
 
     setTimeout(() => {
-      Actions.reset("login");
+      // Actions.reset("login");
+      Actions.notification_tab();
     }, 1000);
 
     /* setTimeout(() => {

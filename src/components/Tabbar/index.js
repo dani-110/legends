@@ -45,7 +45,9 @@ const tabsData = [
     image: Images.notification_outline,
     selectedImage: Images.notification_black,
     type: BUTTON_TYPES.icon,
-    onPress: () => {}
+    onPress: () => {
+      Actions.jump("notification_tab");
+    }
   },
   {
     name: "Join Game",

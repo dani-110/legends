@@ -7,6 +7,8 @@ const grey3 = "#a3a3b5";
 const grey4 = "#fbfbfb";
 const yellow = "#ffc415";
 const green = "#00bc56";
+const darkBlue = "#293045";
+const transparentGreen = "#00BC560d";
 
 const iceblue = "#f5f8ff";
 
@@ -58,6 +60,8 @@ export default {
   red,
   blue,
   green,
+  darkBlue,
+  transparentGreen,
   primary,
   secondary,
   tertiary,

@@ -6,6 +6,7 @@ import tournament from "./tournament";
 import news from "./news";
 import general from "./general";
 import liveMatches from "./liveMatches";
+import notification from "./notification";
 
 export default combineReducers({
   route: navigator,
@@ -13,5 +14,6 @@ export default combineReducers({
   tournament,
   news,
   general,
-  liveMatches
+  liveMatches,
+  notification
 });
