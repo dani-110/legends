@@ -6,6 +6,7 @@ export const SAGA_ALERT_TIMEOUT = 500;
 
 // date time formats
 export const DATE_FORMAT1 = "dddd, DD MMMM, YYYY";
+export const TIME_FORMAT1 = "H:mm";
 
 // Messages
 
@@ -28,3 +29,6 @@ export const FILE_TYPES = { VIDEO: "video", IMAGE: "image", AUDIO: "audi" };
 
 // Navbar theme
 export const NAVBAR_THEME = { GREEN: "green", WHITE: "white" };
+
+// Match types
+export const MATCH_TYPES = { POTY: "POTY", LCL: "LCL", LMP: "LMP", DMP: "DMP" };

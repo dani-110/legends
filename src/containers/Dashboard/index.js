@@ -30,6 +30,7 @@ class Dashboard extends Component {
           title="POTY Leaderboard"
           hasBorder={false}
           theme={NAVBAR_THEME.GREEN}
+          titleAlign="left"
         />
 
         <ScrollView>

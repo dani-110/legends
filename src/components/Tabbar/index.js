@@ -27,14 +27,18 @@ const tabsData = [
     image: Images.home_outline,
     selectedImage: Images.home_black,
     type: BUTTON_TYPES.icon,
-    onPress: () => {}
+    onPress: () => {
+      Actions.jump("dashboard_tab");
+    }
   },
   {
     name: "live",
     image: Images.live_outline,
     selectedImage: Images.live_black,
     type: BUTTON_TYPES.icon,
-    onPress: () => {}
+    onPress: () => {
+      Actions.jump("live_tab");
+    }
   },
   {
     name: "notifications",

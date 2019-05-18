@@ -79,7 +79,7 @@ class PotyLeaderboardDB extends PureComponent {
 }
 
 const mapStateToProps = ({ tournament }) => ({
-  potyData: Util.getTrimmedDataFromArray(tournament.poty_data, 7)
+  potyData: Util.getTrimmedDataFromArray(tournament.poty.leaderboard, 7)
 });
 
 const actions = {};
