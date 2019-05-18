@@ -16,6 +16,7 @@ const arrow_circle_grey = require("../assets/icon/arrow_circle_grey/arrow_circle
 const arrow_circle_green = require("../assets/icon/arrow_circle_green/arrow_circle_green.png");
 const clock = require("../assets/icon/clock/clock.png");
 const clock_white = require("../assets/icon/clock_white/clock_white.png");
+const password_eye = require("../assets/icon/password_eye/password_eye.png");
 
 export default {
   logo,
@@ -34,5 +35,6 @@ export default {
   arrow_circle_green,
   dummy_user,
   clock,
-  clock_white
+  clock_white,
+  password_eye
 };

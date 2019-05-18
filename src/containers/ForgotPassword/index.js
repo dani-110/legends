@@ -10,6 +10,7 @@ import { CustomNavbar, Text, Button } from "../../components";
 import styles from "./styles";
 import { AppStyles, Images, Colors } from "../../theme";
 import Util from "../../util";
+import { Actions } from "react-native-router-flux";
 
 class ForgotPassword extends Component {
   state = {
@@ -37,6 +38,11 @@ class ForgotPassword extends Component {
 
   _onSubmit = () => {
     if (this._validateForm()) {
+      Util.topAlert("Check your email to reset password");
+      setTimeout(() => {
+        Actions.pop();
+      }, 2000);
+
       /* this.password.blur();
       this.email.blur();
 

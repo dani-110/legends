@@ -20,5 +20,13 @@ export default StyleSheet.create({
     paddingTop: 70,
     marginHorizontal: 25,
     paddingBottom: 50
+  },
+  showPasswordBtn: {
+    position: "absolute",
+    paddingHorizontal: 7,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    ...AppStyles.centerInner
   }
 });

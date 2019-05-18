@@ -2,7 +2,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { View, Image } from "react-native";
-import { Text } from "../../../components";
+import { Text, ButtonView } from "../../../components";
 import { TIME_FORMAT1, MATCH_TYPES } from "../../../constants";
 import styles from "./styles";
 import { Colors, AppStyles, Images } from "../../../theme";
@@ -30,7 +30,7 @@ export default class ListItem extends React.Component {
       bg = Colors.red3;
     }
     return (
-      <View style={[styles.container, { backgroundColor: bg }]}>
+      <ButtonView style={[styles.container, { backgroundColor: bg }]}>
         <View
           style={[
             AppStyles.flexRow,
@@ -49,7 +49,7 @@ export default class ListItem extends React.Component {
         <Text size="small" color={Colors.windowTintWhite}>
           {desc}
         </Text>
-      </View>
+      </ButtonView>
     );
   }
 }

@@ -46,6 +46,7 @@ const navigator = Actions.create(
       contentComponent={SideMenu}
       drawerWidth={250}
       drawerPosition="left"
+      initial
     >
       <Scene hideNavBar key="dashboard">
         <Tabs
