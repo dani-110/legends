@@ -20,7 +20,7 @@ class Notification extends Component {
   _swipeoutBtns = [
     {
       text: "Delete",
-      backgroundColor: "#FF4C3E",
+      backgroundColor: Colors.red,
       type: "delete",
       component: (
         <View style={[AppStyles.centerInner, AppStyles.flex]}>
@@ -36,7 +36,7 @@ class Notification extends Component {
       renderItem={this._renderItem}
       keyExtractor={Util.keyExtractor}
       ListEmptyComponent={() => this._renderEmptyScreen()}
-      contentContainerStyle={AppStyles.flex}
+      contentContainerStyle={{ flexGrow: 1 }}
     />
   );
 

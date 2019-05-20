@@ -20,7 +20,8 @@ import {
   Dashboard,
   LiveTab,
   Notification,
-  Poty
+  Poty,
+  ScoreCard
 } from "../containers";
 
 function onBackPress() {
@@ -65,6 +66,7 @@ const navigator = Actions.create(
       </Scene>
 
       <Scene key="poty" component={Poty} hideNavBar />
+      <Scene key="scoreCard" component={ScoreCard} hideNavBar initial />
     </Drawer>
   </Stack>
 );
