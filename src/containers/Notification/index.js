@@ -43,7 +43,9 @@ class Notification extends Component {
     <Swipeout
       style={AppStyles.mBottom5}
       right={this._swipeoutBtns}
-      backgroundColor={item.unread ? Colors.transparentGreen : Colors.white}
+      backgroundColor={
+        item.unread ? Colors.greenTintZeroPointFive : Colors.white
+      }
     >
       <View
         style={[
@@ -61,8 +63,13 @@ class Notification extends Component {
   );
 
   _renderClearButton = () => (
-    <View style={AppStyles.paddingVerticalBase}>
-      <Button color={Colors.white} size="medium" background={Colors.darkBlue}>
+    <View style={[AppStyles.paddingVerticalBase]}>
+      <Button
+        style={styles.clearBtnStyle}
+        color={Colors.white}
+        size="medium"
+        background={Colors.darkBlue}
+      >
         Clear all notifications
       </Button>
     </View>
@@ -81,24 +88,7 @@ class Notification extends Component {
         />
         <View style={[AppStyles.paddingVerticalBase, AppStyles.flex]}>
           {this._renderNotifications(notificationsData)}
-          {/* {notificationsData && this._renderClearButton()} */}
-
-          <View
-            style={[
-              AppStyles.paddingVerticalBase,
-              AppStyles.flexRow,
-              AppStyles.centerInner
-            ]}
-          >
-            <Button
-              style={styles.clearBtnStyle}
-              color={Colors.white}
-              size="medium"
-              background={Colors.darkBlue}
-            >
-              Clear all notifications
-            </Button>
-          </View>
+          {notificationsData && this._renderClearButton()}
         </View>
       </View>
     );

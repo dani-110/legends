@@ -15,7 +15,8 @@ export default StyleSheet.create({
     borderLeftWidth: 2
   },
   clearBtnStyle: {
-    width: 335,
+    marginLeft: 20,
+    marginRight: 20,
     height: 40,
     borderRadius: 20
   }

@@ -64,7 +64,7 @@ const navigator = Actions.create(
         </Tabs>
       </Scene>
 
-      <Scene key="poty" component={Poty} hideNavBar initial />
+      <Scene key="poty" component={Poty} hideNavBar />
     </Drawer>
   </Stack>
 );
