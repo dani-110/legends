@@ -5,5 +5,14 @@ import ForgotPassword from "./ForgotPassword";
 import Dashboard from "./Dashboard";
 import LiveTab from "./LiveTab";
 import Notification from "./Notification";
+import Poty from "./Poty";
 
-export { Login, Welcome, ForgotPassword, Dashboard, LiveTab, Notification };
+export {
+  Login,
+  Welcome,
+  ForgotPassword,
+  Dashboard,
+  LiveTab,
+  Poty,
+  Notification
+};

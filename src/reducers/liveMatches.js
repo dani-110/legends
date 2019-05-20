@@ -22,7 +22,7 @@ const initialState = Immutable({
         {
           time: moment().toISOString(),
           title: "AA & AI vs NA & SA",
-          desc: "Kitty Mafia vs Dark Kinghts"
+          desc: "Kitty Mafia vs Dark Kinghts \nKarachi Golf Club - Red & Blue	"
         },
         {
           time: moment().toISOString(),

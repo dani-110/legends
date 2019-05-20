@@ -64,6 +64,7 @@ class PotyLeaderboardDB extends PureComponent {
             renderItem={this._renderItem}
             keyExtractor={Util.keyExtractor}
             ListHeaderComponent={this._renderHeader}
+            stickyHeaderIndices={[0]}
           />
         </View>
         <ButtonView style={[AppStyles.alignItemsFlexEnd, AppStyles.pRight25]}>
@@ -79,7 +80,7 @@ class PotyLeaderboardDB extends PureComponent {
 }
 
 const mapStateToProps = ({ tournament }) => ({
-  potyData: Util.getTrimmedDataFromArray(tournament.poty_data, 7)
+  potyData: Util.getTrimmedDataFromArray(tournament.poty.leaderboard, 7)
 });
 
 const actions = {};

@@ -19,7 +19,8 @@ import {
   ForgotPassword,
   Dashboard,
   LiveTab,
-  Notification
+  Notification,
+  Poty
 } from "../containers";
 
 function onBackPress() {
@@ -47,6 +48,7 @@ const navigator = Actions.create(
       contentComponent={SideMenu}
       drawerWidth={250}
       drawerPosition="left"
+      initial
     >
       <Scene hideNavBar key="dashboard">
         <Tabs
@@ -61,6 +63,8 @@ const navigator = Actions.create(
           <Scene key="notification_tab" component={Notification} hideNavBar />
         </Tabs>
       </Scene>
+
+      <Scene key="poty" component={Poty} hideNavBar initial />
     </Drawer>
   </Stack>
 );
