@@ -17,6 +17,7 @@ const arrow_circle_green = require("../assets/icon/arrow_circle_green/arrow_circ
 const clock = require("../assets/icon/clock/clock.png");
 const clock_white = require("../assets/icon/clock_white/clock_white.png");
 const delete_white = require("../assets/icon/delete_white/delete_white.png");
+const arrow_right = require("../assets/icon/arrow_right/arrow_right.png");
 
 export default {
   logo,
@@ -36,5 +37,6 @@ export default {
   dummy_user,
   clock,
   clock_white,
-  delete_white
+  delete_white,
+  arrow_right
 };

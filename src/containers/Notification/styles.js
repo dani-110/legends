@@ -13,5 +13,10 @@ export default StyleSheet.create({
   unreadItem: {
     borderLeftColor: "#00BC56",
     borderLeftWidth: 2
+  },
+  clearBtnStyle: {
+    width: 335,
+    height: 40,
+    borderRadius: 20
   }
 });

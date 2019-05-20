@@ -1,6 +1,5 @@
 // @flow
 import Immutable from "seamless-immutable";
-import moment from "moment";
 
 import { USER_SIGNIN } from "../actions/ActionTypes";
 
@@ -28,11 +27,15 @@ const initialState = Immutable({
     },
     {
       description: "POTY match play results announced",
-      unread: true
+      unread: false
     },
     {
       description: "POTY match play results announced",
-      unread: true
+      unread: false
+    },
+    {
+      description: "POTY match play results announced",
+      unread: false
     },
     {
       description: "POTY match play results announced",
@@ -48,11 +51,7 @@ const initialState = Immutable({
     },
     {
       description: "POTY match play results announced",
-      unread: true
-    },
-    {
-      description: "POTY match play results announced",
-      unread: true
+      unread: false
     },
     {
       description: "POTY match play results announced",

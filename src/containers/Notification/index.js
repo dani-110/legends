@@ -45,8 +45,17 @@ class Notification extends Component {
       right={this._swipeoutBtns}
       backgroundColor={item.unread ? Colors.transparentGreen : Colors.white}
     >
-      <View style={[styles.notificationItem, item.unread && styles.unreadItem]}>
+      <View
+        style={[
+          styles.notificationItem,
+          AppStyles.flexRow,
+          AppStyles.spaceBetween,
+          AppStyles.alignItemsCenter,
+          item.unread && styles.unreadItem
+        ]}
+      >
         <Text>{item.description}</Text>
+        <RNImage source={Images.arrow_right} />
       </View>
     </Swipeout>
   );
@@ -72,7 +81,24 @@ class Notification extends Component {
         />
         <View style={[AppStyles.paddingVerticalBase, AppStyles.flex]}>
           {this._renderNotifications(notificationsData)}
-          {notificationsData && this._renderClearButton()}
+          {/* {notificationsData && this._renderClearButton()} */}
+
+          <View
+            style={[
+              AppStyles.paddingVerticalBase,
+              AppStyles.flexRow,
+              AppStyles.centerInner
+            ]}
+          >
+            <Button
+              style={styles.clearBtnStyle}
+              color={Colors.white}
+              size="medium"
+              background={Colors.darkBlue}
+            >
+              Clear all notifications
+            </Button>
+          </View>
         </View>
       </View>
     );
