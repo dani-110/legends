@@ -107,6 +107,12 @@ class Util {
   getTrimmedDataFromArray(data, length) {
     return data.slice(0, length);
   }
+
+  setSelectedTabIndex = (instance, index) => {
+    instance.setState({
+      activeTabIndex: index
+    });
+  };
 }
 
 export default new Util();

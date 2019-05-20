@@ -9,10 +9,10 @@ export default class Empty extends React.PureComponent {
   static defaultProps = {};
 
   render() {
-    const { ...rest } = this.props;
+    const { style, ...rest } = this.props;
     return (
-      <View style={{ backgroundColor: Colors.grey2 }}>
-        <Image {...rest} />
+      <View style={[style, { backgroundColor: Colors.grey2 }]}>
+        <Image {...rest} style={{ width: style.width, height: style.height }} />
       </View>
     );
   }

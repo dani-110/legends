@@ -23,7 +23,7 @@ const quaternary = grey;
 
 const background = {
   primary,
-  secondary: "#f2f2f2",
+  secondary: "#F7F7F7",
   tertiary: "#00000057"
 };
 

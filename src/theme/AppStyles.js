@@ -459,6 +459,13 @@ const borderGrey = {
   borderColor: Colors.grey2
 };
 
+const listHeaderWrapper = {
+  ...flexRow,
+  backgroundColor: Colors.background.secondary,
+  paddingHorizontal: 15,
+  paddingVertical: 10
+};
+
 export default {
   flex,
   flex2,
@@ -602,5 +609,6 @@ export default {
   inputStyle1,
   borderBottomGrey,
   doubleBaseMargin,
-  borderGrey
+  borderGrey,
+  listHeaderWrapper
 };

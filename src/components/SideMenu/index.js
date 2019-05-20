@@ -1,14 +1,16 @@
 // @flow
 import React from "react";
-import PropTypes from "prop-types";
 import { View, Image } from "react-native";
+import { Actions } from "react-native-router-flux";
 import { Text, ButtonView } from "../";
 import { Images, Colors, AppStyles } from "../../theme";
 import styles from "./styles";
-import { Actions } from "react-native-router-flux";
 
 const DRAWER_ITEMS = [
-  { text: "POTY", onPress: () => {} },
+  {
+    text: "POTY",
+    onPress: () => Actions.poty()
+  },
   { text: "LCL", onPress: () => {} },
   { text: "LMP", onPress: () => {} },
   { text: "DMP", onPress: () => {} },
