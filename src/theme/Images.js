@@ -21,6 +21,7 @@ const arrow_right = require("../assets/icon/arrow_right/arrow_right.png");
 const password_eye = require("../assets/icon/password_eye/password_eye.png");
 const sort_selected = require("../assets/icon/sort_selected/sort_selected.png");
 const sort_unselected = require("../assets/icon/sort_unselected/sort_unselected.png");
+const notification_bell = require("../assets/icon/notification_bell/notification_bell.png");
 
 export default {
   logo,
@@ -44,5 +45,6 @@ export default {
   arrow_right,
   password_eye,
   sort_selected,
-  sort_unselected
+  sort_unselected,
+  notification_bell
 };

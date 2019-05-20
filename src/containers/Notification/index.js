@@ -23,7 +23,7 @@ class Notification extends Component {
       backgroundColor: "#FF4C3E",
       type: "delete",
       component: (
-        <View style={[AppStyles.centerInner, { height: "100%" }]}>
+        <View style={[AppStyles.centerInner, AppStyles.flex]}>
           <RNImage source={Images.delete_white} />
         </View>
       )
@@ -35,8 +35,16 @@ class Notification extends Component {
       data={notifications}
       renderItem={this._renderItem}
       keyExtractor={Util.keyExtractor}
-      ListEmptyComponent={() => <Text>a</Text>}
+      ListEmptyComponent={() => this._renderEmptyScreen()}
+      contentContainerStyle={AppStyles.flex}
     />
+  );
+
+  _renderEmptyScreen = () => (
+    <View style={[AppStyles.flex, AppStyles.centerInner]}>
+      <RNImage source={Images.notification_bell} />
+      <Text style={styles.noNotificationText}> No new notifications </Text>
+    </View>
   );
 
   _renderItem = ({ item }) => (
@@ -88,7 +96,11 @@ class Notification extends Component {
         />
         <View style={[AppStyles.paddingVerticalBase, AppStyles.flex]}>
           {this._renderNotifications(notificationsData)}
-          {notificationsData && this._renderClearButton()}
+          {notificationsData && notificationsData.length ? (
+            this._renderClearButton()
+          ) : (
+            <Text />
+          )}
         </View>
       </View>
     );
