@@ -7,6 +7,7 @@ const grey3 = "#a3a3b5";
 const grey4 = "#fbfbfb";
 const yellow = "#ffc415";
 const green = "#00bc56";
+const darkBlue = "#293045";
 
 const iceblue = "#f5f8ff";
 
@@ -45,6 +46,7 @@ const separator = "#f2f2f2";
 const windowTint = "rgba(0, 0, 0, 0.4)";
 const windowTintWhite = "rgba(255, 255, 255, 0.7)";
 const greenTint = "rgba(0, 188, 86, 0.1)";
+const greenTintZeroPointFive = "rgba(0, 188, 86, 0.05)";
 
 export default {
   white,
@@ -58,6 +60,7 @@ export default {
   red,
   blue,
   green,
+  darkBlue,
   primary,
   secondary,
   tertiary,
@@ -69,6 +72,7 @@ export default {
   windowTint,
   windowTintWhite,
   greenTint,
+  greenTintZeroPointFive,
   red2,
   black2,
   blue2,

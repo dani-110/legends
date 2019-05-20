@@ -19,6 +19,7 @@ import {
   ForgotPassword,
   Dashboard,
   LiveTab,
+  Notification,
   Poty
 } from "../containers";
 
@@ -59,10 +60,11 @@ const navigator = Actions.create(
         >
           <Scene key="dashboard_tab" component={Dashboard} hideNavBar />
           <Scene key="live_tab" component={LiveTab} hideNavBar />
+          <Scene key="notification_tab" component={Notification} hideNavBar />
         </Tabs>
       </Scene>
 
-      <Scene key="poty" component={Poty} hideNavBar initial />
+      <Scene key="poty" component={Poty} hideNavBar />
     </Drawer>
   </Stack>
 );

@@ -16,6 +16,8 @@ const arrow_circle_grey = require("../assets/icon/arrow_circle_grey/arrow_circle
 const arrow_circle_green = require("../assets/icon/arrow_circle_green/arrow_circle_green.png");
 const clock = require("../assets/icon/clock/clock.png");
 const clock_white = require("../assets/icon/clock_white/clock_white.png");
+const delete_white = require("../assets/icon/delete_white/delete_white.png");
+const arrow_right = require("../assets/icon/arrow_right/arrow_right.png");
 const password_eye = require("../assets/icon/password_eye/password_eye.png");
 const sort_selected = require("../assets/icon/sort_selected/sort_selected.png");
 const sort_unselected = require("../assets/icon/sort_unselected/sort_unselected.png");
@@ -38,6 +40,8 @@ export default {
   dummy_user,
   clock,
   clock_white,
+  delete_white,
+  arrow_right,
   password_eye,
   sort_selected,
   sort_unselected
