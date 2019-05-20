@@ -1,6 +1,6 @@
 // @flow
 import { StyleSheet } from "react-native";
-import { Colors, Metrics } from "../../theme";
+import { Colors, Metrics, AppStyles } from "../../theme";
 
 export default StyleSheet.create({
   container: {
@@ -19,5 +19,9 @@ export default StyleSheet.create({
     marginRight: 20,
     height: 40,
     borderRadius: 20
+  },
+  noNotificationText: {
+    fontSize: 21,
+    ...AppStyles.baseMargin
   }
 });
