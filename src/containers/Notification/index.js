@@ -96,11 +96,7 @@ class Notification extends Component {
         />
         <View style={[AppStyles.paddingVerticalBase, AppStyles.flex]}>
           {this._renderNotifications(notificationsData)}
-          {notificationsData && notificationsData.length ? (
-            this._renderClearButton()
-          ) : (
-            <Text />
-          )}
+          {notificationsData.length > 0 && this._renderClearButton()}
         </View>
       </View>
     );
