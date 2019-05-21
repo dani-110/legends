@@ -10,10 +10,13 @@ import { AppStyles, Colors } from "../../../theme";
 
 class Scores extends React.Component {
   static propTypes = {
-    userData: PropTypes.object.isRequired
+    userData: PropTypes.object.isRequired,
+    showViewProfile: PropTypes.bool
   };
 
-  static defaultProps = {};
+  static defaultProps = {
+    showViewProfile: true
+  };
 
   getSingleScore = (label, labelOnTop, score, bgColor) => (
     <View style={labelOnTop && { marginTop: -20 }}>
@@ -56,13 +59,15 @@ class Scores extends React.Component {
           {this.getSingleScore("PPR", true, scores.ppr, Colors.black2)}
         </View>
 
-        <ButtonView style={AppStyles.alignItemsFlexEnd}>
-          <Text
-            type="bold"
-            size="xSmall"
-            color={Colors.green}
-          >{`VIEW PROFILE >`}</Text>
-        </ButtonView>
+        {this.props.showViewProfile && (
+          <ButtonView style={AppStyles.alignItemsFlexEnd}>
+            <Text
+              type="bold"
+              size="xSmall"
+              color={Colors.green}
+            >{`VIEW PROFILE >`}</Text>
+          </ButtonView>
+        )}
       </View>
     );
   };

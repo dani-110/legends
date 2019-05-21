@@ -88,7 +88,7 @@ class Notification extends Component {
     return (
       <View style={styles.container}>
         <CustomNavbar
-          hasBack={false}
+          hasBack={true}
           title="Notifications"
           hasBorder={false}
           theme={NAVBAR_THEME.WHITE}

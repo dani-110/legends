@@ -33,6 +33,9 @@ export default class SideMenu extends React.PureComponent {
             source={Images.dummy_user}
             resizeMode="cover"
             style={styles.userImage}
+            onPress={() => {
+              Actions.user();
+            }}
           />
         </View>
         <Text size="large" type="bold" color={Colors.text.secondary}>

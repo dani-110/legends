@@ -6,7 +6,6 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.background.primary,
-    ...AppStyles.flexRow,
     ...AppStyles.centerInner,
     paddingVertical: 10,
     borderBottomColor: Colors.grey2,

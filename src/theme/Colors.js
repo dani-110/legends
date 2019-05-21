@@ -48,6 +48,11 @@ const windowTintWhite = "rgba(255, 255, 255, 0.7)";
 const greenTint = "rgba(0, 188, 86, 0.1)";
 const greenTintZeroPointFive = "rgba(0, 188, 86, 0.05)";
 
+const graphColorOne = "#0CBBC4";
+const graphColorTwo = "#3DCEA0";
+const graphColorThree = "#58D88C";
+const graphColorFour = "#58D88C";
+
 export default {
   white,
   black,
@@ -76,5 +81,9 @@ export default {
   red2,
   black2,
   blue2,
-  red3
+  red3,
+  graphColorOne,
+  graphColorTwo,
+  graphColorThree,
+  graphColorFour
 };
