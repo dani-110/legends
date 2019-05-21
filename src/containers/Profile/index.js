@@ -98,7 +98,7 @@ class Profile extends Component {
   render() {
     const { activeTabIndex } = this.state;
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, AppStyles.pBottomListBottom]}>
         <CustomNavbar
           title=""
           hasBorder={false}

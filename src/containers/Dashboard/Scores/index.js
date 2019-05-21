@@ -7,6 +7,7 @@ import { Text, ButtonView } from "../../../components";
 import styles from "./styles";
 // import Util from "../../../util";
 import { AppStyles, Colors } from "../../../theme";
+import { Actions } from "react-native-router-flux";
 
 class Scores extends React.Component {
   static propTypes = {
@@ -60,7 +61,10 @@ class Scores extends React.Component {
         </View>
 
         {this.props.showViewProfile && (
-          <ButtonView style={AppStyles.alignItemsFlexEnd}>
+          <ButtonView
+            style={AppStyles.alignItemsFlexEnd}
+            onPress={Actions.profile}
+          >
             <Text
               type="bold"
               size="xSmall"

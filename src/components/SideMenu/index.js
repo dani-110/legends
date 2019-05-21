@@ -28,10 +28,7 @@ export default class SideMenu extends React.PureComponent {
   renderUserDetails() {
     return (
       <View style={styles.userDetailsWrapper}>
-        <ButtonView
-          style={styles.imageWrapper}
-          onPress={() => Actions.profile()}
-        >
+        <ButtonView style={styles.imageWrapper} onPress={Actions.profile}>
           <Image
             source={Images.dummy_user}
             resizeMode="cover"
