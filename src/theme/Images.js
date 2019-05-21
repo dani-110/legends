@@ -22,6 +22,10 @@ const password_eye = require("../assets/icon/password_eye/password_eye.png");
 const sort_selected = require("../assets/icon/sort_selected/sort_selected.png");
 const sort_unselected = require("../assets/icon/sort_unselected/sort_unselected.png");
 const notification_bell = require("../assets/icon/notification_bell/notification_bell.png");
+const calendar = require("../assets/icon/calendar/calendar.png");
+const trend_icon_selected = require("../assets/icon/trend_icon_selected/trend_icon_selected.png");
+const trend_icon_unselected = require("../assets/icon/trend_icon_unselected/trend_icon_unselected.png");
+const edit_icon = require("../assets/icon/edit_icon/edit_icon.png");
 
 export default {
   logo,
@@ -46,5 +50,9 @@ export default {
   password_eye,
   sort_selected,
   sort_unselected,
-  notification_bell
+  notification_bell,
+  calendar,
+  trend_icon_selected,
+  trend_icon_unselected,
+  edit_icon
 };
