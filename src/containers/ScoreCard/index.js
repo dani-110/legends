@@ -8,7 +8,11 @@ import { NAVBAR_THEME } from "../../constants";
 import styles from "./styles";
 
 class ScoreCard extends Component {
-  componentDidMount() {
+  componentWillMount() {
+    Orientation.lockToLandscape();
+  }
+
+  componentWillUnmount() {
     Orientation.lockToPortrait();
   }
 
@@ -20,6 +24,8 @@ class ScoreCard extends Component {
           hasBorder={false}
           theme={NAVBAR_THEME.WHITE}
           titleAlign="center"
+          isLandscape
+          titleAlign="left"
         />
       </View>
     );

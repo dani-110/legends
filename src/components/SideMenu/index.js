@@ -11,7 +11,7 @@ const DRAWER_ITEMS = [
     text: "POTY",
     onPress: () => Actions.poty()
   },
-  { text: "LCL", onPress: () => {} },
+  { text: "LCL", onPress: () => Actions.scoreCard() },
   { text: "LMP", onPress: () => {} },
   { text: "DMP", onPress: () => {} },
   { text: "Rules", onPress: () => {} },
