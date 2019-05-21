@@ -21,7 +21,7 @@ import {
   LiveTab,
   Notification,
   Poty,
-  LCL,
+  Lcl,
   Profile
 } from "../containers";
 
@@ -67,7 +67,7 @@ const navigator = Actions.create(
       </Scene>
 
       <Scene key="poty" component={Poty} hideNavBar />
-      <Scene key="LCL" component={LCL} hideNavBar />
+      <Scene key="lcl" component={Lcl} hideNavBar />
       <Scene key="profile" component={Profile} hideNavBar />
     </Drawer>
   </Stack>

@@ -8,7 +8,7 @@ import TournamentsTab from "./TournamentsTab";
 import styles from "./styles";
 import Util from "../../util";
 
-export default class LCL extends Component {
+export default class Lcl extends Component {
   state = {
     activeTabIndex: 0
   };
