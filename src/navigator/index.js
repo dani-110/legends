@@ -68,7 +68,7 @@ const navigator = Actions.create(
       </Scene>
       <Scene key="news" component={News} hideNavBar />
       <Scene key="poty" component={Poty} hideNavBar />
-      <Scene key="lcl" component={Lcl} hideNavBar initial />
+      <Scene key="lcl" component={Lcl} hideNavBar />
       <Scene key="profile" component={Profile} hideNavBar />
     </Drawer>
   </Stack>
