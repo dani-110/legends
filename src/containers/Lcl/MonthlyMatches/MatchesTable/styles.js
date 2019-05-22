@@ -11,14 +11,6 @@ export default StyleSheet.create({
     ...AppStyles.centerInner
   },
   matchCard: {
-    // shadowColor: "rgba(00,00,00,0.08)",
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 10
-    // },
-    // shadowOpacity: 0.51,
-    // shadowRadius: 13.16,
-    // elevation: 20
     backgroundColor: Colors.white,
     ...AppStyles.shadow2
   },
@@ -30,7 +22,7 @@ export default StyleSheet.create({
   },
   dateContainer: {
     borderWidth: 1,
-    borderColor: Colors.greyLight,
+    borderColor: Colors.greyTint,
     borderRadius: 20,
     padding: 8
   },

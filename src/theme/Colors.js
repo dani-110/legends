@@ -6,7 +6,7 @@ const grey2 = "#dedee7";
 const grey3 = "#a3a3b5";
 const grey4 = "#fbfbfb";
 const grey5 = "#4C4B52";
-const greyLight = "rgba(112,112,112,0.1)";
+const greyTint = "rgba(112,112,112,0.1)";
 const yellow = "#ffc415";
 const green = "#00bc56";
 const darkBlue = "#293045";
@@ -63,7 +63,7 @@ export default {
   grey3,
   grey4,
   grey5,
-  greyLight,
+  greyTint,
   yellow,
   transparent,
   red,
