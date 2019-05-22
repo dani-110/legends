@@ -2,6 +2,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { View, Image } from "react-native";
+import { Actions } from "react-native-router-flux";
 import { Text, ButtonView } from "../../../components";
 import { TIME_FORMAT1, MATCH_TYPES } from "../../../constants";
 import styles from "./styles";
@@ -30,7 +31,10 @@ export default class ListItem extends React.Component {
       bg = Colors.red3;
     }
     return (
-      <ButtonView style={[styles.container, { backgroundColor: bg }]}>
+      <ButtonView
+        style={[styles.container, { backgroundColor: bg }]}
+        onPress={() => Actions.jump("notification_tab")}
+      >
         <View
           style={[
             AppStyles.flexRow,

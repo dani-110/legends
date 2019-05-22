@@ -1,11 +1,12 @@
 // @flow
 import { StyleSheet } from "react-native";
+import { isIphoneX } from "react-native-iphone-x-helper";
 import { Colors, Metrics, AppStyles } from "../../theme";
 
 export default StyleSheet.create({
   container: {
     height: Metrics.tabBarHeight,
-    paddingBottom: 34,
+    paddingBottom: isIphoneX() ? 34 : 4,
     /* height: 49,
     marginBottom: 34, */
     backgroundColor: Colors.white,
