@@ -21,7 +21,8 @@ class Login extends Component {
     errors: {},
     loading: false,
     email: "",
-    password: ""
+    password: "",
+    hidePassword: true
   };
 
   email;
@@ -103,12 +104,12 @@ class Login extends Component {
   }
 
   renderLoginForm() {
-    const { email, password } = this.state;
+    const { email, password, hidePassword } = this.state;
     return (
       <View style={[AppStyles.cardView, styles.cardBoard]}>
         <TextInput
           placeholder="Email"
-          style={AppStyles.inputStyle1}
+          style={[AppStyles.inputStyle1, AppStyles.mBottom10]}
           autoCapitalize="none"
           selectionColor={Colors.black}
           value={email}
@@ -117,18 +118,29 @@ class Login extends Component {
           returnKeyType="next"
           onSubmitEditing={this._onSubmitEmail}
         />
-
-        <TextInput
-          placeholder="Password"
-          style={AppStyles.inputStyle1}
-          secureTextEntry
-          selectionColor={Colors.black}
-          value={password}
-          ref={ref => (this.password = ref)}
-          onChangeText={value => this.setState({ password: value })}
-          returnKeyType="done"
-          onSubmitEditing={this._onSubmit}
-        />
+        <View style={AppStyles.mBottom10}>
+          <TextInput
+            placeholder="Password"
+            style={[AppStyles.inputStyle1, AppStyles.pRight30]}
+            secureTextEntry={hidePassword}
+            selectionColor={Colors.black}
+            value={password}
+            ref={ref => (this.password = ref)}
+            onChangeText={value => this.setState({ password: value })}
+            returnKeyType="done"
+            onSubmitEditing={this._onSubmit}
+          />
+          <ButtonView
+            style={styles.showPasswordBtn}
+            onPress={() => {
+              this.setState({
+                hidePassword: !this.state.hidePassword
+              });
+            }}
+          >
+            <Image source={Images.password_eye} />
+          </ButtonView>
+        </View>
 
         <ButtonView style={AppStyles.mTop5} onPress={Actions.forgotPassword}>
           <Text textAlign="right" color={Colors.green}>

@@ -1,15 +1,20 @@
 // @flow
 import React from "react";
-import PropTypes from "prop-types";
 import { View, Image } from "react-native";
-import { Text, ButtonView } from "../";
+import { Actions } from "react-native-router-flux";
+import { Text, ButtonView } from "../../components";
 import { Images, Colors, AppStyles } from "../../theme";
 import styles from "./styles";
-import { Actions } from "react-native-router-flux";
 
 const DRAWER_ITEMS = [
-  { text: "POTY", onPress: () => {} },
-  { text: "LCL", onPress: () => {} },
+  {
+    text: "POTY",
+    onPress: () => Actions.poty()
+  },
+  {
+    text: "LCL",
+    onPress: () => Actions.lcl()
+  },
   { text: "LMP", onPress: () => {} },
   { text: "DMP", onPress: () => {} },
   { text: "Rules", onPress: () => {} },
@@ -31,13 +36,13 @@ export default class SideMenu extends React.PureComponent {
   renderUserDetails() {
     return (
       <View style={styles.userDetailsWrapper}>
-        <View style={styles.imageWrapper}>
+        <ButtonView style={styles.imageWrapper} onPress={Actions.profile}>
           <Image
             source={Images.dummy_user}
             resizeMode="cover"
             style={styles.userImage}
           />
-        </View>
+        </ButtonView>
         <Text size="large" type="bold" color={Colors.text.secondary}>
           Tariq Allawala
         </Text>
@@ -48,22 +53,20 @@ export default class SideMenu extends React.PureComponent {
   renderOptionsList() {
     return (
       <View style={AppStyles.padding10}>
-        {DRAWER_ITEMS.map((element, index) => {
-          return (
-            <ButtonView
-              style={styles.listItem}
-              key={index}
-              onPress={() => {
-                Actions.drawerClose();
-                element.onPress();
-              }}
-            >
-              <Text type="bold" color={Colors.text.secondary}>
-                {element.text}
-              </Text>
-            </ButtonView>
-          );
-        })}
+        {DRAWER_ITEMS.map((element, index) => (
+          <ButtonView
+            style={styles.listItem}
+            key={index}
+            onPress={() => {
+              Actions.drawerClose();
+              element.onPress();
+            }}
+          >
+            <Text type="bold" color={Colors.text.secondary}>
+              {element.text}
+            </Text>
+          </ButtonView>
+        ))}
       </View>
     );
   }

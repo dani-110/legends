@@ -446,7 +446,6 @@ const inputStyle1 = {
   borderWidth: 1,
   borderColor: Colors.grey2,
   paddingHorizontal: 10,
-  ...mBottom10,
   borderRadius: Metrics.borderRadius,
   paddingVertical: 12
 };
@@ -458,6 +457,13 @@ const borderBottomGrey = {
 const borderGrey = {
   borderWidth: 1,
   borderColor: Colors.grey2
+};
+
+const listHeaderWrapper = {
+  ...flexRow,
+  backgroundColor: Colors.background.secondary,
+  paddingHorizontal: 15,
+  paddingVertical: 10
 };
 
 export default {
@@ -603,5 +609,6 @@ export default {
   inputStyle1,
   borderBottomGrey,
   doubleBaseMargin,
-  borderGrey
+  borderGrey,
+  listHeaderWrapper
 };

@@ -18,7 +18,7 @@ class LiveTab extends Component {
 
   _renderSectionHeader({ section: { title } }) {
     return (
-      <View style={AppStyles.mBottom10}>
+      <View style={[AppStyles.mBottom10, AppStyles.mTop20]}>
         <Text type="bold" size="large">
           {title}
         </Text>
@@ -42,6 +42,7 @@ class LiveTab extends Component {
           /* onRefresh={this._getAvailableJobsRequest}
           refreshing={loading} */
           stickySectionHeadersEnabled={false}
+          showsVerticalScrollIndicator={false}
         />
       </View>
     );

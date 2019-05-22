@@ -19,7 +19,11 @@ import {
   ForgotPassword,
   Dashboard,
   LiveTab,
-  News
+  News,
+  Notification,
+  Poty,
+  Lcl,
+  Profile
 } from "../containers";
 
 function onBackPress() {
@@ -47,6 +51,7 @@ const navigator = Actions.create(
       contentComponent={SideMenu}
       drawerWidth={250}
       drawerPosition="left"
+      initial
     >
       <Scene hideNavBar key="dashboard">
         <Tabs
@@ -58,9 +63,13 @@ const navigator = Actions.create(
         >
           <Scene key="dashboard_tab" component={Dashboard} hideNavBar />
           <Scene key="live_tab" component={LiveTab} hideNavBar />
+          <Scene key="notification_tab" component={Notification} hideNavBar />
         </Tabs>
       </Scene>
       <Scene key="news" component={News} hideNavBar />
+      <Scene key="poty" component={Poty} hideNavBar />
+      <Scene key="lcl" component={Lcl} hideNavBar initial />
+      <Scene key="profile" component={Profile} hideNavBar />
     </Drawer>
   </Stack>
 );

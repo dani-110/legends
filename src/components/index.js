@@ -12,6 +12,7 @@ import SideMenu from "./SideMenu";
 import Tabbar from "./Tabbar";
 import GreenBgFlayer from "./GreenBgFlayer";
 import Image from "./Image";
+import TopTabs from "./TopTabs";
 
 export {
   Button,
@@ -26,5 +27,6 @@ export {
   SideMenu,
   Tabbar,
   GreenBgFlayer,
-  Image
+  Image,
+  TopTabs
 };
