@@ -6,6 +6,7 @@ import Dashboard from "./Dashboard";
 import LiveTab from "./LiveTab";
 import Notification from "./Notification";
 import Poty from "./Poty";
+import Lcl from "./Lcl";
 import Profile from "./Profile";
 
 export {
@@ -15,6 +16,7 @@ export {
   Dashboard,
   LiveTab,
   Poty,
+  Lcl,
   Notification,
   Profile
 };

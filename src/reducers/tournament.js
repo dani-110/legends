@@ -118,6 +118,45 @@ const initialState = Immutable({
       { title: "NMC Classic", date: "2019-05-18", status: "pending" },
       { title: "ACT Engineering Open", date: "2019-06-23", status: "pending" }
     ]
+  },
+  lcl: {
+    pointsTable: [
+      {
+        position: 1,
+        team: "Angry Birds",
+        points: 32
+      },
+      {
+        position: 2,
+        team: "Honey Badgers",
+        points: 26.5
+      },
+      {
+        position: 3,
+        team: "Kitty Mafia",
+        points: 23
+      },
+      {
+        position: 4,
+        team: "Magnificient 8",
+        points: 22.5
+      },
+      {
+        position: 5,
+        team: "Dark Knight",
+        points: 21.5
+      },
+      {
+        position: 6,
+        team: "Great White Sharks",
+        points: 19
+      },
+      {
+        position: 7,
+        team: "MIFOS",
+        points: 14.5
+      }
+    ]
   }
 });
 
