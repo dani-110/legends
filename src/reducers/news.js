@@ -12,6 +12,27 @@ const initialState = Immutable({
       title: "News heading here",
       desc:
         "Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu."
+    },
+    {
+      date: moment().subtract(1, "day"),
+      image: "https://i.imgur.com/979Qn33.jpg",
+      title: "News heading here",
+      desc:
+        "Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu."
+    },
+    {
+      date: moment().subtract(1, "day"),
+      image: "https://i.imgur.com/979Qn33.jpg",
+      title: "News heading here",
+      desc:
+        "Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu."
+    },
+    {
+      date: moment().subtract(1, "day"),
+      image: "https://i.imgur.com/979Qn33.jpg",
+      title: "News heading here",
+      desc:
+        "Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu."
     }
   ]
 });

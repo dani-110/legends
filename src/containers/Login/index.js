@@ -172,7 +172,7 @@ class Login extends Component {
           resizeMode="stretch"
         />
         {this.renderHeroArea()}
-        <ScrollView style={AppStyles.flex} keyboardShouldPersistTaps>
+        <ScrollView style={AppStyles.flex} keyboardShouldPersistTaps="always">
           {this.renderLoginForm()}
           {!Util.isPlatformAndroid() && <KeyboardSpacer />}
         </ScrollView>

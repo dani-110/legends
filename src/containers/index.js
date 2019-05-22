@@ -8,6 +8,7 @@ import Notification from "./Notification";
 import Poty from "./Poty";
 import Lcl from "./Lcl";
 import Profile from "./Profile";
+import News from "./News";
 
 export {
   Login,
@@ -18,5 +19,6 @@ export {
   Poty,
   Lcl,
   Notification,
-  Profile
+  Profile,
+  News
 };
