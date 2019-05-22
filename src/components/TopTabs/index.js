@@ -9,16 +9,23 @@ import { Images, AppStyles } from "../../theme";
 export default class TopTabs extends React.PureComponent {
   static propTypes = {
     data: PropTypes.array.isRequired,
-    activeIndex: PropTypes.number.isRequired
+    activeIndex: PropTypes.number.isRequired,
+    isRow: PropTypes.bool
   };
 
-  static defaultProps = {};
+  static defaultProps = {
+    isRow: true
+  };
 
   _renderButton(data, isActive, index) {
     return (
       <ButtonView
         onPress={data.onPress}
-        style={[styles.container, styles.containerInactive]}
+        style={[
+          styles.container,
+          styles.containerInactive,
+          this.props.isRow && AppStyles.flexRow
+        ]}
         key={index}
       >
         <Image

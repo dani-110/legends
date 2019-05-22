@@ -1,27 +1,26 @@
 // @flow
-import { connect } from "react-redux";
 import React, { Component } from "react";
 import { View } from "react-native";
 import { CustomNavbar, TopTabs } from "../../components";
 import { NAVBAR_THEME } from "../../constants";
-import LeaderboardTab from "./LeaderboardTab";
-import TournamentsTab from "./TournamentsTab";
+import PointsTableTab from "./PointsTableTab";
+import MonthlyMatches from "./MonthlyMatches";
 import styles from "./styles";
 import Util from "../../util";
 
-class Poty extends Component {
+export default class Lcl extends Component {
   state = {
     activeTabIndex: 0
   };
   TABS_DATA = [
     {
       image: "sort",
-      title: "Leaderboard",
+      title: "Points Table",
       onPress: () => Util.setSelectedTabIndex(this, 0)
     },
     {
       image: "sort",
-      title: "Tournaments",
+      title: "Monthly Matches",
       onPress: () => Util.setSelectedTabIndex(this, 1)
     }
   ];
@@ -36,26 +35,15 @@ class Poty extends Component {
     return (
       <View style={styles.container}>
         <CustomNavbar
-          title="POTY"
+          title="LCL"
           hasBorder={false}
           theme={NAVBAR_THEME.WHITE}
-          titleAlign="left"
+          titleAlign="center"
         />
         {this._renderTabsHeader()}
-        {activeTabIndex === 0 && <LeaderboardTab />}
-        {activeTabIndex === 1 && <TournamentsTab />}
+        {activeTabIndex === 0 && <PointsTableTab />}
+        {activeTabIndex === 1 && <MonthlyMatches />}
       </View>
     );
   }
 }
-
-const mapStateToProps = ({ tournament }) => ({
-  leaderboard: tournament.poty.leaderboard
-});
-
-const actions = {};
-
-export default connect(
-  mapStateToProps,
-  actions
-)(Poty);

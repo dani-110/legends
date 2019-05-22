@@ -7,6 +7,7 @@ import { Text, ButtonView } from "../../../components";
 import styles from "./styles";
 import Util from "../../../util";
 import { AppStyles, Colors } from "../../../theme";
+import { Actions } from "react-native-router-flux";
 
 class PotyLeaderboardDB extends PureComponent {
   static propTypes = {
@@ -67,7 +68,10 @@ class PotyLeaderboardDB extends PureComponent {
             stickyHeaderIndices={[0]}
           />
         </View>
-        <ButtonView style={[AppStyles.alignItemsFlexEnd, AppStyles.pRight25]}>
+        <ButtonView
+          style={[AppStyles.alignItemsFlexEnd, AppStyles.pRight25]}
+          onPress={Actions.poty}
+        >
           <Text
             type="bold"
             size="xSmall"

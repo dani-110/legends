@@ -21,7 +21,9 @@ import {
   LiveTab,
   Notification,
   Poty,
-  ScoreCard
+  ScoreCard,
+  Lcl,
+  Profile
 } from "../containers";
 
 function onBackPress() {
@@ -67,6 +69,8 @@ const navigator = Actions.create(
 
       <Scene key="poty" component={Poty} hideNavBar />
       <Scene key="scoreCard" component={ScoreCard} hideNavBar />
+      <Scene key="lcl" component={Lcl} hideNavBar />
+      <Scene key="profile" component={Profile} hideNavBar />
     </Drawer>
   </Stack>
 );

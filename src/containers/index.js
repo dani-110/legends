@@ -7,6 +7,8 @@ import LiveTab from "./LiveTab";
 import Notification from "./Notification";
 import Poty from "./Poty";
 import ScoreCard from "./ScoreCard";
+import Lcl from "./Lcl";
+import Profile from "./Profile";
 
 export {
   Login,
@@ -16,5 +18,7 @@ export {
   LiveTab,
   Poty,
   Notification,
-  ScoreCard
+  ScoreCard,
+  Lcl,
+  Profile
 };
