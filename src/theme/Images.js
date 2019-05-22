@@ -23,6 +23,7 @@ const sort_selected = require("../assets/icon/sort_selected/sort_selected.png");
 const sort_unselected = require("../assets/icon/sort_unselected/sort_unselected.png");
 const notification_bell = require("../assets/icon/notification_bell/notification_bell.png");
 const calendar = require("../assets/icon/calendar/calendar.png");
+const calendar_grey = require("../assets/icon/calendar_grey/calendar_grey.png");
 const trend_icon_selected = require("../assets/icon/trend_icon_selected/trend_icon_selected.png");
 const trend_icon_unselected = require("../assets/icon/trend_icon_unselected/trend_icon_unselected.png");
 const edit_icon = require("../assets/icon/edit_icon/edit_icon.png");
@@ -52,6 +53,7 @@ export default {
   sort_unselected,
   notification_bell,
   calendar,
+  calendar_grey,
   trend_icon_selected,
   trend_icon_unselected,
   edit_icon

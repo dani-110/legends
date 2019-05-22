@@ -156,6 +156,80 @@ const initialState = Immutable({
         team: "MIFOS",
         points: 14.5
       }
+    ],
+    monthlyMatches: [
+      {
+        startTime: new Date(),
+        endTime: new Date(),
+        players: [
+          ["Angry Birdies", "Great White Sharks"],
+          ["Honey Badgers", "Dark Knights"],
+          ["Magnificent 8", "MIFOS"]
+        ]
+      },
+      {
+        startTime: new Date(),
+        endTime: new Date(),
+        players: [
+          ["Angry Birdies", "Great White Sharks"],
+          ["Honey Badgers", "Dark Knights"],
+          ["Kitty Mafia", "Bye"]
+        ]
+      },
+      {
+        startTime: new Date(),
+        endTime: new Date(),
+        players: [
+          ["Angry Birdies", "Great White Sharks"],
+          ["Magnificent 8", "MIFOS"],
+          ["Kitty Mafia", "Bye"]
+        ]
+      },
+      {
+        startTime: new Date(),
+        endTime: new Date(),
+        players: [
+          ["Honey Badgers", "Dark Knights"],
+          ["Magnificent 8", "MIFOS"],
+          ["Kitty Mafia", "Bye"]
+        ]
+      },
+      {
+        startTime: new Date(),
+        endTime: new Date(),
+        players: [
+          ["Angry Birdies", "Great White Sharks"],
+          ["Honey Badgers", "Dark Knights"],
+          ["Magnificent 8", "MIFOS"]
+        ]
+      },
+      {
+        startTime: new Date(),
+        endTime: new Date(),
+        players: [
+          ["Angry Birdies", "Great White Sharks"],
+          ["Honey Badgers", "Dark Knights"],
+          ["Kitty Mafia", "Bye"]
+        ]
+      },
+      {
+        startTime: new Date(),
+        endTime: new Date(),
+        players: [
+          ["Angry Birdies", "Great White Sharks"],
+          ["Magnificent 8", "MIFOS"],
+          ["Kitty Mafia", "Bye"]
+        ]
+      },
+      {
+        startTime: new Date(),
+        endTime: new Date(),
+        players: [
+          ["Honey Badgers", "Dark Knights"],
+          ["Magnificent 8", "MIFOS"],
+          ["Kitty Mafia", "Bye"]
+        ]
+      }
     ]
   }
 });
