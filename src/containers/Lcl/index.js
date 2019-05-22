@@ -4,13 +4,13 @@ import { View } from "react-native";
 import { CustomNavbar, TopTabs } from "../../components";
 import { NAVBAR_THEME } from "../../constants";
 import PointsTableTab from "./PointsTableTab";
-import TournamentsTab from "./TournamentsTab";
+import MonthlyMatches from "./MonthlyMatches";
 import styles from "./styles";
 import Util from "../../util";
 
 export default class Lcl extends Component {
   state = {
-    activeTabIndex: 0
+    activeTabIndex: 1
   };
   TABS_DATA = [
     {
@@ -42,7 +42,7 @@ export default class Lcl extends Component {
         />
         {this._renderTabsHeader()}
         {activeTabIndex === 0 && <PointsTableTab />}
-        {activeTabIndex === 1 && <TournamentsTab />}
+        {activeTabIndex === 1 && <MonthlyMatches />}
       </View>
     );
   }
