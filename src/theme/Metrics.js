@@ -34,6 +34,8 @@ const generatedFontSize = (iosFontSize, androidFontSize) =>
 
 const NAVBAR_HEIGHT = Platform.OS === "ios" ? 44 : 56;
 const STATUSBAR_HEIGHT = Platform.OS === "ios" ? (isIphoneX() ? 50 : 20) : 0;
+const STATUSBAR_HEIGHT_LANDSCAPE = Platform.OS === "ios" ? 20 : 0;
+
 const LIST_BOTTOM_PADDING =
   Platform.OS === "ios" ? (isIphoneX() ? 40 : 16) : 16;
 
@@ -47,8 +49,10 @@ export default {
   baseMargin: ratio(16),
   doubleBaseMargin: ratio(20),
   statusBarHeight: STATUSBAR_HEIGHT,
+  statusBarHeightLandscape: STATUSBAR_HEIGHT_LANDSCAPE,
   horizontalLineHeight: StyleSheet.hairlineWidth,
   navBarHeight: NAVBAR_HEIGHT + STATUSBAR_HEIGHT,
+  navBarHeightLandscape: NAVBAR_HEIGHT + STATUSBAR_HEIGHT_LANDSCAPE,
   tabBarHeight: Platform.OS === "ios" ? (isIphoneX() ? 83 : 49) : 49, // Default tab bar height in iOS 10 (source react-navigation)
   borderRadius: 9,
   defaultUIHeight: ratio(47),

@@ -6,6 +6,7 @@ import Dashboard from "./Dashboard";
 import LiveTab from "./LiveTab";
 import Notification from "./Notification";
 import Poty from "./Poty";
+import ScoreCard from "./ScoreCard";
 import Lcl from "./Lcl";
 import Profile from "./Profile";
 import News from "./News";
@@ -18,8 +19,9 @@ export {
   Dashboard,
   LiveTab,
   Poty,
-  Lcl,
   Notification,
+  ScoreCard,
+  Lcl,
   Profile,
   News,
   Settings

@@ -10,7 +10,7 @@ import Util from "../../util";
 
 export default class Lcl extends Component {
   state = {
-    activeTabIndex: 1
+    activeTabIndex: 0
   };
   TABS_DATA = [
     {

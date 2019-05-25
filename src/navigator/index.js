@@ -22,6 +22,7 @@ import {
   News,
   Notification,
   Poty,
+  ScoreCard,
   Lcl,
   Profile,
   Settings
@@ -70,6 +71,7 @@ const navigator = Actions.create(
       </Scene>
       <Scene key="news" component={News} hideNavBar />
       <Scene key="poty" component={Poty} hideNavBar />
+      <Scene key="scoreCard" component={ScoreCard} hideNavBar />
       <Scene key="lcl" component={Lcl} hideNavBar />
       <Scene key="profile" component={Profile} hideNavBar />
     </Drawer>

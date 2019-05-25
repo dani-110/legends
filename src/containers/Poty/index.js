@@ -11,7 +11,7 @@ import Util from "../../util";
 
 class Poty extends Component {
   state = {
-    activeTabIndex: 1
+    activeTabIndex: 0
   };
   TABS_DATA = [
     {
