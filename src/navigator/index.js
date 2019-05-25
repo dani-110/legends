@@ -25,6 +25,7 @@ import {
   ScoreCard,
   Lcl,
   Profile,
+  Settings,
   LclLiveScore,
   DmpLiveScore,
   LmpLiveScore,
@@ -69,6 +70,7 @@ const navigator = Actions.create(
           <Scene key="dashboard_tab" component={Dashboard} hideNavBar />
           <Scene key="live_tab" component={LiveTab} hideNavBar />
           <Scene key="notification_tab" component={Notification} hideNavBar />
+          <Scene key="settings" component={Settings} hideNavBar />
         </Tabs>
       </Scene>
       <Scene key="news" component={News} hideNavBar />
