@@ -87,9 +87,11 @@ export default class CustomNavbar extends React.Component {
         >
           {title || ""}
         </Text>
-        <Text size="xSmall" color={Colors.black2Tinted}>
-          {subtitle || ""}
-        </Text>
+        {!_.isEmpty(subtitle) && (
+          <Text size="xSmall" color={Colors.black2Tinted}>
+            {subtitle || ""}
+          </Text>
+        )}
       </View>
     );
   }
