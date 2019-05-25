@@ -8,9 +8,11 @@ const grey4 = "#fbfbfb";
 const grey5 = "#4C4B52";
 const greyTint = "rgba(112,112,112,0.1)";
 const yellow = "#ffc415";
+const yellow2 = "yellow";
+
 const green = "#00bc56";
 const darkBlue = "#293045";
-
+const purple = "#9816f4";
 const iceblue = "#f5f8ff";
 
 const transparent = "rgba(0,0,0,0)";
@@ -65,6 +67,7 @@ export default {
   grey5,
   greyTint,
   yellow,
+  yellow2,
   transparent,
   red,
   blue,
@@ -89,5 +92,6 @@ export default {
   graphColorOne,
   graphColorTwo,
   graphColorThree,
-  graphColorFour
+  graphColorFour,
+  purple
 };

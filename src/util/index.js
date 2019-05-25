@@ -3,6 +3,7 @@ import { Platform, Linking } from "react-native";
 import moment from "moment";
 import { MessageBarManager } from "react-native-message-bar";
 import { MESSAGE_TYPES, DISCARD_WARNING } from "../constants";
+import { Colors } from "../theme";
 
 class Util {
   keyExtractor = (item: Object, index: number) => index.toString();
