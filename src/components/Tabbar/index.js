@@ -27,25 +27,21 @@ const tabsData = [
     image: Images.home_outline,
     selectedImage: Images.home_black,
     type: BUTTON_TYPES.icon,
-    onPress: () => {
-      Actions.jump("dashboard_tab");
-    }
+    onPress: () => Actions.dashboard_tab()
   },
   {
     name: "live",
     image: Images.live_outline,
     selectedImage: Images.live_black,
     type: BUTTON_TYPES.icon,
-    onPress: () => {
-      Actions.jump("live_tab");
-    }
+    onPress: () => Actions.live_tab()
   },
   {
     name: "notifications",
     image: Images.notification_outline,
     selectedImage: Images.notification_black,
     type: BUTTON_TYPES.icon,
-    onPress: () => Actions.jump("notification_tab")
+    onPress: () => Actions.notification_tab()
   },
   {
     name: "Join Game",

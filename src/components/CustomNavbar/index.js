@@ -7,7 +7,7 @@ import { Actions } from "react-native-router-flux";
 import { Text, ButtonView, SearchBar } from "../";
 import styles from "./styles";
 import { NAVBAR_THEME } from "../../constants";
-import { Images, AppStyles, Colors } from "../../theme";
+import { Images, AppStyles, Colors, Metrics } from "../../theme";
 
 export default class CustomNavbar extends React.Component {
   static propTypes = {
@@ -24,7 +24,8 @@ export default class CustomNavbar extends React.Component {
     onSearchText: PropTypes.func,
     isSearching: PropTypes.bool,
     theme: PropTypes.string,
-    titleAlign: PropTypes.string
+    titleAlign: PropTypes.string,
+    isLandscape: PropTypes.bool
   };
 
   static defaultProps = {
@@ -41,7 +42,8 @@ export default class CustomNavbar extends React.Component {
     onSearchText: () => {},
     isSearching: false,
     theme: NAVBAR_THEME.WHITE,
-    titleAlign: "center"
+    titleAlign: "center",
+    isLandscape: false
   };
 
   renderLeft(leftBtnImage, leftBtnPress, leftBtnText, hasBack) {
@@ -111,7 +113,8 @@ export default class CustomNavbar extends React.Component {
       onSearchText,
       isSearching,
       theme,
-      titleAlign
+      titleAlign,
+      isLandscape
     } = this.props;
     return (
       <View
@@ -122,7 +125,13 @@ export default class CustomNavbar extends React.Component {
           hasSearch ? styles.searchHeader : {},
           theme === NAVBAR_THEME.GREEN
             ? { backgroundColor: Colors.green }
-            : { backgroundColor: Colors.white }
+            : { backgroundColor: Colors.white },
+          isLandscape
+            ? {
+                height: Metrics.navBarHeightLandscape,
+                paddingTop: Metrics.statusBarHeightLandscape
+              }
+            : {}
         ]}
       >
         <View style={AppStyles.flexRow}>

@@ -52,7 +52,6 @@ class TournamentsTab extends Component {
 
   render() {
     const { tournamentsData } = this.props;
-    console.log({ tournamentsData });
     return (
       <View style={styles.container}>
         {this._renderListing(tournamentsData)}

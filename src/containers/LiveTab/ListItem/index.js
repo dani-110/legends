@@ -2,12 +2,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { View, Image } from "react-native";
+import { Actions } from "react-native-router-flux";
 import { Text, ButtonView } from "../../../components";
 import { TIME_FORMAT1, MATCH_TYPES } from "../../../constants";
 import styles from "./styles";
 import { Colors, AppStyles, Images } from "../../../theme";
 import Util from "../../../util";
-import { Actions } from "react-native-router-flux";
 
 export default class ListItem extends React.Component {
   static propTypes = {
