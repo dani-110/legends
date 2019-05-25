@@ -27,6 +27,8 @@ const calendar_grey = require("../assets/icon/calendar_grey/calendar_grey.png");
 const trend_icon_selected = require("../assets/icon/trend_icon_selected/trend_icon_selected.png");
 const trend_icon_unselected = require("../assets/icon/trend_icon_unselected/trend_icon_unselected.png");
 const edit_icon = require("../assets/icon/edit_icon/edit_icon.png");
+const score_board_black = require("../assets/icon/score_board_black/score_board_black.png");
+const score_board_outline = require("../assets/icon/score_board_outline/score_board_outline.png");
 
 export default {
   logo,
@@ -56,5 +58,7 @@ export default {
   calendar_grey,
   trend_icon_selected,
   trend_icon_unselected,
-  edit_icon
+  edit_icon,
+  score_board_black,
+  score_board_outline
 };
