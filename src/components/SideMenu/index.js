@@ -24,7 +24,12 @@ const DRAWER_ITEMS = [
       Actions.news();
     }
   },
-  { text: "Settings", onPress: () => {} },
+  {
+    text: "Settings",
+    onPress: () => {
+      Actions.settings();
+    }
+  },
   { text: "Logout", onPress: () => {} }
 ];
 
