@@ -9,6 +9,7 @@ import Poty from "./Poty";
 import ScoreCard from "./ScoreCard";
 import Lcl from "./Lcl";
 import Profile from "./Profile";
+import News from "./News";
 
 export {
   Login,
@@ -20,5 +21,6 @@ export {
   Notification,
   ScoreCard,
   Lcl,
-  Profile
+  Profile,
+  News
 };

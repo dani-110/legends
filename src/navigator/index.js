@@ -19,6 +19,7 @@ import {
   ForgotPassword,
   Dashboard,
   LiveTab,
+  News,
   Notification,
   Poty,
   ScoreCard,
@@ -66,7 +67,7 @@ const navigator = Actions.create(
           <Scene key="notification_tab" component={Notification} hideNavBar />
         </Tabs>
       </Scene>
-
+      <Scene key="news" component={News} hideNavBar />
       <Scene key="poty" component={Poty} hideNavBar />
       <Scene key="scoreCard" component={ScoreCard} hideNavBar />
       <Scene key="lcl" component={Lcl} hideNavBar />
