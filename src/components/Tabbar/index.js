@@ -57,24 +57,62 @@ const tabsData = [
   }
 ];
 
+const livematchtabsData = [
+  {
+    name: "drawer",
+    image: Images.drawer_black,
+    selectedImage: Images.drawer_black,
+    type: BUTTON_TYPES.icon,
+    onPress: Actions.drawerOpen
+  },
+  {
+    name: "home",
+    image: Images.home_outline,
+    selectedImage: Images.home_black,
+    type: BUTTON_TYPES.icon,
+    onPress: () => {
+      Actions.jump("dashboard_tab");
+    }
+  },
+  {
+    name: "score board",
+    image: Images.score_board_outline,
+    selectedImage: Images.score_board_black,
+    type: BUTTON_TYPES.icon,
+    onPress: () => {}
+  },
+  {
+    name: "Emter Score",
+    image: Images.arrow_circle_green,
+    selectedImage: Images.arrow_circle_green,
+    disableImage: Images.arrow_circle_grey,
+    type: BUTTON_TYPES.textIcon,
+    onPress: () => {}
+  }
+];
+
 class Tabbar extends React.PureComponent {
   static propTypes = {
     selectedIndex: PropTypes.number.isRequired,
-    setSelectedTab: PropTypes.func.isRequired
+    setSelectedTab: PropTypes.func.isRequired,
+    defaultTabbar: PropTypes.bool
   };
 
-  static defaultProps = {};
+  static defaultProps = {
+    defaultTabbar: true
+  };
 
   renderSelectedBar() {
     return <View style={styles.selectedBar} />;
   }
 
   render() {
-    const { selectedIndex } = this.props;
+    const { selectedIndex, defaultTabbar } = this.props;
     // const selectedIndex = 4;
+    const data = defaultTabbar ? tabsData : livematchtabsData;
     return (
       <View style={styles.container}>
-        {tabsData.map((element, index) => {
+        {data.map((element, index) => {
           if (element.type === BUTTON_TYPES.icon) {
             return (
               <ButtonView

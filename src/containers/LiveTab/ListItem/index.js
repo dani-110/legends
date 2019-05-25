@@ -7,6 +7,7 @@ import { TIME_FORMAT1, MATCH_TYPES } from "../../../constants";
 import styles from "./styles";
 import { Colors, AppStyles, Images } from "../../../theme";
 import Util from "../../../util";
+import { Actions } from "react-native-router-flux";
 
 export default class ListItem extends React.Component {
   static propTypes = {
@@ -19,6 +20,8 @@ export default class ListItem extends React.Component {
   render() {
     const { sectionTitle, data } = this.props;
     const { time, title, desc } = data;
+    const navigateTO = `${sectionTitle.toLowerCase()}livescore`;
+
     let bg = "";
     if (sectionTitle === MATCH_TYPES.POTY) {
       bg = Colors.blue2;
@@ -30,7 +33,12 @@ export default class ListItem extends React.Component {
       bg = Colors.red3;
     }
     return (
-      <ButtonView style={[styles.container, { backgroundColor: bg }]}>
+      <ButtonView
+        onPress={() => {
+          Actions.jump(navigateTO);
+        }}
+        style={[styles.container, { backgroundColor: bg }]}
+      >
         <View
           style={[
             AppStyles.flexRow,

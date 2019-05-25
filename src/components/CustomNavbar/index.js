@@ -13,6 +13,7 @@ export default class CustomNavbar extends React.Component {
   static propTypes = {
     hasBack: PropTypes.bool,
     title: PropTypes.string,
+    subtitle: PropTypes.string,
     leftBtnImage: PropTypes.number,
     leftBtnPress: PropTypes.func,
     leftBtnText: PropTypes.string,
@@ -29,6 +30,7 @@ export default class CustomNavbar extends React.Component {
   static defaultProps = {
     hasBack: true,
     title: "",
+    subtitle: "",
     titleColor: "",
     leftBtnImage: undefined,
     leftBtnPress: Actions.pop,
@@ -63,7 +65,7 @@ export default class CustomNavbar extends React.Component {
     );
   }
 
-  renderTitle(title, titleColor, theme, titleAlign) {
+  renderTitle(title, subtitle, titleColor, theme, titleAlign) {
     return (
       <View
         style={[
@@ -83,6 +85,9 @@ export default class CustomNavbar extends React.Component {
         >
           {title || ""}
         </Text>
+        <Text size="xSmall" color={Colors.black2Tinted}>
+          {subtitle || ""}
+        </Text>
       </View>
     );
   }
@@ -95,6 +100,7 @@ export default class CustomNavbar extends React.Component {
     const {
       hasBack,
       title,
+      subtitle,
       leftBtnImage,
       leftBtnPress,
       leftBtnText,
@@ -121,7 +127,7 @@ export default class CustomNavbar extends React.Component {
       >
         <View style={AppStyles.flexRow}>
           {this.renderLeft(leftBtnImage, leftBtnPress, leftBtnText, hasBack)}
-          {this.renderTitle(title, titleColor, theme, titleAlign)}
+          {this.renderTitle(title, subtitle, titleColor, theme, titleAlign)}
         </View>
 
         {hasSearch && (
