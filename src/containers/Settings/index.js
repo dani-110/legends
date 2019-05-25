@@ -40,10 +40,15 @@ class Settings extends Component {
         key={index}
       >
         <Text>{item.verbose}</Text>
-        <Switch
-          onValueChange={value => this._toggleSwitch(index, value)}
-          value={item.isEnable}
-        />
+        <View style={[AppStyles.flexRow, AppStyles.alignItemsCenter]}>
+          <Switch
+            onValueChange={value => this._toggleSwitch(index, value)}
+            value={item.isEnable}
+          />
+          <Text style={AppStyles.mLeft10}>
+            {item.isEnable === true ? "On" : "Off"}{" "}
+          </Text>
+        </View>
       </View>
     );
   }
