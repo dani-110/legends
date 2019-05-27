@@ -15,6 +15,7 @@ import { Images, AppStyles, Colors } from "../../theme";
 import Scores from "../Dashboard/Scores";
 import Util from "../../util";
 import GrossScoresTrend from "./GrossScoresTrend";
+import { Actions } from "react-native-router-flux";
 
 class Profile extends Component {
   state = {
@@ -73,6 +74,7 @@ class Profile extends Component {
             AppStyles.flexRow,
             AppStyles.centerInner
           ]}
+          onPress={Actions.scoreCard}
         >
           <RNImage source={Images.calendar} />
           <Text style={[AppStyles.mLeft10]} color={Colors.white}>

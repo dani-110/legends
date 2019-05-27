@@ -13,6 +13,7 @@ import Tabbar from "./Tabbar";
 import GreenBgFlayer from "./GreenBgFlayer";
 import Image from "./Image";
 import TopTabs from "./TopTabs";
+import ScoreValue from "./ScoreValue";
 
 export {
   Button,
@@ -28,5 +29,6 @@ export {
   Tabbar,
   GreenBgFlayer,
   Image,
-  TopTabs
+  TopTabs,
+  ScoreValue
 };
