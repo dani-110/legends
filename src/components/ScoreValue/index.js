@@ -12,13 +12,12 @@ function getScoreColor(score, par) {
     return { bg: Colors.blue, text: Colors.white };
   } else if (score === par - 1) {
     // red
-    return { bg: Colors.blue, text: Colors.white };
+    return { bg: Colors.red, text: Colors.white };
   } else if (score === par + 2) {
     // black
-    return { bg: Colors.blue, text: Colors.white };
+    return { bg: Colors.black, text: Colors.white };
   } else if (score === par - 2) {
     // yellow
-
     return { bg: Colors.yellow, text: Colors.black };
   }
 

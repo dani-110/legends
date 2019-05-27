@@ -1,4 +1,5 @@
 // @flow
+import _ from "lodash";
 import { connect } from "react-redux";
 import React, { Component } from "react";
 import { View, ScrollView } from "react-native";
@@ -24,7 +25,7 @@ class ScoreCard extends Component {
     Orientation.lockToPortrait();
   }
 
-  _renderHeader({ holeNumber, index, par, players }, startFrom, endTo) {
+  _renderHeader({ holeNumber, index, par, players }, startFrom, endTo, type) {
     const mapData = holeNumber.slice(startFrom, endTo);
 
     return (
@@ -44,7 +45,7 @@ class ScoreCard extends Component {
           ))}
           <View style={styles.width3}>
             <Text type="bold" size="xxSmall">
-              In
+              {type}
             </Text>
           </View>
           <View style={styles.width3}>
@@ -68,12 +69,12 @@ class ScoreCard extends Component {
           ))}
           <View style={styles.width3}>
             <Text color={Colors.text.secondary} size="xxSmall">
-              22
+              {``}
             </Text>
           </View>
           <View style={styles.width3}>
             <Text color={Colors.text.secondary} size="xxSmall">
-              22
+              {""}
             </Text>
           </View>
         </View>
@@ -98,13 +99,13 @@ class ScoreCard extends Component {
           ))}
           <View style={styles.width3}>
             <Text color={Colors.text.secondary} size="xxSmall">
-              22
+              {_.sum(par)}
             </Text>
           </View>
 
           <View style={styles.width3}>
             <Text color={Colors.text.secondary} size="xxSmall">
-              22
+              {_.sum(par)}
             </Text>
           </View>
         </View>
@@ -114,14 +115,14 @@ class ScoreCard extends Component {
 
   _renderPlayersScore({ holeNumber, index, par, players }, startFrom, endTo) {
     return (
-      <View style={AppStyles.flexRow}>
+      <View style={[AppStyles.flexRow, styles.scoreRowWrapper]}>
         <View style={AppStyles.flex}>
           {players.map(playerItem => {
             const mapData = playerItem.score.slice(startFrom, endTo);
 
             return (
               <View style={[AppStyles.flexRow, AppStyles.borderBottomGrey]}>
-                <View style={styles.playerNameWrapper}>
+                <View style={AppStyles.flex}>
                   <Text style={styles.width1} size="xSmall">
                     {playerItem.name}
                   </Text>
@@ -158,10 +159,10 @@ class ScoreCard extends Component {
     );
   }
 
-  _renderView(data, startFrom, endTo) {
+  _renderView(data, startFrom, endTo, type) {
     return (
       <View>
-        {this._renderHeader(data, startFrom, endTo)}
+        {this._renderHeader(data, startFrom, endTo, type)}
         {this._renderPlayersScore(data, startFrom, endTo)}
       </View>
     );
@@ -179,10 +180,10 @@ class ScoreCard extends Component {
           titleAlign="left"
         />
         <View style={styles.innerWrapper}>
-          <ScrollView>
-            {this._renderView(scoreCardData, 0, 9)}
+          <ScrollView contentContainerStyle={{ minWidth: 660 }}>
+            {this._renderView(scoreCardData, 0, 9, "Out")}
             <View style={AppStyles.mBottom20} />
-            {this._renderView(scoreCardData, 9, 18)}
+            {this._renderView(scoreCardData, 9, 18, "In")}
           </ScrollView>
         </View>
       </View>

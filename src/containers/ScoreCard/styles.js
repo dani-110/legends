@@ -21,7 +21,7 @@ export default StyleSheet.create({
     paddingVertical: 2,
     ...AppStyles.centerInner
   },
-  playerNameWrapper: {
+  scoreRowWrapper: {
     borderLeftWidth: 3,
     borderLeftColor: Colors.purple,
     flex: 1
@@ -32,7 +32,7 @@ export default StyleSheet.create({
   },
   innerWrapper: {
     paddingLeft: isIphoneX() ? 40 : 0,
-    // width: 660,
+    // width: 680,
     flex: 1,
     paddingBottom: isIphoneX() ? 30 : 0
   }
