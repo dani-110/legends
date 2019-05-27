@@ -1,6 +1,7 @@
 const white = "#FFFFFF";
 const black = "#000000";
 const black2 = "#283045";
+const black2Tinted = "rgba(40,48,69,0.5)";
 const grey = "#707070";
 const grey2 = "#dedee7";
 const grey3 = "#a3a3b5";
@@ -87,6 +88,7 @@ export default {
   greenTintZeroPointFive,
   red2,
   black2,
+  black2Tinted,
   blue2,
   red3,
   graphColorOne,

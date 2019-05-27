@@ -24,7 +24,12 @@ import {
   Poty,
   ScoreCard,
   Lcl,
-  Profile
+  Profile,
+  Settings,
+  LclLiveScore,
+  DmpLiveScore,
+  LmpLiveScore,
+  PotyLiveScore
 } from "../containers";
 
 function onBackPress() {
@@ -65,6 +70,7 @@ const navigator = Actions.create(
           <Scene key="dashboard_tab" component={Dashboard} hideNavBar />
           <Scene key="live_tab" component={LiveTab} hideNavBar />
           <Scene key="notification_tab" component={Notification} hideNavBar />
+          <Scene key="settings" component={Settings} hideNavBar />
         </Tabs>
       </Scene>
       <Scene key="news" component={News} hideNavBar />
@@ -72,6 +78,10 @@ const navigator = Actions.create(
       <Scene key="scoreCard" component={ScoreCard} hideNavBar />
       <Scene key="lcl" component={Lcl} hideNavBar />
       <Scene key="profile" component={Profile} hideNavBar />
+      <Scene key="potylivescore" component={PotyLiveScore} hideNavBar />
+      <Scene key="lcllivescore" component={LclLiveScore} hideNavBar />
+      <Scene key="dmplivescore" component={DmpLiveScore} hideNavBar />
+      <Scene key="lmplivescore" component={LmpLiveScore} hideNavBar />
     </Drawer>
   </Stack>
 );

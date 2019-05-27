@@ -20,6 +20,8 @@ export default class ListItem extends React.Component {
   render() {
     const { sectionTitle, data } = this.props;
     const { time, title, desc } = data;
+    const navigateTO = `${sectionTitle.toLowerCase()}livescore`;
+
     let bg = "";
     if (sectionTitle === MATCH_TYPES.POTY) {
       bg = Colors.blue2;
@@ -32,8 +34,10 @@ export default class ListItem extends React.Component {
     }
     return (
       <ButtonView
+        onPress={() => {
+          Actions.jump(navigateTO);
+        }}
         style={[styles.container, { backgroundColor: bg }]}
-        onPress={() => Actions.jump("notification_tab")}
       >
         <View
           style={[

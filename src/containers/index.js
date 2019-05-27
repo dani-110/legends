@@ -10,6 +10,11 @@ import ScoreCard from "./ScoreCard";
 import Lcl from "./Lcl";
 import Profile from "./Profile";
 import News from "./News";
+import Settings from "./Settings";
+import LclLiveScore from "./LclLiveScore";
+import DmpLiveScore from "./DmpLiveScore";
+import LmpLiveScore from "./LmpLiveScore";
+import PotyLiveScore from "./PotyLiveScore";
 
 export {
   Login,
@@ -22,5 +27,10 @@ export {
   ScoreCard,
   Lcl,
   Profile,
-  News
+  News,
+  Settings,
+  LclLiveScore,
+  DmpLiveScore,
+  LmpLiveScore,
+  PotyLiveScore
 };
