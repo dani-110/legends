@@ -7,6 +7,7 @@ import news from "./news";
 import general from "./general";
 import liveMatches from "./liveMatches";
 import notification from "./notification";
+import scoreCard from "./scoreCard";
 import liveScore from "./liveScore";
 
 export default combineReducers({
@@ -17,5 +18,6 @@ export default combineReducers({
   general,
   liveMatches,
   notification,
+  scoreCard,
   liveScore
 });
