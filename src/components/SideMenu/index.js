@@ -15,7 +15,7 @@ const DRAWER_ITEMS = [
     text: "LCL",
     onPress: () => Actions.lcl()
   },
-  { text: "LMP", onPress: () => {} },
+  { text: "LMP", onPress: () => Actions.lmp() },
   { text: "DMP", onPress: () => {} },
   { text: "Rules", onPress: () => {} },
   {
