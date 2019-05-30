@@ -16,6 +16,7 @@ import DmpLiveScore from "./DmpLiveScore";
 import LmpLiveScore from "./LmpLiveScore";
 import PotyLiveScore from "./PotyLiveScore";
 import EnterScore from "./EnterScore";
+import Lmp from "./Lmp";
 
 export {
   Login,
@@ -34,5 +35,6 @@ export {
   DmpLiveScore,
   LmpLiveScore,
   PotyLiveScore,
-  EnterScore
+  EnterScore,
+  Lmp
 };

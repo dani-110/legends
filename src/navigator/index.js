@@ -30,7 +30,8 @@ import {
   DmpLiveScore,
   LmpLiveScore,
   PotyLiveScore,
-  EnterScore
+  EnterScore,
+  Lmp
 } from "../containers";
 
 function onBackPress() {
@@ -78,12 +79,13 @@ const navigator = Actions.create(
       <Scene key="poty" component={Poty} hideNavBar />
       <Scene key="scoreCard" component={ScoreCard} hideNavBar />
       <Scene key="lcl" component={Lcl} hideNavBar />
+      <Scene key="lmp" component={Lmp} hideNavBar />
       <Scene key="profile" component={Profile} hideNavBar />
       <Scene key="potylivescore" component={PotyLiveScore} hideNavBar />
       <Scene key="lcllivescore" component={LclLiveScore} hideNavBar />
       <Scene key="dmplivescore" component={DmpLiveScore} hideNavBar />
       <Scene key="lmplivescore" component={LmpLiveScore} hideNavBar />
-      <Scene key="enterscore" component={EnterScore} hideNavBar initial />
+      <Scene key="enterscore" component={EnterScore} hideNavBar />
     </Drawer>
   </Stack>
 );
