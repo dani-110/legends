@@ -31,7 +31,10 @@ export default class NewsItem extends React.Component {
           {`  ${data.desc}`}
         </Text>
         <View style={[styles.imageContainer, AppStyles.mTop15]}>
-          <Image source={{ uri: data.image }} style={[styles.image]} />
+          <Image
+            source={{ uri: data.image }}
+            style={{ width: "100%", height: 220 }}
+          />
         </View>
       </View>
     );

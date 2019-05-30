@@ -7,6 +7,7 @@ import { View, Image as RNImage } from "react-native";
 import { Text, ButtonView, Image } from "../../../components";
 import styles from "./styles";
 import { AppStyles, Colors, Images } from "../../../theme";
+import { Actions } from "react-native-router-flux";
 
 class NewsItem extends React.Component {
   static propTypes = {
@@ -58,7 +59,10 @@ class NewsItem extends React.Component {
               {data.desc}
             </Text>
 
-            <ButtonView style={[AppStyles.mTop15]}>
+            <ButtonView
+              style={[AppStyles.mTop15]}
+              onPress={() => Actions.news()}
+            >
               <Text
                 type="bold"
                 size="xSmall"
