@@ -50,7 +50,7 @@ const navigator = Actions.create(
     headerStyle={styles.header}
     headerTintColor={Colors.navbar.text}
   >
-    <Scene key="welcome" component={Welcome} hideNavBar />
+    <Scene key="welcome" component={Welcome} hideNavBar initial />
     <Scene key="login" component={Login} hideNavBar />
     <Scene key="forgotPassword" component={ForgotPassword} hideNavBar />
 
@@ -60,7 +60,6 @@ const navigator = Actions.create(
       contentComponent={SideMenu}
       drawerWidth={250}
       drawerPosition="left"
-      initial
     >
       <Scene hideNavBar key="dashboard">
         <Tabs
@@ -70,7 +69,7 @@ const navigator = Actions.create(
           labelStyle={{ fontSize: 12 }}
           tabBarPosition="bottom"
         >
-          <Scene key="dashboard_tab" component={Dashboard} hideNavBar initial />
+          <Scene key="dashboard_tab" component={Dashboard} hideNavBar />
           <Scene key="live_tab" component={LiveTab} hideNavBar />
           <Scene key="notification_tab" component={Notification} hideNavBar />
           <Scene key="settings" component={Settings} hideNavBar />
@@ -87,7 +86,7 @@ const navigator = Actions.create(
       <Scene key="lcllivescore" component={LclLiveScore} hideNavBar />
       <Scene key="dmplivescore" component={DmpLiveScore} hideNavBar />
       <Scene key="lmplivescore" component={LmpLiveScore} hideNavBar />
-      <Scene key="enterscore" component={EnterScore} hideNavBar initial />
+      <Scene key="enterscore" component={EnterScore} hideNavBar />
     </Drawer>
   </Stack>
 );
