@@ -1,5 +1,6 @@
 // @flow
 import { StyleSheet } from "react-native";
+import { isIphoneX } from "react-native-iphone-x-helper";
 import { Colors, AppStyles } from "../../theme";
 
 export default StyleSheet.create({
@@ -56,5 +57,39 @@ export default StyleSheet.create({
   },
   itemWon: {
     backgroundColor: Colors.green
+  },
+
+  innerWrapper: {
+    paddingLeft: isIphoneX() ? 40 : 0,
+    flex: 1,
+    paddingBottom: isIphoneX() ? 30 : 0,
+    maxWidth: 581,
+    alignSelf: "center"
+  },
+  headerItemWrapper: {
+    width: 177,
+    borderRightWidth: 1,
+    borderRightColor: Colors.black,
+    paddingRight: 10,
+    marginRight: 10
+  },
+  headerLastItemWrapper: {
+    borderRightWidth: 0
+  },
+  tabsItemWrapper: {
+    backgroundColor: Colors.background.secondary,
+    marginHorizontal: 2,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderBottomRightRadius: 5,
+    borderBottomLeftRadius: 5,
+    width: 85
+  },
+  tabsItemsWrapper: {
+    borderTopWidth: 1,
+    borderTopColor: Colors.grey2
+  },
+  tabsSelectedItemWrapper: {
+    backgroundColor: Colors.black2
   }
 });
