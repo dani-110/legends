@@ -30,6 +30,7 @@ import {
   DmpLiveScore,
   LmpLiveScore,
   PotyLiveScore,
+  EnterScore,
   Lmp
 } from "../containers";
 
@@ -84,6 +85,7 @@ const navigator = Actions.create(
       <Scene key="lcllivescore" component={LclLiveScore} hideNavBar />
       <Scene key="dmplivescore" component={DmpLiveScore} hideNavBar />
       <Scene key="lmplivescore" component={LmpLiveScore} hideNavBar />
+      <Scene key="enterscore" component={EnterScore} hideNavBar />
     </Drawer>
   </Stack>
 );

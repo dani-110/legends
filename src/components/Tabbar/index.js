@@ -83,7 +83,9 @@ const livematchtabsData = [
     selectedImage: Images.arrow_circle_green,
     disableImage: Images.arrow_circle_grey,
     type: BUTTON_TYPES.textIcon,
-    onPress: () => {}
+    onPress: () => {
+      Actions.jump("enterscore");
+    }
   }
 ];
 
