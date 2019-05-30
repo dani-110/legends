@@ -18,6 +18,7 @@ const clock = require("../assets/icon/clock/clock.png");
 const clock_white = require("../assets/icon/clock_white/clock_white.png");
 const delete_white = require("../assets/icon/delete_white/delete_white.png");
 const arrow_right = require("../assets/icon/arrow_right/arrow_right.png");
+const arrow_left_white = require("../assets/icon/arrow_left_white/arrow_left_white.png");
 const password_eye = require("../assets/icon/password_eye/password_eye.png");
 const sort_selected = require("../assets/icon/sort_selected/sort_selected.png");
 const sort_unselected = require("../assets/icon/sort_unselected/sort_unselected.png");
@@ -29,6 +30,8 @@ const trend_icon_unselected = require("../assets/icon/trend_icon_unselected/tren
 const edit_icon = require("../assets/icon/edit_icon/edit_icon.png");
 const score_board_black = require("../assets/icon/score_board_black/score_board_black.png");
 const score_board_outline = require("../assets/icon/score_board_outline/score_board_outline.png");
+const check = require("../assets/icon/check/check.png");
+const cross = require("../assets/icon/cross/cross.png");
 
 export default {
   logo,
@@ -50,6 +53,7 @@ export default {
   clock_white,
   delete_white,
   arrow_right,
+  arrow_left_white,
   password_eye,
   sort_selected,
   sort_unselected,
@@ -60,5 +64,7 @@ export default {
   trend_icon_unselected,
   edit_icon,
   score_board_black,
-  score_board_outline
+  score_board_outline,
+  check,
+  cross
 };
