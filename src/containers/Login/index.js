@@ -72,9 +72,6 @@ class Login extends Component {
   };
 
   _onSubmit = () => {
-    setTimeout(() => {
-      Actions.reset("drawerMenu");
-    }, 500);
     if (this._validateForm()) {
       Keyboard.dismiss();
 
@@ -111,6 +108,7 @@ class Login extends Component {
     return (
       <View style={[AppStyles.cardView, styles.cardBoard]}>
         <TextInput
+          keyboardType="email-address"
           placeholder="Email"
           style={[AppStyles.inputStyle1, AppStyles.mBottom10]}
           autoCapitalize="none"
