@@ -172,7 +172,7 @@ class EnterScore extends React.Component {
     const holeInfo3 = [15, 10, 4];
 
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, AppStyles.pBottomListBottom]}>
         <CustomNavbar
           title="DMP Better Ball"
           subtitle="DHA Golf Club"
@@ -208,7 +208,6 @@ class EnterScore extends React.Component {
           </ScrollView>
         </Swiper>
         {this._renderButton()}
-        <Tabbar defaultTabbar={false} />
       </View>
     );
   }
