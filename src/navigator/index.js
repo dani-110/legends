@@ -49,7 +49,7 @@ const navigator = Actions.create(
     headerStyle={styles.header}
     headerTintColor={Colors.navbar.text}
   >
-    <Scene key="welcome" component={Welcome} hideNavBar />
+    <Scene key="welcome" component={Welcome} hideNavBar initial />
     <Scene key="login" component={Login} hideNavBar />
     <Scene key="forgotPassword" component={ForgotPassword} hideNavBar />
 
@@ -59,7 +59,6 @@ const navigator = Actions.create(
       contentComponent={SideMenu}
       drawerWidth={250}
       drawerPosition="left"
-      initial
     >
       <Scene hideNavBar key="dashboard">
         <Tabs
