@@ -49,7 +49,7 @@ const tabsData = [
     selectedImage: Images.arrow_circle_green,
     disableImage: Images.arrow_circle_grey,
     type: BUTTON_TYPES.textIcon,
-    onPress: () => {}
+    onPress: () => Actions.potylivescore()
   }
 ];
 
@@ -78,7 +78,7 @@ const livematchtabsData = [
     onPress: () => {}
   },
   {
-    name: "Emter Score",
+    name: "Enter Score",
     image: Images.arrow_circle_green,
     selectedImage: Images.arrow_circle_green,
     disableImage: Images.arrow_circle_grey,

@@ -45,9 +45,6 @@ class Settings extends Component {
             onValueChange={value => this._toggleSwitch(index, value)}
             value={item.isEnable}
           />
-          <Text style={AppStyles.mLeft10}>
-            {item.isEnable === true ? "On" : "Off"}{" "}
-          </Text>
         </View>
       </View>
     );

@@ -16,7 +16,7 @@ const DRAWER_ITEMS = [
     onPress: () => Actions.lcl()
   },
   { text: "LMP", onPress: () => Actions.lmp() },
-  { text: "DMP", onPress: () => {} },
+  { text: "DMP", onPress: () => Actions.dmp() },
   { text: "Rules", onPress: () => {} },
   {
     text: "News",
@@ -30,7 +30,7 @@ const DRAWER_ITEMS = [
       Actions.settings();
     }
   },
-  { text: "Logout", onPress: () => {} }
+  { text: "Logout", onPress: () => Actions.reset("login") }
 ];
 
 export default class SideMenu extends React.PureComponent {

@@ -9,6 +9,7 @@ import { NAVBAR_THEME } from "../../constants";
 import styles from "./styles";
 import Tabbar from "../../components/Tabbar";
 import { AppStyles, Colors, Images } from "../../theme";
+import { Actions } from "react-native-router-flux";
 
 const rowData = [
   ["Name", "KK", "AH", "AB", "SA"],
@@ -30,6 +31,10 @@ class EnterScore extends React.Component {
   static propTypes = {};
 
   static defaultProps = {};
+
+  componentWillUnmount() {
+    console.log("Enter score unmounted");
+  }
 
   _renderHoleInfo(holeInfo) {
     return (
@@ -136,7 +141,10 @@ class EnterScore extends React.Component {
         </View>
       </View>
       <View style={[AppStyles.baseMargin]}>
-        <ButtonView style={[styles.scoreCardButton]}>
+        <ButtonView
+          style={[styles.scoreCardButton]}
+          onPress={() => Actions.scoreCard()}
+        >
           <Text textAlign="center" color={Colors.white}>
             View Full ScoreCard
           </Text>

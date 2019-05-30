@@ -23,6 +23,7 @@ class ScoreCard extends Component {
 
   componentWillUnmount() {
     Orientation.lockToPortrait();
+    console.log("Score card unmounted");
   }
 
   _renderHeader({ holeNumber, index, par, players }, startFrom, endTo, type) {
