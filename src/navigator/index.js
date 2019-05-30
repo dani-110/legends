@@ -78,7 +78,7 @@ const navigator = Actions.create(
       <Scene key="poty" component={Poty} hideNavBar />
       <Scene key="scoreCard" component={ScoreCard} hideNavBar />
       <Scene key="lcl" component={Lcl} hideNavBar />
-      <Scene key="lmp" component={Lmp} hideNavBar initial />
+      <Scene key="lmp" component={Lmp} hideNavBar />
       <Scene key="profile" component={Profile} hideNavBar />
       <Scene key="potylivescore" component={PotyLiveScore} hideNavBar />
       <Scene key="lcllivescore" component={LclLiveScore} hideNavBar />

@@ -76,7 +76,7 @@ class Lmp extends React.Component {
 
     setTimeout(() => {
       this.onTabChangeMode = false;
-    }, 500);
+    }, 1000);
   };
   _onHorizontalScoll = event => {
     if (!this.onTabChangeMode) {
