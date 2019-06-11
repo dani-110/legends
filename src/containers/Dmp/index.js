@@ -156,7 +156,6 @@ class Dmp extends React.Component {
     return (
       <View key={`item-${index}`} style={[styles.itemWrapper]}>
         <View style={[styles.item, item.won && styles.itemWon]}>
-          {console.log(item)}
           {item.name.map((name, nameIndex) => (
             <Text key={`name-${nameIndex}`} color={Colors.white} size="xxSmall">
               {name}

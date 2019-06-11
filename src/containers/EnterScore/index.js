@@ -32,10 +32,6 @@ class EnterScore extends React.Component {
 
   static defaultProps = {};
 
-  componentWillUnmount() {
-    console.log("Enter score unmounted");
-  }
-
   _renderHoleInfo(holeInfo) {
     return (
       <View
