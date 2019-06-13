@@ -6,7 +6,7 @@ import moment from "moment";
 import { View, Image as RNImage } from "react-native";
 import { Text, ButtonView, Image } from "../../../components";
 import styles from "./styles";
-import { AppStyles, Colors, Images } from "../../../theme";
+import { AppStyles, Colors, Images, Fonts } from "../../../theme";
 import { Actions } from "react-native-router-flux";
 
 class NewsItem extends React.Component {
@@ -40,7 +40,7 @@ class NewsItem extends React.Component {
               <Text
                 type="bold"
                 color={Colors.green}
-                style={[AppStyles.alignItemsCenter]}
+                style={[AppStyles.alignItemsCenter , { lineHeight: Fonts.size.normal }]}
               >
                 {` ${moment(data.date).fromNow()}`}
               </Text>

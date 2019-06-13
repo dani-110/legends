@@ -32,6 +32,10 @@ const score_board_black = require("../assets/icon/score_board_black/score_board_
 const score_board_outline = require("../assets/icon/score_board_outline/score_board_outline.png");
 const check = require("../assets/icon/check/check.png");
 const cross = require("../assets/icon/cross/cross.png");
+const tournament_selected = require("../assets/icon/tournament_selected/tournament_selected.png");
+const tournament_unselected = require("../assets/icon/tournament_unselected/tournament_unselected.png");
+const calendar_selected = require("../assets/icon/calendar_selected/calendar_selected.png");
+const calendar_unselected = require("../assets/icon/calendar_unselected/calendar_unselected.png");
 
 export default {
   logo,
@@ -66,5 +70,9 @@ export default {
   score_board_black,
   score_board_outline,
   check,
-  cross
+  cross,
+  tournament_selected,
+  tournament_unselected,
+  calendar_selected,
+  calendar_unselected
 };

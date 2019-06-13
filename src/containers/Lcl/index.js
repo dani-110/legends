@@ -19,7 +19,7 @@ export default class Lcl extends Component {
       onPress: () => Util.setSelectedTabIndex(this, 0)
     },
     {
-      image: "sort",
+      image: "calendar",
       title: "Monthly Matches",
       onPress: () => Util.setSelectedTabIndex(this, 1)
     }

@@ -1,6 +1,6 @@
 // @flow
 import React from "react";
-import { View, Image } from "react-native";
+import { View, Image, Linking } from "react-native";
 import { Actions } from "react-native-router-flux";
 import { Text, ButtonView } from "../../components";
 import { Images, Colors, AppStyles } from "../../theme";
@@ -17,7 +17,12 @@ const DRAWER_ITEMS = [
   },
   { text: "LMP", onPress: () => Actions.lmp() },
   { text: "DMP", onPress: () => Actions.dmp() },
-  { text: "Rules", onPress: () => {} },
+  {
+    text: "Rules",
+    onPress: () => {
+      Linking.openURL("https://www.google.com");
+    }
+  },
   {
     text: "News",
     onPress: () => {
@@ -57,7 +62,7 @@ export default class SideMenu extends React.PureComponent {
 
   renderOptionsList() {
     return (
-      <View style={AppStyles.padding10}>
+      <View style={[AppStyles.flex, AppStyles.padding10]}>
         {DRAWER_ITEMS.map((element, index) => (
           <ButtonView
             style={styles.listItem}
@@ -76,11 +81,22 @@ export default class SideMenu extends React.PureComponent {
     );
   }
 
+  renderVersionNumber() {
+    return (
+      <View style={[AppStyles.mBottom30]}>
+        <Text textAlign="center" color={Colors.grey} size="small">
+          Version 0.0.1
+        </Text>
+      </View>
+    );
+  }
+
   render() {
     return (
       <View style={styles.container}>
         {this.renderUserDetails()}
         {this.renderOptionsList()}
+        {this.renderVersionNumber()}
       </View>
     );
   }

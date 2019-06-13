@@ -76,7 +76,7 @@ class Profile extends Component {
           ]}
           onPress={Actions.scoreCard}
         >
-          <RNImage source={Images.calendar} />
+          <RNImage style={styles.calendarImage} source={Images.calendar} />
           <Text style={[AppStyles.mLeft10]} color={Colors.white}>
             View Latest ScoreCard
           </Text>

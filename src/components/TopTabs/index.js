@@ -29,6 +29,7 @@ export default class TopTabs extends React.PureComponent {
         key={index}
       >
         <Image
+          style={styles.icon}
           source={
             Images[`${data.image}${isActive ? "_selected" : "_unselected"}`]
           }

@@ -19,5 +19,9 @@ export default StyleSheet.create({
     height: 3,
     backgroundColor: Colors.green,
     bottom: -1
+  },
+
+  icon: {
+    marginRight: 5
   }
 });

@@ -23,11 +23,11 @@ class PotyLiveScore extends React.Component {
 
   TABS_DATA = [
     {
-      title: "Gross",
+      title: "Net",
       onPress: () => Util.setSelectedTabIndex(this, 0)
     },
     {
-      title: "Net",
+      title: "Gross",
       onPress: () => Util.setSelectedTabIndex(this, 1)
     }
   ];
