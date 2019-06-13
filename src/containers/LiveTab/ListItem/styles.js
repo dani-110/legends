@@ -8,6 +8,14 @@ export default StyleSheet.create({
     backgroundColor: Colors.red,
     borderRadius: Metrics.borderRadius,
     padding: 14,
+    position: "relative",
     ...AppStyles.mBottom10
+  },
+  arrow_right: {
+    position: "absolute",
+    right: 20,
+    height: 10,
+    top: "50%",
+    transform: [{ translateY: 9 }]
   }
 });
