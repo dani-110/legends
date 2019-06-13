@@ -139,10 +139,10 @@ class EnterScore extends React.Component {
       <View style={[AppStyles.baseMargin]}>
         <ButtonView
           style={[styles.scoreCardButton]}
-          onPress={() => Actions.scoreCard()}
+          onPress={() => Actions.live_tab_scorecard()}
         >
           <Text textAlign="center" color={Colors.white}>
-            View Full ScoreCard
+            View Full Score Card
           </Text>
         </ButtonView>
       </View>

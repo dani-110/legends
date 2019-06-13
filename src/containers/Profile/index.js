@@ -74,7 +74,7 @@ class Profile extends Component {
             AppStyles.flexRow,
             AppStyles.centerInner
           ]}
-          onPress={Actions.scoreCard}
+          onPress={Actions.dashboard_tab_scorecard}
         >
           <RNImage style={styles.calendarImage} source={Images.calendar} />
           <Text style={[AppStyles.mLeft10]} color={Colors.white}>
@@ -100,7 +100,7 @@ class Profile extends Component {
   render() {
     const { activeTabIndex } = this.state;
     return (
-      <View style={[styles.container, AppStyles.pBottomListBottom]}>
+      <View style={[styles.container, AppStyles.flex]}>
         <CustomNavbar
           title=""
           hasBorder={false}

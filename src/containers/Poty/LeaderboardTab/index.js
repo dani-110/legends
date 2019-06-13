@@ -38,7 +38,7 @@ class LeaderboardTab extends Component {
 
   _renderListing(data) {
     return (
-      <View style={AppStyles.pBottomListBottom}>
+      <View style={AppStyles.flex}>
         <FlatList
           data={data}
           renderItem={this._renderItem}

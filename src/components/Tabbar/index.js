@@ -27,7 +27,7 @@ const tabsData = [
     image: Images.home_outline,
     selectedImage: Images.home_black,
     type: BUTTON_TYPES.icon,
-    onPress: () => Actions.dashboard_tab()
+    onPress: () => Actions.jump("dashboard_tab_main")
   },
   {
     name: "live",
@@ -167,7 +167,8 @@ class Tabbar extends React.PureComponent {
 }
 
 const mapStateToProps = ({ general }) => ({
-  selectedIndex: general.selectedIndex
+  selectedIndex: general.selectedIndex,
+  defaultTabbar: general.defaultTabbar
 });
 
 const actions = { setSelectedTab };

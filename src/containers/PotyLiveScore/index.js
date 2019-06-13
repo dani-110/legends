@@ -9,10 +9,12 @@ import { NAVBAR_THEME } from "../../constants";
 import Tabbar from "../../components/Tabbar";
 import PotyScoreTable from "./PotyScoreTable";
 import Util from "../../util";
+import { setTabbarType } from "../../actions/GeneralActions";
 
 class PotyLiveScore extends React.Component {
   static propTypes = {
-    liveScoreData: PropTypes.array.isRequired
+    liveScoreData: PropTypes.array.isRequired,
+    setTabbarType: PropTypes.func.isRequired
   };
 
   static defaultProps = {};
@@ -38,6 +40,14 @@ class PotyLiveScore extends React.Component {
     );
   }
 
+  componentWillMount() {
+    this.props.setTabbarType(false);
+  }
+
+  componentWillUnmount() {
+    this.props.setTabbarType(true);
+  }
+
   render() {
     const { liveScoreData } = this.props;
     const { activeTabIndex } = this.state;
@@ -60,7 +70,7 @@ class PotyLiveScore extends React.Component {
           <PotyScoreTable liveScoreData={liveScoreData} />
         )}
 
-        <Tabbar defaultTabbar={false} />
+        {/* <Tabbar defaultTabbar={false} /> */}
       </View>
     );
   }
@@ -70,7 +80,7 @@ const mapStateToProps = ({ liveScore }) => ({
   liveScoreData: liveScore.poty
 });
 
-const actions = {};
+const actions = { setTabbarType };
 
 export default connect(
   mapStateToProps,

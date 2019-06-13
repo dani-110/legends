@@ -18,7 +18,7 @@ class News extends Component {
   static defaultProps = {};
 
   _renderNews = newsData => (
-    <View style={[AppStyles.flex, AppStyles.pBottomListBottom]}>
+    <View style={[AppStyles.flex]}>
       <FlatList
         data={newsData}
         renderItem={this._renderItem}
