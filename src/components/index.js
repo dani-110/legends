@@ -14,6 +14,7 @@ import GreenBgFlayer from "./GreenBgFlayer";
 import Image from "./Image";
 import TopTabs from "./TopTabs";
 import ScoreValue from "./ScoreValue";
+import CustomKeyboard from "./CustomKeyboard"
 
 export {
   Button,
@@ -30,5 +31,6 @@ export {
   GreenBgFlayer,
   Image,
   TopTabs,
-  ScoreValue
+  ScoreValue,
+  CustomKeyboard
 };

@@ -2,9 +2,9 @@
 import { connect } from "react-redux";
 import React from "react";
 import PropTypes from "prop-types";
-import { View, Image as RNImage, ScrollView } from "react-native";
+import { View, Image as RNImage, ScrollView , TouchableOpacity} from "react-native";
 import Swiper from "react-native-swiper";
-import { Text, CustomNavbar, ButtonView } from "../../components";
+import { Text, CustomNavbar, ButtonView ,CustomKeyboard} from "../../components";
 import { NAVBAR_THEME } from "../../constants";
 import styles from "./styles";
 import Tabbar from "../../components/Tabbar";
@@ -92,12 +92,14 @@ class EnterScore extends React.Component {
                 {React.isValidElement(item) ? (
                   <View style={AppStyles.centerInner}>{item}</View>
                 ) : (
+                  <TouchableOpacity>
                   <Text
                     textAlign={itemIndex === 0 ? "left" : "center"}
                     style={itemIndex !== 0 && AppStyles.centerInner}
                   >
                     {item}
                   </Text>
+                  </TouchableOpacity>
                 )}
               </View>
             ))}
@@ -212,6 +214,7 @@ class EnterScore extends React.Component {
           </ScrollView>
         </Swiper>
         {this._renderButton()}
+        <CustomKeyboard/>
       </View>
     );
   }
