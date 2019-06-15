@@ -19,9 +19,32 @@ class PotyLiveScore extends React.Component {
 
   static defaultProps = {};
 
+  static onEnter() {
+    if (PotyLiveScore.instance) {
+      PotyLiveScore.instance._onEnter();
+    }
+  }
+
+  static onExit() {
+    if (PotyLiveScore.instance) {
+      PotyLiveScore.instance._onExit();
+    }
+  }
+
+  constructor(props) {
+    super(props);
+    PotyLiveScore.instance = this;
+  }
+
   state = {
     activeTabIndex: 0
   };
+
+  _renderTabsHeader() {
+    return (
+      <TopTabs data={this.TABS_DATA} activeIndex={this.state.activeTabIndex} />
+    );
+  }
 
   TABS_DATA = [
     {
@@ -34,17 +57,11 @@ class PotyLiveScore extends React.Component {
     }
   ];
 
-  _renderTabsHeader() {
-    return (
-      <TopTabs data={this.TABS_DATA} activeIndex={this.state.activeTabIndex} />
-    );
-  }
-
-  componentWillMount() {
+  _onEnter() {
     this.props.setTabbarType(false);
   }
 
-  componentWillUnmount() {
+  _onExit() {
     this.props.setTabbarType(true);
   }
 

@@ -34,7 +34,7 @@ const tabsData = [
     image: Images.live_outline,
     selectedImage: Images.live_black,
     type: BUTTON_TYPES.icon,
-    onPress: () => Actions.live_tab()
+    onPress: () => Actions.jump("live_tab_main")
   },
   {
     name: "notifications",
@@ -75,7 +75,7 @@ const livematchtabsData = [
     image: Images.score_board_outline,
     selectedImage: Images.score_board_black,
     type: BUTTON_TYPES.icon,
-    onPress: () => {}
+    onPress: () => Actions.jump("live_tab_main")
   },
   {
     name: "Enter Score",
@@ -93,82 +93,85 @@ class Tabbar extends React.PureComponent {
   static propTypes = {
     selectedIndex: PropTypes.number.isRequired,
     setSelectedTab: PropTypes.func.isRequired,
-    defaultTabbar: PropTypes.bool
+    defaultTabbar: PropTypes.bool.isRequired,
+    showTabbar: PropTypes.bool.isRequired
   };
 
-  static defaultProps = {
-    defaultTabbar: true
-  };
+  static defaultProps = {};
 
   renderSelectedBar() {
     return <View style={styles.selectedBar} />;
   }
 
   render() {
-    const { selectedIndex, defaultTabbar } = this.props;
+    const { selectedIndex, defaultTabbar, showTabbar } = this.props;
+    console.log("Show tabbar", showTabbar);
     // const selectedIndex = 4;
     const data = defaultTabbar ? tabsData : livematchtabsData;
     return (
-      <View style={styles.container}>
-        {data.map((element, index) => {
-          if (element.type === BUTTON_TYPES.icon) {
+      showTabbar && (
+        <View style={styles.container}>
+          {data.map((element, index) => {
+            if (element.type === BUTTON_TYPES.icon) {
+              return (
+                <ButtonView
+                  key={index}
+                  style={styles.itemWrapper}
+                  onPress={() => {
+                    if (index !== 0) {
+                      this.props.setSelectedTab(index);
+                    }
+
+                    element.onPress();
+                  }}
+                >
+                  <View style={styles.btn1}>
+                    <Image
+                      source={
+                        selectedIndex === index
+                          ? element.selectedImage
+                          : element.image
+                      }
+                    />
+                  </View>
+                  {selectedIndex === index && this.renderSelectedBar()}
+                </ButtonView>
+              );
+            }
+
             return (
               <ButtonView
                 key={index}
                 style={styles.itemWrapper}
-                onPress={() => {
-                  if (index !== 0) {
-                    this.props.setSelectedTab(index);
-                  }
-
-                  element.onPress();
-                }}
+                onPress={element.onPress}
               >
-                <View style={styles.btn1}>
+                <View style={styles.btn2}>
                   <Image
                     source={
                       selectedIndex === index
                         ? element.selectedImage
                         : element.image
                     }
+                    style={styles.btn2Image}
                   />
+                  <Text size="xSmall" color={Colors.green}>
+                    {element.name}
+                  </Text>
                 </View>
                 {selectedIndex === index && this.renderSelectedBar()}
               </ButtonView>
             );
-          }
-
-          return (
-            <ButtonView
-              key={index}
-              style={styles.itemWrapper}
-              onPress={element.onPress}
-            >
-              <View style={styles.btn2}>
-                <Image
-                  source={
-                    selectedIndex === index
-                      ? element.selectedImage
-                      : element.image
-                  }
-                  style={styles.btn2Image}
-                />
-                <Text size="xSmall" color={Colors.green}>
-                  {element.name}
-                </Text>
-              </View>
-              {selectedIndex === index && this.renderSelectedBar()}
-            </ButtonView>
-          );
-        })}
-      </View>
+          })}
+        </View>
+      )
     );
   }
 }
 
 const mapStateToProps = ({ general }) => ({
   selectedIndex: general.selectedIndex,
-  defaultTabbar: general.defaultTabbar
+  defaultTabbar: general.defaultTabbar,
+  showTabbar: general.showTabbar
 });
 
 const actions = { setSelectedTab };

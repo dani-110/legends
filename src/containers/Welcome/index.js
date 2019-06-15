@@ -35,14 +35,14 @@ class Welcome extends Component {
     return (
       <View style={styles.container}>
         <ImageBackground
-          source={Images.splash_bg}
+          source={Images.splash_background}
           style={styles.imageBackground}
-          resizeMode="stretch"
+          resizeMode="cover"
         >
           <Image
-            source={Images.logo}
+            source={Images.splash_logo}
             style={styles.image}
-            resizeMode="contain"
+            resizeMode="cover"
           />
         </ImageBackground>
       </View>
