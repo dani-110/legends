@@ -3,83 +3,86 @@ import PropTypes from "prop-types";
 import {
   TouchableOpacity,
   TouchableNativeFeedback,
-  View
+  View,
+  Image
 } from "react-native";
 import Util from "../../util";
 import styles from "./styles";
-import {Text } from "../" 
+import { Text } from "../";
+import { Images } from "../../theme";
 
 export default class CustomKeyboard extends React.PureComponent {
   static propTypes = {
     mini: PropTypes.bool,
+    visible: PropTypes.bool,
+    onKeyPress: PropTypes.func,
     children: PropTypes.node.isRequired,
     rippleOnAndroid: PropTypes.bool
   };
 
   static defaultProps = {
     mini: false,
-    rippleOnAndroid: false
+    rippleOnAndroid: false,
+    visible: true,
+    onKeyPress: () => {
+      console.log("Key pressed");
+    }
   };
 
   render() {
-    const { mini } = this.props;
+    const { mini, visible, onKeyPress } = this.props;
+    const miniKeys = [
+      "Del",
+      <Image source={Images.cross} />,
+      <Image source={Images.check} />
+    ];
+    const numericKeys = [
+      ["Del", "0", "1", "2", "3", "4"],
+      ["-", "5", "6", "7", "8", "9"]
+    ];
 
-    if (Util.isPlatformAndroid() && rippleOnAndroid) {
-      return (
-        <TouchableNativeFeedback {...rest}>
-          <View style={style}>{this.props.children}</View>
-        </TouchableNativeFeedback>
-      );
+    if (!visible) {
+      return null;
     }
 
     return (
       <View style={styles.container}>
         {mini ? (
-          <View>
-            <Text>mini</Text>
+          <View style={styles.miniWraper}>
+            {miniKeys.map((item, index) => (
+              <TouchableOpacity
+                onPress={() => onKeyPress(item)}
+                style={styles.miniKeyBoardButton}
+              >
+                {React.isValidElement(item) ? (
+                  <View>{item}</View>
+                ) : (
+                  <Text type="bold">{item}</Text>
+                )}
+              </TouchableOpacity>
+            ))}
           </View>
         ) : (
           <View style={styles.numericWraper}>
-          <View style={styles.rowView}>
-            <TouchableOpacity style={styles.numericButton}>
-              <Text type = "bold">Del</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.numericButton}>
-              <Text type = "bold">0</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.numericButton}>
-              <Text type = "bold">1</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.numericButton}>
-              <Text type = "bold">2</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.numericButton}>
-              <Text type = "bold">3</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.numericButton}>
-              <Text type = "bold">4</Text>
-            </TouchableOpacity>
-            </View>
-            <View style={styles.rowView}>
-            <TouchableOpacity style={[styles.numericButton , styles.noBorderBottom]}>
-              <Text type = "bold">-</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.numericButton , styles.noBorderBottom]}>
-              <Text type = "bold">5</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.numericButton , styles.noBorderBottom]}>
-              <Text type = "bold">6</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.numericButton , styles.noBorderBottom]}>
-              <Text type = "bold">7</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.numericButton , styles.noBorderBottom]}>
-              <Text type = "bold">8</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.numericButton , styles.noBorderBottom]}>
-              <Text type = "bold">9</Text>
-            </TouchableOpacity>
-            </View>
+            {numericKeys.map((row, current) => {
+              // sad
+              console.log({ row, current });
+              return (
+                <View style={styles.rowView}>
+                  {row.map((item, indexx) => {
+                    console.log({ rowss: row, currentsss: current });
+                    return (
+                      <TouchableOpacity
+                        onPress={() => onKeyPress(item)}
+                        style={styles.numericButton}
+                      >
+                        <Text type="bold">{item}</Text>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
+              );
+            })}
           </View>
         )}
       </View>

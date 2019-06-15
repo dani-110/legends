@@ -11,7 +11,8 @@ export default StyleSheet.create({
     },
     shadowOpacity: 0.1,
     shadowRadius: 5,
-    elevation: 5
+    elevation: 5,
+    bottom: 0
   },
   numericWraper: {
     height: 80,
@@ -28,10 +29,24 @@ export default StyleSheet.create({
     borderEndWidth: 0.5,
     borderEndColor: Colors.greyTint
   },
-  noBorderBottom : {
-    borderBottomWidth: 0,
+  noBorderBottom: {
+    borderBottomWidth: 0
   },
-  rowView : {
-    flexDirection : "row"
+  rowView: {
+    flexDirection: "row"
+  },
+  miniWraper: {
+    height: 40,
+    width: "100%",
+    backgroundColor: "white",
+    flexDirection: "row"
+  },
+  miniKeyBoardButton: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: 45,
+    width: "33.33%",
+    borderEndWidth: 0.5,
+    borderEndColor: Colors.greyTint
   }
 });
