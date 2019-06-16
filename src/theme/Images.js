@@ -37,7 +37,7 @@ const tournament_unselected = require("../assets/icon/tournament_unselected/tour
 const calendar_selected = require("../assets/icon/calendar_selected/calendar_selected.png");
 const calendar_unselected = require("../assets/icon/calendar_unselected/calendar_unselected.png");
 const arrow_right_white = require("../assets/icon/arrow_right_white/arrow_right_white.png");
-
+const no_image = require("../assets/images/noImage.png");
 export default {
   logo,
   splash_bg,
@@ -76,5 +76,6 @@ export default {
   tournament_unselected,
   calendar_selected,
   calendar_unselected,
-  arrow_right_white
+  arrow_right_white,
+  no_image
 };
