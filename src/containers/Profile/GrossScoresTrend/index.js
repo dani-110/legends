@@ -64,7 +64,7 @@ class GrossScoresTrend extends React.Component {
           </StackedAreaChart>
         </View>
         <Text textAlign="center" size="xxLarge" color={Colors.grey3}>
-          Tournaments
+          Tournament(s)
         </Text>
       </View>
     );

@@ -4,19 +4,49 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { View } from "react-native";
 import styles from "./styles";
-import { Text, CustomNavbar, TopTabs } from "../../components";
+import { CustomNavbar, TopTabs } from "../../components";
 import { NAVBAR_THEME } from "../../constants";
 import Util from "../../util";
 import SinglesOne from "./SinglesOne";
-import { AppStyles } from "../../theme";
 import Foursome from "./Foursome";
 import SinglesTwo from "./SinglesTwo";
-import Tabbar from "../../components/Tabbar";
+import { setTabbarType } from "../../actions/GeneralActions";
 
 class LclLiveScore extends Component {
+  static propTypes = {
+    setTabbarType: PropTypes.func.isRequired
+  };
+
+  static defaultProps = {};
+
+  static onEnter() {
+    if (LclLiveScore.instance) {
+      LclLiveScore.instance._onEnter();
+    }
+  }
+
+  static onExit() {
+    if (LclLiveScore.instance) {
+      LclLiveScore.instance._onExit();
+    }
+  }
+
+  constructor(props) {
+    super(props);
+    LclLiveScore.instance = this;
+  }
+
   state = {
     activeTabIndex: 0
   };
+
+  _onEnter() {
+    this.props.setTabbarType(false);
+  }
+
+  _onExit() {
+    this.props.setTabbarType(true);
+  }
 
   TABS_DATA = [
     {
@@ -54,7 +84,6 @@ class LclLiveScore extends Component {
         {activeTabIndex === 0 && <SinglesOne />}
         {activeTabIndex === 1 && <Foursome />}
         {activeTabIndex === 2 && <SinglesTwo />}
-        {<Tabbar defaultTabbar={false} />}
       </View>
     );
   }
@@ -62,7 +91,7 @@ class LclLiveScore extends Component {
 
 const mapStateToProps = () => ({});
 
-const actions = {};
+const actions = { setTabbarType };
 
 export default connect(
   mapStateToProps,

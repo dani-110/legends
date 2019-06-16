@@ -2,35 +2,71 @@
 import { connect } from "react-redux";
 import React from "react";
 import PropTypes from "prop-types";
-import { View, Image as RNImage, ScrollView } from "react-native";
+import {
+  View,
+  Image as RNImage,
+  ScrollView,
+  TouchableOpacity
+} from "react-native";
 import Swiper from "react-native-swiper";
-import { Text, CustomNavbar, ButtonView } from "../../components";
+import {
+  Text,
+  CustomNavbar,
+  ButtonView,
+  CustomKeyboard
+} from "../../components";
 import { NAVBAR_THEME } from "../../constants";
 import styles from "./styles";
 import Tabbar from "../../components/Tabbar";
 import { AppStyles, Colors, Images } from "../../theme";
 import { Actions } from "react-native-router-flux";
+import _ from "lodash";
 
-const rowData = [
-  ["Name", "KK", "AH", "AB", "SA"],
-  ["Stroke", 3, 4, 5, 4],
-  [
-    "FIR",
-    <RNImage source={Images.cross} />,
-    <RNImage source={Images.cross} />,
-    "",
-    <RNImage source={Images.check} />
-  ],
-  ["GIR", "", "", ""],
-  ["Putts", 3, 4, 5, 4],
-  ["Net", -1, -4, -1, -1],
-  ["Gross", +2, +5, +2, +2]
-];
+// const rowData = [
+//   ["Name", "KK", "AH", "AB", "SA"],
+//   ["Stroke", 7, 4, 5, 4],
+//   [
+//     "FIR",
+//     <RNImage source={Images.cross} />,
+//     <RNImage source={Images.cross} />,
+//     "",
+//     <RNImage source={Images.check} />
+//   ],
+//   ["GIR", "", "", ""],
+//   ["Putts", 3, 4, 5, 4],
+//   ["Net", -1, -4, -1, -1],
+//   ["Gross", +2, +5, +2, +2]
+// ];
 
 class EnterScore extends React.Component {
   static propTypes = {};
 
   static defaultProps = {};
+  constructor(props) {
+    super(props);
+    var RCTUIManager = require("NativeModules").UIManager;
+    this.state = {
+      showKeyBoard: false,
+      miniKeyBoard: false,
+      current: -1,
+      index: -1,
+      rowData: [
+        ["Name", "KK", "AH", "AB", "SA"],
+        ["Stroke", 7, 4, 5, 4],
+        [
+          "FIR",
+          <RNImage source={Images.cross} />,
+          <RNImage source={Images.cross} />,
+          "",
+          <RNImage source={Images.check} />
+        ],
+        ["GIR", "", "", ""],
+        ["Putts", 3, 4, 5, 4],
+        ["Net", -1, -4, -1, -1],
+        ["Gross", +2, +5, +2, +2]
+      ]
+    };
+  }
 
   _renderHoleInfo(holeInfo) {
     return (
@@ -69,8 +105,14 @@ class EnterScore extends React.Component {
       </View>
     );
   }
+  _showKeyBoard(mini, current, index) {
+    this.myScroll.scrollToEnd({ animated: true });
+    this.setState({ showKeyBoard: true, miniKeyBoard: mini, current, index });
+  }
 
   _renderScoreTable() {
+    const { rowData } = this.state;
+    console.log(rowData, "rowDatarowData");
     return (
       <View>
         {rowData.map((row, index) => (
@@ -90,14 +132,76 @@ class EnterScore extends React.Component {
                 style={[itemIndex === 0 ? AppStyles.flex2 : styles.column]}
               >
                 {React.isValidElement(item) ? (
-                  <View style={AppStyles.centerInner}>{item}</View>
-                ) : (
-                  <Text
-                    textAlign={itemIndex === 0 ? "left" : "center"}
-                    style={itemIndex !== 0 && AppStyles.centerInner}
+                  <View
+                    style={
+                      index == this.state.current &&
+                      itemIndex == this.state.index
+                        ? {
+                            borderColor: Colors.grey,
+                            borderWidth: 0.5,
+                            height: 20,
+                            width: 40,
+                            justifyContent: "center"
+                          }
+                        : {
+                            borderColor: Colors.transparent,
+                            borderWidth: 0.5,
+                            height: 20,
+                            width: 40,
+                            justifyContent: "center"
+                          }
+                    }
                   >
-                    {item}
-                  </Text>
+                    <TouchableOpacity
+                      style={AppStyles.centerInner}
+                      onPress={() => this._showKeyBoard(true, index, itemIndex)}
+                    >
+                      {item}
+                    </TouchableOpacity>
+                  </View>
+                ) : (
+                  <View
+                    style={
+                      index == this.state.current &&
+                      itemIndex == this.state.index
+                        ? {
+                            borderColor: Colors.grey,
+                            borderWidth: 0.5,
+                            height: 20,
+                            minWidth: 40,
+                            justifyContent: "center"
+                          }
+                        : {
+                            borderColor: Colors.transparent,
+                            borderWidth: 0.5,
+                            height: 20,
+                            minWidth: 40,
+                            justifyContent: "center"
+                          }
+                    }
+                  >
+                    {isNaN(item) ? (
+                      <Text
+                        textAlign={itemIndex === 0 ? "left" : "center"}
+                        style={itemIndex !== 0 && AppStyles.centerInner}
+                      >
+                        {item}
+                      </Text>
+                    ) : (
+                      <TouchableOpacity
+                        onPress={() =>
+                          this._showKeyBoard(false, index, itemIndex)
+                        }
+                      >
+                        <Text
+                          textAlign={itemIndex === 0 ? "left" : "center"}
+                          style={itemIndex !== 0 && AppStyles.centerInner}
+                        >
+                          {item}
+                        </Text>
+                      </TouchableOpacity>
+                    )}
+                  </View>
                 )}
               </View>
             ))}
@@ -139,10 +243,10 @@ class EnterScore extends React.Component {
       <View style={[AppStyles.baseMargin]}>
         <ButtonView
           style={[styles.scoreCardButton]}
-          onPress={() => Actions.scoreCard()}
+          onPress={() => Actions.live_tab_scorecard()}
         >
           <Text textAlign="center" color={Colors.white}>
-            View Full ScoreCard
+            View Full Score Card
           </Text>
         </ButtonView>
       </View>
@@ -152,6 +256,14 @@ class EnterScore extends React.Component {
   _onClickScroll = toIndex => {
     const { index, total } = this._swiper.state;
     const countSlides = total - 1;
+    if (this.state.showKeyBoard) {
+      this.setState({
+        showKeyBoard: false,
+        miniKeyBoard: false,
+        current: -1,
+        index: -1
+      });
+    }
     if (index !== toIndex && toIndex >= 0 && toIndex <= countSlides) {
       let resultSlide = 0;
       if (toIndex > index && toIndex !== countSlides) {
@@ -169,14 +281,48 @@ class EnterScore extends React.Component {
       }
     }
   };
+  _hideKeyboard() {
+    if (this.state.showKeyBoard) {
+      this.setState({
+        showKeyBoard: false,
+        miniKeyBoard: false,
+        current: -1,
+        index: -1
+      });
+    }
+  }
+  _keyPress(text) {
+    const { current, index, rowData, miniKeyBoard } = this.state;
+    tempData = _.cloneDeep(rowData);
+    currentText = tempData[current][index];
+    if (miniKeyBoard) {
+      if (text != "Del") {
+        tempData[current][index] = text;
+      } else {
+        tempData[current][index] = null;
+      }
+    } else {
+      if (text != "Del" && text != "-") {
+        tempData[current][index] = text;
+      } else if (text === "Del") {
+        tempData[current][index] = "";
+      }
+    }
+    this.setState({ rowData: tempData });
+  }
 
   render() {
     const holeInfo1 = [13, 10, 4];
     const holeInfo2 = [14, 10, 4];
     const holeInfo3 = [15, 10, 4];
+    console.log(this.state);
 
     return (
-      <View style={[styles.container, AppStyles.pBottomListBottom]}>
+      <TouchableOpacity
+        activeOpacity={9}
+        onPress={() => this._hideKeyboard()}
+        style={styles.container}
+      >
         <CustomNavbar
           title="DMP Better Ball"
           subtitle="DHA Golf Club"
@@ -184,35 +330,49 @@ class EnterScore extends React.Component {
           theme={NAVBAR_THEME.WHITE}
           titleAlign="center"
         />
-        <Swiper
-          ref={swiper => {
-            this._swiper = swiper;
+        <ScrollView
+          ref={ref => {
+            this.myScroll = ref;
           }}
-          showsButtons={false}
-          loop={false}
-          showsPagination={false}
         >
-          <ScrollView>
-            <View style={[AppStyles.flex]}>
-              {this._renderHoleInfo(holeInfo1)}
-              {this._renderScoreTable()}
+          <Swiper
+            style={{ height: 450 }}
+            ref={swiper => {
+              this._swiper = swiper;
+            }}
+            showsButtons={false}
+            loop={false}
+            showsPagination={false}
+          >
+            <View>
+              <View>
+                {this._renderHoleInfo(holeInfo1)}
+                {this._renderScoreTable()}
+              </View>
             </View>
-          </ScrollView>
-          <ScrollView>
-            <View style={[AppStyles.flex]}>
-              {this._renderHoleInfo(holeInfo2)}
-              {this._renderScoreTable()}
+            <View>
+              <View>
+                {this._renderHoleInfo(holeInfo2)}
+                {this._renderScoreTable()}
+              </View>
             </View>
-          </ScrollView>
-          <ScrollView>
-            <View style={[AppStyles.flex]}>
-              {this._renderHoleInfo(holeInfo3)}
-              {this._renderScoreTable()}
+            <View>
+              <View>
+                {this._renderHoleInfo(holeInfo3)}
+                {this._renderScoreTable()}
+              </View>
             </View>
-          </ScrollView>
-        </Swiper>
+          </Swiper>
+        </ScrollView>
         {this._renderButton()}
-      </View>
+        <CustomKeyboard
+          visible={this.state.showKeyBoard}
+          mini={this.state.miniKeyBoard}
+          onKeyPress={text => {
+            this._keyPress(text);
+          }}
+        />
+      </TouchableOpacity>
     );
   }
 }

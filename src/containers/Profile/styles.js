@@ -49,5 +49,9 @@ export default StyleSheet.create({
   },
   scoreCardButtonIcon: {
     position: "absolute"
+  },
+  calendarImage: {
+    position: "absolute",
+    left: 40
   }
 });

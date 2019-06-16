@@ -3,6 +3,7 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { View } from "react-native";
+import AnimateNumber from "react-native-animate-number";
 import { Text, ButtonView } from "../../../components";
 import styles from "./styles";
 // import Util from "../../../util";
@@ -31,8 +32,16 @@ class Scores extends React.Component {
           { backgroundColor: bgColor }
         ]}
       >
-        <Text color={bgColor !== Colors.white ? Colors.white : Colors.black}>
-          {score}
+        <Text
+          size="small"
+          color={bgColor !== Colors.white ? Colors.white : Colors.black}
+        >
+          <AnimateNumber
+            value={score.value}
+            formatter={val => `${val}${score.suffix}`}
+            countBy={1}
+            interval={42}
+          />
         </Text>
       </View>
       {!labelOnTop && (

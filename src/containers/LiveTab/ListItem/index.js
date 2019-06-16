@@ -57,6 +57,7 @@ export default class ListItem extends React.Component {
         <Text size="small" color={Colors.windowTintWhite}>
           {desc}
         </Text>
+        <Image source={Images.arrow_right_white} style={styles.arrow_right} />
       </ButtonView>
     );
   }

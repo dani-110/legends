@@ -5,7 +5,7 @@ import { View, Image as RNImage } from "react-native";
 import PropTypes from "prop-types";
 import { Text, Image } from "../../../components";
 import styles from "./styles";
-import { AppStyles, Colors, Images } from "../../../theme";
+import { AppStyles, Colors, Images, Fonts } from "../../../theme";
 
 export default class NewsItem extends React.Component {
   static propTypes = {
@@ -21,14 +21,14 @@ export default class NewsItem extends React.Component {
           <Text
             type="bold"
             color={Colors.green}
-            style={[AppStyles.alignItemsCenter]}
+            style={[AppStyles.alignItemsCenter , {lineHeight:Fonts.size.normal}]}
           >
             {` ${moment(data.date).fromNow()}`}
           </Text>
         </View>
         <Text style={AppStyles.mTop10}>
-          <Text type="bold">{data.title}</Text>
-          {`  ${data.desc}`}
+          <Text type="bold" color={Colors.black2}>{data.title}</Text>
+          <Text size="small" color={Colors.grey}>{`  ${data.desc}`}</Text>
         </Text>
         <View style={[styles.imageContainer, AppStyles.mTop15]}>
           <Image

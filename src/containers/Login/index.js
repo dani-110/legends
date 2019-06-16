@@ -141,7 +141,13 @@ class Login extends Component {
               });
             }}
           >
-            <Image source={Images.password_eye} />
+            <Image
+              source={
+                this.state.hidePassword
+                  ? Images.password_eye
+                  : Images.password_eye_crossed
+              }
+            />
           </ButtonView>
         </View>
 

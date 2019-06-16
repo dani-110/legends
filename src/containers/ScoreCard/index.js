@@ -9,13 +9,32 @@ import { CustomNavbar, Text, ScoreValue } from "../../components";
 import { NAVBAR_THEME } from "../../constants";
 import styles from "./styles";
 import { AppStyles, Colors } from "../../theme";
+import { toggleTabbar } from "../../actions/GeneralActions";
 
 class ScoreCard extends Component {
   static propTypes = {
-    scoreCardData: PropTypes.object.isRequired
+    scoreCardData: PropTypes.object.isRequired,
+    toggleTabbar: PropTypes.func.isRequired
   };
 
   static defaultProps = {};
+
+  static onEnter() {
+    if (ScoreCard.instance) {
+      ScoreCard.instance._onEnter();
+    }
+  }
+
+  static onExit() {
+    if (ScoreCard.instance) {
+      ScoreCard.instance._onExit();
+    }
+  }
+
+  constructor(props) {
+    super(props);
+    ScoreCard.instance = this;
+  }
 
   componentWillMount() {
     Orientation.lockToLandscapeRight();
@@ -23,6 +42,14 @@ class ScoreCard extends Component {
 
   componentWillUnmount() {
     Orientation.lockToPortrait();
+  }
+
+  _onEnter() {
+    this.props.toggleTabbar(false);
+  }
+
+  _onExit() {
+    this.props.toggleTabbar(true);
   }
 
   _renderHeader({ holeNumber, index, par, players }, startFrom, endTo, type) {
@@ -195,7 +222,7 @@ const mapStateToProps = ({ scoreCard }) => ({
   scoreCardData: scoreCard.data
 });
 
-const actions = {};
+const actions = { toggleTabbar };
 
 export default connect(
   mapStateToProps,

@@ -63,7 +63,7 @@ export default StyleSheet.create({
     paddingLeft: isIphoneX() ? 40 : 0,
     flex: 1,
     paddingBottom: isIphoneX() ? 30 : 0,
-    maxWidth: 581,
+    // maxWidth: 581,
     alignSelf: "center"
   },
   headerItemWrapper: {

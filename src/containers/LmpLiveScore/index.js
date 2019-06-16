@@ -7,14 +7,40 @@ import styles from "./styles";
 import ScoreTable from "../../components/ScoreTable";
 import { CustomNavbar } from "../../components";
 import { NAVBAR_THEME } from "../../constants";
-import Tabbar from "../../components/Tabbar";
+import { setTabbarType } from "../../actions/GeneralActions";
 
 class LmpLiveScore extends React.Component {
   static propTypes = {
-    liveScoreData: PropTypes.object.isRequired
+    liveScoreData: PropTypes.object.isRequired,
+    setTabbarType: PropTypes.func.isRequired
   };
 
   static defaultProps = {};
+
+  static onEnter() {
+    if (LmpLiveScore.instance) {
+      LmpLiveScore.instance._onEnter();
+    }
+  }
+
+  static onExit() {
+    if (LmpLiveScore.instance) {
+      LmpLiveScore.instance._onExit();
+    }
+  }
+
+  constructor(props) {
+    super(props);
+    LmpLiveScore.instance = this;
+  }
+
+  _onEnter() {
+    this.props.setTabbarType(false);
+  }
+
+  _onExit() {
+    this.props.setTabbarType(true);
+  }
 
   _renderScoreTable() {
     const { liveScoreData } = this.props;
@@ -32,7 +58,6 @@ class LmpLiveScore extends React.Component {
           titleAlign="center"
         />
         {this._renderScoreTable()}
-        <Tabbar defaultTabbar={false} />
       </View>
     );
   }
@@ -42,7 +67,7 @@ const mapStateToProps = ({ liveScore }) => ({
   liveScoreData: liveScore.lmp
 });
 
-const actions = {};
+const actions = { setTabbarType };
 
 export default connect(
   mapStateToProps,

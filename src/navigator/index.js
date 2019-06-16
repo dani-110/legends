@@ -69,24 +69,33 @@ const navigator = Actions.create(
           labelStyle={{ fontSize: 12 }}
           tabBarPosition="bottom"
         >
-          <Scene key="dashboard_tab" component={Dashboard} hideNavBar />
-          <Scene key="live_tab" component={LiveTab} hideNavBar />
+          <Stack key="dashboard_tab">
+            <Scene key="dashboard_tab_main" component={Dashboard} hideNavBar />
+            <Scene key="news" component={News} hideNavBar />
+            <Scene key="poty" component={Poty} hideNavBar />
+            <Scene key="lcl" component={Lcl} hideNavBar />
+            <Scene key="profile" component={Profile} hideNavBar />
+            <Scene
+              key="dashboard_tab_scorecard"
+              component={ScoreCard}
+              hideNavBar
+            />
+            <Scene key="settings" component={Settings} hideNavBar />
+          </Stack>
+          <Stack key="live_tab">
+            <Scene key="live_tab_main" component={LiveTab} hideNavBar />
+            <Scene key="potylivescore" component={PotyLiveScore} hideNavBar />
+            <Scene key="lcllivescore" component={LclLiveScore} hideNavBar />
+            <Scene key="dmplivescore" component={DmpLiveScore} hideNavBar />
+            <Scene key="lmplivescore" component={LmpLiveScore} hideNavBar />
+            <Scene key="enterscore" component={EnterScore} hideNavBar />
+            <Scene key="live_tab_scorecard" component={ScoreCard} hideNavBar />
+          </Stack>
           <Scene key="notification_tab" component={Notification} hideNavBar />
-          <Scene key="settings" component={Settings} hideNavBar />
         </Tabs>
+        <Scene key="lmp" component={Lmp} hideNavBar />
+        <Scene key="dmp" component={Dmp} hideNavBar />
       </Scene>
-      <Scene key="news" component={News} hideNavBar />
-      <Scene key="poty" component={Poty} hideNavBar />
-      <Scene key="scoreCard" component={ScoreCard} hideNavBar />
-      <Scene key="lcl" component={Lcl} hideNavBar />
-      <Scene key="lmp" component={Lmp} hideNavBar />
-      <Scene key="dmp" component={Dmp} hideNavBar />
-      <Scene key="profile" component={Profile} hideNavBar />
-      <Scene key="potylivescore" component={PotyLiveScore} hideNavBar />
-      <Scene key="lcllivescore" component={LclLiveScore} hideNavBar />
-      <Scene key="dmplivescore" component={DmpLiveScore} hideNavBar />
-      <Scene key="lmplivescore" component={LmpLiveScore} hideNavBar />
-      <Scene key="enterscore" component={EnterScore} hideNavBar />
     </Drawer>
   </Stack>
 );

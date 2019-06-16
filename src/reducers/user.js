@@ -7,11 +7,11 @@ const initialState = Immutable({
   data: {
     handicap: 9.6,
     scores: {
-      blue: 10,
-      white: 9,
-      fir: "30.6%",
-      gir: "28.6%",
-      ppr: 30.14
+      blue: { value: 10, suffix: "" },
+      white: { value: 9, suffix: "" },
+      fir: { value: 30.6, suffix: "%" },
+      gir: { value: 28.6, suffix: "%" },
+      ppr: { value: 30.14, suffix: "" }
     },
     grossScoreTrend: [
       {

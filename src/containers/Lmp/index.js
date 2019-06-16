@@ -225,7 +225,7 @@ class Lmp extends React.Component {
             <ScrollView>{this._renderChart()}</ScrollView>
           </ScrollView>
 
-          {this._renderTabs(selectedTabIndex)}
+          {/* {this._renderTabs(selectedTabIndex)} */}
         </View>
       </View>
     );

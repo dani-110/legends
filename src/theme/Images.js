@@ -20,6 +20,7 @@ const delete_white = require("../assets/icon/delete_white/delete_white.png");
 const arrow_right = require("../assets/icon/arrow_right/arrow_right.png");
 const arrow_left_white = require("../assets/icon/arrow_left_white/arrow_left_white.png");
 const password_eye = require("../assets/icon/password_eye/password_eye.png");
+const password_eye_crossed = require("../assets/icon/password_eye_crossed/password_eye_crossed.png");
 const sort_selected = require("../assets/icon/sort_selected/sort_selected.png");
 const sort_unselected = require("../assets/icon/sort_unselected/sort_unselected.png");
 const notification_bell = require("../assets/icon/notification_bell/notification_bell.png");
@@ -32,6 +33,13 @@ const score_board_black = require("../assets/icon/score_board_black/score_board_
 const score_board_outline = require("../assets/icon/score_board_outline/score_board_outline.png");
 const check = require("../assets/icon/check/check.png");
 const cross = require("../assets/icon/cross/cross.png");
+const tournament_selected = require("../assets/icon/tournament_selected/tournament_selected.png");
+const tournament_unselected = require("../assets/icon/tournament_unselected/tournament_unselected.png");
+const calendar_selected = require("../assets/icon/calendar_selected/calendar_selected.png");
+const calendar_unselected = require("../assets/icon/calendar_unselected/calendar_unselected.png");
+const arrow_right_white = require("../assets/icon/arrow_right_white/arrow_right_white.png");
+const splash_background = require("../assets/images/splash_background/splash_background.png");
+const splash_logo = require("../assets/images/splash_logo/splash_logo.png");
 
 export default {
   logo,
@@ -55,6 +63,7 @@ export default {
   arrow_right,
   arrow_left_white,
   password_eye,
+  password_eye_crossed,
   sort_selected,
   sort_unselected,
   notification_bell,
@@ -66,5 +75,12 @@ export default {
   score_board_black,
   score_board_outline,
   check,
-  cross
+  cross,
+  tournament_selected,
+  tournament_unselected,
+  calendar_selected,
+  calendar_unselected,
+  arrow_right_white,
+  splash_background,
+  splash_logo
 };

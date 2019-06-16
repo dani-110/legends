@@ -20,7 +20,7 @@ class Poty extends Component {
       onPress: () => Util.setSelectedTabIndex(this, 0)
     },
     {
-      image: "sort",
+      image: "tournament",
       title: "Tournaments",
       onPress: () => Util.setSelectedTabIndex(this, 1)
     }
