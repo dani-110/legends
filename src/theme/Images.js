@@ -38,9 +38,13 @@ const tournament_unselected = require("../assets/icon/tournament_unselected/tour
 const calendar_selected = require("../assets/icon/calendar_selected/calendar_selected.png");
 const calendar_unselected = require("../assets/icon/calendar_unselected/calendar_unselected.png");
 const arrow_right_white = require("../assets/icon/arrow_right_white/arrow_right_white.png");
+<<<<<<< HEAD
 const splash_background = require("../assets/images/splash_background/splash_background.png");
 const splash_logo = require("../assets/images/splash_logo/splash_logo.png");
 
+=======
+const no_image = require("../assets/images/noImage.png");
+>>>>>>> alpha_issues_keyboard
 export default {
   logo,
   splash_bg,
@@ -82,5 +86,6 @@ export default {
   calendar_unselected,
   arrow_right_white,
   splash_background,
-  splash_logo
+  splash_logo,
+  no_image
 };

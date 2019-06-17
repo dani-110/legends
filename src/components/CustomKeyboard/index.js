@@ -49,18 +49,22 @@ export default class CustomKeyboard extends React.PureComponent {
       <View style={styles.container}>
         {mini ? (
           <View style={styles.miniWraper}>
-            {miniKeys.map((item, index) => (
-              <TouchableOpacity
-                onPress={() => onKeyPress(item)}
-                style={styles.miniKeyBoardButton}
-              >
-                {React.isValidElement(item) ? (
-                  <View>{item}</View>
-                ) : (
-                  <Text type="bold">{item}</Text>
-                )}
-              </TouchableOpacity>
-            ))}
+            {miniKeys.map((item, index) => {
+              const per =
+                index == 0 ? "noImage" : index == 1 ? "cross" : "check";
+              return (
+                <TouchableOpacity
+                  onPress={() => onKeyPress(per)}
+                  style={styles.miniKeyBoardButton}
+                >
+                  {React.isValidElement(item) ? (
+                    <View>{item}</View>
+                  ) : (
+                    <Text type="bold">{item}</Text>
+                  )}
+                </TouchableOpacity>
+              );
+            })}
           </View>
         ) : (
           <View style={styles.numericWraper}>
