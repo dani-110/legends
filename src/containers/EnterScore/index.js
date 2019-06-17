@@ -6,7 +6,8 @@ import {
   View,
   Image as RNImage,
   ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
+  BackHandler
 } from "react-native";
 import Swiper from "react-native-swiper";
 import {
@@ -44,7 +45,7 @@ class EnterScore extends React.Component {
   static defaultProps = {};
   constructor(props) {
     super(props);
-    var RCTUIManager = require("NativeModules").UIManager;
+    this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
     this.state = {
       showKeyBoard: false,
       miniKeyBoard: false,
@@ -62,6 +63,28 @@ class EnterScore extends React.Component {
     };
   }
 
+  componentWillMount() {
+    BackHandler.addEventListener(
+      "hardwareBackPress",
+      this.handleBackButtonClick
+    );
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener(
+      "hardwareBackPress",
+      this.handleBackButtonClick
+    );
+  }
+
+  handleBackButtonClick() {
+    if (this.state.showKeyBoard) {
+      this._hideKeyboard();
+      return true;
+    } else {
+      return false;
+    }
+  }
   _renderHoleInfo(holeInfo) {
     return (
       <View
@@ -100,8 +123,13 @@ class EnterScore extends React.Component {
     );
   }
   _showKeyBoard(mini, current, index) {
-    this.myScroll.scrollToEnd({ animated: true });
     this.setState({ showKeyBoard: true, miniKeyBoard: mini, current, index });
+
+    setTimeout(() => {
+      if (current > 4) {
+        this.myScroll.scrollToEnd({ animated: true });
+      }
+    }, 400);
   }
 
   _renderScoreTable() {
@@ -299,7 +327,6 @@ class EnterScore extends React.Component {
     if (this.state.showKeyBoard) {
       this.setState({
         showKeyBoard: false,
-        miniKeyBoard: false,
         current: -1,
         index: -1
       });
@@ -327,11 +354,7 @@ class EnterScore extends React.Component {
     const holeInfo3 = [15, 10, 4];
 
     return (
-      <TouchableOpacity
-        activeOpacity={9}
-        onPress={() => this._hideKeyboard()}
-        style={styles.container}
-      >
+      <View style={styles.container}>
         <CustomNavbar
           title="DMP Better Ball"
           subtitle="DHA Golf Club"
@@ -342,6 +365,18 @@ class EnterScore extends React.Component {
         <ScrollView
           ref={ref => {
             this.myScroll = ref;
+          }}
+          scrollEventThrottle={5}
+          onMomentumScrollBegin={(vale, text) => {
+            console.log({ start: vale.nativeEvent.contentOffset.y });
+          }}
+          onMomentumScrollEnd={(vale, text) => {
+            console.log({ "End  ": vale.nativeEvent.contentOffset.y });
+          }}
+          onScroll={(vale, text) => {
+            if (vale.nativeEvent.contentOffset.y < -30) {
+              this._hideKeyboard();
+            }
           }}
         >
           <Swiper
@@ -381,7 +416,7 @@ class EnterScore extends React.Component {
             this._keyPress(text);
           }}
         />
-      </TouchableOpacity>
+      </View>
     );
   }
 }

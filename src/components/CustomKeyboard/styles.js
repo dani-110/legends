@@ -4,6 +4,7 @@ import { Metrics, Colors } from "../../theme";
 
 export default StyleSheet.create({
   container: {
+    backgroundColor: "white",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -11,8 +12,7 @@ export default StyleSheet.create({
     },
     shadowOpacity: 0.1,
     shadowRadius: 5,
-    elevation: 5,
-    bottom: 0
+    elevation: 5
   },
   numericWraper: {
     height: 80,

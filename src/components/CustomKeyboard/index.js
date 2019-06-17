@@ -4,7 +4,8 @@ import {
   TouchableOpacity,
   TouchableNativeFeedback,
   View,
-  Image
+  Image,
+  Animated
 } from "react-native";
 import Util from "../../util";
 import styles from "./styles";
@@ -12,6 +13,12 @@ import { Text } from "../";
 import { Images } from "../../theme";
 
 export default class CustomKeyboard extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      animation: new Animated.Value(0)
+    };
+  }
   static propTypes = {
     mini: PropTypes.bool,
     visible: PropTypes.bool,
@@ -28,6 +35,15 @@ export default class CustomKeyboard extends React.PureComponent {
       console.log("Key pressed");
     }
   };
+  toggleModal = visible => {
+    Animated.spring(this.state.animation, {
+      toValue: !visible ? 0 : 1
+    }).start();
+  };
+  componentWillReceiveProps(nextProps) {
+    console.log("prop received  ", nextProps);
+    this.toggleModal(nextProps.visible);
+  }
 
   render() {
     const { mini, visible, onKeyPress } = this.props;
@@ -41,12 +57,25 @@ export default class CustomKeyboard extends React.PureComponent {
       ["-", "5", "6", "7", "8", "9"]
     ];
 
-    if (!visible) {
-      return null;
-    }
+    // if (!visible) {
+    //   return null;
+    // }
+    const zero = new Animated.Value(0);
 
     return (
-      <View style={styles.container}>
+      <Animated.View
+        // style={styles.container}
+        style={[
+          styles.container,
+
+          {
+            marginBottom: this.state.animation.interpolate({
+              inputRange: [0, 1],
+              outputRange: [mini ? -40 : -80, 0]
+            })
+          }
+        ]}
+      >
         {mini ? (
           <View style={styles.miniWraper}>
             {miniKeys.map((item, index) => {
@@ -89,7 +118,7 @@ export default class CustomKeyboard extends React.PureComponent {
             })}
           </View>
         )}
-      </View>
+      </Animated.View>
     );
   }
 }
