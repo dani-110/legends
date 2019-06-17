@@ -72,9 +72,9 @@ class Login extends Component {
   };
 
   _onSubmit = () => {
-    setTimeout(() => {
-      Actions.reset("drawerMenu");
-    }, 500);
+    // setTimeout(() => {
+    //   Actions.reset("drawerMenu");
+    // }, 500);
     if (this._validateForm()) {
       Keyboard.dismiss();
 
