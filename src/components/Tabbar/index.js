@@ -27,14 +27,26 @@ const tabsData = [
     image: Images.home_outline,
     selectedImage: Images.home_black,
     type: BUTTON_TYPES.icon,
-    onPress: () => Actions.jump("dashboard_tab_main")
+    onPress: tabIsActive => {
+      if (tabIsActive) {
+        Actions.jump("dashboard_tab_main");
+      } else {
+        Actions.jump("dashboard_tab");
+      }
+    }
   },
   {
     name: "live",
     image: Images.live_outline,
     selectedImage: Images.live_black,
     type: BUTTON_TYPES.icon,
-    onPress: () => Actions.jump("live_tab_main")
+    onPress: tabIsActive => {
+      if (tabIsActive) {
+        Actions.jump("live_tab_main");
+      } else {
+        Actions.jump("live_tab");
+      }
+    }
   },
   {
     name: "notifications",
@@ -49,6 +61,7 @@ const tabsData = [
     selectedImage: Images.arrow_circle_green,
     disableImage: Images.arrow_circle_grey,
     type: BUTTON_TYPES.textIcon,
+    selectedTab: 2,
     onPress: () => Actions.potylivescore()
   }
 ];
@@ -75,7 +88,13 @@ const livematchtabsData = [
     image: Images.score_board_outline,
     selectedImage: Images.score_board_black,
     type: BUTTON_TYPES.icon,
-    onPress: () => Actions.jump("live_tab_main")
+    onPress: tabIsActive => {
+      if (tabIsActive) {
+        Actions.jump("live_tab_main");
+      } else {
+        Actions.jump("live_tab");
+      }
+    }
   },
   {
     name: "Enter Score",
@@ -105,7 +124,6 @@ class Tabbar extends React.PureComponent {
 
   render() {
     const { selectedIndex, defaultTabbar, showTabbar } = this.props;
-    console.log("Show tabbar", showTabbar);
     // const selectedIndex = 4;
     const data = defaultTabbar ? tabsData : livematchtabsData;
     return (
@@ -121,8 +139,7 @@ class Tabbar extends React.PureComponent {
                     if (index !== 0) {
                       this.props.setSelectedTab(index);
                     }
-
-                    element.onPress();
+                    element.onPress(selectedIndex === index);
                   }}
                 >
                   <View style={styles.btn1}>
@@ -143,7 +160,12 @@ class Tabbar extends React.PureComponent {
               <ButtonView
                 key={index}
                 style={styles.itemWrapper}
-                onPress={element.onPress}
+                onPress={() => {
+                  if (element.selectedTab) {
+                    this.props.setSelectedTab(element.selectedTab);
+                  }
+                  element.onPress(selectedIndex === index);
+                }}
               >
                 <View style={styles.btn2}>
                   <Image
