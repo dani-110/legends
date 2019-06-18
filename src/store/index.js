@@ -24,7 +24,7 @@ export default function configureStore(reducers, onComplete: Function) {
     createEngine("AppTree"),
     [
       "whitelisted-key",
-      ["user", "data"],
+      ["user", "userData"],
       ["services", "serviceTypes"],
       ["services", "serviceProviders"],
       ["user", "profileSections"]

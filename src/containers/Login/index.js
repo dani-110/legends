@@ -72,26 +72,24 @@ class Login extends Component {
   };
 
   _onSubmit = () => {
-    // setTimeout(() => {
-    //   Actions.reset("drawerMenu");
-    // }, 500);
+    const { email, password } = this.state;
     if (this._validateForm()) {
       Keyboard.dismiss();
 
-      setTimeout(() => {
-        Actions.reset("drawerMenu");
-      }, 500);
-      /* this.password.blur();
+      // setTimeout(() => {
+      //   Actions.reset("drawerMenu");
+      // }, 500);
+      this.password.blur();
       this.email.blur();
 
       const payload = {
-        email: this.emailValue,
-        password: this.passwordValue,
-        device_type: Platform.OS
-        // device_token: asd
+        email,
+        password
       };
       Util.showLoader(this);
-      this.props.userSigninRequest(payload, data => {}); */
+      this.props.userSigninRequest(payload, async data => {
+        console.log("mt response", data);
+      });
     }
   };
 
@@ -115,9 +113,10 @@ class Login extends Component {
           style={[AppStyles.inputStyle1, AppStyles.mBottom10]}
           autoCapitalize="none"
           selectionColor={Colors.black}
-          value={email}
+          value="omerartistic@gmail.com"
+          // value={email}
           ref={ref => (this.email = ref)}
-          onChangeText={value => this.setState({ email: value })}
+          // onChangeText={value => this.setState({ email: value })}
           returnKeyType="next"
           onSubmitEditing={this._onSubmitEmail}
         />
@@ -127,9 +126,10 @@ class Login extends Component {
             style={[AppStyles.inputStyle1, AppStyles.pRight30]}
             secureTextEntry={hidePassword}
             selectionColor={Colors.black}
-            value={password}
+            value="123456"
+            // value={password}
             ref={ref => (this.password = ref)}
-            onChangeText={value => this.setState({ password: value })}
+            // onChangeText={value => this.setState({ password: value })}
             returnKeyType="done"
             onSubmitEditing={this._onSubmit}
           />

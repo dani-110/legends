@@ -14,6 +14,7 @@ export const LOCATION_PERMISSION_DENIED_ERROR2 =
   "Location permission required, please go to app settings to allow access";
 export const INVALID_NAME_ERROR = "Invalid name";
 export const INVALID_EMAIL_ERROR = "Invalid email";
+export const INVALID_PASSWORD_ERROR = "Invalid password";
 export const INTERNET_ERROR = "Please connect to the working internet";
 export const SESSION_EXPIRED_ERROR = "Session expired, Please login again";
 
@@ -32,3 +33,8 @@ export const NAVBAR_THEME = { GREEN: "green", WHITE: "white" };
 
 // Match types
 export const MATCH_TYPES = { POTY: "POTY", LCL: "LCL", LMP: "LMP", DMP: "DMP" };
+
+// Error Messages
+export const ERROR_MESSAGES = {
+  invalid_credentials: "Username or password is invalid"
+};

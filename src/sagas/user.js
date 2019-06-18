@@ -60,7 +60,7 @@ function* signin() {
         ApiSauce
       );
       console.log("response", response);
-      if (response.success) {
+      if (response) {
         if (responseCallback) responseCallback(response.data.user, null);
         yield put(userSigninSuccess(response.data.user));
       } else {
@@ -68,7 +68,7 @@ function* signin() {
       }
     } catch (err) {
       if (responseCallback) responseCallback(null, err);
-      alert(Util.getErrorText(err.message));
+      alert(Util.getErrorText(err.error));
     }
   }
 }
