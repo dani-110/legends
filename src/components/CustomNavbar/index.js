@@ -136,7 +136,7 @@ export default class CustomNavbar extends React.Component {
             : {}
         ]}
       >
-        <View style={AppStyles.flexRow}>
+        <View style={[AppStyles.flexRow, AppStyles.alignItemsCenter]}>
           {this.renderLeft(leftBtnImage, leftBtnPress, leftBtnText, hasBack)}
           {this.renderTitle(title, subtitle, titleColor, theme, titleAlign)}
         </View>

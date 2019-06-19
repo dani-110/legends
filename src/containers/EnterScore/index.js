@@ -56,10 +56,9 @@ class EnterScore extends React.Component {
         ["Stroke", 7, 4, 5, 4],
         ["FIR", "cross", "cross", "noImage", "check"],
         ["GIR", "check", "cross", "cross", "noImage"],
-        ["Putts", 3, 4, 5, 4],
-        ["Net", -1, -4, -1, -1],
-        ["Gross", +2, +5, +2, +2]
-      ]
+        ["Putts", 3, 4, 5, 4]
+      ],
+      rowDataTotal: [["Net", -1, -4, -1, -1], ["Gross", +2, +5, +2, +2]]
     };
   }
 
@@ -133,7 +132,7 @@ class EnterScore extends React.Component {
   }
 
   _renderScoreTable() {
-    const { rowData } = this.state;
+    const { rowData, rowDataTotal } = this.state;
     return (
       <View>
         {rowData.map((row, index) => {
@@ -186,10 +185,16 @@ class EnterScore extends React.Component {
                           }
                         >
                           {item === "cross" && (
-                            <RNImage source={Images.cross} />
+                            <RNImage
+                              source={Images.cross}
+                              style={{ height: 12, width: 12 }}
+                            />
                           )}
                           {item === "check" && (
-                            <RNImage source={Images.check} />
+                            <RNImage
+                              source={Images.check}
+                              style={{ height: 11, width: 15 }}
+                            />
                           )}
                           {item === "noImage" && (
                             <RNImage
@@ -243,6 +248,49 @@ class EnterScore extends React.Component {
                         )}
                       </View>
                     )}
+                  </View>
+                );
+              })}
+            </View>
+          );
+        })}
+
+        {/*  */}
+
+        {rowDataTotal.map((row, index) => {
+          return (
+            <View
+              key={`row-${index}`}
+              style={[
+                styles.background,
+                AppStyles.borderBottomGrey,
+                AppStyles.flexRow,
+                AppStyles.basePadding,
+                AppStyles.alignItemsCenter
+              ]}
+            >
+              {row.map((item, itemIndex) => {
+                return (
+                  <View
+                    key={`item-${itemIndex}`}
+                    style={[itemIndex === 0 ? AppStyles.flex2 : styles.column]}
+                  >
+                    <View
+                      style={{
+                        borderColor: Colors.transparent,
+                        borderWidth: 0.5,
+                        height: 20,
+                        minWidth: 40,
+                        justifyContent: "center"
+                      }}
+                    >
+                      <Text
+                        textAlign={itemIndex === 0 ? "left" : "center"}
+                        style={itemIndex !== 0 && AppStyles.centerInner}
+                      >
+                        {item}
+                      </Text>
+                    </View>
                   </View>
                 );
               })}
@@ -339,9 +387,9 @@ class EnterScore extends React.Component {
     if (miniKeyBoard) {
       tempData[current][index] = text;
     } else {
-      if (text != "Del" && text != "-") {
+      if (text != "DEL" && text != "-") {
         tempData[current][index] = text;
-      } else if (text === "Del") {
+      } else if (text === "DEL") {
         tempData[current][index] = "";
       }
     }
