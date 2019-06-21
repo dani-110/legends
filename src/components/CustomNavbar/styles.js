@@ -1,6 +1,6 @@
 // @flow
 import { StyleSheet } from "react-native";
-import { Colors, Metrics } from "../../theme";
+import { Colors, Metrics, AppStyles } from "../../theme";
 
 export default StyleSheet.create({
   container: {
@@ -30,5 +30,8 @@ export default StyleSheet.create({
   searchHeader: {
     height: Metrics.navBarHeight + 50
   },
-  title: { width: "100%", paddingHorizontal: 15 }
+  titleContainer: {
+    paddingHorizontal: 20
+  }
+  // title: { width: "100%", paddingHorizontal: 15 }
 });

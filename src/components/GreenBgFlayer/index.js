@@ -10,7 +10,7 @@ export default class GreenBgFlayer extends React.PureComponent {
       <View style={styles.container}>
         <Image
           source={Images.login_header_wrapper}
-          resizeMode="cover"
+          resizeMode="stretch"
           style={styles.image}
         />
       </View>
