@@ -74,7 +74,7 @@ const initialState = Immutable({
       }
     ]
   },
-  userData: null
+  userData: {}
 });
 
 export default (state = initialState, action) => {

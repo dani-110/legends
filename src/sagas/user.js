@@ -61,8 +61,8 @@ function* signin() {
       );
       console.log("response", response);
       if (response) {
-        if (responseCallback) responseCallback(response.data.user, null);
-        yield put(userSigninSuccess(response.data.user));
+        if (responseCallback) responseCallback(response, null);
+        yield put(userSigninSuccess(response));
       } else {
         alert("Something went wrong");
       }

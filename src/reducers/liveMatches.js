@@ -58,11 +58,11 @@ const initialState = Immutable({
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case USER_SIGNIN.SUCCESS: {
-      return Immutable.merge(state, {
-        data: action.data
-      });
-    }
+    // case USER_SIGNIN.SUCCESS: {
+    //   return Immutable.merge(state, {
+    //     data: action.data
+    //   });
+    // }
 
     default:
       return state;

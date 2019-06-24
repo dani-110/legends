@@ -15,18 +15,25 @@ import Util from "../../util";
 
 class Login extends Component {
   static propTypes = {
-    userSigninRequest: PropTypes.func.isRequired
+    userSigninRequest: PropTypes.func.isRequired,
+    userData: PropTypes.object.isRequired
   };
   state = {
     errors: {},
     loading: false,
-    email: "",
-    password: "",
+    email: "omerartistic@gmail.com",
+    password: "123456",
     hidePassword: true
   };
 
   email;
   password;
+
+  componentWillMount() {
+    const { userData } = this.props;
+
+    userData && userData.token && Actions.reset("drawerMenu");
+  }
 
   _onSubmitEmail = () => {
     this.password.focus();
@@ -87,8 +94,8 @@ class Login extends Component {
         password
       };
       Util.showLoader(this);
-      this.props.userSigninRequest(payload, async data => {
-        console.log("mt response", data);
+      this.props.userSigninRequest(payload, data => {
+        data && data.token && Actions.reset("drawerMenu");
       });
     }
   };
@@ -113,10 +120,9 @@ class Login extends Component {
           style={[AppStyles.inputStyle1, AppStyles.mBottom10]}
           autoCapitalize="none"
           selectionColor={Colors.black}
-          value="omerartistic@gmail.com"
-          // value={email}
+          value={email}
           ref={ref => (this.email = ref)}
-          // onChangeText={value => this.setState({ email: value })}
+          onChangeText={value => this.setState({ email: value })}
           returnKeyType="next"
           onSubmitEditing={this._onSubmitEmail}
         />
@@ -126,10 +132,9 @@ class Login extends Component {
             style={[AppStyles.inputStyle1, AppStyles.pRight30]}
             secureTextEntry={hidePassword}
             selectionColor={Colors.black}
-            value="123456"
-            // value={password}
+            value={password}
             ref={ref => (this.password = ref)}
-            // onChangeText={value => this.setState({ password: value })}
+            onChangeText={value => this.setState({ password: value })}
             returnKeyType="done"
             onSubmitEditing={this._onSubmit}
           />
@@ -190,7 +195,9 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = () => ({});
+const mapStateToProps = ({ user }) => ({
+  userData: user.userData
+});
 
 const actions = { userSigninRequest };
 
