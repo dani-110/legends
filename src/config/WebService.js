@@ -1,7 +1,7 @@
 import _ from "lodash";
 import Util from "../util";
 
-export const BASE_URL = "http://dev.veteranapp.tk/api/v1/";
+export const BASE_URL = "https://legendstourgolf.com/api/";
 
 export const API_TIMEOUT = 30000;
 
@@ -37,6 +37,14 @@ export const USER_SIGNIN = {
   type: REQUEST_TYPE.POST
 };
 
+// API TOURNAMENTS ROUTES
+
+export const TOURNAMENT_POTY = {
+  route: "showtournaments",
+  access_token_required: true,
+  type: REQUEST_TYPE.GET
+};
+
 export const callRequest = function(
   url,
   data,
@@ -54,7 +62,7 @@ export const callRequest = function(
       _header = {
         ..._header,
         ...{
-          Authorization: `Bearer ${_access_token}`
+          Authorization: `${_access_token}`
         }
       };
     }

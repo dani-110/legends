@@ -1,7 +1,7 @@
 // @flow
 import Immutable from "seamless-immutable";
 import _ from "lodash";
-import { USER_SIGNIN } from "../actions/ActionTypes";
+import { TOURNAMENT_POTY } from "../actions/ActionTypes";
 
 const initialState = Immutable({
   poty: {
@@ -109,15 +109,7 @@ const initialState = Immutable({
         avatar: "https://i.imgur.com/p4gZTpc.png"
       }
     ],
-    tournaments: [
-      { title: "UMA Challenge", date: "2018-08-11", status: "complete" },
-      { title: "Candyland Open", date: "2018-08-11", status: "complete" },
-      { title: "ATCO Invitational", date: "2018-10-20", status: "complete" },
-      { title: "Engro Classic", date: "2018-12-01", status: "complete" },
-      { title: "Artistic Masters", date: "2019-01-05", status: "complete" },
-      { title: "NMC Classic", date: "2019-05-18", status: "pending" },
-      { title: "ACT Engineering Open", date: "2019-06-23", status: "pending" }
-    ]
+    tournaments: []
   },
   lcl: {
     pointsTable: [
@@ -419,9 +411,11 @@ const initialState = Immutable({
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case USER_SIGNIN.SUCCESS: {
+    case TOURNAMENT_POTY.SUCCESS: {
+      const temp = _.cloneDeep(state.poty);
+      temp.tournaments = action.data;
       return Immutable.merge(state, {
-        data: action.data
+        poty: temp
       });
     }
 

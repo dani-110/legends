@@ -1,20 +1,26 @@
 // @flow
 import { connect } from "react-redux";
 import React, { Component } from "react";
-import { View, FlatList } from "react-native";
+import { View, FlatList, ActivityIndicator } from "react-native";
 import PropTypes from "prop-types";
 import { Text } from "../../../components";
 import ListItem from "./ListItem";
+import { getPotyTournamentRequest } from "../../../actions/TournamentActions";
 import styles from "./styles";
 import { AppStyles } from "../../../theme";
 import Util from "../../../util";
 
 class TournamentsTab extends Component {
   static propTypes = {
-    tournamentsData: PropTypes.array.isRequired
+    tournamentsData: PropTypes.array.isRequired,
+    getPotyTournamentRequest: PropTypes.func.isRequired
   };
 
   static defaultProps = {};
+
+  componentWillMount() {
+    this.props.getPotyTournamentRequest("", data => {});
+  }
 
   _renderHeader() {
     return (
@@ -52,9 +58,14 @@ class TournamentsTab extends Component {
 
   render() {
     const { tournamentsData } = this.props;
-    return (
+
+    return tournamentsData.length ? (
       <View style={styles.container}>
         {this._renderListing(tournamentsData)}
+      </View>
+    ) : (
+      <View style={[AppStyles.flex, AppStyles.baseMargin]}>
+        <ActivityIndicator />
       </View>
     );
   }
@@ -63,7 +74,7 @@ const mapStateToProps = ({ tournament }) => ({
   tournamentsData: tournament.poty.tournaments
 });
 
-const actions = {};
+const actions = { getPotyTournamentRequest };
 
 export default connect(
   mapStateToProps,
