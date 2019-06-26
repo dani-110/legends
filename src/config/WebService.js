@@ -32,7 +32,7 @@ export const REQUEST_TYPE = {
 // API USER ROUTES
 
 export const USER_SIGNIN = {
-  route: "login",
+  route: "auth/signin",
   access_token_required: false,
   type: REQUEST_TYPE.POST
 };

@@ -418,7 +418,6 @@ export default (state = initialState, action) => {
         poty: temp
       });
     }
-
     default:
       return state;
   }
