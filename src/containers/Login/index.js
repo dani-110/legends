@@ -26,14 +26,14 @@ class Login extends Component {
     hidePassword: true
   };
 
-  email;
-  password;
-
   componentWillMount() {
     const { userData } = this.props;
 
-    userData && userData.token && Actions.reset("drawerMenu");
+    if (userData && userData.token) Actions.reset("drawerMenu");
   }
+
+  email;
+  password;
 
   _onSubmitEmail = () => {
     this.password.focus();
@@ -83,9 +83,6 @@ class Login extends Component {
     if (this._validateForm()) {
       Keyboard.dismiss();
 
-      // setTimeout(() => {
-      //   Actions.reset("drawerMenu");
-      // }, 500);
       this.password.blur();
       this.email.blur();
 
@@ -95,7 +92,8 @@ class Login extends Component {
       };
       Util.showLoader(this);
       this.props.userSigninRequest(payload, data => {
-        data && data.token && Actions.reset("drawerMenu");
+        Util.hideLoader(this);
+        if (data && data.token) Actions.reset("drawerMenu");
       });
     }
   };
@@ -112,7 +110,7 @@ class Login extends Component {
   }
 
   renderLoginForm() {
-    const { email, password, hidePassword } = this.state;
+    const { email, password, hidePassword, loading } = this.state;
     return (
       <View style={[AppStyles.cardView, styles.cardBoard]}>
         <TextInput
@@ -168,6 +166,7 @@ class Login extends Component {
           style={[AppStyles.mTop20]}
           indicatorColor={Colors.white}
           onPress={this._onSubmit}
+          isLoading={loading}
         >
           LOG IN
         </Button>
@@ -176,8 +175,6 @@ class Login extends Component {
   }
 
   render() {
-    const { loading } = this.state;
-
     return (
       <View style={styles.container}>
         <Image
