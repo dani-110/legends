@@ -1,7 +1,7 @@
 // @flow
 import { connect } from "react-redux";
 import React, { Component } from "react";
-import { View, FlatList, ActivityIndicator } from "react-native";
+import { View, FlatList } from "react-native";
 import PropTypes from "prop-types";
 import { Text } from "../../../components";
 import ListItem from "./ListItem";
@@ -18,8 +18,15 @@ class TournamentsTab extends Component {
 
   static defaultProps = {};
 
+  state = {
+    loading: false
+  };
+
   componentWillMount() {
-    this.props.getPotyTournamentRequest("", data => {});
+    Util.showLoader(this);
+    this.props.getPotyTournamentRequest("", data => {
+      Util.hideLoader(this);
+    });
   }
 
   _renderHeader() {
@@ -51,6 +58,7 @@ class TournamentsTab extends Component {
           keyExtractor={Util.keyExtractor}
           ListHeaderComponent={this._renderHeader}
           stickyHeaderIndices={[0]}
+          ListEmptyComponent={Util.renderEmptyComponent}
         />
       </View>
     );
@@ -58,14 +66,13 @@ class TournamentsTab extends Component {
 
   render() {
     const { tournamentsData } = this.props;
+    const { loading } = this.state;
 
-    return tournamentsData.length ? (
+    if (loading) return Util.renderLoader();
+
+    return (
       <View style={styles.container}>
         {this._renderListing(tournamentsData)}
-      </View>
-    ) : (
-      <View style={[AppStyles.flex, AppStyles.baseMargin]}>
-        <ActivityIndicator />
       </View>
     );
   }
