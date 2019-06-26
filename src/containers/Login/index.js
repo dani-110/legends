@@ -6,7 +6,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Actions } from "react-native-router-flux";
 import KeyboardSpacer from "react-native-keyboard-spacer";
-import { INVALID_EMAIL_ERROR, INVALID_PASSWORD_ERROR } from "../../constants";
+import { ERROR_MESSAGES } from "../../constants";
 import { userSigninRequest } from "../../actions/UserActions";
 import { Text, ButtonView, Loader, Button } from "../../components";
 import { Images, AppStyles, Colors } from "../../theme";
@@ -21,8 +21,8 @@ class Login extends Component {
   state = {
     errors: {},
     loading: false,
-    email: "omerartistic@gmail.com",
-    password: "123456",
+    email: "",
+    password: "",
     hidePassword: true
   };
 
@@ -53,7 +53,7 @@ class Login extends Component {
     }
     if (!Util.isEmailValid(email)) {
       // invalid email
-      Util.topAlertError(INVALID_EMAIL_ERROR);
+      Util.topAlertError(ERROR_MESSAGES.invalid_email_error);
       this.email.focus();
 
       return false;
@@ -66,7 +66,7 @@ class Login extends Component {
     }
     if (!Util.isPasswordValid(password)) {
       // invalid password
-      Util.topAlertError(INVALID_PASSWORD_ERROR);
+      Util.topAlertError(ERROR_MESSAGES.invalid_password_error);
       this.password.focus();
       return false;
     }

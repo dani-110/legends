@@ -8,16 +8,6 @@ export const SAGA_ALERT_TIMEOUT = 500;
 export const DATE_FORMAT1 = "dddd, DD MMMM, YYYY";
 export const TIME_FORMAT1 = "H:mm";
 
-// Messages
-
-export const LOCATION_PERMISSION_DENIED_ERROR2 =
-  "Location permission required, please go to app settings to allow access";
-export const INVALID_NAME_ERROR = "Invalid name";
-export const INVALID_EMAIL_ERROR = "Invalid email";
-export const INVALID_PASSWORD_ERROR = "Invalid password";
-export const INTERNET_ERROR = "Please connect to the working internet";
-export const SESSION_EXPIRED_ERROR = "Session expired, Please login again";
-
 // Message types
 export const MESSAGE_TYPES = {
   INFO: "info",
@@ -36,5 +26,15 @@ export const MATCH_TYPES = { POTY: "POTY", LCL: "LCL", LMP: "LMP", DMP: "DMP" };
 
 // Error Messages
 export const ERROR_MESSAGES = {
-  invalid_credentials: "Username or password is invalid"
+  // Server messages
+  invalid_credentials: "Username or password is invalid",
+
+  // Local messages
+  location_permission_denied_error2:
+    "Location permission required, please go to app settings to allow access",
+  invalid_name_error: "Invalid name",
+  invalid_email_error: "Invalid email",
+  invalid_password_error: "Invalid password",
+  internet_error: "Please connect to the working internet",
+  session_expired_error: "Session expired, Please login again"
 };
