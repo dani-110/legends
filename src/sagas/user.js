@@ -60,15 +60,15 @@ function* signin() {
         ApiSauce
       );
       console.log("response", response);
-      if (response.success) {
-        if (responseCallback) responseCallback(response.data.user, null);
-        yield put(userSigninSuccess(response.data.user));
+      if (response) {
+        if (responseCallback) responseCallback(response, null);
+        yield put(userSigninSuccess(response));
       } else {
         alert("Something went wrong");
       }
     } catch (err) {
       if (responseCallback) responseCallback(null, err);
-      alert(Util.getErrorText(err.message));
+      alert(Util.getErrorText(err.error));
     }
   }
 }

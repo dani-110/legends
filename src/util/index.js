@@ -2,7 +2,7 @@
 import { Platform, Linking } from "react-native";
 import moment from "moment";
 import { MessageBarManager } from "react-native-message-bar";
-import { MESSAGE_TYPES, DISCARD_WARNING } from "../constants";
+import { MESSAGE_TYPES, DISCARD_WARNING, ERROR_MESSAGES } from "../constants";
 import { Colors } from "../theme";
 
 class Util {
@@ -114,6 +114,8 @@ class Util {
       activeTabIndex: index
     });
   };
+
+  getErrorText = err => ERROR_MESSAGES[err];
 }
 
 export default new Util();

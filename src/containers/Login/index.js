@@ -6,16 +6,17 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Actions } from "react-native-router-flux";
 import KeyboardSpacer from "react-native-keyboard-spacer";
-import { INVALID_EMAIL_ERROR, INVALID_PASSWORD_ERROR } from "../../constants";
 import { userSigninRequest } from "../../actions/UserActions";
-import { Text, ButtonView, Loader, Button } from "../../components";
+import { Text, ButtonView, Button } from "../../components";
 import { Images, AppStyles, Colors } from "../../theme";
 import styles from "./styles";
 import Util from "../../util";
+import { ERROR_MESSAGES } from "../../constants";
 
 class Login extends Component {
   static propTypes = {
-    userSigninRequest: PropTypes.func.isRequired
+    userSigninRequest: PropTypes.func.isRequired,
+    userData: PropTypes.object.isRequired
   };
   state = {
     errors: {},
@@ -24,6 +25,12 @@ class Login extends Component {
     password: "",
     hidePassword: true
   };
+
+  componentWillMount() {
+    const { userData } = this.props;
+
+    if (userData && userData.token) Actions.reset("drawerMenu");
+  }
 
   email;
   password;
@@ -46,7 +53,7 @@ class Login extends Component {
     }
     if (!Util.isEmailValid(email)) {
       // invalid email
-      Util.topAlertError(INVALID_EMAIL_ERROR);
+      Util.topAlertError(ERROR_MESSAGES.invalid_email_error);
       this.email.focus();
 
       return false;
@@ -59,7 +66,7 @@ class Login extends Component {
     }
     if (!Util.isPasswordValid(password)) {
       // invalid password
-      Util.topAlertError(INVALID_PASSWORD_ERROR);
+      Util.topAlertError(ERROR_MESSAGES.invalid_password_error);
       this.password.focus();
       return false;
     }
@@ -72,26 +79,22 @@ class Login extends Component {
   };
 
   _onSubmit = () => {
-    // setTimeout(() => {
-    //   Actions.reset("drawerMenu");
-    // }, 500);
+    const { email, password } = this.state;
     if (this._validateForm()) {
       Keyboard.dismiss();
 
-      setTimeout(() => {
-        Actions.reset("drawerMenu");
-      }, 500);
-      /* this.password.blur();
+      this.password.blur();
       this.email.blur();
 
       const payload = {
-        email: this.emailValue,
-        password: this.passwordValue,
-        device_type: Platform.OS
-        // device_token: asd
+        email,
+        password
       };
       Util.showLoader(this);
-      this.props.userSigninRequest(payload, data => {}); */
+      this.props.userSigninRequest(payload, data => {
+        Util.hideLoader(this);
+        if (data && data.token) Actions.reset("drawerMenu");
+      });
     }
   };
 
@@ -107,7 +110,7 @@ class Login extends Component {
   }
 
   renderLoginForm() {
-    const { email, password, hidePassword } = this.state;
+    const { email, password, hidePassword, loading } = this.state;
     return (
       <View style={[AppStyles.cardView, styles.cardBoard]}>
         <TextInput
@@ -163,6 +166,7 @@ class Login extends Component {
           style={[AppStyles.mTop20]}
           indicatorColor={Colors.white}
           onPress={this._onSubmit}
+          isLoading={loading}
         >
           LOG IN
         </Button>
@@ -171,8 +175,6 @@ class Login extends Component {
   }
 
   render() {
-    const { loading } = this.state;
-
     return (
       <View style={styles.container}>
         <Image
@@ -190,7 +192,9 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = () => ({});
+const mapStateToProps = ({ user }) => ({
+  userData: user.userData
+});
 
 const actions = { userSigninRequest };
 

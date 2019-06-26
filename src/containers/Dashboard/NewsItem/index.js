@@ -40,7 +40,10 @@ class NewsItem extends React.Component {
               <Text
                 type="bold"
                 color={Colors.green}
-                style={[AppStyles.alignItemsCenter , { lineHeight: Fonts.size.normal }]}
+                style={[
+                  AppStyles.alignItemsCenter,
+                  { lineHeight: Fonts.size.normal }
+                ]}
               >
                 {` ${moment(data.date).fromNow()}`}
               </Text>

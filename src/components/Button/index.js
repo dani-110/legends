@@ -105,12 +105,12 @@ const Button = (props: Object) => {
       backgroundColor: Colors.background[background] || background
     },
     style,
-    disabled && styles.opacity
+    (disabled || isLoading) && styles.opacity
   ]);
 
   if (Platform.OS === "android") {
     return (
-      <TouchableNativeFeedback disabled={disabled} {...rest}>
+      <TouchableNativeFeedback disabled={disabled || isLoading} {...rest}>
         <View style={buttonStyle}>
           {renderInnerText(
             children,
@@ -131,7 +131,7 @@ const Button = (props: Object) => {
   return (
     <TouchableOpacity
       activeOpacity={0.7}
-      disabled={disabled}
+      disabled={disabled || isLoading}
       style={buttonStyle}
       {...rest}
     >
