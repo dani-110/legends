@@ -5,12 +5,11 @@ import { connect } from "react-redux";
 import React, { Component } from "react";
 import { View, Image, TextInput, ScrollView } from "react-native";
 import KeyboardSpacer from "react-native-keyboard-spacer";
-import { ERROR_MESSAGES } from "../../constants";
+import { Actions } from "react-native-router-flux";
 import { CustomNavbar, Text, Button } from "../../components";
 import styles from "./styles";
 import { AppStyles, Images, Colors } from "../../theme";
 import Util from "../../util";
-import { Actions } from "react-native-router-flux";
 
 class ForgotPassword extends Component {
   state = {
@@ -27,7 +26,7 @@ class ForgotPassword extends Component {
     }
     if (!Util.isEmailValid(email)) {
       // invalid email
-      Util.topAlertError(ERROR_MESSAGES.invalid_email_error);
+      Util.topAlertError(Util.getErrorText("invalid_email_error"));
       this.email.focus();
 
       return false;
