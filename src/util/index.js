@@ -6,6 +6,7 @@ import { MessageBarManager } from "react-native-message-bar";
 import { MESSAGE_TYPES, DISCARD_WARNING } from "../constants";
 import { Colors, AppStyles } from "../theme";
 import { Text } from "../components";
+import DataHandler from "../services/DataHandler";
 
 class Util {
   keyExtractor = (item: Object, index: number) => index.toString();
@@ -64,14 +65,6 @@ class Util {
     }
   };
 
-  renderLoader() {
-    return (
-      <View style={[AppStyles.flex, AppStyles.baseMargin]}>
-        <ActivityIndicator />
-      </View>
-    );
-  }
-
   hideLoader = (instance, callback) => {
     if (instance.state.loading) {
       instance.setState(
@@ -85,7 +78,7 @@ class Util {
   };
 
   getCurrentUserAccessToken() {
-    // return DataHandler.getStore().getState().user.data.access_token;
+    return DataHandler.getStore().getState().user.userDara.token;
   }
 
   isNumber(val) {
@@ -124,14 +117,6 @@ class Util {
       activeTabIndex: index
     });
   };
-
-  renderEmptyComponent() {
-    return (
-      <Text style={[AppStyles.baseMargin]} textAlign="center">
-        No records found
-      </Text>
-    );
-  }
 }
 
 export default new Util();

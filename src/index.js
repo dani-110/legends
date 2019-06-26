@@ -7,6 +7,7 @@ import configureStore from "./store";
 import AppNavigator from "./navigator";
 import applyConfigSettings from "./config";
 import AppStyles from "./theme/AppStyles";
+import DataHandler from "./services/DataHandler";
 
 const reducers = require("./reducers").default;
 
@@ -22,10 +23,8 @@ export default class App extends Component {
   };
 
   _loadingCompleted() {
-    //  DataHandler.setStore(this.state.store);
+    DataHandler.setStore(this.state.store);
   }
-
-  componentDidMount() {}
 
   render() {
     if (this.state.isLoading) {

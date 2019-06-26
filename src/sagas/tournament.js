@@ -24,7 +24,7 @@ function* getpoty() {
         callRequest,
         TOURNAMENT_POTY_URL,
         payload,
-        "20",
+        "",
         {},
         ApiSauce
       );

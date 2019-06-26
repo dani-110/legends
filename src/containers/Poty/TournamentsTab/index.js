@@ -3,12 +3,13 @@ import { connect } from "react-redux";
 import React, { Component } from "react";
 import { View, FlatList } from "react-native";
 import PropTypes from "prop-types";
-import { Text } from "../../../components";
+import { Text, EmptyStateText } from "../../../components";
 import ListItem from "./ListItem";
 import { getPotyTournamentRequest } from "../../../actions/TournamentActions";
 import styles from "./styles";
 import { AppStyles } from "../../../theme";
 import Util from "../../../util";
+import SimpleLoader from "../../../components/SimpleLoader";
 
 class TournamentsTab extends Component {
   static propTypes = {
@@ -58,7 +59,7 @@ class TournamentsTab extends Component {
           keyExtractor={Util.keyExtractor}
           ListHeaderComponent={this._renderHeader}
           stickyHeaderIndices={[0]}
-          ListEmptyComponent={Util.renderEmptyComponent}
+          ListEmptyComponent={() => <EmptyStateText />}
         />
       </View>
     );
@@ -68,7 +69,7 @@ class TournamentsTab extends Component {
     const { tournamentsData } = this.props;
     const { loading } = this.state;
 
-    if (loading) return Util.renderLoader();
+    if (loading) return <SimpleLoader />;
 
     return (
       <View style={styles.container}>
