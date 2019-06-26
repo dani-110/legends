@@ -49,9 +49,7 @@ class Poty extends Component {
   }
 }
 
-const mapStateToProps = ({ tournament }) => ({
-  leaderboard: tournament.poty.leaderboard
-});
+const mapStateToProps = () => ({});
 
 const actions = {};
 

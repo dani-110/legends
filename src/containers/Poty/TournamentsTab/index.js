@@ -3,18 +3,32 @@ import { connect } from "react-redux";
 import React, { Component } from "react";
 import { View, FlatList } from "react-native";
 import PropTypes from "prop-types";
-import { Text } from "../../../components";
+import { Text, EmptyStateText } from "../../../components";
 import ListItem from "./ListItem";
+import { getPotyTournamentRequest } from "../../../actions/TournamentActions";
 import styles from "./styles";
 import { AppStyles } from "../../../theme";
 import Util from "../../../util";
+import SimpleLoader from "../../../components/SimpleLoader";
 
 class TournamentsTab extends Component {
   static propTypes = {
-    tournamentsData: PropTypes.array.isRequired
+    tournamentsData: PropTypes.array.isRequired,
+    getPotyTournamentRequest: PropTypes.func.isRequired
   };
 
   static defaultProps = {};
+
+  state = {
+    loading: false
+  };
+
+  componentWillMount() {
+    Util.showLoader(this);
+    this.props.getPotyTournamentRequest("", data => {
+      Util.hideLoader(this);
+    });
+  }
 
   _renderHeader() {
     return (
@@ -45,6 +59,7 @@ class TournamentsTab extends Component {
           keyExtractor={Util.keyExtractor}
           ListHeaderComponent={this._renderHeader}
           stickyHeaderIndices={[0]}
+          ListEmptyComponent={() => <EmptyStateText />}
         />
       </View>
     );
@@ -52,6 +67,10 @@ class TournamentsTab extends Component {
 
   render() {
     const { tournamentsData } = this.props;
+    const { loading } = this.state;
+
+    if (loading) return <SimpleLoader />;
+
     return (
       <View style={styles.container}>
         {this._renderListing(tournamentsData)}
@@ -63,7 +82,7 @@ const mapStateToProps = ({ tournament }) => ({
   tournamentsData: tournament.poty.tournaments
 });
 
-const actions = {};
+const actions = { getPotyTournamentRequest };
 
 export default connect(
   mapStateToProps,

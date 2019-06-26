@@ -37,6 +37,14 @@ export const USER_SIGNIN = {
   type: REQUEST_TYPE.POST
 };
 
+// API TOURNAMENTS ROUTES
+
+export const TOURNAMENT_POTY = {
+  route: "showtournaments",
+  access_token_required: true,
+  type: REQUEST_TYPE.GET
+};
+
 export const callRequest = function(
   url,
   data,
@@ -54,7 +62,7 @@ export const callRequest = function(
       _header = {
         ..._header,
         ...{
-          Authorization: `Bearer ${_access_token}`
+          Authorization: `${_access_token}`
         }
       };
     }

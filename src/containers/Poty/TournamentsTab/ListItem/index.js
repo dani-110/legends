@@ -31,7 +31,7 @@ export default class ListItem extends React.PureComponent {
           size="small"
           color={Colors.text.secondary}
         >
-          {data.title}
+          {data.name}
         </Text>
         <View style={{ width: 110 }}>
           <Text
@@ -41,7 +41,7 @@ export default class ListItem extends React.PureComponent {
             color={Colors.text.secondary}
             style={[AppStyles.pLeft10, AppStyles.pRight10]}
           >
-            {data.date}
+            {data.tournament_date}
           </Text>
         </View>
         <View
@@ -49,7 +49,7 @@ export default class ListItem extends React.PureComponent {
             styles.statusWrapper,
             {
               backgroundColor:
-                data.status === "complete" ? Colors.red : Colors.green
+                data.state === "complete" ? Colors.red : Colors.green
             }
           ]}
         >
@@ -59,7 +59,7 @@ export default class ListItem extends React.PureComponent {
             color={Colors.white}
             textAlign="center"
           >
-            {data.status}
+            {data.state}
           </Text>
         </View>
       </View>

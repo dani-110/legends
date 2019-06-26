@@ -21,6 +21,7 @@ export const USER_FORGOT_PASSWORD = createRequestTypes("USER_FORGOT_PASSWORD");
 export const USER_CONFIRM_OTP_FGPASS = createRequestTypes(
   "USER_CONFIRM_OTP_FGPASS"
 );
+export const TOURNAMENT_POTY = createRequestTypes("TOURNAMENT_POTY");
 
 export const SET_SELECTED_TABS = "SET_SELECTED_TABS";
 
