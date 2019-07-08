@@ -3,13 +3,12 @@ import { connect } from "react-redux";
 import React, { Component } from "react";
 import { View, FlatList } from "react-native";
 import PropTypes from "prop-types";
-import { Text, EmptyStateText } from "../../../components";
+import { Text, EmptyStateText, SimpleLoader } from "../../../components";
 import ListItem from "./ListItem";
 import { getPotyTournamentRequest } from "../../../actions/TournamentActions";
 import styles from "./styles";
 import { AppStyles } from "../../../theme";
 import Util from "../../../util";
-import SimpleLoader from "../../../components/SimpleLoader";
 
 class TournamentsTab extends Component {
   static propTypes = {

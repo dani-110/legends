@@ -2,11 +2,12 @@
 import Immutable from "seamless-immutable";
 import moment from "moment";
 
-import { USER_SIGNIN } from "../actions/ActionTypes";
+import { GET_NEWS } from "../actions/ActionTypes";
 
 const initialState = Immutable({
+  isFetching: false,
   data: [
-    {
+    /* {
       date: moment().subtract(1, "day"),
       image: "https://i.imgur.com/979Qn33.jpg",
       title: "News heading here",
@@ -33,17 +34,30 @@ const initialState = Immutable({
       title: "News heading here",
       desc:
         "Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu."
-    }
+    } */
   ]
 });
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    // case USER_SIGNIN.SUCCESS: {
-    //   return Immutable.merge(state, {
-    //     data: action.data
-    //   });
-    // }
+    case GET_NEWS.REQUEST: {
+      return Immutable.merge(state, {
+        isFetching: true
+      });
+    }
+
+    case GET_NEWS.SUCCESS: {
+      return Immutable.merge(state, {
+        data: action.data,
+        isFetching: false
+      });
+    }
+
+    case GET_NEWS.FAILURE: {
+      return Immutable.merge(state, {
+        isFetching: false
+      });
+    }
 
     default:
       return state;

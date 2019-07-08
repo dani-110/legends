@@ -12,6 +12,6 @@ export default StyleSheet.create({
     backgroundColor: Colors.red,
     paddingVertical: 3,
     borderRadius: 15,
-    width: 80
+    width: 90
   }
 });

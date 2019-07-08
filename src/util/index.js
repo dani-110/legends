@@ -1,12 +1,10 @@
 // @flow
-import { Platform, Linking, View, ActivityIndicator } from "react-native";
-import React from "react";
+import _ from "lodash";
+import { Platform, Linking } from "react-native";
 import moment from "moment";
 import { MessageBarManager } from "react-native-message-bar";
-import { Colors, AppStyles } from "../theme";
-import { Text } from "../components";
 import DataHandler from "../services/DataHandler";
-import { MESSAGE_TYPES, DISCARD_WARNING, ERROR_MESSAGES } from "../constants";
+import { MESSAGE_TYPES, ERROR_MESSAGES } from "../constants";
 
 class Util {
   keyExtractor = (item: Object, index: number) => index.toString();
@@ -78,7 +76,7 @@ class Util {
   };
 
   getCurrentUserAccessToken() {
-    return DataHandler.getStore().getState().user.userDara.token;
+    return DataHandler.getStore().getState().user.userData.token;
   }
 
   isNumber(val) {
@@ -119,6 +117,8 @@ class Util {
   };
 
   getErrorText = err => ERROR_MESSAGES[err];
+
+  isSuccessResponse = response => _.isNull(response.error);
 }
 
 export default new Util();

@@ -21,19 +21,27 @@ export default class NewsItem extends React.Component {
           <Text
             type="bold"
             color={Colors.green}
-            style={[AppStyles.alignItemsCenter , {lineHeight:Fonts.size.normal}]}
+            style={[
+              AppStyles.alignItemsCenter,
+              { lineHeight: Fonts.size.normal }
+            ]}
           >
             {` ${moment(data.date).fromNow()}`}
           </Text>
         </View>
         <Text style={AppStyles.mTop10}>
-          <Text type="bold" color={Colors.black2}>{data.title}</Text>
-          <Text size="small" color={Colors.grey}>{`  ${data.desc}`}</Text>
+          <Text type="bold" color={Colors.black2}>
+            {data.title}
+          </Text>
+          <Text size="small" color={Colors.grey}>{`  ${
+            data.description
+          }`}</Text>
         </Text>
         <View style={[styles.imageContainer, AppStyles.mTop15]}>
           <Image
-            source={{ uri: data.image }}
+            source={{ uri: data.picture }}
             style={{ width: "100%", height: 220 }}
+            resizeMode="contain"
           />
         </View>
       </View>

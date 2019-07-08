@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { View, FlatList } from "react-native";
-import { CustomNavbar } from "../../components";
+import { CustomNavbar, SimpleLoader, EmptyStateText } from "../../components";
 import { NAVBAR_THEME } from "../../constants";
 import styles from "./styles";
 import Util from "../../util";
@@ -12,7 +12,8 @@ import { AppStyles } from "../../theme";
 
 class News extends Component {
   static propTypes = {
-    newsData: PropTypes.array.isRequired
+    newsData: PropTypes.array.isRequired,
+    isFetchingNews: PropTypes.bool.isRequired
   };
 
   static defaultProps = {};
@@ -33,7 +34,7 @@ class News extends Component {
   _renderItem = ({ item }) => <NewsItem data={item} />;
 
   render() {
-    const { newsData } = this.props;
+    const { newsData, isFetchingNews } = this.props;
     return (
       <View style={styles.container}>
         <CustomNavbar
@@ -42,14 +43,17 @@ class News extends Component {
           theme={NAVBAR_THEME.WHITE}
           titleAlign="center"
         />
-        {this._renderNews(newsData)}
+        {isFetchingNews && <SimpleLoader />}
+        {newsData.length === 0 && !isFetchingNews && <EmptyStateText />}
+        {!isFetchingNews && this._renderNews(newsData)}
       </View>
     );
   }
 }
 
 const mapStateToProps = ({ news }) => ({
-  newsData: news.data
+  newsData: news.data,
+  isFetchingNews: news.isFetching
 });
 
 const actions = {};

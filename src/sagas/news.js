@@ -1,12 +1,9 @@
 import { take, put, call, fork } from "redux-saga/effects";
 import _ from "lodash";
-import { TOURNAMENT_POTY } from "../actions/ActionTypes";
+import { GET_NEWS } from "../actions/ActionTypes";
 import { SAGA_ALERT_TIMEOUT } from "../constants";
-import { getPotyTournamentSuccess } from "../actions/TournamentActions";
-import {
-  TOURNAMENT_POTY as TOURNAMENT_POTY_URL,
-  callRequest
-} from "../config/WebService";
+import { getNewsFailure, getNewsSuccess } from "../actions/NewsActions";
+import { GET_NEWS as GET_NEWS_URL, callRequest } from "../config/WebService";
 import ApiSauce from "../services/ApiSauce";
 import Util from "../util";
 
@@ -18,26 +15,25 @@ function alert(message, type = "error") {
 
 function* getpoty() {
   while (true) {
-    const { payload, responseCallback } = yield take(TOURNAMENT_POTY.REQUEST);
+    const { payload } = yield take(GET_NEWS.REQUEST);
     try {
       const response = yield call(
         callRequest,
-        TOURNAMENT_POTY_URL,
-        payload,
+        GET_NEWS_URL,
+        {},
         "",
         {},
         ApiSauce
       );
       console.log("response", response);
       if (Util.isSuccessResponse(response)) {
-        yield put(getPotyTournamentSuccess(response.data));
-        if (responseCallback) responseCallback(true, null);
+        yield put(getNewsSuccess(response.data));
       } else {
-        if (responseCallback) responseCallback(null, null);
+        yield put(getNewsFailure());
         alert(response.error);
       }
     } catch (err) {
-      if (responseCallback) responseCallback(null, err);
+      yield put(getNewsFailure());
       alert(err.message);
     }
   }

@@ -49,7 +49,7 @@ export default class ListItem extends React.PureComponent {
             styles.statusWrapper,
             {
               backgroundColor:
-                data.state === "complete" ? Colors.red : Colors.green
+                data.status === "complete" ? Colors.red : Colors.green
             }
           ]}
         >
@@ -59,7 +59,7 @@ export default class ListItem extends React.PureComponent {
             color={Colors.white}
             textAlign="center"
           >
-            {data.state}
+            {data.status}
           </Text>
         </View>
       </View>

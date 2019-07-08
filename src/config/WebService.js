@@ -40,7 +40,13 @@ export const USER_SIGNIN = {
 // API TOURNAMENTS ROUTES
 
 export const TOURNAMENT_POTY = {
-  route: "showtournaments",
+  route: "GetPotyTournaments",
+  access_token_required: true,
+  type: REQUEST_TYPE.GET
+};
+
+export const GET_NEWS = {
+  route: "GetNews",
   access_token_required: true,
   type: REQUEST_TYPE.GET
 };
