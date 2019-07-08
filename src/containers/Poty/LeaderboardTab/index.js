@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { View, FlatList } from "react-native";
-import { Text } from "../../../components";
+import { Text, SimpleLoader, EmptyStateText } from "../../../components";
+import { getPotyLeaderboardRequest } from "../../../actions/TournamentActions";
 import styles from "./styles";
 import ListItem from "./ListItem";
 import Util from "../../../util";
@@ -11,10 +12,17 @@ import { AppStyles, Colors } from "../../../theme";
 
 class LeaderboardTab extends Component {
   static propTypes = {
-    leaderboardData: PropTypes.array.isRequired
+    leaderboardData: PropTypes.array.isRequired,
+    isFetchingData: PropTypes.bool.isRequired,
+    getPotyLeaderboardRequest: PropTypes.func.isRequired
   };
 
   static defaultProps = {};
+
+  componentWillMount() {
+    //
+    this.props.getPotyLeaderboardRequest();
+  }
 
   _renderItem({ item }) {
     return <ListItem data={item} />;
@@ -54,20 +62,24 @@ class LeaderboardTab extends Component {
   }
 
   render() {
-    const { leaderboardData } = this.props;
+    const { leaderboardData, isFetchingData } = this.props;
+    console.log({ LeaderboardTab: this.props });
     return (
       <View style={styles.container}>
-        {this._renderListing(leaderboardData)}
+        {isFetchingData && leaderboardData.length === 0 && <SimpleLoader />}
+        {leaderboardData.length === 0 && !isFetchingData && <EmptyStateText />}
+        {leaderboardData.length > 0 && this._renderListing(leaderboardData)}
       </View>
     );
   }
 }
 
 const mapStateToProps = ({ tournament }) => ({
-  leaderboardData: tournament.poty.leaderboard
+  leaderboardData: tournament.poty.leaderboard,
+  isFetchingData: tournament.poty.isFetchingLeaderboard
 });
 
-const actions = {};
+const actions = { getPotyLeaderboardRequest };
 
 export default connect(
   mapStateToProps,

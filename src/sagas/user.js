@@ -61,8 +61,8 @@ function* signin() {
       );
       console.log("response", response);
       if (response) {
-        if (responseCallback) responseCallback(response, null);
         yield put(userSigninSuccess(response));
+        if (responseCallback) responseCallback(response, null);
       } else {
         alert("Something went wrong");
       }
@@ -88,7 +88,6 @@ function* signout() {
 
       if (response.data) {
         if (responseCallback) responseCallback(true, null);
-
         yield put(userSignOutSuccess());
       } else {
         alert("Something went wrong");

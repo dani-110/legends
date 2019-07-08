@@ -1,12 +1,15 @@
 // @flow
 import Immutable from "seamless-immutable";
 import _ from "lodash";
-import { TOURNAMENT_POTY } from "../actions/ActionTypes";
+import {
+  GET_POTY_TOURNAMENT,
+  GET_POTY_LEADERBOARD
+} from "../actions/ActionTypes";
 
 const initialState = Immutable({
   poty: {
     leaderboard: [
-      {
+      /* {
         rank: 1,
         playerName: "Khurram Khan",
         points: "834.40",
@@ -107,9 +110,10 @@ const initialState = Immutable({
         playerName: "Ayaz Peer",
         points: "447.33",
         avatar: "https://i.imgur.com/p4gZTpc.png"
-      }
+      } */
     ],
-    tournaments: []
+    tournaments: [],
+    isFetchingLeaderboard: false
   },
   lcl: {
     pointsTable: [
@@ -411,13 +415,38 @@ const initialState = Immutable({
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case TOURNAMENT_POTY.SUCCESS: {
+    case GET_POTY_TOURNAMENT.SUCCESS: {
       const tempPotyTournaments = _.cloneDeep(state.poty);
       tempPotyTournaments.tournaments = action.data;
       return Immutable.merge(state, {
         poty: tempPotyTournaments
       });
     }
+    case GET_POTY_LEADERBOARD.REQUEST: {
+      const tempPotyLeaderboard = _.cloneDeep(state.poty);
+      tempPotyLeaderboard.isFetchingLeaderboard = true;
+      return Immutable.merge(state, {
+        poty: tempPotyLeaderboard
+      });
+    }
+
+    case GET_POTY_LEADERBOARD.SUCCESS: {
+      const tempPotyLeaderboard = _.cloneDeep(state.poty);
+      tempPotyLeaderboard.leaderboard = action.data;
+      tempPotyLeaderboard.isFetchingLeaderboard = false;
+      return Immutable.merge(state, {
+        poty: tempPotyLeaderboard
+      });
+    }
+
+    case GET_POTY_LEADERBOARD.FAILURE: {
+      const tempPotyLeaderboard = _.cloneDeep(state.poty);
+      tempPotyLeaderboard.isFetchingLeaderboard = false;
+      return Immutable.merge(state, {
+        poty: tempPotyLeaderboard
+      });
+    }
+
     default:
       return state;
   }

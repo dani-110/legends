@@ -36,8 +36,13 @@ export default class ListItem extends React.PureComponent {
           ]}
         >
           <Image source={{ uri: data.avatar }} style={styles.image} />
-          <Text type="bold" size="small" color={Colors.text.secondary}>
-            {data.playerName}
+          <Text
+            type="bold"
+            size="small"
+            color={Colors.text.secondary}
+            style={AppStyles.capitalize}
+          >
+            {data.name}
           </Text>
         </View>
         <Text

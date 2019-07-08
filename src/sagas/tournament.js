@@ -1,10 +1,17 @@
 import { take, put, call, fork } from "redux-saga/effects";
-import _ from "lodash";
-import { TOURNAMENT_POTY } from "../actions/ActionTypes";
-import { SAGA_ALERT_TIMEOUT } from "../constants";
-import { getPotyTournamentSuccess } from "../actions/TournamentActions";
 import {
-  TOURNAMENT_POTY as TOURNAMENT_POTY_URL,
+  GET_POTY_TOURNAMENT,
+  GET_POTY_LEADERBOARD
+} from "../actions/ActionTypes";
+import { SAGA_ALERT_TIMEOUT } from "../constants";
+import {
+  getPotyTournamentSuccess,
+  getPotyLeaderboardSuccess,
+  getPotyLeaderboardFailure
+} from "../actions/TournamentActions";
+import {
+  GET_POTY_TOURNAMENT as GET_POTY_TOURNAMENT_URL,
+  GET_POTY_LEADERBOARD as GET_POTY_LEADERBOARD_URL,
   callRequest
 } from "../config/WebService";
 import ApiSauce from "../services/ApiSauce";
@@ -16,13 +23,15 @@ function alert(message, type = "error") {
   }, SAGA_ALERT_TIMEOUT);
 }
 
-function* getpoty() {
+function* getPotyTournament() {
   while (true) {
-    const { payload, responseCallback } = yield take(TOURNAMENT_POTY.REQUEST);
+    const { payload, responseCallback } = yield take(
+      GET_POTY_TOURNAMENT.REQUEST
+    );
     try {
       const response = yield call(
         callRequest,
-        TOURNAMENT_POTY_URL,
+        GET_POTY_TOURNAMENT_URL,
         payload,
         "",
         {},
@@ -42,6 +51,34 @@ function* getpoty() {
     }
   }
 }
+
+function* getPotyLeaderboard() {
+  while (true) {
+    const { responseCallback } = yield take(GET_POTY_LEADERBOARD.REQUEST);
+    try {
+      const response = yield call(
+        callRequest,
+        GET_POTY_LEADERBOARD_URL,
+        {},
+        "",
+        {},
+        ApiSauce
+      );
+      console.log("response", response);
+      if (Util.isSuccessResponse(response)) {
+        yield put(getPotyLeaderboardSuccess(response.data));
+      } else {
+        yield put(getPotyLeaderboardFailure());
+        alert(response.error);
+      }
+    } catch (err) {
+      yield put(getPotyLeaderboardFailure());
+      alert(err.message);
+    }
+  }
+}
+
 export default function* root() {
-  yield fork(getpoty);
+  yield fork(getPotyTournament);
+  yield fork(getPotyLeaderboard);
 }

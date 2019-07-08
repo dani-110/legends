@@ -411,6 +411,10 @@ const alignItemsFlexStart = {
   alignItems: "flex-start"
 };
 
+const justifyFlexStart = {
+  justifyContent: "flex-start"
+};
+
 const basePadding = {
   padding: Metrics.baseMargin
 };
@@ -423,6 +427,9 @@ const doubleBaseMargin = {
 };
 const primaryBackground = {
   backgroundColor: Colors.background.primary
+};
+const capitalize = {
+  textTransform: "capitalize"
 };
 
 const cardView = {
@@ -610,5 +617,7 @@ export default {
   borderBottomGrey,
   doubleBaseMargin,
   borderGrey,
-  listHeaderWrapper
+  listHeaderWrapper,
+  justifyFlexStart,
+  capitalize
 };

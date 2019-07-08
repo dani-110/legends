@@ -3,18 +3,31 @@ import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { View, FlatList } from "react-native";
-import { Text, ButtonView } from "../../../components";
+import { Actions } from "react-native-router-flux";
+import {
+  Text,
+  ButtonView,
+  EmptyStateText,
+  SimpleLoader
+} from "../../../components";
+import { getPotyLeaderboardRequest } from "../../../actions/TournamentActions";
+
 import styles from "./styles";
 import Util from "../../../util";
 import { AppStyles, Colors } from "../../../theme";
-import { Actions } from "react-native-router-flux";
 
 class PotyLeaderboardDB extends PureComponent {
   static propTypes = {
-    potyData: PropTypes.array.isRequired
+    potyData: PropTypes.array.isRequired,
+    isFetchingData: PropTypes.bool.isRequired,
+    getPotyLeaderboardRequest: PropTypes.func.isRequired
   };
 
   static defaultProps = {};
+
+  componentWillMount() {
+    this.props.getPotyLeaderboardRequest();
+  }
 
   _renderItem({ item, index }) {
     return (
@@ -22,8 +35,11 @@ class PotyLeaderboardDB extends PureComponent {
         <Text type="bold" style={{ width: 50 }} color={Colors.text.secondary}>
           {item.rank}
         </Text>
-        <Text style={AppStyles.flex} color={Colors.text.secondary}>
-          {item.playerName}
+        <Text
+          style={[AppStyles.flex, AppStyles.capitalize]}
+          color={Colors.text.secondary}
+        >
+          {item.name}
         </Text>
         <Text type="bold" style={{ width: 60 }} color={Colors.text.secondary}>
           {item.points}
@@ -49,7 +65,7 @@ class PotyLeaderboardDB extends PureComponent {
   }
 
   render() {
-    const { potyData } = this.props;
+    const { potyData, isFetchingData } = this.props;
     return (
       <View style={[AppStyles.borderBottomGrey, AppStyles.pBottom10]}>
         <View
@@ -67,27 +83,35 @@ class PotyLeaderboardDB extends PureComponent {
             ListHeaderComponent={this._renderHeader}
             stickyHeaderIndices={[0]}
           />
+
+          {isFetchingData && potyData.length === 0 && <SimpleLoader />}
+          {!isFetchingData && potyData.length === 0 && (
+            <EmptyStateText containerStyle={AppStyles.justifyFlexStart} />
+          )}
         </View>
-        <ButtonView
-          style={[AppStyles.alignItemsFlexEnd, AppStyles.pRight25]}
-          onPress={Actions.poty}
-        >
-          <Text
-            type="bold"
-            size="xSmall"
-            color={Colors.green}
-          >{`VIEW ALL >`}</Text>
-        </ButtonView>
+        {potyData.length > 0 && (
+          <ButtonView
+            style={[AppStyles.alignItemsFlexEnd, AppStyles.pRight25]}
+            onPress={Actions.poty}
+          >
+            <Text
+              type="bold"
+              size="xSmall"
+              color={Colors.green}
+            >{`VIEW ALL >`}</Text>
+          </ButtonView>
+        )}
       </View>
     );
   }
 }
 
 const mapStateToProps = ({ tournament }) => ({
-  potyData: Util.getTrimmedDataFromArray(tournament.poty.leaderboard, 7)
+  potyData: Util.getTrimmedDataFromArray(tournament.poty.leaderboard, 7),
+  isFetchingData: tournament.poty.isFetchingLeaderboard
 });
 
-const actions = {};
+const actions = { getPotyLeaderboardRequest };
 
 export default connect(
   mapStateToProps,

@@ -60,7 +60,12 @@ class NewsItem extends React.Component {
             </Text>
           </View>
 
-          <Text type="bold" style={AppStyles.mTop10}>
+          <Text
+            type="bold"
+            style={AppStyles.mTop10}
+            numberOfLines={1}
+            ellipsizeMode="tail"
+          >
             {data.title}
           </Text>
           <Text

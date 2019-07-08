@@ -21,10 +21,11 @@ export const USER_FORGOT_PASSWORD = createRequestTypes("USER_FORGOT_PASSWORD");
 export const USER_CONFIRM_OTP_FGPASS = createRequestTypes(
   "USER_CONFIRM_OTP_FGPASS"
 );
-export const TOURNAMENT_POTY = createRequestTypes("TOURNAMENT_POTY");
+export const GET_POTY_TOURNAMENT = createRequestTypes("GET_POTY_TOURNAMENT");
 export const SET_SELECTED_TABS = "SET_SELECTED_TABS";
 export const SET_TABBAR_TYPE = "SET_TABBAR_TYPE";
 export const TOGGLE_TABBAR = "TOGGLE_TABBAR";
 export const LOGOUT = "LOGOUT";
 export const EMPTY = createRequestTypes("EMPTY");
 export const GET_NEWS = createRequestTypes("GET_NEWS");
+export const GET_POTY_LEADERBOARD = createRequestTypes("GET_POTY_LEADERBOARD");

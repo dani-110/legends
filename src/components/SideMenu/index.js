@@ -35,8 +35,12 @@ const DRAWER_ITEMS = [
       Actions.settings();
     }
   },
-  { text: "Logout", onPress: () => Actions.reset("login") }
+  { text: "Logout", onPress: () => getLoggedOut() }
 ];
+
+function getLoggedOut() {
+  Actions.reset("login");
+}
 
 export default class SideMenu extends React.PureComponent {
   static propTypes = {};
