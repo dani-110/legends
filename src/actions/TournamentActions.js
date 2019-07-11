@@ -1,6 +1,10 @@
 // @flow
 
-import { GET_POTY_TOURNAMENT, GET_POTY_LEADERBOARD } from "./ActionTypes";
+import {
+  GET_POTY_TOURNAMENT,
+  GET_POTY_LEADERBOARD,
+  GET_LCL_POINTS_TABLE
+} from "./ActionTypes";
 
 export function getPotyTournamentRequest(payload, responseCallback) {
   return {
@@ -33,5 +37,24 @@ export function getPotyLeaderboardSuccess(data) {
 export function getPotyLeaderboardFailure() {
   return {
     type: GET_POTY_LEADERBOARD.FAILURE
+  };
+}
+
+export function getLclPointsTableRequest() {
+  return {
+    type: GET_LCL_POINTS_TABLE.REQUEST
+  };
+}
+
+export function getLclPointsTableSuccess(data) {
+  return {
+    data,
+    type: GET_LCL_POINTS_TABLE.SUCCESS
+  };
+}
+
+export function getLclPointsTableFailure() {
+  return {
+    type: GET_LCL_POINTS_TABLE.FAILURE
   };
 }

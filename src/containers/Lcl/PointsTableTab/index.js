@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { View, FlatList } from "react-native";
-import { Text } from "../../../components";
+import { Text, SimpleLoader, EmptyStateText } from "../../../components";
+import { getLclPointsTableRequest } from "../../../actions/TournamentActions";
 import styles from "./styles";
 import ListItem from "./ListItem";
 import Util from "../../../util";
@@ -11,10 +12,16 @@ import { AppStyles } from "../../../theme";
 
 class PointsTableTab extends Component {
   static propTypes = {
-    pointsTableData: PropTypes.array.isRequired
+    pointsTableData: PropTypes.array.isRequired,
+    isFetchingData: PropTypes.bool.isRequired,
+    getLclPointsTableRequest: PropTypes.func.isRequired
   };
 
   static defaultProps = {};
+
+  componentWillMount() {
+    this.props.getLclPointsTableRequest();
+  }
 
   _renderItem({ item }) {
     return <ListItem data={item} />;
@@ -51,20 +58,23 @@ class PointsTableTab extends Component {
   }
 
   render() {
-    const { pointsTableData } = this.props;
+    const { pointsTableData, isFetchingData } = this.props;
     return (
       <View style={styles.container}>
-        {this._renderListing(pointsTableData)}
+        {isFetchingData && pointsTableData.length === 0 && <SimpleLoader />}
+        {pointsTableData.length === 0 && !isFetchingData && <EmptyStateText />}
+        {pointsTableData.length > 0 && this._renderListing(pointsTableData)}
       </View>
     );
   }
 }
 
 const mapStateToProps = ({ tournament }) => ({
-  pointsTableData: tournament.lcl.pointsTable
+  pointsTableData: tournament.lcl.pointsTable,
+  isFetchingData: tournament.lcl.isFetchingLeaderboard
 });
 
-const actions = {};
+const actions = { getLclPointsTableRequest };
 
 export default connect(
   mapStateToProps,

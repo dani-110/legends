@@ -1,17 +1,21 @@
 import { take, put, call, fork } from "redux-saga/effects";
 import {
   GET_POTY_TOURNAMENT,
-  GET_POTY_LEADERBOARD
+  GET_POTY_LEADERBOARD,
+  GET_LCL_POINTS_TABLE
 } from "../actions/ActionTypes";
 import { SAGA_ALERT_TIMEOUT } from "../constants";
 import {
   getPotyTournamentSuccess,
   getPotyLeaderboardSuccess,
-  getPotyLeaderboardFailure
+  getPotyLeaderboardFailure,
+  getLclPointsTableSuccess,
+  getLclPointsTableFailure
 } from "../actions/TournamentActions";
 import {
   GET_POTY_TOURNAMENT as GET_POTY_TOURNAMENT_URL,
   GET_POTY_LEADERBOARD as GET_POTY_LEADERBOARD_URL,
+  GET_LCL_POINTS_TABLE as GET_LCL_POINTS_TABLE_URL,
   callRequest
 } from "../config/WebService";
 import ApiSauce from "../services/ApiSauce";
@@ -78,7 +82,34 @@ function* getPotyLeaderboard() {
   }
 }
 
+function* getLclPointsTable() {
+  while (true) {
+    const { responseCallback } = yield take(GET_LCL_POINTS_TABLE.REQUEST);
+    try {
+      const response = yield call(
+        callRequest,
+        GET_LCL_POINTS_TABLE_URL,
+        {},
+        "",
+        {},
+        ApiSauce
+      );
+      console.log("response", response);
+      if (Util.isSuccessResponse(response)) {
+        yield put(getLclPointsTableSuccess(response.data));
+      } else {
+        yield put(getLclPointsTableFailure());
+        alert(response.error);
+      }
+    } catch (err) {
+      yield put(getLclPointsTableFailure());
+      alert(err.message);
+    }
+  }
+}
+
 export default function* root() {
   yield fork(getPotyTournament);
   yield fork(getPotyLeaderboard);
+  yield fork(getLclPointsTable);
 }

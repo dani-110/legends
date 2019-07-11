@@ -3,7 +3,8 @@ import Immutable from "seamless-immutable";
 import _ from "lodash";
 import {
   GET_POTY_TOURNAMENT,
-  GET_POTY_LEADERBOARD
+  GET_POTY_LEADERBOARD,
+  GET_LCL_POINTS_TABLE
 } from "../actions/ActionTypes";
 
 const initialState = Immutable({
@@ -13,43 +14,7 @@ const initialState = Immutable({
     isFetchingLeaderboard: false
   },
   lcl: {
-    pointsTable: [
-      {
-        position: 1,
-        team: "Angry Birds",
-        points: 32
-      },
-      {
-        position: 2,
-        team: "Honey Badgers",
-        points: 26.5
-      },
-      {
-        position: 3,
-        team: "Kitty Mafia",
-        points: 23
-      },
-      {
-        position: 4,
-        team: "Magnificient 8",
-        points: 22.5
-      },
-      {
-        position: 5,
-        team: "Dark Knight",
-        points: 21.5
-      },
-      {
-        position: 6,
-        team: "Great White Sharks",
-        points: 19
-      },
-      {
-        position: 7,
-        team: "MIFOS",
-        points: 14.5
-      }
-    ],
+    pointsTable: [],
     monthlyMatches: [
       {
         startTime: new Date(),
@@ -123,7 +88,8 @@ const initialState = Immutable({
           ["Kitty Mafia", "Bye"]
         ]
       }
-    ]
+    ],
+    isFetchingLeaderboard: false
   },
   lmp: {
     tournaments: [
@@ -341,6 +307,31 @@ export default (state = initialState, action) => {
       tempPotyLeaderboard.isFetchingLeaderboard = false;
       return Immutable.merge(state, {
         poty: tempPotyLeaderboard
+      });
+    }
+
+    case GET_LCL_POINTS_TABLE.REQUEST: {
+      const tempLcl = _.cloneDeep(state.lcl);
+      tempLcl.isFetchingLeaderboard = true;
+      return Immutable.merge(state, {
+        lcl: tempLcl
+      });
+    }
+
+    case GET_LCL_POINTS_TABLE.SUCCESS: {
+      const tempLcl = _.cloneDeep(state.lcl);
+      tempLcl.pointsTable = action.data;
+      tempLcl.isFetchingLeaderboard = false;
+      return Immutable.merge(state, {
+        lcl: tempLcl
+      });
+    }
+
+    case GET_LCL_POINTS_TABLE.FAILURE: {
+      const tempLcl = _.cloneDeep(state.lcl);
+      tempLcl.isFetchingLeaderboard = false;
+      return Immutable.merge(state, {
+        lcl: tempLcl
       });
     }
 
