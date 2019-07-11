@@ -72,7 +72,6 @@ class Scores extends React.Component {
       }
     } = this.props;
 
-    console.log({ sds: this.props.userData, blue_tee_handicap });
     return (
       <View style={[AppStyles.doubleBaseMargin, AppStyles.mBottom10]}>
         <Text color={Colors.black}>
@@ -109,7 +108,6 @@ class Scores extends React.Component {
 
   render() {
     const { isFetchingProfile, userData } = this.props;
-    console.log({ userData });
     return (
       <View style={{ minHeight: 160 }}>
         {isFetchingProfile && <SimpleLoader />}
