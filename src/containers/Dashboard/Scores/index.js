@@ -3,22 +3,29 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { View } from "react-native";
+import { Actions } from "react-native-router-flux";
 import AnimateNumber from "react-native-animate-number";
-import { Text, ButtonView } from "../../../components";
+import { Text, ButtonView, SimpleLoader } from "../../../components";
+import { getUserProfileRequest } from "../../../actions/UserActions";
 import styles from "./styles";
 // import Util from "../../../util";
 import { AppStyles, Colors } from "../../../theme";
-import { Actions } from "react-native-router-flux";
 
 class Scores extends React.Component {
   static propTypes = {
     userData: PropTypes.object.isRequired,
-    showViewProfile: PropTypes.bool
+    showViewProfile: PropTypes.bool,
+    getUserProfileRequest: PropTypes.func.isRequired,
+    isFetchingProfile: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
     showViewProfile: true
   };
+
+  componentWillMount() {
+    this.props.getUserProfileRequest();
+  }
 
   getSingleScore = (label, labelOnTop, score, bgColor) => (
     <View style={labelOnTop && { marginTop: -20 }}>
@@ -86,15 +93,23 @@ class Scores extends React.Component {
   };
 
   render() {
-    return <View>{this._renderUserScore()}</View>;
+    const { isFetchingProfile } = this.props;
+
+    return (
+      <View>
+        {isFetchingProfile && <SimpleLoader />}
+        {this._renderUserScore()}
+      </View>
+    );
   }
 }
 
 const mapStateToProps = ({ user }) => ({
-  userData: user.data
+  userData: user.data,
+  isFetchingProfile: user.isFetchingProfileData
 });
 
-const actions = {};
+const actions = { getUserProfileRequest };
 
 export default connect(
   mapStateToProps,

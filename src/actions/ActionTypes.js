@@ -29,3 +29,4 @@ export const LOGOUT = "LOGOUT";
 export const EMPTY = createRequestTypes("EMPTY");
 export const GET_NEWS = createRequestTypes("GET_NEWS");
 export const GET_POTY_LEADERBOARD = createRequestTypes("GET_POTY_LEADERBOARD");
+export const GET_USER_PROFILE = createRequestTypes("GET_USER_PROFILE");

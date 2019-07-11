@@ -5,7 +5,8 @@ import {
   USER_SIGNIN,
   USER_SIGNOUT,
   UPDATE_USER_PROFILE,
-  USER_FORGOT_PASSWORD
+  USER_FORGOT_PASSWORD,
+  GET_USER_PROFILE
 } from "./ActionTypes";
 
 export function userSignupRequest(payload, responseCallback) {
@@ -73,5 +74,25 @@ export function forgotPasswordRequest(payload, responseCallback) {
     payload,
     responseCallback,
     type: USER_FORGOT_PASSWORD.REQUEST
+  };
+}
+
+export function getUserProfileRequest() {
+  return {
+    type: GET_USER_PROFILE.REQUEST
+  };
+}
+
+export function getUserProfileSuccess(data) {
+  return {
+    data,
+    type: GET_USER_PROFILE.SUCCESS
+  };
+}
+
+export function getUserProfileFailure(data) {
+  return {
+    data,
+    type: GET_USER_PROFILE.FAILURE
   };
 }

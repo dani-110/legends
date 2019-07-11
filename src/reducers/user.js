@@ -1,7 +1,7 @@
 // @flow
 import Immutable from "seamless-immutable";
 import _ from "lodash";
-import { USER_SIGNIN } from "../actions/ActionTypes";
+import { USER_SIGNIN, GET_USER_PROFILE } from "../actions/ActionTypes";
 
 const initialState = Immutable({
   data: {
@@ -74,6 +74,8 @@ const initialState = Immutable({
       }
     ]
   },
+  profileData: {},
+  isFetchingProfileData: false,
   userData: {}
 });
 
@@ -82,6 +84,25 @@ export default (state = initialState, action) => {
     case USER_SIGNIN.SUCCESS: {
       return Immutable.merge(state, {
         userData: action.data
+      });
+    }
+
+    case GET_USER_PROFILE.REQUEST: {
+      return Immutable.merge(state, {
+        isFetchingProfileData: true
+      });
+    }
+
+    case GET_USER_PROFILE.SUCCESS: {
+      return Immutable.merge(state, {
+        isFetchingProfileData: false,
+        profileData: action.data
+      });
+    }
+
+    case GET_USER_PROFILE.FAILURE: {
+      return Immutable.merge(state, {
+        isFetchingProfileData: false
       });
     }
 

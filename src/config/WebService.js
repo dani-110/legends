@@ -57,6 +57,12 @@ export const GET_POTY_LEADERBOARD = {
   type: REQUEST_TYPE.GET
 };
 
+export const GET_USER_PROFILE = {
+  route: "GetProfile",
+  access_token_required: true,
+  type: REQUEST_TYPE.GET
+};
+
 export const callRequest = function(
   url,
   data,
