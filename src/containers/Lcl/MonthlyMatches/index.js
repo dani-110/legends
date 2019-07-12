@@ -3,7 +3,9 @@ import { connect } from "react-redux";
 import React, { Component } from "react";
 import { View, FlatList } from "react-native";
 import PropTypes from "prop-types";
-import { Text } from "../../../components";
+import _ from "lodash";
+import { Text, SimpleLoader, EmptyStateText } from "../../../components";
+import { getLclMonthlyMatchesRequest } from "../../../actions/TournamentActions";
 import MatchesTable from "./MatchesTable";
 import styles from "./styles";
 import { AppStyles } from "../../../theme";
@@ -11,20 +13,35 @@ import Util from "../../../util";
 
 class MonthlyMatches extends Component {
   static propTypes = {
-    monthlyMatchesData: PropTypes.array.isRequired
+    monthlyMatchesData: PropTypes.array.isRequired,
+    isFetchingData: PropTypes.bool.isRequired,
+    getLclMonthlyMatchesRequest: PropTypes.func.isRequired
   };
 
   static defaultProps = {};
+
+  componentWillMount() {
+    this.props.getLclMonthlyMatchesRequest();
+  }
 
   _renderItem({ item, index }) {
     return <MatchesTable data={{ item, index }} />;
   }
 
   _renderListing(data) {
+    const filteredData = _.chain(data)
+      .groupBy("round")
+      .map((v, i) => ({
+        round: i,
+        playing_month: _.get(_.find(v, "playing_month"), "playing_month"),
+        teams: v.map(val => [val.team1_name, val.team2_name])
+      }))
+      .value();
+
     return (
       <View style={AppStyles.flex}>
         <FlatList
-          data={data}
+          data={filteredData}
           renderItem={this._renderItem}
           keyExtractor={Util.keyExtractor}
         />
@@ -33,19 +50,25 @@ class MonthlyMatches extends Component {
   }
 
   render() {
-    const { monthlyMatchesData } = this.props;
+    const { monthlyMatchesData, isFetchingData } = this.props;
     return (
       <View style={[styles.container, AppStyles.baseMargin]}>
-        {this._renderListing(monthlyMatchesData)}
+        {isFetchingData && monthlyMatchesData.length === 0 && <SimpleLoader />}
+        {monthlyMatchesData.length === 0 && !isFetchingData && (
+          <EmptyStateText />
+        )}
+        {monthlyMatchesData.length > 0 &&
+          this._renderListing(monthlyMatchesData)}
       </View>
     );
   }
 }
 const mapStateToProps = ({ tournament }) => ({
-  monthlyMatchesData: tournament.lcl.monthlyMatches
+  monthlyMatchesData: tournament.lcl.monthlyMatches,
+  isFetchingData: tournament.lcl.isFetchingLeaderboard
 });
 
-const actions = {};
+const actions = { getLclMonthlyMatchesRequest };
 
 export default connect(
   mapStateToProps,
