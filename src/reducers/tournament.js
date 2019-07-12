@@ -4,7 +4,8 @@ import _ from "lodash";
 import {
   GET_POTY_TOURNAMENT,
   GET_POTY_LEADERBOARD,
-  GET_LCL_POINTS_TABLE
+  GET_LCL_POINTS_TABLE,
+  GET_LCL_MONTHLY_MATCHES
 } from "../actions/ActionTypes";
 
 const initialState = Immutable({
@@ -15,7 +16,8 @@ const initialState = Immutable({
   },
   lcl: {
     pointsTable: [],
-    monthlyMatches: [
+    monthlyMatches: [],
+    monthlyMatchess: [
       {
         startTime: new Date(),
         endTime: new Date(),
@@ -328,6 +330,31 @@ export default (state = initialState, action) => {
     }
 
     case GET_LCL_POINTS_TABLE.FAILURE: {
+      const tempLcl = _.cloneDeep(state.lcl);
+      tempLcl.isFetchingLeaderboard = false;
+      return Immutable.merge(state, {
+        lcl: tempLcl
+      });
+    }
+
+    case GET_LCL_MONTHLY_MATCHES.REQUEST: {
+      const tempLcl = _.cloneDeep(state.lcl);
+      tempLcl.isFetchingLeaderboard = true;
+      return Immutable.merge(state, {
+        lcl: tempLcl
+      });
+    }
+
+    case GET_LCL_MONTHLY_MATCHES.SUCCESS: {
+      const tempLcl = _.cloneDeep(state.lcl);
+      tempLcl.monthlyMatches = action.data;
+      tempLcl.isFetchingLeaderboard = false;
+      return Immutable.merge(state, {
+        lcl: tempLcl
+      });
+    }
+
+    case GET_LCL_MONTHLY_MATCHES.FAILURE: {
       const tempLcl = _.cloneDeep(state.lcl);
       tempLcl.isFetchingLeaderboard = false;
       return Immutable.merge(state, {

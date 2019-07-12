@@ -3,7 +3,8 @@
 import {
   GET_POTY_TOURNAMENT,
   GET_POTY_LEADERBOARD,
-  GET_LCL_POINTS_TABLE
+  GET_LCL_POINTS_TABLE,
+  GET_LCL_MONTHLY_MATCHES
 } from "./ActionTypes";
 
 export function getPotyTournamentRequest(payload, responseCallback) {
@@ -56,5 +57,24 @@ export function getLclPointsTableSuccess(data) {
 export function getLclPointsTableFailure() {
   return {
     type: GET_LCL_POINTS_TABLE.FAILURE
+  };
+}
+
+export function getLclMonthlyMatchesRequest() {
+  return {
+    type: GET_LCL_MONTHLY_MATCHES.REQUEST
+  };
+}
+
+export function getLclMonthlyMatchesSuccess(data) {
+  return {
+    data,
+    type: GET_LCL_MONTHLY_MATCHES.SUCCESS
+  };
+}
+
+export function getLclMonthlyMatchesFailure() {
+  return {
+    type: GET_LCL_MONTHLY_MATCHES.FAILURE
   };
 }

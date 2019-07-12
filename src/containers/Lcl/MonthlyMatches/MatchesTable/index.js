@@ -16,7 +16,9 @@ export default class MatchesTable extends React.PureComponent {
 
   _renderRoundNumber() {
     const {
-      data: { index }
+      data: {
+        item: { round }
+      }
     } = this.props;
 
     const colors = ["blue", "red3", "darkBlue"];
@@ -27,11 +29,11 @@ export default class MatchesTable extends React.PureComponent {
           style={[
             AppStyles.centerInner,
             styles.roundNumber,
-            { backgroundColor: Colors[colors[index % 3]] }
+            { backgroundColor: Colors[colors[round % 3]] }
           ]}
         >
           <Text textAlign="center" color={Colors.white}>
-            Round {index + 1}
+            Round {round}
           </Text>
         </View>
       </View>
@@ -40,8 +42,11 @@ export default class MatchesTable extends React.PureComponent {
 
   _renderDate() {
     const {
-      data: { item }
+      data: {
+        item: { playing_month }
+      }
     } = this.props;
+
     return (
       <View
         style={[
@@ -53,9 +58,11 @@ export default class MatchesTable extends React.PureComponent {
       >
         <RNImage source={Images.calendar_grey} style={AppStyles.mRight10} />
         <Text textAlign="center">
-          {Util.getFormattedDateTime(item.startTime, "DD MMM YYYY")}
+          {/* {Util.getFormattedDateTime(item.startTime, "DD MMM YYYY")}
           {" - "}
-          {Util.getFormattedDateTime(item.endTime, "DD MMM YYYY")}
+          {Util.getFormattedDateTime(item.endTime, "DD MMM YYYY")} */}
+
+          {playing_month}
         </Text>
       </View>
     );
@@ -64,12 +71,12 @@ export default class MatchesTable extends React.PureComponent {
   _renderPlayers() {
     const {
       data: {
-        item: { players }
+        item: { teams }
       }
     } = this.props;
     return (
       <FlatList
-        data={players}
+        data={teams}
         renderItem={this._renderPlayerItem}
         keyExtractor={Util.keyExtractor}
       />

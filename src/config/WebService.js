@@ -63,6 +63,12 @@ export const GET_LCL_POINTS_TABLE = {
   type: REQUEST_TYPE.GET
 };
 
+export const GET_LCL_MONTHLY_MATCHES = {
+  route: "GetLCLMatches",
+  access_token_required: true,
+  type: REQUEST_TYPE.GET
+};
+
 export const GET_USER_PROFILE = {
   route: "GetProfile",
   access_token_required: true,
