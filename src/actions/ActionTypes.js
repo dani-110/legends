@@ -33,4 +33,7 @@ export const GET_LCL_POINTS_TABLE = createRequestTypes("GET_LCL_POINTS_TABLE");
 export const GET_LCL_MONTHLY_MATCHES = createRequestTypes(
   "GET_LCL_MONTHLY_MATCHES"
 );
+
+export const GET_LMP_RESULTS = createRequestTypes("GET_LMP_RESULTS");
+
 export const GET_USER_PROFILE = createRequestTypes("GET_USER_PROFILE");

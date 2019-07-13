@@ -5,24 +5,33 @@ import React from "react";
 import PropTypes from "prop-types";
 import { View, ScrollView } from "react-native";
 import Orientation from "react-native-orientation";
-import { Text, CustomNavbar, ButtonView } from "../../components";
+import {
+  Text,
+  CustomNavbar,
+  ButtonView,
+  SimpleLoader,
+  EmptyStateText
+} from "../../components";
+import { getLmpResultsRequest } from "../../actions/TournamentActions";
 import { NAVBAR_THEME } from "../../constants";
 import styles from "./styles";
 import { Colors, AppStyles } from "../../theme";
 
-const ROUND_NAMES = [
-  "Round 1 (32)",
-  "Round 2 (16)",
-  "Round 3 (8)",
-  "S/Final (4)",
-  "Final (2)",
-  "Winner"
-];
+const ROUND_NAMES = {
+  round1: "Round 1",
+  round2: "Round 2",
+  round3: "Round 3",
+  quater_final: "Quarter Final",
+  semi_final: "S/Final",
+  final: "Final",
+  winner: "Winner"
+};
 
 const ROUND_TABS = [
   "Round 1",
   "Round 2",
   "Round 3",
+  "Quarter Final",
   "S/Final",
   "Final",
   "Winner"
@@ -32,7 +41,9 @@ const ITEM_WIDTH = 187;
 
 class Lmp extends React.Component {
   static propTypes = {
-    lmpTournamentData: PropTypes.object.isRequired
+    lmpTournamentData: PropTypes.object.isRequired,
+    isFetchingData: PropTypes.bool.isRequired,
+    getLmpResultsRequest: PropTypes.func.isRequired
   };
 
   static defaultProps = {};
@@ -41,15 +52,16 @@ class Lmp extends React.Component {
     selectedTabIndex: 0
   };
 
-  onTabChangeMode = false;
-
   componentWillMount() {
     Orientation.lockToLandscapeRight();
+    this.props.getLmpResultsRequest();
   }
 
   componentWillUnmount() {
     Orientation.lockToPortrait();
   }
+
+  onTabChangeMode = false;
 
   _onTabPress = index => {
     this.onTabChangeMode = true;
@@ -78,6 +90,7 @@ class Lmp extends React.Component {
       this.onTabChangeMode = false;
     }, 1000);
   };
+
   _onHorizontalScoll = event => {
     if (!this.onTabChangeMode) {
       const { selectedTabIndex } = this.state;
@@ -99,35 +112,43 @@ class Lmp extends React.Component {
     }
   };
 
-  _renderHeader = () => (
-    <View style={[AppStyles.flexRow, AppStyles.mBottom20]}>
-      {ROUND_NAMES.map((item, index) => (
-        <View
-          style={[
-            styles.headerItemWrapper,
-            index === ROUND_NAMES.length - 1 && styles.headerLastItemWrapper
-          ]}
-          key={`sec-${index}`}
-        >
-          <Text color={Colors.grey6} textAlign="center" type="bold">
-            {item}
-          </Text>
-        </View>
-      ))}
-    </View>
-  );
+  _renderHeader = () => {
+    const { lmpTournamentData } = this.props;
+    const rounds = Object.keys(lmpTournamentData);
+    return (
+      <View style={[AppStyles.flexRow, AppStyles.mBottom20]}>
+        {rounds.map((item, index) => (
+          <View
+            style={[
+              styles.headerItemWrapper,
+              index === rounds.length - 1 && styles.headerLastItemWrapper
+            ]}
+            key={`sec-${index}`}
+          >
+            <Text color={Colors.grey6} textAlign="center" type="bold">
+              {`${ROUND_NAMES[item]} ${
+                lmpTournamentData[item].length > 1
+                  ? `(${lmpTournamentData[item].length})`
+                  : ""
+              }`}
+            </Text>
+          </View>
+        ))}
+      </View>
+    );
+  };
 
   _renderChart = () => {
-    const {
-      lmpTournamentData: { tournaments }
-    } = this.props;
+    const { lmpTournamentData } = this.props;
+    const rounds = Object.keys(lmpTournamentData);
+
     return (
       <React.Fragment>
         {this._renderHeader()}
 
         <View style={[styles.tournamentBracket]}>
-          {tournaments.map((item, tournamentIndex) =>
-            this._renderColumn(item, tournamentIndex)
+          {rounds.map((item, tournamentIndex) =>
+            this._renderColumn(lmpTournamentData[item], tournamentIndex)
           )}
         </View>
       </React.Fragment>
@@ -142,26 +163,29 @@ class Lmp extends React.Component {
 
   _renderPair = (pair, index) => (
     <View key={`pair-${index}`} style={[styles.pair]}>
-      {pair.length > 1 && (
+      {pair.team1_name && pair.team2_name && (
         <React.Fragment>
           <View style={[styles.pairBorder]} />
           <View style={[styles.pairConnector]} />
         </React.Fragment>
       )}
-      {pair.map((item, itemIndex) => this._renderItem(item, itemIndex))}
+      {this._renderItem(pair.team1_name, pair.winning_team == 1)}
+      {this._renderItem(pair.team2_name, pair.winning_team == 2)}
     </View>
   );
 
-  _renderItem(item, index) {
-    return (
-      <View key={`item-${index}`} style={[styles.itemWrapper]}>
-        <View style={[styles.item, item.won && styles.itemWon]}>
-          <Text color={Colors.white} size="xxSmall">
-            {item.name}
-          </Text>
+  _renderItem(item, won) {
+    if (item) {
+      return (
+        <View key={`item-${item}`} style={[styles.itemWrapper]}>
+          <View style={[styles.item, won && styles.itemWon]}>
+            <Text color={Colors.white} size="xxSmall">
+              {item || ""}
+            </Text>
+          </View>
         </View>
-      </View>
-    );
+      );
+    }
   }
 
   _renderTabs(selectedTabIndex) {
@@ -196,7 +220,7 @@ class Lmp extends React.Component {
   }
 
   render() {
-    const { selectedTabIndex } = this.state;
+    const { lmpTournamentData, isFetchingData } = this.props;
     return (
       <View style={[styles.container]}>
         <CustomNavbar
@@ -213,17 +237,23 @@ class Lmp extends React.Component {
             styles.innerWrapper
           ]}
         >
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            ref={ref => {
-              this.horizontalScroll = ref;
-            }}
-            onScroll={this._onHorizontalScoll}
-            scrollEventThrottle={5}
-          >
-            <ScrollView>{this._renderChart()}</ScrollView>
-          </ScrollView>
+          {isFetchingData && _.isEmpty(lmpTournamentData) && <SimpleLoader />}
+          {_.isEmpty(lmpTournamentData) && !isFetchingData && (
+            <EmptyStateText />
+          )}
+          {!_.isEmpty(lmpTournamentData) && (
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              ref={ref => {
+                this.horizontalScroll = ref;
+              }}
+              onScroll={this._onHorizontalScoll}
+              scrollEventThrottle={5}
+            >
+              <ScrollView>{this._renderChart()}</ScrollView>
+            </ScrollView>
+          )}
 
           {/* {this._renderTabs(selectedTabIndex)} */}
         </View>
@@ -233,10 +263,11 @@ class Lmp extends React.Component {
 }
 
 const mapStateToProps = ({ tournament }) => ({
-  lmpTournamentData: tournament.lmp
+  lmpTournamentData: tournament.lmp.tournaments,
+  isFetchingData: tournament.lmp.isFetchingLeaderboard
 });
 
-const actions = {};
+const actions = { getLmpResultsRequest };
 
 export default connect(
   mapStateToProps,

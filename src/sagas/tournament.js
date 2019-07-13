@@ -3,7 +3,8 @@ import {
   GET_POTY_TOURNAMENT,
   GET_POTY_LEADERBOARD,
   GET_LCL_POINTS_TABLE,
-  GET_LCL_MONTHLY_MATCHES
+  GET_LCL_MONTHLY_MATCHES,
+  GET_LMP_RESULTS
 } from "../actions/ActionTypes";
 import { SAGA_ALERT_TIMEOUT } from "../constants";
 import {
@@ -13,13 +14,16 @@ import {
   getLclPointsTableSuccess,
   getLclPointsTableFailure,
   getLclMonthlyMatchesSuccess,
-  getLclMonthlyMatchesFailure
+  getLclMonthlyMatchesFailure,
+  getLmpResultsSuccess,
+  getLmpResultsFailure
 } from "../actions/TournamentActions";
 import {
   GET_POTY_TOURNAMENT as GET_POTY_TOURNAMENT_URL,
   GET_POTY_LEADERBOARD as GET_POTY_LEADERBOARD_URL,
   GET_LCL_POINTS_TABLE as GET_LCL_POINTS_TABLE_URL,
   GET_LCL_MONTHLY_MATCHES as GET_LCL_MONTHLY_MATCHES_URL,
+  GET_LMP_RESULTS as GET_LMP_RESULTS_URL,
   callRequest
 } from "../config/WebService";
 import ApiSauce from "../services/ApiSauce";
@@ -138,9 +142,36 @@ function* getLclMonthlyMatches() {
   }
 }
 
+function* getLmpResults() {
+  while (true) {
+    const { responseCallback } = yield take(GET_LMP_RESULTS.REQUEST);
+    try {
+      const response = yield call(
+        callRequest,
+        GET_LMP_RESULTS_URL,
+        {},
+        "",
+        {},
+        ApiSauce
+      );
+      console.log("response", response);
+      if (Util.isSuccessResponse(response)) {
+        yield put(getLmpResultsSuccess(response.data));
+      } else {
+        yield put(getLmpResultsFailure());
+        alert(response.error);
+      }
+    } catch (err) {
+      yield put(getLmpResultsFailure());
+      alert(err.message);
+    }
+  }
+}
+
 export default function* root() {
   yield fork(getPotyTournament);
   yield fork(getPotyLeaderboard);
   yield fork(getLclPointsTable);
   yield fork(getLclMonthlyMatches);
+  yield fork(getLmpResults);
 }

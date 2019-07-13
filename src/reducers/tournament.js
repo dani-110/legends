@@ -5,7 +5,8 @@ import {
   GET_POTY_TOURNAMENT,
   GET_POTY_LEADERBOARD,
   GET_LCL_POINTS_TABLE,
-  GET_LCL_MONTHLY_MATCHES
+  GET_LCL_MONTHLY_MATCHES,
+  GET_LMP_RESULTS
 } from "../actions/ActionTypes";
 
 const initialState = Immutable({
@@ -94,48 +95,8 @@ const initialState = Immutable({
     isFetchingLeaderboard: false
   },
   lmp: {
-    tournaments: [
-      [
-        [{ name: "player1", won: true }, { name: "player3", won: false }],
-        [{ name: "player4", won: true }, { name: "player7", won: false }],
-        [{ name: "player1", won: true }, { name: "player10", won: false }],
-        [{ name: "player1", won: true }, { name: "player10", won: false }],
-        [{ name: "player1", won: true }, { name: "player3", won: false }],
-        [{ name: "player4", won: true }, { name: "player7", won: false }],
-        [{ name: "player1", won: true }, { name: "player10", won: false }],
-        [{ name: "player1", won: true }, { name: "player10", won: false }],
-        [{ name: "player1", won: true }, { name: "player3", won: false }],
-        [{ name: "player4", won: true }, { name: "player7", won: false }],
-        [{ name: "player1", won: true }, { name: "player10", won: false }],
-        [{ name: "player1", won: true }, { name: "player10", won: false }],
-        [{ name: "player1", won: true }, { name: "player3", won: false }],
-        [{ name: "player4", won: true }, { name: "player7", won: false }],
-        [{ name: "player1", won: true }, { name: "player10", won: false }],
-        [{ name: "player1", won: true }, { name: "player10", won: false }]
-      ],
-      [
-        [{ name: "player1", won: true }, { name: "player4", won: false }],
-        [{ name: "player1", won: true }, { name: "player4", won: false }],
-        [{ name: "player1", won: true }, { name: "player4", won: false }],
-        [{ name: "player1", won: true }, { name: "player4", won: false }],
-        [{ name: "player1", won: true }, { name: "player4", won: false }],
-        [{ name: "player1", won: true }, { name: "player4", won: false }],
-        [{ name: "player1", won: true }, { name: "player4", won: false }],
-        [{ name: "player1", won: true }, { name: "player4", won: false }]
-      ],
-      [
-        [{ name: "player1", won: true }, { name: "player4", won: false }],
-        [{ name: "player1", won: true }, { name: "player4", won: false }],
-        [{ name: "player1", won: true }, { name: "player4", won: false }],
-        [{ name: "player1", won: true }, { name: "player4", won: false }]
-      ],
-      [
-        [{ name: "player1", won: true }, { name: "player4", won: false }],
-        [{ name: "player1", won: true }, { name: "player4", won: false }]
-      ],
-      [[{ name: "player1", won: true }, { name: "player4", won: false }]],
-      [[{ name: "player1", won: true }]]
-    ]
+    tournaments: {},
+    isFetchingLeaderboard: false
   },
   dmp: {
     tournaments: [
@@ -287,6 +248,7 @@ export default (state = initialState, action) => {
         poty: tempPotyTournaments
       });
     }
+
     case GET_POTY_LEADERBOARD.REQUEST: {
       const tempPotyLeaderboard = _.cloneDeep(state.poty);
       tempPotyLeaderboard.isFetchingLeaderboard = true;
@@ -359,6 +321,31 @@ export default (state = initialState, action) => {
       tempLcl.isFetchingLeaderboard = false;
       return Immutable.merge(state, {
         lcl: tempLcl
+      });
+    }
+
+    case GET_LMP_RESULTS.REQUEST: {
+      const tempLmp = _.cloneDeep(state.lmp);
+      tempLmp.isFetchingLeaderboard = true;
+      return Immutable.merge(state, {
+        lmp: tempLmp
+      });
+    }
+
+    case GET_LMP_RESULTS.SUCCESS: {
+      const tempLmp = _.cloneDeep(state.lmp);
+      tempLmp.tournaments = action.data;
+      tempLmp.isFetchingLeaderboard = false;
+      return Immutable.merge(state, {
+        lmp: tempLmp
+      });
+    }
+
+    case GET_LMP_RESULTS.FAILURE: {
+      const tempLmp = _.cloneDeep(state.lmp);
+      tempLmp.isFetchingLeaderboard = false;
+      return Immutable.merge(state, {
+        lmp: tempLmp
       });
     }
 

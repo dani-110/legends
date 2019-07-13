@@ -69,6 +69,12 @@ export const GET_LCL_MONTHLY_MATCHES = {
   type: REQUEST_TYPE.GET
 };
 
+export const GET_LMP_RESULTS = {
+  route: "GetLMPLeaderboard",
+  access_token_required: true,
+  type: REQUEST_TYPE.GET
+};
+
 export const GET_USER_PROFILE = {
   route: "GetProfile",
   access_token_required: true,
