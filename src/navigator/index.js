@@ -93,8 +93,8 @@ const navigator = Actions.create(
           </Stack>
           <Scene key="notification_tab" component={Notification} hideNavBar />
         </Tabs>
-        <Scene key="lmp" component={Lmp} hideNavBar initial />
-        <Scene key="dmp" component={Dmp} hideNavBar />
+        <Scene key="lmp" component={Lmp} hideNavBar />
+        <Scene key="dmp" component={Dmp} hideNavBar initial />
       </Scene>
     </Drawer>
   </Stack>

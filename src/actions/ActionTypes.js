@@ -35,5 +35,6 @@ export const GET_LCL_MONTHLY_MATCHES = createRequestTypes(
 );
 
 export const GET_LMP_RESULTS = createRequestTypes("GET_LMP_RESULTS");
+export const GET_DMP_RESULTS = createRequestTypes("GET_DMP_RESULTS");
 
 export const GET_USER_PROFILE = createRequestTypes("GET_USER_PROFILE");

@@ -6,7 +6,8 @@ import {
   GET_POTY_LEADERBOARD,
   GET_LCL_POINTS_TABLE,
   GET_LCL_MONTHLY_MATCHES,
-  GET_LMP_RESULTS
+  GET_LMP_RESULTS,
+  GET_DMP_RESULTS
 } from "../actions/ActionTypes";
 
 const initialState = Immutable({
@@ -99,143 +100,8 @@ const initialState = Immutable({
     isFetchingLeaderboard: false
   },
   dmp: {
-    tournaments: [
-      [
-        [
-          { name: ["player1", "player1"], won: true },
-          { name: ["player3", "player3"], won: false }
-        ],
-        [
-          { name: ["player4", "player4"], won: true },
-          { name: ["player7", "player7"], won: false }
-        ],
-        [
-          { name: ["player1", "player1"], won: true },
-          { name: ["player10", "player10"], won: false }
-        ],
-        [
-          { name: ["player1", "player1"], won: true },
-          { name: ["player10", "player10"], won: false }
-        ],
-        [
-          { name: ["player1", "player1"], won: true },
-          { name: ["player3", "player3"], won: false }
-        ],
-        [
-          { name: ["player4", "player4"], won: true },
-          { name: ["player7", "player7"], won: false }
-        ],
-        [
-          { name: ["player1", "player1"], won: true },
-          { name: ["player10", "player10"], won: false }
-        ],
-        [
-          { name: ["player1", "player1"], won: true },
-          { name: ["player10", "player10"], won: false }
-        ],
-        [
-          { name: ["player1", "player1"], won: true },
-          { name: ["player3", "player3"], won: false }
-        ],
-        [
-          { name: ["player4", "player4"], won: true },
-          { name: ["player7", "player7"], won: false }
-        ],
-        [
-          { name: ["player1", "player1"], won: true },
-          { name: ["player10", "player10"], won: false }
-        ],
-        [
-          { name: ["player1", "player1"], won: true },
-          { name: ["player10", "player10"], won: false }
-        ],
-        [
-          { name: ["player1", "player1"], won: true },
-          { name: ["player3", "player3"], won: false }
-        ],
-        [
-          { name: ["player4", "player4"], won: true },
-          { name: ["player7", "player7"], won: false }
-        ],
-        [
-          { name: ["player1", "player1"], won: true },
-          { name: ["player10", "player10"], won: false }
-        ],
-        [
-          { name: ["player1", "player1"], won: true },
-          { name: ["player10", "player10"], won: false }
-        ]
-      ],
-      [
-        [
-          { name: ["player1", "player1"], won: true },
-          { name: ["player4", "player4"], won: false }
-        ],
-        [
-          { name: ["player1", "player1"], won: true },
-          { name: ["player4", "player4"], won: false }
-        ],
-        [
-          { name: ["player1", "player1"], won: true },
-          { name: ["player4", "player4"], won: false }
-        ],
-        [
-          { name: ["player1", "player1"], won: true },
-          { name: ["player4", "player4"], won: false }
-        ],
-        [
-          { name: ["player1", "player1"], won: true },
-          { name: ["player4", "player4"], won: false }
-        ],
-        [
-          { name: ["player1", "player1"], won: true },
-          { name: ["player4", "player4"], won: false }
-        ],
-        [
-          { name: ["player1", "player1"], won: true },
-          { name: ["player4", "player4"], won: false }
-        ],
-        [
-          { name: ["player1", "player1"], won: true },
-          { name: ["player4", "player4"], won: false }
-        ]
-      ],
-      [
-        [
-          { name: ["player1", "player1"], won: true },
-          { name: ["player4", "player4"], won: false }
-        ],
-        [
-          { name: ["player1", "player1"], won: true },
-          { name: ["player4", "player4"], won: false }
-        ],
-        [
-          { name: ["player1", "player1"], won: true },
-          { name: ["player4", "player4"], won: false }
-        ],
-        [
-          { name: ["player1", "player1"], won: true },
-          { name: ["player4", "player4"], won: false }
-        ]
-      ],
-      [
-        [
-          { name: ["player1", "player1"], won: true },
-          { name: ["player4", "player4"], won: false }
-        ],
-        [
-          { name: ["player1", "player1"], won: true },
-          { name: ["player4", "player4"], won: false }
-        ]
-      ],
-      [
-        [
-          { name: ["player1", "player1"], won: true },
-          { name: ["player4", "player4"], won: false }
-        ]
-      ],
-      [[{ name: ["player1", "player1"], won: true }]]
-    ]
+    tournaments: {},
+    isFetchingLeaderboard: false
   }
 });
 
@@ -346,6 +212,31 @@ export default (state = initialState, action) => {
       tempLmp.isFetchingLeaderboard = false;
       return Immutable.merge(state, {
         lmp: tempLmp
+      });
+    }
+
+    case GET_DMP_RESULTS.REQUEST: {
+      const tempDmp = _.cloneDeep(state.dmp);
+      tempDmp.isFetchingLeaderboard = true;
+      return Immutable.merge(state, {
+        dmp: tempDmp
+      });
+    }
+
+    case GET_DMP_RESULTS.SUCCESS: {
+      const tempDmp = _.cloneDeep(state.dmp);
+      tempDmp.tournaments = action.data;
+      tempDmp.isFetchingLeaderboard = false;
+      return Immutable.merge(state, {
+        dmp: tempDmp
+      });
+    }
+
+    case GET_DMP_RESULTS.FAILURE: {
+      const tempDmp = _.cloneDeep(state.dmp);
+      tempDmp.isFetchingLeaderboard = false;
+      return Immutable.merge(state, {
+        dmp: tempDmp
       });
     }
 
