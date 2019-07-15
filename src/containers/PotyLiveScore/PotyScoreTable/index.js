@@ -5,23 +5,21 @@ import PropTypes from "prop-types";
 import { View, FlatList } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { Text, SimpleLoader, EmptyStateText } from "../../../components";
-import { getPotyScoreNetRequest } from "../../../actions/LiveMatchesActions";
 import styles from "./styles";
 import Util from "../../../util";
 import { AppStyles, Colors } from "../../../theme";
 
-class PotyScoreTable extends React.Component {
+export default class PotyScoreTable extends React.Component {
   static propTypes = {
     liveScoreData: PropTypes.array.isRequired,
-    isFetchingData: PropTypes.bool.isRequired,
-    getPotyScoreNetRequest: PropTypes.func.isRequired
+    isFetchingData: PropTypes.bool.isRequired
   };
 
   static defaultProps = {};
 
   componentWillMount() {
     //
-    this.props.getPotyScoreNetRequest();
+    // this.props.getPotyScoreNetRequest();
   }
 
   _renderTable() {
@@ -91,17 +89,17 @@ class PotyScoreTable extends React.Component {
         </View>
         <View
           width={45}
-          style={[styles.score, item.net_score < 0 && styles.negativePar]}
+          style={[styles.score, item.topar < 0 && styles.negativePar]}
         >
           <Text
             size="xLarge"
-            style={[item.net_score < 0 && styles.negativeParText]}
+            style={[item.topar < 0 && styles.negativeParText]}
           >
-            {item.net_score}
+            {item.topar || item.par}
           </Text>
         </View>
         <View width={70}>
-          <Text textAlign="center">{item.topar}</Text>
+          <Text textAlign="center">{item.net_score || item.thru}</Text>
         </View>
       </View>
     );
@@ -119,14 +117,14 @@ class PotyScoreTable extends React.Component {
   }
 }
 
-const mapStateToProps = ({ liveScore }) => ({
-  liveScoreData: liveScore.poty.net,
-  isFetchingData: liveScore.poty.isFetchingNet
-});
+// const mapStateToProps = ({ liveScore }) => ({
+//   liveScoreData: liveScore.poty.net,
+//   isFetchingData: liveScore.poty.isFetchingNet
+// });
 
-const actions = { getPotyScoreNetRequest };
+// const actions = { getPotyScoreNetRequest };
 
-export default connect(
-  mapStateToProps,
-  actions
-)(PotyScoreTable);
+// export default connect(
+//   mapStateToProps,
+//   actions
+// )(PotyScoreTable);

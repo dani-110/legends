@@ -36,3 +36,4 @@ export const GET_LCL_MONTHLY_MATCHES = createRequestTypes(
 export const GET_USER_PROFILE = createRequestTypes("GET_USER_PROFILE");
 
 export const GET_POTY_SCORE_NET = createRequestTypes("GET_POTY_SCORE_NET");
+export const GET_POTY_SCORE_GROSS = createRequestTypes("GET_POTY_SCORE_GROSS");

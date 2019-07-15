@@ -2,7 +2,10 @@
 import Immutable from "seamless-immutable";
 import _ from "lodash";
 
-import { GET_POTY_SCORE_NET } from "../actions/ActionTypes";
+import {
+  GET_POTY_SCORE_NET,
+  GET_POTY_SCORE_GROSS
+} from "../actions/ActionTypes";
 
 const initialState = Immutable({
   lclSinglesOne: {
@@ -254,7 +257,9 @@ const initialState = Immutable({
   },
   poty: {
     net: [],
-    isFetchingNet: false
+    isFetchingNet: false,
+    gross: [],
+    isFetchingGross: false
   },
   potyy: [
     {
@@ -345,6 +350,31 @@ export default (state = initialState, action) => {
     case GET_POTY_SCORE_NET.FAILURE: {
       const tempPoty = _.cloneDeep(state.poty);
       tempPoty.isFetchingNet = false;
+      return Immutable.merge(state, {
+        poty: tempPoty
+      });
+    }
+
+    case GET_POTY_SCORE_GROSS.REQUEST: {
+      const tempPoty = _.cloneDeep(state.poty);
+      tempPoty.isFetchingGross = true;
+      return Immutable.merge(state, {
+        poty: tempPoty
+      });
+    }
+
+    case GET_POTY_SCORE_GROSS.SUCCESS: {
+      const tempPoty = _.cloneDeep(state.poty);
+      tempPoty.gross = action.data;
+      tempPoty.isFetchingGross = false;
+      return Immutable.merge(state, {
+        poty: tempPoty
+      });
+    }
+
+    case GET_POTY_SCORE_GROSS.FAILURE: {
+      const tempPoty = _.cloneDeep(state.poty);
+      tempPoty.isFetchingGross = false;
       return Immutable.merge(state, {
         poty: tempPoty
       });
