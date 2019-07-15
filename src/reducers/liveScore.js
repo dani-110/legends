@@ -1,7 +1,8 @@
 // @flow
 import Immutable from "seamless-immutable";
+import _ from "lodash";
 
-import { USER_SIGNIN } from "../actions/ActionTypes";
+import { GET_POTY_SCORE_NET } from "../actions/ActionTypes";
 
 const initialState = Immutable({
   lclSinglesOne: {
@@ -251,7 +252,11 @@ const initialState = Immutable({
       }
     ]
   },
-  poty: [
+  poty: {
+    net: [],
+    isFetchingNet: false
+  },
+  potyy: [
     {
       number: "1",
       name: "Khurram Khan",
@@ -320,11 +325,30 @@ const initialState = Immutable({
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    // case USER_SIGNIN.SUCCESS: {
-    //   return Immutable.merge(state, {
-    //     data: action.data
-    //   });
-    // }
+    case GET_POTY_SCORE_NET.REQUEST: {
+      const tempPoty = _.cloneDeep(state.poty);
+      tempPoty.isFetchingNet = true;
+      return Immutable.merge(state, {
+        poty: tempPoty
+      });
+    }
+
+    case GET_POTY_SCORE_NET.SUCCESS: {
+      const tempPoty = _.cloneDeep(state.poty);
+      tempPoty.net = action.data;
+      tempPoty.isFetchingNet = false;
+      return Immutable.merge(state, {
+        poty: tempPoty
+      });
+    }
+
+    case GET_POTY_SCORE_NET.FAILURE: {
+      const tempPoty = _.cloneDeep(state.poty);
+      tempPoty.isFetchingNet = false;
+      return Immutable.merge(state, {
+        poty: tempPoty
+      });
+    }
 
     default:
       return state;

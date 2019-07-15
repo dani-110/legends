@@ -61,13 +61,14 @@ const navigator = Actions.create(
       drawerWidth={250}
       drawerPosition="left"
     >
-      <Scene hideNavBar key="dashboard">
+      <Scene hideNavBar key="dashboard" initial>
         <Tabs
           key="tabbar"
           swipeEnabled={false}
           tabBarComponent={() => <Tabbar />}
           labelStyle={{ fontSize: 12 }}
           tabBarPosition="bottom"
+          initial
         >
           <Stack key="dashboard_tab">
             <Scene key="dashboard_tab_main" component={Dashboard} hideNavBar />
@@ -82,9 +83,14 @@ const navigator = Actions.create(
             />
             <Scene key="settings" component={Settings} hideNavBar />
           </Stack>
-          <Stack key="live_tab">
+          <Stack key="live_tab" initial>
             <Scene key="live_tab_main" component={LiveTab} hideNavBar />
-            <Scene key="potylivescore" component={PotyLiveScore} hideNavBar />
+            <Scene
+              key="potylivescore"
+              component={PotyLiveScore}
+              hideNavBar
+              initial
+            />
             <Scene key="lcllivescore" component={LclLiveScore} hideNavBar />
             <Scene key="dmplivescore" component={DmpLiveScore} hideNavBar />
             <Scene key="lmplivescore" component={LmpLiveScore} hideNavBar />
