@@ -19,16 +19,12 @@ class Welcome extends Component {
     const { userData } = this.props;
 
     setTimeout(() => {
-      Actions.reset("login");
-    }, 1000);
-
-    /* setTimeout(() => {
-      if (!_.isEmpty(userData) && !_.isEmpty(userData.access_token)) {
-        Actions.reset("dashboard");
+      if (!_.isEmpty(userData) && !_.isEmpty(userData.token)) {
+        Actions.reset("drawerMenu");
       } else {
         Actions.reset("login");
       }
-    }, 0); */
+    }, 1000);
   }
 
   render() {
@@ -51,7 +47,7 @@ class Welcome extends Component {
 }
 
 const mapStateToProps = ({ user }) => ({
-  userData: user.data
+  userData: user.userData
 });
 
 const actions = {};

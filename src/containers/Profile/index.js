@@ -1,26 +1,41 @@
 // @flow
+import _ from "lodash";
 import { connect } from "react-redux";
 import React, { Component } from "react";
 import { View, Image as RNImage, ScrollView } from "react-native";
+import { Actions } from "react-native-router-flux";
+import PropTypes from "prop-types";
 import {
   CustomNavbar,
   Image,
   Text,
   TopTabs,
-  ButtonView
+  ButtonView,
+  SimpleLoader
 } from "../../components";
 import { NAVBAR_THEME } from "../../constants";
+import { getUserProfileRequest } from "../../actions/UserActions";
 import styles from "./styles";
 import { Images, AppStyles, Colors } from "../../theme";
 import Scores from "../Dashboard/Scores";
 import Util from "../../util";
 import GrossScoresTrend from "./GrossScoresTrend";
-import { Actions } from "react-native-router-flux";
 
 class Profile extends Component {
+  static propTypes = {
+    getUserProfileRequest: PropTypes.func.isRequired,
+    isFetchingProfile: PropTypes.bool.isRequired,
+    userData: PropTypes.object.isRequired
+  };
+
   state = {
     activeTabIndex: 0
   };
+
+  componentWillMount() {
+    this.props.getUserProfileRequest();
+  }
+
   TABS_DATA = [
     {
       image: "trend_icon",
@@ -34,13 +49,13 @@ class Profile extends Component {
     }
   ];
 
-  _renderUserDetails() {
+  _renderUserDetails({ name, picture }) {
     return (
       <View style={styles.userDetailsWrapper}>
         <View style={styles.imageContainer}>
           <View style={styles.imageWrapper}>
             <Image
-              source={Images.dummy_user}
+              source={{ uri: picture }}
               resizeMode="cover"
               style={styles.userImage}
             />
@@ -55,7 +70,7 @@ class Profile extends Component {
           type="bold"
           color={Colors.text.secondary}
         >
-          Tariq Allawala
+          {name}
         </Text>
       </View>
     );
@@ -74,7 +89,14 @@ class Profile extends Component {
             AppStyles.flexRow,
             AppStyles.centerInner
           ]}
-          onPress={Actions.dashboard_tab_scorecard}
+          onPress={() =>
+            Actions.dashboard_tab_scorecard({
+              scoreCardData: Util.generateScoreCardData(
+                this.props.userData.latest_scorecard,
+                this.props.userData.user_info[0].name
+              )
+            })
+          }
         >
           <RNImage style={styles.calendarImage} source={Images.calendar} />
           <Text style={[AppStyles.mLeft10]} color={Colors.white}>
@@ -99,6 +121,8 @@ class Profile extends Component {
 
   render() {
     const { activeTabIndex } = this.state;
+    const { isFetchingProfile, userData } = this.props;
+
     return (
       <View style={[styles.container, AppStyles.flex]}>
         <CustomNavbar
@@ -107,27 +131,34 @@ class Profile extends Component {
           theme={NAVBAR_THEME.WHITE}
           titleAlign="center"
         />
-        <ScrollView>
-          {this._renderUserDetails()}
-          {this._renderScores()}
-          {this._renderLatestScorecardButton()}
-          {this._renderTabsHeader()}
 
-          {activeTabIndex === 0 && (
-            <GrossScoresTrend activeGraph="grossScoreTrend" />
-          )}
-          {activeTabIndex === 1 && (
-            <GrossScoresTrend activeGraph="trendingHandicap" />
-          )}
-        </ScrollView>
+        {isFetchingProfile && _.isEmpty(userData) && <SimpleLoader />}
+
+        {!_.isEmpty(userData) && (
+          <ScrollView>
+            {this._renderUserDetails(userData.user_info[0])}
+            {this._renderScores()}
+            {this._renderLatestScorecardButton()}
+            {this._renderTabsHeader()}
+
+            {activeTabIndex === 0 && (
+              <GrossScoresTrend activeGraph="grossScoreTrend" />
+            )}
+            {activeTabIndex === 1 && (
+              <GrossScoresTrend activeGraph="trendingHandicap" />
+            )}
+          </ScrollView>
+        )}
       </View>
     );
   }
 }
 
-const mapStateToProps = () => ({});
-
-const actions = {};
+const mapStateToProps = ({ user }) => ({
+  userData: user.profileData,
+  isFetchingProfile: user.isFetchingProfileData
+});
+const actions = { getUserProfileRequest };
 
 export default connect(
   mapStateToProps,

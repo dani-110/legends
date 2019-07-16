@@ -4,7 +4,8 @@ import {
   SET_SELECTED_TABS,
   SET_TABBAR_TYPE,
   TOGGLE_TABBAR,
-  GET_DASHBOARD_DATA
+  GET_DASHBOARD_DATA,
+  USER_SIGNOUT
 } from "../actions/ActionTypes";
 
 const initialState = Immutable({
@@ -38,6 +39,10 @@ export default (state = initialState, action) => {
       return Immutable.merge(state, {
         current_match: action.data && action.data.current_match
       });
+    }
+
+    case USER_SIGNOUT.SUCCESS: {
+      return Immutable.merge(state, initialState);
     }
 
     default:
