@@ -62,7 +62,7 @@ class ScoreCard extends Component {
         >
           <Text style={styles.width1}>{` `}</Text>
           {mapData.map((holeItem, holeIndex) => (
-            <View>
+            <View key={holeIndex}>
               <View style={styles.width2}>
                 <Text type="bold" size="xxSmall">
                   {holeItem}
@@ -86,7 +86,7 @@ class ScoreCard extends Component {
             Index
           </Text>
           {mapData.map((holeItem, holeIndex) => (
-            <View>
+            <View key={holeIndex}>
               <View style={styles.width2}>
                 <Text color={Colors.text.secondary} size="xxSmall">
                   {index[holeIndex]}
@@ -116,7 +116,7 @@ class ScoreCard extends Component {
             Par
           </Text>
           {mapData.map((holeItem, holeIndex) => (
-            <View>
+            <View key={holeIndex}>
               <View style={styles.width2}>
                 <Text color={Colors.text.secondary} size="xxSmall">
                   {par[holeIndex]}
@@ -144,11 +144,14 @@ class ScoreCard extends Component {
     return (
       <View style={[AppStyles.flexRow, styles.scoreRowWrapper]}>
         <View style={AppStyles.flex}>
-          {players.map(playerItem => {
+          {players.map((playerItem, playerIndex) => {
             const mapData = playerItem.score.slice(startFrom, endTo);
 
             return (
-              <View style={[AppStyles.flexRow, AppStyles.borderBottomGrey]}>
+              <View
+                style={[AppStyles.flexRow, AppStyles.borderBottomGrey]}
+                key={playerIndex}
+              >
                 <View style={AppStyles.flex}>
                   <Text style={styles.width1} size="xSmall">
                     {playerItem.name}
@@ -158,7 +161,7 @@ class ScoreCard extends Component {
                 <View style={AppStyles.flexRow}>
                   {mapData.map((scoreItem, itemIndex) => {
                     return (
-                      <View style={styles.width2}>
+                      <View style={styles.width2} key={itemIndex}>
                         <ScoreValue
                           size="xxSmall"
                           score={scoreItem}
@@ -218,8 +221,8 @@ class ScoreCard extends Component {
   }
 }
 
-const mapStateToProps = ({ scoreCard }) => ({
-  scoreCardData: scoreCard.data
+const mapStateToProps = ({ scoreCard }, { scoreCardData }) => ({
+  scoreCardData: _.isEmpty(scoreCardData) ? scoreCard.data : scoreCardData
 });
 
 const actions = { toggleTabbar };

@@ -5,7 +5,8 @@ import {
   GET_POTY_TOURNAMENT,
   GET_POTY_LEADERBOARD,
   GET_LCL_POINTS_TABLE,
-  GET_LCL_MONTHLY_MATCHES
+  GET_LCL_MONTHLY_MATCHES,
+  USER_SIGNOUT
 } from "../actions/ActionTypes";
 
 const initialState = Immutable({
@@ -360,6 +361,10 @@ export default (state = initialState, action) => {
       return Immutable.merge(state, {
         lcl: tempLcl
       });
+    }
+
+    case USER_SIGNOUT.SUCCESS: {
+      return Immutable.merge(state, initialState);
     }
 
     default:
