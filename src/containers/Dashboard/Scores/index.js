@@ -1,4 +1,5 @@
 // @flow
+import _ from "lodash";
 import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -27,7 +28,7 @@ class Scores extends React.Component {
     this.props.getUserProfileRequest();
   }
 
-  getSingleScore = (label, labelOnTop, score, bgColor) => (
+  getSingleScore = (label, labelOnTop, score, bgColor, suffix: null) => (
     <View style={labelOnTop && { marginTop: -20 }}>
       {labelOnTop && <Text textAlign="center">{label}</Text>}
       <View
@@ -44,8 +45,8 @@ class Scores extends React.Component {
           color={bgColor !== Colors.white ? Colors.white : Colors.black}
         >
           <AnimateNumber
-            value={score.value}
-            formatter={val => `${val}${score.suffix}`}
+            value={score}
+            formatter={val => (suffix ? `${val}${suffix}` : `${val}`)}
             countBy={1}
             interval={42}
           />
@@ -61,19 +62,32 @@ class Scores extends React.Component {
 
   _renderUserScore = () => {
     const {
-      userData: { handicap, scores }
+      userData: {
+        blue_tee_handicap,
+        current_handicap,
+        fir,
+        gir,
+        ppr,
+        white_tee_handicap
+      }
     } = this.props;
+
     return (
       <View style={[AppStyles.doubleBaseMargin, AppStyles.mBottom10]}>
         <Text color={Colors.black}>
-          Handicap <Text>{handicap}</Text>
+          Handicap <Text>{current_handicap}</Text>
         </Text>
         <View style={[AppStyles.flexRow, AppStyles.spaceBetween]}>
-          {this.getSingleScore("blue", false, scores.blue, Colors.blue)}
-          {this.getSingleScore("white", false, scores.white, Colors.white)}
-          {this.getSingleScore("FIR", true, scores.fir, Colors.green)}
-          {this.getSingleScore("GIR", true, scores.gir, Colors.red2)}
-          {this.getSingleScore("PPR", true, scores.ppr, Colors.black2)}
+          {this.getSingleScore("blue", false, blue_tee_handicap, Colors.blue)}
+          {this.getSingleScore(
+            "white",
+            false,
+            white_tee_handicap,
+            Colors.white
+          )}
+          {this.getSingleScore("FIR", true, fir, Colors.green, "%")}
+          {this.getSingleScore("GIR", true, gir, Colors.red2, "%")}
+          {this.getSingleScore("PPR", true, ppr, Colors.black2)}
         </View>
 
         {this.props.showViewProfile && (
@@ -93,19 +107,18 @@ class Scores extends React.Component {
   };
 
   render() {
-    const { isFetchingProfile } = this.props;
-
+    const { isFetchingProfile, userData } = this.props;
     return (
-      <View>
-        {isFetchingProfile && <SimpleLoader />}
-        {this._renderUserScore()}
+      <View style={{ minHeight: 160 }}>
+        {isFetchingProfile && _.isEmpty(userData) && <SimpleLoader />}
+        {!_.isEmpty(userData) && this._renderUserScore()}
       </View>
     );
   }
 }
 
 const mapStateToProps = ({ user }) => ({
-  userData: user.data,
+  userData: !_.isEmpty(user.profileData) ? user.profileData.user_info[0] : {},
   isFetchingProfile: user.isFetchingProfileData
 });
 

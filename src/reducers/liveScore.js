@@ -4,14 +4,21 @@ import _ from "lodash";
 
 import {
   GET_POTY_SCORE_NET,
-  GET_POTY_SCORE_GROSS
+  GET_POTY_SCORE_GROSS,
+  USER_SIGNOUT
 } from "../actions/ActionTypes";
 
 const initialState = Immutable({
   lclSinglesOne: {
     team: [
-      { name: "Kitty Mafia", score: "3.5" },
-      { name: "Dark Knights", score: "2.5" }
+      {
+        name: "Kitty Mafia",
+        score: "3.5"
+      },
+      {
+        name: "Dark Knights",
+        score: "2.5"
+      }
     ],
     players: [["Adnan Afridi"], ["Navaid Ali"]],
     score: [
@@ -61,8 +68,14 @@ const initialState = Immutable({
   },
   lclFoursome: {
     team: [
-      { name: "Kitty Mafia", score: "3.5" },
-      { name: "Dark Knights", score: "2.5" }
+      {
+        name: "Kitty Mafia",
+        score: "3.5"
+      },
+      {
+        name: "Dark Knights",
+        score: "2.5"
+      }
     ],
     players: [["Adnan Afridi", "Ahmed Ismail"], ["Navaid Ali", "Saad Ali"]],
     score: [
@@ -112,8 +125,14 @@ const initialState = Immutable({
   },
   lclSinglesTwo: {
     team: [
-      { name: "Dark Knights", score: "2.5" },
-      { name: "Kitty Mafia", score: "3.5" }
+      {
+        name: "Dark Knights",
+        score: "2.5"
+      },
+      {
+        name: "Kitty Mafia",
+        score: "3.5"
+      }
     ],
     players: [["Navaid Ali"], ["Adnan Afridi"]],
     score: [
@@ -378,6 +397,10 @@ export default (state = initialState, action) => {
       return Immutable.merge(state, {
         poty: tempPoty
       });
+    }
+
+    case USER_SIGNOUT.SUCCESS: {
+      return Immutable.merge(state, initialState);
     }
 
     default:

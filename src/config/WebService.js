@@ -69,6 +69,18 @@ export const GET_LCL_MONTHLY_MATCHES = {
   type: REQUEST_TYPE.GET
 };
 
+export const GET_LMP_RESULTS = {
+  route: "GetLMPLeaderboard",
+  access_token_required: true,
+  type: REQUEST_TYPE.GET
+};
+
+export const GET_DMP_RESULTS = {
+  route: "GetDMPLeaderboard",
+  access_token_required: true,
+  type: REQUEST_TYPE.GET
+};
+
 export const GET_USER_PROFILE = {
   route: "GetProfile",
   access_token_required: true,
@@ -85,6 +97,12 @@ export const GET_POTY_SCORE_GROSS = {
   route: "GetScoresPotyGross",
   access_token_required: true,
   type: REQUEST_TYPE.GET
+};
+
+export const USER_SIGNOUT = {
+  route: "logout",
+  access_token_required: true,
+  type: REQUEST_TYPE.POST
 };
 
 export const callRequest = function(

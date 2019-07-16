@@ -1,9 +1,14 @@
 // @flow
+import _ from "lodash";
 import React from "react";
 import { View, Image, Linking } from "react-native";
+import { connect } from "react-redux";
 import { Actions } from "react-native-router-flux";
+import PropTypes from "prop-types";
 import { Text, ButtonView } from "../../components";
-import { Images, Colors, AppStyles } from "../../theme";
+import DataHandler from "../../services/DataHandler";
+import { userSignOutRequest } from "../../actions/UserActions";
+import { Colors, AppStyles } from "../../theme";
 import styles from "./styles";
 
 const DRAWER_ITEMS = [
@@ -39,26 +44,32 @@ const DRAWER_ITEMS = [
 ];
 
 function getLoggedOut() {
-  Actions.reset("login");
+  DataHandler.getStore().dispatch(
+    userSignOutRequest(() => {
+      Actions.reset("login");
+    })
+  );
 }
 
-export default class SideMenu extends React.PureComponent {
-  static propTypes = {};
+class SideMenu extends React.PureComponent {
+  static propTypes = {
+    userData: PropTypes.object.isRequired
+  };
 
   static defaultProps = {};
 
-  renderUserDetails() {
+  renderUserDetails({ name, picture }) {
     return (
       <View style={styles.userDetailsWrapper}>
         <ButtonView style={styles.imageWrapper} onPress={Actions.profile}>
           <Image
-            source={Images.dummy_user}
+            source={{ uri: picture }}
             resizeMode="cover"
             style={styles.userImage}
           />
         </ButtonView>
         <Text size="large" type="bold" color={Colors.text.secondary}>
-          Tariq Allawala
+          {name}
         </Text>
       </View>
     );
@@ -96,12 +107,23 @@ export default class SideMenu extends React.PureComponent {
   }
 
   render() {
+    const { userData } = this.props;
     return (
       <View style={styles.container}>
-        {this.renderUserDetails()}
+        {!_.isEmpty(userData) && this.renderUserDetails(userData.user_info[0])}
         {this.renderOptionsList()}
-        {this.renderVersionNumber()}
+        {/* this.renderVersionNumber() */}
       </View>
     );
   }
 }
+
+const mapStateToProps = ({ user }) => ({
+  userData: user.profileData
+});
+const actions = {};
+
+export default connect(
+  mapStateToProps,
+  actions
+)(SideMenu);

@@ -23,7 +23,7 @@ export default StyleSheet.create({
     overflow: "hidden",
     ...AppStyles.mBottom20
   },
-  userImage: { width: 100, height: 100 },
+  userImage: { width: 100, height: 100, backgroundColor: Colors.grey2 },
   listItem: {
     padding: 10
   }

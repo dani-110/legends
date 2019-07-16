@@ -119,6 +119,42 @@ class Util {
   getErrorText = err => ERROR_MESSAGES[err];
 
   isSuccessResponse = response => _.isNull(response.error);
+
+  generateScoreCardData(data, singlePlayerName) {
+    console.log({ generateScoreCardData: data });
+    if (singlePlayerName) {
+      let FinalData = {
+        holeNumber: [],
+        index: [],
+        par: [],
+        players: []
+      };
+
+      const holeNumber = [];
+      const index = [];
+      const par = [];
+      const score = [];
+
+      data.forEach((element, itemIndex) => {
+        holeNumber[itemIndex] = element.hole_number;
+        index[itemIndex] = element.index;
+        par[itemIndex] = element.par;
+        score[itemIndex] = element.score;
+      });
+
+      return {
+        holeNumber,
+        index,
+        par,
+        players: [
+          {
+            name: singlePlayerName,
+            score
+          }
+        ]
+      };
+    }
+  }
 }
 
 export default new Util();

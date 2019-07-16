@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import { View, FlatList } from "react-native";
 import PropTypes from "prop-types";
 import _ from "lodash";
-import { Text, SimpleLoader, EmptyStateText } from "../../../components";
+import { SimpleLoader, EmptyStateText } from "../../../components";
 import { getLclMonthlyMatchesRequest } from "../../../actions/TournamentActions";
 import MatchesTable from "./MatchesTable";
 import styles from "./styles";

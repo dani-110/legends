@@ -15,8 +15,7 @@ import { ERROR_MESSAGES } from "../../constants";
 
 class Login extends Component {
   static propTypes = {
-    userSigninRequest: PropTypes.func.isRequired,
-    userData: PropTypes.object.isRequired
+    userSigninRequest: PropTypes.func.isRequired
   };
   state = {
     errors: {},
@@ -25,12 +24,6 @@ class Login extends Component {
     password: "",
     hidePassword: true
   };
-
-  componentWillMount() {
-    const { userData } = this.props;
-
-    if (userData && userData.token) Actions.reset("drawerMenu");
-  }
 
   email;
   password;
@@ -192,9 +185,7 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = ({ user }) => ({
-  userData: user.userData
-});
+const mapStateToProps = () => ({});
 
 const actions = { userSigninRequest };
 
