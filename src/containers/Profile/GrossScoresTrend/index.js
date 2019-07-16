@@ -1,18 +1,24 @@
 // @flow
+import _ from "lodash";
 import { connect } from "react-redux";
 import React from "react";
 import PropTypes from "prop-types";
 import { View } from "react-native";
-import { StackedAreaChart, YAxis, Grid } from "react-native-svg-charts";
+import {
+  StackedAreaChart,
+  YAxis,
+  Grid,
+  LineChart
+} from "react-native-svg-charts";
 import * as shape from "d3-shape";
 import { Text } from "../../../components";
 import styles from "./styles";
 import { AppStyles, Colors } from "../../../theme";
 
-class GrossScoresTrend extends React.Component {
+class GrossScoresTrend extends React.PureComponent {
   static propTypes = {
-    userData: PropTypes.object.isRequired,
-    activeGraph: PropTypes.string
+    activeGraph: PropTypes.string,
+    graphData: PropTypes.array.isRequired
   };
 
   static defaultProps = {
@@ -20,24 +26,19 @@ class GrossScoresTrend extends React.Component {
   };
 
   _renderGraph() {
-    const { userData, activeGraph } = this.props;
+    const { graphData, activeGraph } = this.props;
+    let YAxisData = [];
+    let XAxisData = [];
+    if (activeGraph === "grossScoreTrend") {
+      const uniqByData = _.uniqBy(graphData, "strokes");
+      YAxisData = uniqByData.map(element => element.strokes);
+      XAxisData = graphData.map(element => element.strokes);
+    } else {
+      const uniqByData = _.uniqBy(graphData, "current_handicap");
+      YAxisData = uniqByData.map(element => element.current_handicap);
+      XAxisData = graphData.map(element => element.current_handicap);
+    }
 
-    const data = userData[activeGraph];
-
-    const YAxisData = [1, 2, 3, 4, 5, 6, 7, 8];
-    const colors = [
-      Colors.graphColorOne,
-      Colors.graphColorTwo,
-      Colors.graphColorThree,
-      Colors.graphColorFour
-    ];
-    const keys = ["data1", "data2", "data3", "data4"];
-    const svgs = [
-      { onPress: () => console.log("data1") },
-      { onPress: () => console.log("data2") },
-      { onPress: () => console.log("data3") },
-      { onPress: () => console.log("data4") }
-    ];
     const contentInset = { top: 20, bottom: 20 };
     return (
       <View>
@@ -52,16 +53,15 @@ class GrossScoresTrend extends React.Component {
             numberOfTicks={8}
             formatLabel={value => `${value}`}
           />
-          <StackedAreaChart
-            style={[AppStyles.flex, AppStyles.mLeft15, AppStyles.height200]}
-            data={data}
-            keys={keys}
-            colors={colors}
-            curve={shape.curveLinear}
-            svgs={svgs}
+
+          <LineChart
+            style={[AppStyles.flex, AppStyles.mLeft15, { height: 200 }]}
+            data={XAxisData}
+            svg={{ stroke: Colors.graphColorThree, strokeWidth: 3 }}
+            contentInset={{ top: 20, bottom: 20 }}
           >
             <Grid />
-          </StackedAreaChart>
+          </LineChart>
         </View>
         <Text textAlign="center" size="xxLarge" color={Colors.grey3}>
           Tournament(s)
@@ -79,8 +79,12 @@ class GrossScoresTrend extends React.Component {
   }
 }
 
-const mapStateToProps = ({ user }) => ({
-  userData: user.data
+const mapStateToProps = ({ user }, { activeGraph }) => ({
+  userData: user.data,
+  graphData:
+    activeGraph === "grossScoreTrend"
+      ? user.profileData.gross_score_trend
+      : user.profileData.trending_handicap
 });
 
 const actions = {};

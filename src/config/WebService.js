@@ -81,6 +81,12 @@ export const GET_USER_PROFILE = {
   type: REQUEST_TYPE.GET
 };
 
+export const USER_SIGNOUT = {
+  route: "logout",
+  access_token_required: true,
+  type: REQUEST_TYPE.POST
+};
+
 export const callRequest = function(
   url,
   data,

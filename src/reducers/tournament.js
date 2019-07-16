@@ -6,7 +6,8 @@ import {
   GET_POTY_LEADERBOARD,
   GET_LCL_POINTS_TABLE,
   GET_LCL_MONTHLY_MATCHES,
-  GET_LMP_RESULTS
+  GET_LMP_RESULTS,
+  USER_SIGNOUT
 } from "../actions/ActionTypes";
 
 const initialState = Immutable({
@@ -347,6 +348,10 @@ export default (state = initialState, action) => {
       return Immutable.merge(state, {
         lmp: tempLmp
       });
+    }
+
+    case USER_SIGNOUT.SUCCESS: {
+      return Immutable.merge(state, initialState);
     }
 
     default:

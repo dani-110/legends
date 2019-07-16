@@ -27,7 +27,7 @@ function getScoreColor(score, par) {
 export default class ScoreValue extends React.Component {
   static propTypes = {
     par: PropTypes.number.isRequired,
-    score: PropTypes.number.isRequired
+    score: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired
   };
 
   static defaultProps = {};

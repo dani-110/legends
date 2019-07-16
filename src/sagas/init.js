@@ -9,11 +9,11 @@ function* watchReduxLoadFromDisk() {
     yield take(LOAD);
 
     try {
-      const { access_token } = yield select(getUser);
+      /* const { access_token } = yield select(getUser);
 
       if (!_.isUndefined(access_token)) {
         // Actions.reset("dashboard");
-      }
+      } */
     } catch (err) {
       console.warn("saga watchReduxLoadFromDisk error: ", err);
     }
