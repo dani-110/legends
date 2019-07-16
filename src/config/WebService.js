@@ -57,10 +57,28 @@ export const GET_POTY_LEADERBOARD = {
   type: REQUEST_TYPE.GET
 };
 
+export const GET_LCL_POINTS_TABLE = {
+  route: "GetLCLLeaderboard",
+  access_token_required: true,
+  type: REQUEST_TYPE.GET
+};
+
+export const GET_LCL_MONTHLY_MATCHES = {
+  route: "GetLCLMatches",
+  access_token_required: true,
+  type: REQUEST_TYPE.GET
+};
+
 export const GET_USER_PROFILE = {
   route: "GetProfile",
   access_token_required: true,
   type: REQUEST_TYPE.GET
+};
+
+export const USER_SIGNOUT = {
+  route: "logout",
+  access_token_required: true,
+  type: REQUEST_TYPE.POST
 };
 
 export const callRequest = function(

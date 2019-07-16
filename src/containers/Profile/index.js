@@ -50,7 +50,6 @@ class Profile extends Component {
   ];
 
   _renderUserDetails({ name, picture }) {
-    console.log({ name, picture });
     return (
       <View style={styles.userDetailsWrapper}>
         <View style={styles.imageContainer}>
@@ -90,7 +89,14 @@ class Profile extends Component {
             AppStyles.flexRow,
             AppStyles.centerInner
           ]}
-          onPress={Actions.dashboard_tab_scorecard}
+          onPress={() =>
+            Actions.dashboard_tab_scorecard({
+              scoreCardData: Util.generateScoreCardData(
+                this.props.userData.latest_scorecard,
+                this.props.userData.user_info[0].name
+              )
+            })
+          }
         >
           <RNImage style={styles.calendarImage} source={Images.calendar} />
           <Text style={[AppStyles.mLeft10]} color={Colors.white}>
@@ -117,7 +123,6 @@ class Profile extends Component {
     const { activeTabIndex } = this.state;
     const { isFetchingProfile, userData } = this.props;
 
-    console.log({ userData });
     return (
       <View style={[styles.container, AppStyles.flex]}>
         <CustomNavbar

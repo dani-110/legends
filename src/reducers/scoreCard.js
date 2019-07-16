@@ -1,6 +1,6 @@
 // @flow
 import Immutable from "seamless-immutable";
-import { SET_SELECTED_TABS } from "../actions/ActionTypes";
+import { SET_SELECTED_TABS, USER_SIGNOUT } from "../actions/ActionTypes";
 
 const initialState = Immutable({
   data: {
@@ -34,6 +34,10 @@ export default (state = initialState, action) => {
       return Immutable.merge(state, {
         selectedIndex: action.selectedIndex
       });
+    }
+
+    case USER_SIGNOUT.SUCCESS: {
+      return Immutable.merge(state, initialState);
     }
 
     default:

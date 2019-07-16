@@ -110,8 +110,8 @@ class Scores extends React.Component {
     const { isFetchingProfile, userData } = this.props;
     return (
       <View style={{ minHeight: 160 }}>
-        {isFetchingProfile && <SimpleLoader />}
-        {!isFetchingProfile && !_.isEmpty(userData) && this._renderUserScore()}
+        {isFetchingProfile && _.isEmpty(userData) && <SimpleLoader />}
+        {!_.isEmpty(userData) && this._renderUserScore()}
       </View>
     );
   }

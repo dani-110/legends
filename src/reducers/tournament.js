@@ -3,7 +3,10 @@ import Immutable from "seamless-immutable";
 import _ from "lodash";
 import {
   GET_POTY_TOURNAMENT,
-  GET_POTY_LEADERBOARD
+  GET_POTY_LEADERBOARD,
+  GET_LCL_POINTS_TABLE,
+  GET_LCL_MONTHLY_MATCHES,
+  USER_SIGNOUT
 } from "../actions/ActionTypes";
 
 const initialState = Immutable({
@@ -13,117 +16,83 @@ const initialState = Immutable({
     isFetchingLeaderboard: false
   },
   lcl: {
-    pointsTable: [
+    pointsTable: [],
+    monthlyMatches: [],
+    monthlyMatchess: [
       {
-        position: 1,
-        team: "Angry Birds",
-        points: 32
+        startTime: new Date(),
+        endTime: new Date(),
+        players: [
+          ["Angry Birdies", "Great White Sharks"],
+          ["Honey Badgers", "Dark Knights"],
+          ["Magnificent 8", "MIFOS"]
+        ]
       },
       {
-        position: 2,
-        team: "Honey Badgers",
-        points: 26.5
+        startTime: new Date(),
+        endTime: new Date(),
+        players: [
+          ["Angry Birdies", "Great White Sharks"],
+          ["Honey Badgers", "Dark Knights"],
+          ["Kitty Mafia", "Bye"]
+        ]
       },
       {
-        position: 3,
-        team: "Kitty Mafia",
-        points: 23
+        startTime: new Date(),
+        endTime: new Date(),
+        players: [
+          ["Angry Birdies", "Great White Sharks"],
+          ["Magnificent 8", "MIFOS"],
+          ["Kitty Mafia", "Bye"]
+        ]
       },
       {
-        position: 4,
-        team: "Magnificient 8",
-        points: 22.5
+        startTime: new Date(),
+        endTime: new Date(),
+        players: [
+          ["Honey Badgers", "Dark Knights"],
+          ["Magnificent 8", "MIFOS"],
+          ["Kitty Mafia", "Bye"]
+        ]
       },
       {
-        position: 5,
-        team: "Dark Knight",
-        points: 21.5
+        startTime: new Date(),
+        endTime: new Date(),
+        players: [
+          ["Angry Birdies", "Great White Sharks"],
+          ["Honey Badgers", "Dark Knights"],
+          ["Magnificent 8", "MIFOS"]
+        ]
       },
       {
-        position: 6,
-        team: "Great White Sharks",
-        points: 19
+        startTime: new Date(),
+        endTime: new Date(),
+        players: [
+          ["Angry Birdies", "Great White Sharks"],
+          ["Honey Badgers", "Dark Knights"],
+          ["Kitty Mafia", "Bye"]
+        ]
       },
       {
-        position: 7,
-        team: "MIFOS",
-        points: 14.5
+        startTime: new Date(),
+        endTime: new Date(),
+        players: [
+          ["Angry Birdies", "Great White Sharks"],
+          ["Magnificent 8", "MIFOS"],
+          ["Kitty Mafia", "Bye"]
+        ]
+      },
+      {
+        startTime: new Date(),
+        endTime: new Date(),
+        players: [
+          ["Honey Badgers", "Dark Knights"],
+          ["Magnificent 8", "MIFOS"],
+          ["Kitty Mafia", "Bye"]
+        ]
       }
     ],
-    monthlyMatches: [
-      {
-        startTime: new Date(),
-        endTime: new Date(),
-        players: [
-          ["Angry Birdies", "Great White Sharks"],
-          ["Honey Badgers", "Dark Knights"],
-          ["Magnificent 8", "MIFOS"]
-        ]
-      },
-      {
-        startTime: new Date(),
-        endTime: new Date(),
-        players: [
-          ["Angry Birdies", "Great White Sharks"],
-          ["Honey Badgers", "Dark Knights"],
-          ["Kitty Mafia", "Bye"]
-        ]
-      },
-      {
-        startTime: new Date(),
-        endTime: new Date(),
-        players: [
-          ["Angry Birdies", "Great White Sharks"],
-          ["Magnificent 8", "MIFOS"],
-          ["Kitty Mafia", "Bye"]
-        ]
-      },
-      {
-        startTime: new Date(),
-        endTime: new Date(),
-        players: [
-          ["Honey Badgers", "Dark Knights"],
-          ["Magnificent 8", "MIFOS"],
-          ["Kitty Mafia", "Bye"]
-        ]
-      },
-      {
-        startTime: new Date(),
-        endTime: new Date(),
-        players: [
-          ["Angry Birdies", "Great White Sharks"],
-          ["Honey Badgers", "Dark Knights"],
-          ["Magnificent 8", "MIFOS"]
-        ]
-      },
-      {
-        startTime: new Date(),
-        endTime: new Date(),
-        players: [
-          ["Angry Birdies", "Great White Sharks"],
-          ["Honey Badgers", "Dark Knights"],
-          ["Kitty Mafia", "Bye"]
-        ]
-      },
-      {
-        startTime: new Date(),
-        endTime: new Date(),
-        players: [
-          ["Angry Birdies", "Great White Sharks"],
-          ["Magnificent 8", "MIFOS"],
-          ["Kitty Mafia", "Bye"]
-        ]
-      },
-      {
-        startTime: new Date(),
-        endTime: new Date(),
-        players: [
-          ["Honey Badgers", "Dark Knights"],
-          ["Magnificent 8", "MIFOS"],
-          ["Kitty Mafia", "Bye"]
-        ]
-      }
-    ]
+    isFetchingLeaderboard: false
   },
   lmp: {
     tournaments: [
@@ -342,6 +311,60 @@ export default (state = initialState, action) => {
       return Immutable.merge(state, {
         poty: tempPotyLeaderboard
       });
+    }
+
+    case GET_LCL_POINTS_TABLE.REQUEST: {
+      const tempLcl = _.cloneDeep(state.lcl);
+      tempLcl.isFetchingLeaderboard = true;
+      return Immutable.merge(state, {
+        lcl: tempLcl
+      });
+    }
+
+    case GET_LCL_POINTS_TABLE.SUCCESS: {
+      const tempLcl = _.cloneDeep(state.lcl);
+      tempLcl.pointsTable = action.data;
+      tempLcl.isFetchingLeaderboard = false;
+      return Immutable.merge(state, {
+        lcl: tempLcl
+      });
+    }
+
+    case GET_LCL_POINTS_TABLE.FAILURE: {
+      const tempLcl = _.cloneDeep(state.lcl);
+      tempLcl.isFetchingLeaderboard = false;
+      return Immutable.merge(state, {
+        lcl: tempLcl
+      });
+    }
+
+    case GET_LCL_MONTHLY_MATCHES.REQUEST: {
+      const tempLcl = _.cloneDeep(state.lcl);
+      tempLcl.isFetchingLeaderboard = true;
+      return Immutable.merge(state, {
+        lcl: tempLcl
+      });
+    }
+
+    case GET_LCL_MONTHLY_MATCHES.SUCCESS: {
+      const tempLcl = _.cloneDeep(state.lcl);
+      tempLcl.monthlyMatches = action.data;
+      tempLcl.isFetchingLeaderboard = false;
+      return Immutable.merge(state, {
+        lcl: tempLcl
+      });
+    }
+
+    case GET_LCL_MONTHLY_MATCHES.FAILURE: {
+      const tempLcl = _.cloneDeep(state.lcl);
+      tempLcl.isFetchingLeaderboard = false;
+      return Immutable.merge(state, {
+        lcl: tempLcl
+      });
+    }
+
+    case USER_SIGNOUT.SUCCESS: {
+      return Immutable.merge(state, initialState);
     }
 
     default:

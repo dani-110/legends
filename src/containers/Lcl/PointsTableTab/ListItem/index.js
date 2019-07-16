@@ -31,7 +31,7 @@ export default class ListItem extends React.PureComponent {
           size="small"
           color={Colors.text.secondary}
         >
-          {data.position}
+          {data.rank}
         </Text>
         <View
           style={[
@@ -41,7 +41,7 @@ export default class ListItem extends React.PureComponent {
           ]}
         >
           <Text type="bold" size="small" color={Colors.text.secondary}>
-            {data.team}
+            {data.team_name}
           </Text>
         </View>
         <View style={styles.points}>
