@@ -3,7 +3,8 @@ import Immutable from "seamless-immutable";
 import {
   SET_SELECTED_TABS,
   SET_TABBAR_TYPE,
-  TOGGLE_TABBAR
+  TOGGLE_TABBAR,
+  USER_SIGNOUT
 } from "../actions/ActionTypes";
 
 const initialState = Immutable({
@@ -30,6 +31,10 @@ export default (state = initialState, action) => {
       return Immutable.merge(state, {
         showTabbar: action.showTabbar
       });
+    }
+
+    case USER_SIGNOUT.SUCCESS: {
+      return Immutable.merge(state, initialState);
     }
 
     default:

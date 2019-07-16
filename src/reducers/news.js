@@ -2,7 +2,7 @@
 import Immutable from "seamless-immutable";
 import moment from "moment";
 
-import { GET_NEWS } from "../actions/ActionTypes";
+import { GET_NEWS, USER_SIGNOUT } from "../actions/ActionTypes";
 
 const initialState = Immutable({
   isFetching: false,
@@ -57,6 +57,10 @@ export default (state = initialState, action) => {
       return Immutable.merge(state, {
         isFetching: false
       });
+    }
+
+    case USER_SIGNOUT.SUCCESS: {
+      return Immutable.merge(state, initialState);
     }
 
     default:

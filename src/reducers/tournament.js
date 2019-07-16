@@ -7,7 +7,8 @@ import {
   GET_LCL_POINTS_TABLE,
   GET_LCL_MONTHLY_MATCHES,
   GET_LMP_RESULTS,
-  GET_DMP_RESULTS
+  GET_DMP_RESULTS,
+  USER_SIGNOUT
 } from "../actions/ActionTypes";
 
 const initialState = Immutable({
@@ -238,6 +239,10 @@ export default (state = initialState, action) => {
       return Immutable.merge(state, {
         dmp: tempDmp
       });
+    }
+
+    case USER_SIGNOUT.SUCCESS: {
+      return Immutable.merge(state, initialState);
     }
 
     default:
