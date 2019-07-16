@@ -4,6 +4,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import { View } from "react-native";
 import styles from "./styles";
+import {
+  getPotyScoreNetRequest,
+  getPotyScoreGrossRequest
+} from "../../actions/LiveMatchesActions";
 import { CustomNavbar, TopTabs } from "../../components";
 import { NAVBAR_THEME } from "../../constants";
 import Tabbar from "../../components/Tabbar";
@@ -13,8 +17,13 @@ import { setTabbarType } from "../../actions/GeneralActions";
 
 class PotyLiveScore extends React.Component {
   static propTypes = {
-    liveScoreData: PropTypes.array.isRequired,
-    setTabbarType: PropTypes.func.isRequired
+    setTabbarType: PropTypes.func.isRequired,
+    liveScoreDataNet: PropTypes.array.isRequired,
+    liveScoreDataGross: PropTypes.array.isRequired,
+    isFetchingNet: PropTypes.bool.isRequired,
+    isFetchingGross: PropTypes.bool.isRequired,
+    getPotyScoreNetRequest: PropTypes.func.isRequired,
+    getPotyScoreGrossRequest: PropTypes.func.isRequired
   };
 
   static defaultProps = {};
@@ -40,6 +49,10 @@ class PotyLiveScore extends React.Component {
     activeTabIndex: 0
   };
 
+  componentWillMount() {
+    this.props.getPotyScoreNetRequest();
+  }
+
   _renderTabsHeader() {
     return (
       <TopTabs data={this.TABS_DATA} activeIndex={this.state.activeTabIndex} />
@@ -49,11 +62,17 @@ class PotyLiveScore extends React.Component {
   TABS_DATA = [
     {
       title: "Net",
-      onPress: () => Util.setSelectedTabIndex(this, 0)
+      onPress: () => {
+        this.props.getPotyScoreNetRequest();
+        Util.setSelectedTabIndex(this, 0);
+      }
     },
     {
       title: "Gross",
-      onPress: () => Util.setSelectedTabIndex(this, 1)
+      onPress: () => {
+        this.props.getPotyScoreGrossRequest();
+        Util.setSelectedTabIndex(this, 1);
+      }
     }
   ];
 
@@ -66,7 +85,12 @@ class PotyLiveScore extends React.Component {
   }
 
   render() {
-    const { liveScoreData } = this.props;
+    const {
+      liveScoreDataNet,
+      liveScoreDataGross,
+      isFetchingNet,
+      isFetchingGross
+    } = this.props;
     const { activeTabIndex } = this.state;
 
     return (
@@ -81,10 +105,16 @@ class PotyLiveScore extends React.Component {
         {this._renderTabsHeader()}
 
         {activeTabIndex === 0 && (
-          <PotyScoreTable liveScoreData={liveScoreData} />
+          <PotyScoreTable
+            liveScoreData={liveScoreDataNet}
+            isFetchingData={isFetchingNet}
+          />
         )}
         {activeTabIndex === 1 && (
-          <PotyScoreTable liveScoreData={liveScoreData} />
+          <PotyScoreTable
+            liveScoreData={liveScoreDataGross}
+            isFetchingData={isFetchingGross}
+          />
         )}
 
         {/* <Tabbar defaultTabbar={false} /> */}
@@ -94,10 +124,17 @@ class PotyLiveScore extends React.Component {
 }
 
 const mapStateToProps = ({ liveScore }) => ({
-  liveScoreData: liveScore.poty
+  liveScoreDataNet: liveScore.poty.net,
+  liveScoreDataGross: liveScore.poty.gross,
+  isFetchingNet: liveScore.poty.isFetchingNet,
+  isFetchingGross: liveScore.poty.isFetchingGross
 });
 
-const actions = { setTabbarType };
+const actions = {
+  setTabbarType,
+  getPotyScoreNetRequest,
+  getPotyScoreGrossRequest
+};
 
 export default connect(
   mapStateToProps,

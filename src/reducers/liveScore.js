@@ -1,13 +1,24 @@
 // @flow
 import Immutable from "seamless-immutable";
+import _ from "lodash";
 
-import { USER_SIGNOUT } from "../actions/ActionTypes";
+import {
+  GET_POTY_SCORE_NET,
+  GET_POTY_SCORE_GROSS,
+  USER_SIGNOUT
+} from "../actions/ActionTypes";
 
 const initialState = Immutable({
   lclSinglesOne: {
     team: [
-      { name: "Kitty Mafia", score: "3.5" },
-      { name: "Dark Knights", score: "2.5" }
+      {
+        name: "Kitty Mafia",
+        score: "3.5"
+      },
+      {
+        name: "Dark Knights",
+        score: "2.5"
+      }
     ],
     players: [["Adnan Afridi"], ["Navaid Ali"]],
     score: [
@@ -57,8 +68,14 @@ const initialState = Immutable({
   },
   lclFoursome: {
     team: [
-      { name: "Kitty Mafia", score: "3.5" },
-      { name: "Dark Knights", score: "2.5" }
+      {
+        name: "Kitty Mafia",
+        score: "3.5"
+      },
+      {
+        name: "Dark Knights",
+        score: "2.5"
+      }
     ],
     players: [["Adnan Afridi", "Ahmed Ismail"], ["Navaid Ali", "Saad Ali"]],
     score: [
@@ -108,8 +125,14 @@ const initialState = Immutable({
   },
   lclSinglesTwo: {
     team: [
-      { name: "Dark Knights", score: "2.5" },
-      { name: "Kitty Mafia", score: "3.5" }
+      {
+        name: "Dark Knights",
+        score: "2.5"
+      },
+      {
+        name: "Kitty Mafia",
+        score: "3.5"
+      }
     ],
     players: [["Navaid Ali"], ["Adnan Afridi"]],
     score: [
@@ -251,7 +274,13 @@ const initialState = Immutable({
       }
     ]
   },
-  poty: [
+  poty: {
+    net: [],
+    isFetchingNet: false,
+    gross: [],
+    isFetchingGross: false
+  },
+  potyy: [
     {
       number: "1",
       name: "Khurram Khan",
@@ -320,11 +349,55 @@ const initialState = Immutable({
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    // case USER_SIGNIN.SUCCESS: {
-    //   return Immutable.merge(state, {
-    //     data: action.data
-    //   });
-    // }
+    case GET_POTY_SCORE_NET.REQUEST: {
+      const tempPoty = _.cloneDeep(state.poty);
+      tempPoty.isFetchingNet = true;
+      return Immutable.merge(state, {
+        poty: tempPoty
+      });
+    }
+
+    case GET_POTY_SCORE_NET.SUCCESS: {
+      const tempPoty = _.cloneDeep(state.poty);
+      tempPoty.net = action.data;
+      tempPoty.isFetchingNet = false;
+      return Immutable.merge(state, {
+        poty: tempPoty
+      });
+    }
+
+    case GET_POTY_SCORE_NET.FAILURE: {
+      const tempPoty = _.cloneDeep(state.poty);
+      tempPoty.isFetchingNet = false;
+      return Immutable.merge(state, {
+        poty: tempPoty
+      });
+    }
+
+    case GET_POTY_SCORE_GROSS.REQUEST: {
+      const tempPoty = _.cloneDeep(state.poty);
+      tempPoty.isFetchingGross = true;
+      return Immutable.merge(state, {
+        poty: tempPoty
+      });
+    }
+
+    case GET_POTY_SCORE_GROSS.SUCCESS: {
+      const tempPoty = _.cloneDeep(state.poty);
+      tempPoty.gross = action.data;
+      tempPoty.isFetchingGross = false;
+      return Immutable.merge(state, {
+        poty: tempPoty
+      });
+    }
+
+    case GET_POTY_SCORE_GROSS.FAILURE: {
+      const tempPoty = _.cloneDeep(state.poty);
+      tempPoty.isFetchingGross = false;
+      return Immutable.merge(state, {
+        poty: tempPoty
+      });
+    }
 
     case USER_SIGNOUT.SUCCESS: {
       return Immutable.merge(state, initialState);
