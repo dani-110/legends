@@ -3,13 +3,15 @@ import Immutable from "seamless-immutable";
 import {
   SET_SELECTED_TABS,
   SET_TABBAR_TYPE,
-  TOGGLE_TABBAR
+  TOGGLE_TABBAR,
+  GET_DASHBOARD_DATA
 } from "../actions/ActionTypes";
 
 const initialState = Immutable({
   selectedIndex: 1,
   defaultTabbar: true,
-  showTabbar: true
+  showTabbar: true,
+  current_match: []
 });
 
 export default (state = initialState, action) => {
@@ -29,6 +31,12 @@ export default (state = initialState, action) => {
     case TOGGLE_TABBAR: {
       return Immutable.merge(state, {
         showTabbar: action.showTabbar
+      });
+    }
+
+    case GET_DASHBOARD_DATA.SUCCESS: {
+      return Immutable.merge(state, {
+        current_match: action.data && action.data.current_match
       });
     }
 

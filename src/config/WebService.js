@@ -37,6 +37,14 @@ export const USER_SIGNIN = {
   type: REQUEST_TYPE.POST
 };
 
+// API DASHBOARD ROUTES
+
+export const GET_DASHBOARD_DATA = {
+  route: "DashboardData",
+  access_token_required: true,
+  type: REQUEST_TYPE.GET
+};
+
 // API TOURNAMENTS ROUTES
 
 export const GET_POTY_TOURNAMENT = {

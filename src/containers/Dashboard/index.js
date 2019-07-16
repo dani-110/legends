@@ -2,6 +2,8 @@
 import { connect } from "react-redux";
 import React, { Component } from "react";
 import { View, ScrollView } from "react-native";
+import PropTypes from "prop-types";
+import { getDashboardDataRequest } from "../../actions/GeneralActions";
 import { CustomNavbar, GreenBgFlayer } from "../../components";
 import PotyLeaderboardDB from "./PotyLeaderboardDB";
 import NewsItem from "./NewsItem";
@@ -10,6 +12,16 @@ import styles from "./styles";
 import { NAVBAR_THEME } from "../../constants";
 
 class Dashboard extends Component {
+  static propTypes = {
+    getDashboardDataRequest: PropTypes.func.isRequired
+  };
+
+  static defaultProps = {};
+
+  componentWillMount() {
+    this.props.getDashboardDataRequest();
+  }
+
   renderLeaderboard() {
     return <PotyLeaderboardDB />;
   }
@@ -46,7 +58,7 @@ class Dashboard extends Component {
 
 const mapStateToProps = () => ({});
 
-const actions = {};
+const actions = { getDashboardDataRequest };
 
 export default connect(
   mapStateToProps,

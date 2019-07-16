@@ -26,6 +26,7 @@ export const SET_SELECTED_TABS = "SET_SELECTED_TABS";
 export const SET_TABBAR_TYPE = "SET_TABBAR_TYPE";
 export const TOGGLE_TABBAR = "TOGGLE_TABBAR";
 export const LOGOUT = "LOGOUT";
+export const GET_DASHBOARD_DATA = createRequestTypes("GET_DASHBOARD_DATA");
 export const EMPTY = createRequestTypes("EMPTY");
 export const GET_NEWS = createRequestTypes("GET_NEWS");
 export const GET_POTY_LEADERBOARD = createRequestTypes("GET_POTY_LEADERBOARD");
