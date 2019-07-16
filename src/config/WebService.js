@@ -87,6 +87,18 @@ export const GET_USER_PROFILE = {
   type: REQUEST_TYPE.GET
 };
 
+export const GET_POTY_SCORE_NET = {
+  route: "GetScoresPotyNet",
+  access_token_required: true,
+  type: REQUEST_TYPE.GET
+};
+
+export const GET_POTY_SCORE_GROSS = {
+  route: "GetScoresPotyGross",
+  access_token_required: true,
+  type: REQUEST_TYPE.GET
+};
+
 export const USER_SIGNOUT = {
   route: "logout",
   access_token_required: true,

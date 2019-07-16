@@ -38,3 +38,6 @@ export const GET_LMP_RESULTS = createRequestTypes("GET_LMP_RESULTS");
 export const GET_DMP_RESULTS = createRequestTypes("GET_DMP_RESULTS");
 
 export const GET_USER_PROFILE = createRequestTypes("GET_USER_PROFILE");
+
+export const GET_POTY_SCORE_NET = createRequestTypes("GET_POTY_SCORE_NET");
+export const GET_POTY_SCORE_GROSS = createRequestTypes("GET_POTY_SCORE_GROSS");
