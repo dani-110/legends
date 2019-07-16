@@ -5,7 +5,8 @@ import {
   GET_POTY_LEADERBOARD,
   GET_LCL_POINTS_TABLE,
   GET_LCL_MONTHLY_MATCHES,
-  GET_LMP_RESULTS
+  GET_LMP_RESULTS,
+  GET_DMP_RESULTS
 } from "./ActionTypes";
 
 export function getPotyTournamentRequest(payload, responseCallback) {
@@ -96,5 +97,24 @@ export function getLmpResultsSuccess(data) {
 export function getLmpResultsFailure() {
   return {
     type: GET_LMP_RESULTS.FAILURE
+  };
+}
+
+export function getDmpResultsRequest() {
+  return {
+    type: GET_DMP_RESULTS.REQUEST
+  };
+}
+
+export function getDmpResultsSuccess(data) {
+  return {
+    data,
+    type: GET_DMP_RESULTS.SUCCESS
+  };
+}
+
+export function getDmpResultsFailure() {
+  return {
+    type: GET_DMP_RESULTS.FAILURE
   };
 }

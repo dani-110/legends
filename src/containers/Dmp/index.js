@@ -5,24 +5,33 @@ import React from "react";
 import PropTypes from "prop-types";
 import { View, ScrollView } from "react-native";
 import Orientation from "react-native-orientation";
-import { Text, CustomNavbar, ButtonView } from "../../components";
+import {
+  Text,
+  CustomNavbar,
+  ButtonView,
+  SimpleLoader,
+  EmptyStateText
+} from "../../components";
+import { getDmpResultsRequest } from "../../actions/TournamentActions";
 import { NAVBAR_THEME } from "../../constants";
 import styles from "./styles";
 import { Colors, AppStyles } from "../../theme";
 
-const ROUND_NAMES = [
-  "Round 1 (32)",
-  "Round 2 (16)",
-  "Round 3 (8)",
-  "S/Final (4)",
-  "Final (2)",
-  "Winner"
-];
+const ROUND_NAMES = {
+  round1: "Round 1",
+  round2: "Round 2",
+  round3: "Round 3",
+  quater_final: "Quarter Final",
+  semi_final: "S/Final",
+  final: "Final",
+  winner: "Winner"
+};
 
 const ROUND_TABS = [
   "Round 1",
   "Round 2",
   "Round 3",
+  "Quarter Final",
   "S/Final",
   "Final",
   "Winner"
@@ -32,7 +41,9 @@ const ITEM_WIDTH = 187;
 
 class Dmp extends React.Component {
   static propTypes = {
-    lmpTournamentData: PropTypes.object.isRequired
+    dmpTournamentData: PropTypes.object.isRequired,
+    isFetchingData: PropTypes.bool.isRequired,
+    getDmpResultsRequest: PropTypes.func.isRequired
   };
 
   static defaultProps = {};
@@ -45,6 +56,7 @@ class Dmp extends React.Component {
 
   componentWillMount() {
     Orientation.lockToLandscapeRight();
+    this.props.getDmpResultsRequest();
   }
 
   componentWillUnmount() {
@@ -99,35 +111,43 @@ class Dmp extends React.Component {
     }
   };
 
-  _renderHeader = () => (
-    <View style={[AppStyles.flexRow, AppStyles.mBottom20]}>
-      {ROUND_NAMES.map((item, index) => (
-        <View
-          style={[
-            styles.headerItemWrapper,
-            index === ROUND_NAMES.length - 1 && styles.headerLastItemWrapper
-          ]}
-          key={`sec-${index}`}
-        >
-          <Text color={Colors.grey6} textAlign="center" type="bold">
-            {item}
-          </Text>
-        </View>
-      ))}
-    </View>
-  );
+  _renderHeader = () => {
+    const { dmpTournamentData } = this.props;
+    const rounds = Object.keys(dmpTournamentData);
+    return (
+      <View style={[AppStyles.flexRow, AppStyles.mBottom20]}>
+        {rounds.map((item, index) => (
+          <View
+            style={[
+              styles.headerItemWrapper,
+              index === rounds.length - 1 && styles.headerLastItemWrapper
+            ]}
+            key={`sec-${index}`}
+          >
+            <Text color={Colors.grey6} textAlign="center" type="bold">
+              {`${ROUND_NAMES[item]} ${
+                dmpTournamentData[item].length > 1
+                  ? `(${dmpTournamentData[item].length})`
+                  : ""
+              }`}
+            </Text>
+          </View>
+        ))}
+      </View>
+    );
+  };
 
   _renderChart = () => {
-    const {
-      lmpTournamentData: { tournaments }
-    } = this.props;
+    const { dmpTournamentData } = this.props;
+    const rounds = Object.keys(dmpTournamentData);
+
     return (
       <React.Fragment>
         {this._renderHeader()}
 
         <View style={[styles.tournamentBracket]}>
-          {tournaments.map((item, tournamentIndex) =>
-            this._renderColumn(item, tournamentIndex)
+          {rounds.map((item, tournamentIndex) =>
+            this._renderColumn(dmpTournamentData[item], tournamentIndex)
           )}
         </View>
       </React.Fragment>
@@ -142,28 +162,29 @@ class Dmp extends React.Component {
 
   _renderPair = (pair, index) => (
     <View key={`pair-${index}`} style={[styles.pair]}>
-      {pair.length > 1 && (
+      {pair.team1_name && pair.team2_name && (
         <React.Fragment>
           <View style={[styles.pairBorder]} />
           <View style={[styles.pairConnector]} />
         </React.Fragment>
       )}
-      {pair.map((item, itemIndex) => this._renderItem(item, itemIndex))}
+      {this._renderItem(pair.team1_name, pair.winning_team == 1)}
+      {this._renderItem(pair.team2_name, pair.winning_team == 2)}
     </View>
   );
 
-  _renderItem(item, index) {
-    return (
-      <View key={`item-${index}`} style={[styles.itemWrapper]}>
-        <View style={[styles.item, item.won && styles.itemWon]}>
-          {item.name.map((name, nameIndex) => (
-            <Text key={`name-${nameIndex}`} color={Colors.white} size="xxSmall">
-              {name}
+  _renderItem(item, won) {
+    if (item) {
+      return (
+        <View key={`item-${item}`} style={[styles.itemWrapper]}>
+          <View style={[styles.item, won && styles.itemWon]}>
+            <Text color={Colors.white} size="xxSmall">
+              {item || ""}
             </Text>
-          ))}
+          </View>
         </View>
-      </View>
-    );
+      );
+    }
   }
 
   _renderTabs(selectedTabIndex) {
@@ -198,6 +219,8 @@ class Dmp extends React.Component {
 
   render() {
     const { selectedTabIndex } = this.state;
+    const { dmpTournamentData, isFetchingData } = this.props;
+
     return (
       <View style={[styles.container]}>
         <CustomNavbar
@@ -214,17 +237,23 @@ class Dmp extends React.Component {
             styles.innerWrapper
           ]}
         >
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            ref={ref => {
-              this.horizontalScroll = ref;
-            }}
-            onScroll={this._onHorizontalScoll}
-            scrollEventThrottle={5}
-          >
-            <ScrollView>{this._renderChart()}</ScrollView>
-          </ScrollView>
+          {isFetchingData && _.isEmpty(dmpTournamentData) && <SimpleLoader />}
+          {_.isEmpty(dmpTournamentData) && !isFetchingData && (
+            <EmptyStateText />
+          )}
+          {!_.isEmpty(dmpTournamentData) && (
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              ref={ref => {
+                this.horizontalScroll = ref;
+              }}
+              onScroll={this._onHorizontalScoll}
+              scrollEventThrottle={5}
+            >
+              <ScrollView>{this._renderChart()}</ScrollView>
+            </ScrollView>
+          )}
 
           {/* {this._renderTabs(selectedTabIndex)} */}
         </View>
@@ -234,10 +263,11 @@ class Dmp extends React.Component {
 }
 
 const mapStateToProps = ({ tournament }) => ({
-  lmpTournamentData: tournament.dmp
+  dmpTournamentData: tournament.dmp.tournaments,
+  isFetchingData: tournament.dmp.isFetchingLeaderboard
 });
 
-const actions = {};
+const actions = { getDmpResultsRequest };
 
 export default connect(
   mapStateToProps,
