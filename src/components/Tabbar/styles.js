@@ -42,6 +42,9 @@ export default StyleSheet.create({
   btn2Image: {
     marginRight: 5
   },
+  disabled: {
+    backgroundColor: Colors.greyTint
+  },
   selectedBar: {
     width: 20,
     height: 3,

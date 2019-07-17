@@ -113,6 +113,14 @@ export const USER_SIGNOUT = {
   type: REQUEST_TYPE.POST
 };
 
+// API ENTER SCORE ROUTES
+
+export const GET_ENTER_SCORE_DATA = {
+  route: "GetHoleDataForTournament",
+  access_token_required: true,
+  type: REQUEST_TYPE.GET
+};
+
 export const callRequest = function(
   url,
   data,

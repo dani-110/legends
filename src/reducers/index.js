@@ -9,6 +9,7 @@ import liveMatches from "./liveMatches";
 import notification from "./notification";
 import scoreCard from "./scoreCard";
 import liveScore from "./liveScore";
+import enterScore from "./enterScore";
 
 export default combineReducers({
   route: navigator,
@@ -19,5 +20,6 @@ export default combineReducers({
   liveMatches,
   notification,
   scoreCard,
-  liveScore
+  liveScore,
+  enterScore
 });

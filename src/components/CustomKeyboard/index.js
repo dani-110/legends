@@ -32,7 +32,7 @@ export default class CustomKeyboard extends React.PureComponent {
     rippleOnAndroid: false,
     visible: true,
     onKeyPress: () => {
-      console.log("Key pressed");
+      // console.log("Key pressed");
     }
   };
   toggleModal = visible => {
@@ -41,7 +41,7 @@ export default class CustomKeyboard extends React.PureComponent {
     }).start();
   };
   componentWillReceiveProps(nextProps) {
-    console.log("prop received  ", nextProps);
+    // console.log("prop received  ", nextProps);
     this.toggleModal(nextProps.visible);
   }
 
@@ -99,11 +99,11 @@ export default class CustomKeyboard extends React.PureComponent {
           <View style={styles.numericWraper}>
             {numericKeys.map((row, current) => {
               // sad
-              console.log({ row, current });
+              // console.log({ row, current });
               return (
                 <View style={styles.rowView}>
                   {row.map((item, indexx) => {
-                    console.log({ rowss: row, currentsss: current });
+                    // console.log({ rowss: row, currentsss: current });
                     return (
                       <TouchableOpacity
                         onPress={() => onKeyPress(item)}

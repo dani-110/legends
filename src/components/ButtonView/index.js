@@ -11,29 +11,43 @@ export default class ButtonView extends React.PureComponent {
       PropTypes.number
     ]),
     children: PropTypes.node.isRequired,
-    rippleOnAndroid: PropTypes.bool
+    rippleOnAndroid: PropTypes.bool,
+    isDisabled: PropTypes.bool
   };
 
   static defaultProps = {
     style: {},
-    rippleOnAndroid: false
+    rippleOnAndroid: false,
+    isDisabled: false
   };
 
   render() {
-    const { style, children, rippleOnAndroid, ...rest } = this.props;
+    const {
+      style,
+      children,
+      rippleOnAndroid,
+      isDisabled,
+      ...rest
+    } = this.props;
 
     if (Util.isPlatformAndroid() && rippleOnAndroid) {
-      return (
+      return !isDisabled ? (
         <TouchableNativeFeedback {...rest}>
           <View style={style}>{this.props.children}</View>
         </TouchableNativeFeedback>
+      ) : (
+        <View style={style}>{this.props.children}</View>
       );
     }
 
-    return (
+    return !isDisabled ? (
       <TouchableOpacity style={style} activeOpacity={0.7} {...rest}>
         {this.props.children}
       </TouchableOpacity>
+    ) : (
+      <View style={style} activeOpacity={0.7} {...rest}>
+        {this.props.children}
+      </View>
     );
   }
 }

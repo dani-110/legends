@@ -9,7 +9,6 @@ export function getPotyScoreNetRequest() {
 }
 
 export function getPotyScoreNetSuccess(data) {
-  console.log("I was here", data);
   return {
     data,
     type: GET_POTY_SCORE_NET.SUCCESS
@@ -29,7 +28,6 @@ export function getPotyScoreGrossRequest() {
 }
 
 export function getPotyScoreGrossSuccess(data) {
-  console.log("I was here", data);
   return {
     data,
     type: GET_POTY_SCORE_GROSS.SUCCESS
