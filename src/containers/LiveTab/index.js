@@ -3,18 +3,25 @@ import { connect } from "react-redux";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { View, SectionList } from "react-native";
+import { getLivedataRequest } from "../../actions/LiveMatchesActions";
 import { CustomNavbar, Text } from "../../components";
 import { NAVBAR_THEME } from "../../constants";
 import ListItem from "./ListItem";
 import styles from "./styles";
-import { AppStyles, Colors } from "../../theme";
+import { AppStyles } from "../../theme";
 
 class LiveTab extends Component {
   static propTypes = {
-    liveMatches: PropTypes.array.isRequired
+    liveMatches: PropTypes.array.isRequired,
+    getLivedataRequest: PropTypes.func.isRequired,
+    isFetchingData: PropTypes.bool.isRequired
   };
 
   static defaultProps = {};
+
+  componentWillMount() {
+    this._getLivedataRequest();
+  }
 
   _renderSectionHeader({ section: { title } }) {
     return (
@@ -26,12 +33,16 @@ class LiveTab extends Component {
     );
   }
 
+  _getLivedataRequest = () => {
+    this.props.getLivedataRequest();
+  };
+
   _renderItem({ item, index, section }) {
     return <ListItem data={item} sectionTitle={section.title} />;
   }
 
   renderMatchesList() {
-    const { liveMatches } = this.props;
+    const { liveMatches, isFetchingData } = this.props;
     return (
       <View style={[AppStyles.basePadding, AppStyles.flex]}>
         <SectionList
@@ -39,10 +50,16 @@ class LiveTab extends Component {
           renderSectionHeader={this._renderSectionHeader}
           sections={liveMatches}
           keyExtractor={(item, index) => item + index}
-          /* onRefresh={this._getAvailableJobsRequest}
-          refreshing={loading} */
+          onRefresh={this._getLivedataRequest}
+          refreshing={isFetchingData}
           stickySectionHeadersEnabled={false}
           showsVerticalScrollIndicator={false}
+          ListEmptyComponent={() => {
+            if (!isFetchingData) {
+              return <Text textAlign="center">No live matches</Text>;
+            }
+            return null;
+          }}
         />
       </View>
     );
@@ -64,10 +81,12 @@ class LiveTab extends Component {
 }
 
 const mapStateToProps = ({ liveMatches }) => ({
-  liveMatches: liveMatches.data
+  liveMatches: liveMatches.realData,
+  realLiveMatches: liveMatches.realData,
+  isFetchingData: liveMatches.isFetching
 });
 
-const actions = {};
+const actions = { getLivedataRequest };
 
 export default connect(
   mapStateToProps,

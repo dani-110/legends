@@ -123,13 +123,6 @@ class Util {
   generateScoreCardData(data, singlePlayerName) {
     console.log({ generateScoreCardData: data });
     if (singlePlayerName) {
-      let FinalData = {
-        holeNumber: [],
-        index: [],
-        par: [],
-        players: []
-      };
-
       const holeNumber = [];
       const index = [];
       const par = [];
@@ -155,6 +148,46 @@ class Util {
       };
     }
   }
+
+  getManipulatedLiveMatchesData = data => {
+    // asd
+    // console.log({ getManipulatedLiveMatchesData: data });
+    const matchesType = ["poty", "lcl", "lmp", "dmp"];
+    const myData = [];
+
+    matchesType.forEach(element => {
+      const innerData = [];
+
+      data[element].forEach(innerElement => {
+        innerData.push({
+          time: moment().toISOString(),
+          title:
+            element === "poty"
+              ? innerElement.name
+              : element === "lcl"
+              ? `${innerElement.team_1_initials} vs ${
+                  innerElement.team_2_initials
+                }`
+              : `${innerElement.team1_name} vs ${innerElement.team2_name}`,
+          desc:
+            element === "lcl"
+              ? `${innerElement.team1_name} vs ${innerElement.team2_name}\n${
+                  innerElement.venue
+                }`
+              : innerElement.venue
+        });
+      });
+
+      const itemData = {
+        title: element.toUpperCase(),
+        data: innerData
+      };
+
+      if (innerData.length) myData.push(itemData);
+    });
+
+    return myData;
+  };
 }
 
 export default new Util();

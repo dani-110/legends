@@ -1,6 +1,10 @@
 // @flow
 
-import { GET_POTY_SCORE_NET, GET_POTY_SCORE_GROSS } from "./ActionTypes";
+import {
+  GET_POTY_SCORE_NET,
+  GET_POTY_SCORE_GROSS,
+  GET_LIVE_DATA
+} from "./ActionTypes";
 
 export function getPotyScoreNetRequest() {
   return {
@@ -9,7 +13,6 @@ export function getPotyScoreNetRequest() {
 }
 
 export function getPotyScoreNetSuccess(data) {
-  console.log("I was here", data);
   return {
     data,
     type: GET_POTY_SCORE_NET.SUCCESS
@@ -29,7 +32,6 @@ export function getPotyScoreGrossRequest() {
 }
 
 export function getPotyScoreGrossSuccess(data) {
-  console.log("I was here", data);
   return {
     data,
     type: GET_POTY_SCORE_GROSS.SUCCESS
@@ -39,5 +41,24 @@ export function getPotyScoreGrossSuccess(data) {
 export function getPotyScoreGrossFailure() {
   return {
     type: GET_POTY_SCORE_GROSS.FAILURE
+  };
+}
+
+export function getLivedataRequest() {
+  return {
+    type: GET_LIVE_DATA.REQUEST
+  };
+}
+
+export function getLivedataSuccess(data) {
+  return {
+    data,
+    type: GET_LIVE_DATA.SUCCESS
+  };
+}
+
+export function getLivedataFailure() {
+  return {
+    type: GET_LIVE_DATA.FAILURE
   };
 }

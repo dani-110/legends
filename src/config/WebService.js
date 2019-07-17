@@ -105,6 +105,12 @@ export const USER_SIGNOUT = {
   type: REQUEST_TYPE.POST
 };
 
+export const GET_LIVE_DATA = {
+  route: "LiveData",
+  access_token_required: true,
+  type: REQUEST_TYPE.GET
+};
+
 export const callRequest = function(
   url,
   data,
