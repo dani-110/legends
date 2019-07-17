@@ -82,7 +82,6 @@ class LiveTab extends Component {
 
 const mapStateToProps = ({ liveMatches }) => ({
   liveMatches: liveMatches.realData,
-  realLiveMatches: liveMatches.realData,
   isFetchingData: liveMatches.isFetching
 });
 

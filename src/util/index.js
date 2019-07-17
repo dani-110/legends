@@ -4,7 +4,7 @@ import { Platform, Linking } from "react-native";
 import moment from "moment";
 import { MessageBarManager } from "react-native-message-bar";
 import DataHandler from "../services/DataHandler";
-import { MESSAGE_TYPES, ERROR_MESSAGES } from "../constants";
+import { MESSAGE_TYPES, ERROR_MESSAGES, TIME_FORMAT2 } from "../constants";
 
 class Util {
   keyExtractor = (item: Object, index: number) => index.toString();
@@ -150,8 +150,6 @@ class Util {
   }
 
   getManipulatedLiveMatchesData = data => {
-    // asd
-    // console.log({ getManipulatedLiveMatchesData: data });
     const matchesType = ["poty", "lcl", "lmp", "dmp"];
     const myData = [];
 
@@ -160,7 +158,10 @@ class Util {
 
       data[element].forEach(innerElement => {
         innerData.push({
-          time: moment().toISOString(),
+          ...innerElement,
+          time: innerElement.time
+            ? this.getDateObjectFromString(innerElement.time, TIME_FORMAT2)
+            : moment().toISOString(),
           title:
             element === "poty"
               ? innerElement.name
@@ -187,6 +188,11 @@ class Util {
     });
 
     return myData;
+  };
+
+  getDateObjectFromString = (date, format) => {
+    if (date) return moment(date, format).toDate();
+    return "";
   };
 }
 
