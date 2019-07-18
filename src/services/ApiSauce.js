@@ -6,7 +6,8 @@ import {
   BASE_URL,
   API_TIMEOUT,
   ERROR_SOMETHING_WENT_WRONG,
-  ERROR_NETWORK_NOT_AVAILABLE
+  ERROR_NETWORK_NOT_AVAILABLE,
+  ERROR_REQUEST_TIMEOUT
 } from "../config/WebService";
 
 const api = create({
@@ -100,6 +101,10 @@ class ApiSauce {
 
         if (response.problem === "NETWORK_ERROR") {
           reject(ERROR_NETWORK_NOT_AVAILABLE);
+        }
+
+        if (response.problem === "TIMEOUT_ERROR") {
+          reject(ERROR_REQUEST_TIMEOUT);
         }
 
         reject(response.data || ERROR_SOMETHING_WENT_WRONG);

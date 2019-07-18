@@ -194,6 +194,10 @@ class Util {
     if (date) return moment(date, format).toDate();
     return "";
   };
+
+  removeSpaces(str) {
+    return str.replace(/\s/g, "");
+  }
 }
 
 export default new Util();

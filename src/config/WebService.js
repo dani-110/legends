@@ -21,6 +21,10 @@ export const ERROR_TOKEN_EXPIRE = {
   message: "Session Expired, Please login again!",
   error: "Session Expired, Please login again!"
 };
+export const ERROR_REQUEST_TIMEOUT = {
+  message: "Request timeout, Please connect to the working Internet",
+  error: "Request timeout, Please connect to the working Internet"
+};
 
 export const REQUEST_TYPE = {
   GET: "get",
@@ -107,6 +111,36 @@ export const USER_SIGNOUT = {
 
 export const GET_LIVE_DATA = {
   route: "LiveData",
+  access_token_required: true,
+  type: REQUEST_TYPE.GET
+};
+
+export const GET_SCORE_LCL_SINGLES1 = {
+  route: "GetScoresLCLSingles1",
+  access_token_required: true,
+  type: REQUEST_TYPE.GET
+};
+
+export const GET_SCORE_LCL_SINGLES2 = {
+  route: "GetScoresLCLSingles2",
+  access_token_required: true,
+  type: REQUEST_TYPE.GET
+};
+
+export const GET_SCORE_LCL_FOURSOME = {
+  route: "GetScoresLCLFoursome",
+  access_token_required: true,
+  type: REQUEST_TYPE.GET
+};
+
+export const GET_SCORE_DMP = {
+  route: "GetScoresDMP",
+  access_token_required: true,
+  type: REQUEST_TYPE.GET
+};
+
+export const GET_SCORE_LMP = {
+  route: "GetScoresLMP",
   access_token_required: true,
   type: REQUEST_TYPE.GET
 };

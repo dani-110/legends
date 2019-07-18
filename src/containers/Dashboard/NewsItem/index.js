@@ -39,11 +39,13 @@ class NewsItem extends React.Component {
           styles.innerWrapper
         ]}
       >
-        <Image
-          source={{ uri: data.picture }}
-          resizeMode="cover"
-          style={styles.image}
-        />
+        {data.picture && (
+          <Image
+            source={{ uri: data.picture }}
+            resizeMode="cover"
+            style={styles.image}
+          />
+        )}
         <View style={[AppStyles.basePadding, AppStyles.flex]}>
           <View style={[AppStyles.flexRow, AppStyles.alignItemsCenter]}>
             <RNImage source={Images.clock} />

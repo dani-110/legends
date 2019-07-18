@@ -42,3 +42,14 @@ export const GET_USER_PROFILE = createRequestTypes("GET_USER_PROFILE");
 export const GET_POTY_SCORE_NET = createRequestTypes("GET_POTY_SCORE_NET");
 export const GET_POTY_SCORE_GROSS = createRequestTypes("GET_POTY_SCORE_GROSS");
 export const GET_LIVE_DATA = createRequestTypes("GET_LIVE_DATA");
+export const GET_SCORE_LCL_SINGLES1 = createRequestTypes(
+  "GET_SCORE_LCL_SINGLES1"
+);
+export const GET_SCORE_LCL_SINGLES2 = createRequestTypes(
+  "GET_SCORE_LCL_SINGLES2"
+);
+export const GET_SCORE_LCL_FOURSOME = createRequestTypes(
+  "GET_SCORE_LCL_FOURSOME"
+);
+export const GET_SCORE_LMP = createRequestTypes("GET_SCORE_LMP");
+export const GET_SCORE_DMP = createRequestTypes("GET_SCORE_DMP");
