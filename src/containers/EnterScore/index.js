@@ -12,7 +12,13 @@ import {
 import Swiper from "react-native-swiper";
 import { Actions } from "react-native-router-flux";
 import _ from "lodash";
-import { getEnterScoreDataRequest } from "../../actions/EnterScore";
+import {
+  getEnterScoreDataRequest,
+  postPotyScoreRequest,
+  postLclScoreRequest,
+  postLmpScoreRequest,
+  postDmpScoreRequest
+} from "../../actions/EnterScoreActions";
 import {
   Text,
   CustomNavbar,
@@ -21,7 +27,7 @@ import {
   SimpleLoader,
   EmptyStateText
 } from "../../components";
-import { NAVBAR_THEME } from "../../constants";
+import { NAVBAR_THEME, ENTER_SCORE_POLLING_TIME } from "../../constants";
 import styles from "./styles";
 import Tabbar from "../../components/Tabbar";
 import { AppStyles, Colors, Images } from "../../theme";
@@ -29,7 +35,12 @@ import { AppStyles, Colors, Images } from "../../theme";
 class EnterScore extends React.Component {
   static propTypes = {
     current_match: PropTypes.array.isRequired,
+    userData: PropTypes.object.isRequired,
     getEnterScoreDataRequest: PropTypes.func.isRequired,
+    postPotyScoreRequest: PropTypes.func.isRequired,
+    postLclScoreRequest: PropTypes.func.isRequired,
+    postLmpScoreRequest: PropTypes.func.isRequired,
+    postDmpScoreRequest: PropTypes.func.isRequired,
     enterScoreData: PropTypes.object.isRequired
   };
 
@@ -43,24 +54,15 @@ class EnterScore extends React.Component {
       current: -1,
       index: -1,
       scoreCard: []
-      // rowData: [
-      //   ["Name", "KK", "AH", "AB", "SA"],
-      //   ["Stroke", 7, 4, 5, 4],
-      //   ["FIR", "cross", "cross", "noImage", "check"],
-      //   ["GIR", "check", "cross", "cross", "noImage"],
-      //   ["Putts", 3, 4, 5, 4],
-      //   ["Net", -1, -4, -1, -1],
-      //   ["Gross", +2, +5, +2, +2]
-      // ]
     };
   }
 
   componentWillMount() {
-    const { current_match } = this.props;
-    const { type, id, schedule_id, match_id, tee_off_time } = current_match[0];
-    this.props.getEnterScoreDataRequest(`${type}/${id}`, data => {
-      this.setState({ scoreCard: this._manipulateDataForScoreCard(data) });
-    });
+    this.getLatestScores();
+    this.dataPolling = setInterval(() => {
+      this.getLatestScores();
+    }, ENTER_SCORE_POLLING_TIME);
+
     BackHandler.addEventListener(
       "hardwareBackPress",
       this.handleBackButtonClick
@@ -68,19 +70,48 @@ class EnterScore extends React.Component {
   }
 
   componentWillUnmount() {
+    clearInterval(this.dataPolling);
     BackHandler.removeEventListener(
       "hardwareBackPress",
       this.handleBackButtonClick
     );
   }
 
+  setStateAsync(state) {
+    return new Promise(resolve => {
+      this.setState(state, resolve);
+    });
+  }
+
+  getLatestScores = () => {
+    const { current_match } = this.props;
+    const { type, id, schedule_id, match_id, tee_off_time } = current_match[1];
+
+    const param = `${type}/${id}${schedule_id && `/${schedule_id}`}${match_id &&
+      `/${match_id}`}`;
+
+    this.props.getEnterScoreDataRequest(param, data => {
+      this.setState({ scoreCard: this._manipulateDataForScoreCard(data) });
+    });
+  };
+
   handleBackButtonClick() {
     if (this.state.showKeyBoard) {
       this._hideKeyboard();
       return true;
-    } else {
-      return false;
     }
+
+    return false;
+  }
+
+  _isEditable(key) {
+    const { current_match } = this.props;
+    const { type } = current_match[1];
+    const unEditableKeys = ["Name", "Net", "Gross"];
+    console.log("type", type);
+    if (type === "lcl" || type === "lmp" || type === "dmp")
+      unEditableKeys.push("FIR", "GIR", "Putts");
+    return !unEditableKeys.includes(key);
   }
 
   _showKeyBoard(mini, current, index) {
@@ -133,19 +164,54 @@ class EnterScore extends React.Component {
   }
 
   _keyPress(text) {
-    const { current, index, rowData, miniKeyBoard } = this.state;
-    const tempData = _.cloneDeep(rowData);
-    const currentText = tempData[current][index];
+    const { current, index, scoreCard, miniKeyBoard } = this.state;
+    const tempData = _.cloneDeep(scoreCard);
+    const holeIndex = this._swiper.state.index;
+    console.log(
+      "current:",
+      current,
+      "index:",
+      index,
+      "scoreCard:",
+      scoreCard,
+      "miniKeyBoard: ",
+      miniKeyBoard,
+      "text: ",
+      text
+    );
+    // return;
     if (miniKeyBoard) {
-      tempData[current][index] = text;
+      tempData[holeIndex][current][index] = text;
     } else {
       if (text != "Del" && text != "-") {
-        tempData[current][index] = text;
+        tempData[holeIndex][current][index] = text;
       } else if (text === "Del") {
-        tempData[current][index] = "";
+        tempData[holeIndex][current][index] = "";
       }
     }
-    this.setState({ rowData: tempData });
+    this.setState({ scoreCard: tempData }, () => {
+      this._updateGrossNetScores().then(() => {
+        this._postData(current, index, tempData, text);
+      });
+    });
+  }
+
+  async _updateGrossNetScores() {
+    const { index, scoreCard } = this.state;
+    const holeIndex = this._swiper.state.index;
+    const tempData = _.cloneDeep(scoreCard);
+    const holePar = this.props.enterScoreData.holeData.holes[holeIndex].par;
+    const holeStroke = scoreCard[holeIndex].Stroke[index];
+    const previousGross =
+      (scoreCard[holeIndex - 1] && scoreCard[holeIndex - 1].Gross[index]) || 0;
+    const handicap = scoreCard[holeIndex].Name[index].handicap;
+    const gross = holeStroke - holePar + previousGross;
+    const net = gross - handicap;
+
+    tempData[holeIndex].Gross[index] = gross;
+    tempData[holeIndex].Net[index] = net;
+
+    await this.setStateAsync({ scoreCard: tempData });
   }
 
   _manipulateDataForScoreCard(data) {
@@ -166,24 +232,94 @@ class EnterScore extends React.Component {
     }
 
     players.map(player => {
-      player.scorecard.map(score => {
-        updatedData[score.hole_number - 1].Name.push({
-          id: players.id,
+      player.scorecard.map((score, index) => {
+        updatedData[index].Name.push({
+          id: player.íd || player.id,
           initials: player.initials,
-          handicap: players.handicap
+          handicap: player.handicap
         });
-        updatedData[score.hole_number - 1].Stroke.push(score.strokes);
-        updatedData[score.hole_number - 1].FIR.push(score.fir);
-        updatedData[score.hole_number - 1].GIR.push(score.gir);
-        updatedData[score.hole_number - 1].Putts.push(score.putts);
-        updatedData[score.hole_number - 1].Net.push(score.net_score);
-        updatedData[score.hole_number - 1].Gross.push(score.score);
-        // updatedData[score.hole_number]
+        updatedData[index].Stroke.push(score.strokes);
+        updatedData[index].FIR.push(score.fir);
+        updatedData[index].GIR.push(score.gir);
+        updatedData[index].Putts.push(score.putts);
+        updatedData[index].Net.push(score.net_score);
+        updatedData[index].Gross.push(score.score);
       });
     });
 
     return updatedData;
   }
+
+  _postData(current, indexParam, scoreCard, value) {
+    const keyBindings = {
+      Stroke: "strokes",
+      FIR: "fir",
+      GIR: "gir",
+      Putts: "putts"
+    };
+    const {
+      enterScoreData: { holeData }
+    } = this.props;
+    const { hole_number, index, par } = holeData.holes[
+      this._swiper.state.index
+    ];
+    const { current_match } = this.props;
+    const { id, type, match_id, schedule_id } = current_match[1];
+    const playerIndex = {
+      1: [1, 1, 1],
+      2: [1, 2, 0],
+      3: [2, 1, 3],
+      4: [2, 2, 2]
+    };
+    const score_array = {};
+    const netscore_array = {};
+
+    for (let i = hole_number - 1; i < 18; i++) {
+      score_array[`hole${i + 1}`] = scoreCard[i].Gross[indexParam];
+      netscore_array[`hole${i + 1}`] = scoreCard[i].Net[indexParam];
+    }
+
+    const payload = {
+      match_id,
+      schedule_id,
+      hole_number,
+      index,
+      par,
+      user_id: scoreCard[hole_number - 1].Name[indexParam].id || null,
+      player_id: scoreCard[hole_number - 1].Name[indexParam].id || null,
+      tournament_id: parseInt(id, 10) || null,
+      key: keyBindings[current] || null,
+      value: parseInt(value, 10),
+      score: scoreCard[hole_number - 1].Gross[indexParam] || null,
+      net_score: scoreCard[hole_number - 1].Net[indexParam] || null,
+      netscore_array,
+      score_array,
+      player: `p${playerIndex[indexParam + 1][0]}${
+        playerIndex[indexParam + 1][1]
+      }`,
+      player1_stroke: !(indexParam % 2) ? value : "",
+      player2_stroke: indexParam % 2 ? value : "",
+      season_id: parseInt(id, 10) || null,
+      opponent_id:
+        scoreCard[hole_number - 1].Name[playerIndex[indexParam + 1][2]].id
+    };
+    this._postDataByType[type](payload);
+  }
+
+  _postDataByType = {
+    poty: payload => {
+      this.props.postPotyScoreRequest(payload);
+    },
+    lcl: payload => {
+      this.props.postLclScoreRequest(payload);
+    },
+    lmp: payload => {
+      this.props.postLmpScoreRequest(payload);
+    },
+    dmp: payload => {
+      this.props.postDmpScoreRequest(payload);
+    }
+  };
 
   _renderTitle() {
     const {
@@ -244,16 +380,6 @@ class EnterScore extends React.Component {
   _renderScoreTable(holeInfo, index) {
     const manipulatedData = this.state.scoreCard[index];
 
-    // const manipulatedData = {
-    //   Name: ["KK", "AH", "AB", "SA"],
-    //   Stroke: [3, 4, 5, 4],
-    //   FIR: [false, false, "", true],
-    //   GIR: ["", "", "", ""],
-    //   Putts: ["3", "4", "5", "4"],
-    //   Net: ["-1", "-4", "-1", "-1"],
-    //   Gross: ["2", "5", "2", "2"]
-    // };
-
     return (
       <View>
         {Object.keys(manipulatedData).map((key, index) => (
@@ -275,7 +401,7 @@ class EnterScore extends React.Component {
 
   _renderRowLabel(key) {
     return (
-      <View style={AppStyles.flex2}>
+      <View style={[AppStyles.flex2, AppStyles.basePadding]}>
         <Text textAlign="left">{key}</Text>
       </View>
     );
@@ -284,16 +410,22 @@ class EnterScore extends React.Component {
   _renderRowValues(data, key) {
     const { current, index } = this.state;
     return data[key].map((rowItem, rowItemIndex) => (
-      <View
-        style={[
-          styles.rowItemStyles,
-          rowItemIndex === index,
-          key === current && styles.rowItemActiveStyles
-        ]}
-      >
+      <View key={`scorecard=${rowItemIndex}`}>
         <TouchableOpacity
-          style={AppStyles.centerInner}
-          onPress={() => this._showKeyBoard(true, key, rowItemIndex)}
+          style={[
+            AppStyles.centerInner,
+            rowItemIndex === index &&
+              key !== "Name" &&
+              styles.activeColRowItemActiveStyles,
+            styles.rowItemStyles,
+            rowItemIndex === index &&
+              key === current &&
+              styles.rowItemActiveStyles
+          ]}
+          onPress={() =>
+            this._isEditable(key) &&
+            this._showKeyBoard(key === "FIR", key, rowItemIndex)
+          }
         >
           {key === "FIR" ? (
             rowItem === 1 ? (
@@ -317,7 +449,7 @@ class EnterScore extends React.Component {
   }
 
   _renderButton = () => (
-    <View>
+    <View style={[AppStyles.baseMargin]}>
       <View style={[AppStyles.centerInner]}>
         <View style={[styles.buttonGroup]}>
           <ButtonView
@@ -347,7 +479,7 @@ class EnterScore extends React.Component {
           </ButtonView>
         </View>
       </View>
-      <View style={[AppStyles.baseMargin]}>
+      {/* <View style={[AppStyles.baseMargin]}>
         <ButtonView
           style={[styles.scoreCardButton]}
           onPress={() => Actions.live_tab_scorecard()}
@@ -356,7 +488,7 @@ class EnterScore extends React.Component {
             View Full Score Card
           </Text>
         </ButtonView>
-      </View>
+      </View> */}
     </View>
   );
 
@@ -372,11 +504,10 @@ class EnterScore extends React.Component {
 
   render() {
     const {
-      enterScoreData: {
-        isFetchingData,
-        holeData: { holes }
-      }
+      enterScoreData: { isFetchingData, holeData }
     } = this.props;
+
+    const { holes } = holeData;
 
     return (
       <View style={styles.container}>
@@ -385,7 +516,7 @@ class EnterScore extends React.Component {
           <View style={[AppStyles.flex, AppStyles.doubleBaseMargin]}>
             <SimpleLoader />
           </View>
-        ) : (
+        ) : holeData && holes ? (
           <React.Fragment>
             <ScrollView
               ref={ref => {
@@ -408,9 +539,12 @@ class EnterScore extends React.Component {
                 showsButtons={false}
                 loop={false}
                 showsPagination={false}
+                onIndexChanged={() => {
+                  this._hideKeyboard();
+                }}
               >
                 {holes.map((holeInfo, index) => (
-                  <View>
+                  <View key={`holes-${index}`}>
                     <View>
                       {this._renderHoleInfo(holeInfo)}
                       {this._renderScoreTable(holeInfo, index)}
@@ -422,19 +556,28 @@ class EnterScore extends React.Component {
             {this._renderButton()}
             {this._renderKeyboard()}
           </React.Fragment>
+        ) : (
+          <EmptyStateText />
         )}
       </View>
     );
   }
 }
 
-const mapStateToProps = ({ general, liveScore, enterScore }) => ({
+const mapStateToProps = ({ general, liveScore, enterScore, user }) => ({
   current_match: general.current_match,
   liveScoreData: liveScore.lmp,
-  enterScoreData: enterScore.data
+  enterScoreData: enterScore.data,
+  userData: user.userData
 });
 
-const actions = { getEnterScoreDataRequest };
+const actions = {
+  getEnterScoreDataRequest,
+  postPotyScoreRequest,
+  postLclScoreRequest,
+  postLmpScoreRequest,
+  postDmpScoreRequest
+};
 
 export default connect(
   mapStateToProps,

@@ -23,7 +23,7 @@ export default class CustomKeyboard extends React.PureComponent {
     mini: PropTypes.bool,
     visible: PropTypes.bool,
     onKeyPress: PropTypes.func,
-    children: PropTypes.node.isRequired,
+    children: PropTypes.node,
     rippleOnAndroid: PropTypes.bool
   };
 
@@ -52,10 +52,7 @@ export default class CustomKeyboard extends React.PureComponent {
       <Image source={Images.cross} />,
       <Image source={Images.check} />
     ];
-    const numericKeys = [
-      ["Del", "0", "1", "2", "3", "4"],
-      ["-", "5", "6", "7", "8", "9"]
-    ];
+    const numericKeys = [["Del", 0, 1, 2, 3, 4], ["-", 5, 6, 7, 8, 9]];
 
     // if (!visible) {
     //   return null;
@@ -79,8 +76,7 @@ export default class CustomKeyboard extends React.PureComponent {
         {mini ? (
           <View style={styles.miniWraper}>
             {miniKeys.map((item, index) => {
-              const per =
-                index == 0 ? "noImage" : index == 1 ? "cross" : "check";
+              const per = index == 0 ? "" : index == 1 ? 0 : 1;
               return (
                 <TouchableOpacity
                   onPress={() => onKeyPress(per)}
@@ -97,25 +93,20 @@ export default class CustomKeyboard extends React.PureComponent {
           </View>
         ) : (
           <View style={styles.numericWraper}>
-            {numericKeys.map((row, current) => {
-              // sad
-              // console.log({ row, current });
-              return (
-                <View style={styles.rowView}>
-                  {row.map((item, indexx) => {
-                    // console.log({ rowss: row, currentsss: current });
-                    return (
-                      <TouchableOpacity
-                        onPress={() => onKeyPress(item)}
-                        style={styles.numericButton}
-                      >
-                        <Text type="bold">{item}</Text>
-                      </TouchableOpacity>
-                    );
-                  })}
-                </View>
-              );
-            })}
+            {numericKeys.map((row, current) => (
+              <View key={`numeric-keys-${current}`} style={styles.rowView}>
+                {row.map((item, index) => (
+                  // console.log({ rowss: row, currentsss: current });
+                  <TouchableOpacity
+                    key={`numeric-row--${index}`}
+                    onPress={() => onKeyPress(item)}
+                    style={styles.numericButton}
+                  >
+                    <Text type="bold">{item}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            ))}
           </View>
         )}
       </Animated.View>

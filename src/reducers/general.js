@@ -12,7 +12,15 @@ const initialState = Immutable({
   selectedIndex: 1,
   defaultTabbar: true,
   showTabbar: true,
-  current_match: []
+  current_match: [
+    // {
+    //   type: "poty",
+    //   id: 115,
+    //   schedule_id: "",
+    //   match_id: "",
+    //   tee_off_time: "11:30:00"
+    // }
+  ]
 });
 
 export default (state = initialState, action) => {

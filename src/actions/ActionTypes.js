@@ -44,3 +44,8 @@ export const GET_POTY_SCORE_NET = createRequestTypes("GET_POTY_SCORE_NET");
 export const GET_POTY_SCORE_GROSS = createRequestTypes("GET_POTY_SCORE_GROSS");
 
 export const GET_ENTER_SCORE_DATA = createRequestTypes("GET_ENTER_SCORE_DATA");
+
+export const POST_POTY_SCORE = createRequestTypes("POST_POTY_SCORE");
+export const POST_LCL_SCORE = createRequestTypes("POST_LCL_SCORE");
+export const POST_LMP_SCORE = createRequestTypes("POST_LMP_SCORE");
+export const POST_DMP_SCORE = createRequestTypes("POST_DMP_SCORE");

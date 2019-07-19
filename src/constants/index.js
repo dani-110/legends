@@ -38,3 +38,5 @@ export const ERROR_MESSAGES = {
   internet_error: "Please connect to the working internet",
   session_expired_error: "Session expired, Please login again"
 };
+
+export const ENTER_SCORE_POLLING_TIME = 10000;

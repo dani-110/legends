@@ -57,17 +57,21 @@ export default StyleSheet.create({
   rowStyles: {
     ...AppStyles.borderBottomGrey,
     ...AppStyles.flexRow,
-    ...AppStyles.basePadding,
+    // ...AppStyles.basePadding,
     ...AppStyles.alignItemsCenter
   },
   rowItemStyles: {
     borderColor: Colors.transparent,
     borderWidth: 0.5,
-    height: 20,
-    width: 40,
+    ...AppStyles.basePadding,
+    height: 52,
+    width: 60,
     justifyContent: "center"
   },
   rowItemActiveStyles: {
     borderColor: Colors.grey
+  },
+  activeColRowItemActiveStyles: {
+    backgroundColor: Colors.greenTint
   }
 });

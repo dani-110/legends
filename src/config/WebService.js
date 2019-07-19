@@ -121,6 +121,27 @@ export const GET_ENTER_SCORE_DATA = {
   type: REQUEST_TYPE.GET
 };
 
+export const POST_POTY_SCORE = {
+  route: "EnterPotyScore",
+  access_token_required: true,
+  type: REQUEST_TYPE.POST
+};
+export const POST_LCL_SCORE = {
+  route: "EnterScoreLCL",
+  access_token_required: true,
+  type: REQUEST_TYPE.POST
+};
+export const POST_LMP_SCORE = {
+  route: "EnterScoreLMP",
+  access_token_required: true,
+  type: REQUEST_TYPE.POST
+};
+export const POST_DMP_SCORE = {
+  route: "EnterScoreDMP",
+  access_token_required: true,
+  type: REQUEST_TYPE.POST
+};
+
 export const callRequest = function(
   url,
   data,
