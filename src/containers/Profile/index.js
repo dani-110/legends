@@ -60,9 +60,9 @@ class Profile extends Component {
               style={styles.userImage}
             />
           </View>
-          <View style={styles.editProfileWrapper}>
+          {/* <View style={styles.editProfileWrapper}>
             <RNImage source={Images.edit_icon} style={styles.editProfile} />
-          </View>
+          </View> */}
         </View>
         <Text
           style={[AppStyles.margin20]}

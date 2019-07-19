@@ -7,6 +7,7 @@ export const SAGA_ALERT_TIMEOUT = 500;
 // date time formats
 export const DATE_FORMAT1 = "dddd, DD MMMM, YYYY";
 export const TIME_FORMAT1 = "H:mm";
+export const TIME_FORMAT2 = "HH:mm:ss";
 
 // Message types
 export const MESSAGE_TYPES = {

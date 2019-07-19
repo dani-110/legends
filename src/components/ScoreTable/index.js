@@ -41,7 +41,6 @@ export default class ScoreTable extends React.Component {
     const {
       liveScoreData: { players }
     } = this.props;
-
     return (
       <View
         style={[
@@ -71,9 +70,9 @@ export default class ScoreTable extends React.Component {
             AppStyles.alignItemsCenter
           ]}
         >
-          <View style={AppStyles.flex2}>
+          <View style={[AppStyles.flex2, AppStyles.pRight5]}>
             <Text style={[AppStyles.alignItemsCenter]} textAlign="center">
-              {players[0][0]} {players[0][1] && `& ${players[0][1]}`}
+              {players[0].team_1_players || players[0].team_1_player}
             </Text>
           </View>
           <View style={[styles.score, { backgroundColor: playerOneColor }]}>
@@ -81,9 +80,9 @@ export default class ScoreTable extends React.Component {
               1UP
             </Text>
           </View>
-          <View style={AppStyles.flex2}>
+          <View style={[AppStyles.flex2, AppStyles.pLeft5, AppStyles.pRight5]}>
             <Text style={[AppStyles.alignItemsCenter]} textAlign="center">
-              {players[1][0]} {players[1][1] && `& ${players[1][1]}`}
+              {players[0].team_2_players || players[0].team_2_player}
             </Text>
           </View>
         </View>
@@ -145,9 +144,9 @@ export default class ScoreTable extends React.Component {
                   styles.score,
                   {
                     backgroundColor:
-                      item.scoredBy === 1
+                      item.scoredBy == 1
                         ? playerOneColor
-                        : item.scoredBy === 2
+                        : item.scoredBy == 2
                         ? playerTwoColor
                         : Colors.darkBlue
                   }

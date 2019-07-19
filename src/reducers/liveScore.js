@@ -5,346 +5,32 @@ import _ from "lodash";
 import {
   GET_POTY_SCORE_NET,
   GET_POTY_SCORE_GROSS,
-  USER_SIGNOUT
+  USER_SIGNOUT,
+  GET_SCORE_LCL_SINGLES1,
+  GET_SCORE_LCL_SINGLES2,
+  GET_SCORE_LCL_FOURSOME,
+  GET_SCORE_DMP,
+  GET_SCORE_LMP
 } from "../actions/ActionTypes";
 
 const initialState = Immutable({
-  lclSinglesOne: {
-    team: [
-      {
-        name: "Kitty Mafia",
-        score: "3.5"
-      },
-      {
-        name: "Dark Knights",
-        score: "2.5"
-      }
-    ],
-    players: [["Adnan Afridi"], ["Navaid Ali"]],
-    score: [
-      {
-        par: 4,
-        playerOne: 4,
-        playerTwo: 5,
-        score: "1UP",
-        scoredBy: 1
-      },
-      {
-        par: 5,
-        playerOne: 5,
-        playerTwo: 5,
-        score: "1UP",
-        scoredBy: 1
-      },
-      {
-        par: 3,
-        playerOne: 2,
-        playerTwo: 3,
-        score: "2UP",
-        scoredBy: 1
-      },
-      {
-        par: 5,
-        playerOne: 6,
-        playerTwo: 5,
-        score: "1UP",
-        scoredBy: 1
-      },
-      {
-        par: 4,
-        playerOne: 4,
-        playerTwo: 3,
-        score: "AS",
-        scoredBy: null
-      },
-      {
-        par: 4,
-        playerOne: 4,
-        playerTwo: 3,
-        score: "1UP",
-        scoredBy: 2
-      }
-    ]
-  },
-  lclFoursome: {
-    team: [
-      {
-        name: "Kitty Mafia",
-        score: "3.5"
-      },
-      {
-        name: "Dark Knights",
-        score: "2.5"
-      }
-    ],
-    players: [["Adnan Afridi", "Ahmed Ismail"], ["Navaid Ali", "Saad Ali"]],
-    score: [
-      {
-        par: 4,
-        playerOne: 4,
-        playerTwo: 5,
-        score: "1UP",
-        scoredBy: 1
-      },
-      {
-        par: 5,
-        playerOne: 5,
-        playerTwo: 5,
-        score: "1UP",
-        scoredBy: 1
-      },
-      {
-        par: 3,
-        playerOne: 2,
-        playerTwo: 3,
-        score: "2UP",
-        scoredBy: 1
-      },
-      {
-        par: 5,
-        playerOne: 6,
-        playerTwo: 5,
-        score: "1UP",
-        scoredBy: 1
-      },
-      {
-        par: 4,
-        playerOne: 4,
-        playerTwo: 3,
-        score: "AS",
-        scoredBy: null
-      },
-      {
-        par: 4,
-        playerOne: 4,
-        playerTwo: 3,
-        score: "1UP",
-        scoredBy: 2
-      }
-    ]
-  },
-  lclSinglesTwo: {
-    team: [
-      {
-        name: "Dark Knights",
-        score: "2.5"
-      },
-      {
-        name: "Kitty Mafia",
-        score: "3.5"
-      }
-    ],
-    players: [["Navaid Ali"], ["Adnan Afridi"]],
-    score: [
-      {
-        par: 3,
-        playerOne: 2,
-        playerTwo: 3,
-        score: "2UP",
-        scoredBy: 1
-      },
-      {
-        par: 5,
-        playerOne: 6,
-        playerTwo: 5,
-        score: "1UP",
-        scoredBy: 1
-      },
-      {
-        par: 4,
-        playerOne: 4,
-        playerTwo: 5,
-        score: "1UP",
-        scoredBy: 1
-      },
-      {
-        par: 5,
-        playerOne: 5,
-        playerTwo: 5,
-        score: "1UP",
-        scoredBy: 1
-      },
-      {
-        par: 4,
-        playerOne: 4,
-        playerTwo: 3,
-        score: "AS",
-        scoredBy: null
-      },
-      {
-        par: 4,
-        playerOne: 4,
-        playerTwo: 3,
-        score: "1UP",
-        scoredBy: 2
-      }
-    ]
-  },
-  lmp: {
-    players: [["Adnan Afridi"], ["Navaid Ali"]],
-    score: [
-      {
-        par: 4,
-        playerOne: 4,
-        playerTwo: 5,
-        score: "1UP",
-        scoredBy: 1
-      },
-      {
-        par: 5,
-        playerOne: 5,
-        playerTwo: 5,
-        score: "1UP",
-        scoredBy: 1
-      },
-      {
-        par: 3,
-        playerOne: 2,
-        playerTwo: 3,
-        score: "2UP",
-        scoredBy: 1
-      },
-      {
-        par: 5,
-        playerOne: 6,
-        playerTwo: 5,
-        score: "1UP",
-        scoredBy: 1
-      },
-      {
-        par: 4,
-        playerOne: 4,
-        playerTwo: 3,
-        score: "AS",
-        scoredBy: null
-      },
-      {
-        par: 4,
-        playerOne: 4,
-        playerTwo: 3,
-        score: "1UP",
-        scoredBy: 2
-      }
-    ]
-  },
-  dmp: {
-    players: [["Adnan Afridi", "Ahmed Ismail"], ["Navaid Ali", "Saad Ali"]],
-    score: [
-      {
-        par: 4,
-        playerOne: 4,
-        playerTwo: 5,
-        score: "1UP",
-        scoredBy: 1
-      },
-      {
-        par: 5,
-        playerOne: 5,
-        playerTwo: 5,
-        score: "1UP",
-        scoredBy: 1
-      },
-      {
-        par: 3,
-        playerOne: 2,
-        playerTwo: 3,
-        score: "2UP",
-        scoredBy: 1
-      },
-      {
-        par: 5,
-        playerOne: 6,
-        playerTwo: 5,
-        score: "1UP",
-        scoredBy: 1
-      },
-      {
-        par: 4,
-        playerOne: 4,
-        playerTwo: 3,
-        score: "AS",
-        scoredBy: null
-      },
-      {
-        par: 4,
-        playerOne: 4,
-        playerTwo: 3,
-        score: "1UP",
-        scoredBy: 2
-      }
-    ]
-  },
+  lclSinglesOne: {},
+  lclSinglesOneFetching: false,
+  lclFoursome: {},
+  lclFoursomeFetching: false,
+  lclSinglesTwo: {},
+  lclSinglesTwoFetching: false,
+  lmp: {},
+  lmpFetching: false,
+  dmp: {},
+  dmpFetching: false,
+
   poty: {
     net: [],
     isFetchingNet: false,
     gross: [],
     isFetchingGross: false
-  },
-  potyy: [
-    {
-      number: "1",
-      name: "Khurram Khan",
-      score: null,
-      toPar: -2,
-      thru: "2"
-    },
-    {
-      number: "T2",
-      name: "Azhar Haji",
-      score: null,
-      toPar: -2,
-      thru: "2"
-    },
-    {
-      number: "T2",
-      name: "Aamer Badshah",
-      score: null,
-      toPar: -1,
-      thru: "2"
-    },
-    {
-      number: "T2",
-      name: "Saleem Adil",
-      score: null,
-      toPar: -1,
-      thru: "2"
-    },
-    {
-      number: "T2",
-      name: "Mustajab Gohar",
-      score: 71,
-      toPar: -1,
-      thru: "F"
-    },
-    {
-      number: "T2",
-      name: "Tariq Feroz",
-      score: 71,
-      toPar: -1,
-      thru: "F"
-    },
-    {
-      number: "T5",
-      name: "Danish Iqbal",
-      score: 72,
-      toPar: "E",
-      thru: "F"
-    },
-    {
-      number: "T7",
-      name: "Moji Bilal",
-      score: null,
-      toPar: "E",
-      thru: 1
-    },
-    {
-      number: null,
-      name: "Najeeb Baig",
-      score: 76,
-      toPar: +4,
-      thru: "F"
-    }
-  ]
+  }
 });
 
 export default (state = initialState, action) => {
@@ -396,6 +82,106 @@ export default (state = initialState, action) => {
       tempPoty.isFetchingGross = false;
       return Immutable.merge(state, {
         poty: tempPoty
+      });
+    }
+
+    case GET_SCORE_LCL_SINGLES1.REQUEST: {
+      return Immutable.merge(state, {
+        lclSinglesOneFetching: true,
+        lclSinglesOne: {}
+      });
+    }
+
+    case GET_SCORE_LCL_SINGLES1.SUCCESS: {
+      return Immutable.merge(state, {
+        lclSinglesOneFetching: false,
+        lclSinglesOne: action.data
+      });
+    }
+
+    case GET_SCORE_LCL_SINGLES1.FAILURE: {
+      return Immutable.merge(state, {
+        lclSinglesOneFetching: false
+      });
+    }
+
+    case GET_SCORE_LCL_SINGLES2.REQUEST: {
+      return Immutable.merge(state, {
+        lclSinglesTwoFetching: true,
+        lclSinglesTwo: {}
+      });
+    }
+
+    case GET_SCORE_LCL_SINGLES2.SUCCESS: {
+      return Immutable.merge(state, {
+        lclSinglesTwoFetching: false,
+        lclSinglesTwo: action.data
+      });
+    }
+
+    case GET_SCORE_LCL_SINGLES2.FAILURE: {
+      return Immutable.merge(state, {
+        lclSinglesTwoFetching: false
+      });
+    }
+
+    case GET_SCORE_LCL_FOURSOME.REQUEST: {
+      return Immutable.merge(state, {
+        lclFoursomeFetching: true,
+        lclFoursome: {}
+      });
+    }
+
+    case GET_SCORE_LCL_FOURSOME.SUCCESS: {
+      return Immutable.merge(state, {
+        lclFoursomeFetching: false,
+        lclFoursome: action.data
+      });
+    }
+
+    case GET_SCORE_LCL_FOURSOME.FAILURE: {
+      return Immutable.merge(state, {
+        lclFoursomeFetching: false
+      });
+    }
+
+    case GET_SCORE_DMP.REQUEST: {
+      return Immutable.merge(state, {
+        dmpFetching: true,
+        dmp: {}
+      });
+    }
+
+    case GET_SCORE_DMP.SUCCESS: {
+      return Immutable.merge(state, {
+        dmpFetching: false,
+        dmp: action.data
+      });
+    }
+
+    case GET_SCORE_DMP.FAILURE: {
+      return Immutable.merge(state, {
+        dmpFetching: false
+      });
+    }
+
+    case GET_SCORE_LMP.REQUEST: {
+      return Immutable.merge(state, {
+        lmpFetching: true,
+        lmp: {}
+      });
+    }
+
+    case GET_SCORE_LMP.SUCCESS: {
+      return Immutable.merge(state, {
+        lmpFetching: false,
+        lmp: action.data
+      });
+    }
+
+    case GET_SCORE_LMP.FAILURE: {
+      return Immutable.merge(state, {
+        lmpFetching: false
       });
     }
 

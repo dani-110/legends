@@ -49,3 +49,15 @@ export const POST_POTY_SCORE = createRequestTypes("POST_POTY_SCORE");
 export const POST_LCL_SCORE = createRequestTypes("POST_LCL_SCORE");
 export const POST_LMP_SCORE = createRequestTypes("POST_LMP_SCORE");
 export const POST_DMP_SCORE = createRequestTypes("POST_DMP_SCORE");
+export const GET_LIVE_DATA = createRequestTypes("GET_LIVE_DATA");
+export const GET_SCORE_LCL_SINGLES1 = createRequestTypes(
+  "GET_SCORE_LCL_SINGLES1"
+);
+export const GET_SCORE_LCL_SINGLES2 = createRequestTypes(
+  "GET_SCORE_LCL_SINGLES2"
+);
+export const GET_SCORE_LCL_FOURSOME = createRequestTypes(
+  "GET_SCORE_LCL_FOURSOME"
+);
+export const GET_SCORE_LMP = createRequestTypes("GET_SCORE_LMP");
+export const GET_SCORE_DMP = createRequestTypes("GET_SCORE_DMP");

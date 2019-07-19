@@ -34,9 +34,7 @@ export default class ListItem extends React.Component {
     }
     return (
       <ButtonView
-        onPress={() => {
-          Actions.jump(navigateTO);
-        }}
+        onPress={() => Actions.jump(navigateTO, { data })}
         style={[styles.container, { backgroundColor: bg }]}
       >
         <View
