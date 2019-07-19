@@ -1,18 +1,27 @@
 // @flow
+import _ from "lodash";
 import { connect } from "react-redux";
 import React from "react";
 import PropTypes from "prop-types";
 import { View } from "react-native";
 import styles from "./styles";
-import ScoreTable from "../../components/ScoreTable";
-import { CustomNavbar } from "../../components";
+import { getScoreLmpRequest } from "../../actions/LiveMatchesActions";
+import {
+  CustomNavbar,
+  ScoreTable,
+  SimpleLoader,
+  EmptyStateText
+} from "../../components";
 import { NAVBAR_THEME } from "../../constants";
 import { setTabbarType } from "../../actions/GeneralActions";
 
 class LmpLiveScore extends React.Component {
   static propTypes = {
     liveScoreData: PropTypes.object.isRequired,
-    setTabbarType: PropTypes.func.isRequired
+    setTabbarType: PropTypes.func.isRequired,
+    getScoreLmpRequest: PropTypes.func.isRequired,
+    data: PropTypes.object.isRequired,
+    isFetchingData: PropTypes.bool.isRequired
   };
 
   static defaultProps = {};
@@ -34,6 +43,11 @@ class LmpLiveScore extends React.Component {
     LmpLiveScore.instance = this;
   }
 
+  componentWillMount() {
+    const { match_id, schedule_id, season_id } = this.props.data;
+    this.props.getScoreLmpRequest(`${match_id}/${schedule_id}/${season_id}`);
+  }
+
   _onEnter() {
     this.props.setTabbarType(false);
   }
@@ -48,6 +62,8 @@ class LmpLiveScore extends React.Component {
   }
 
   render() {
+    const { isFetchingData, liveScoreData } = this.props;
+
     return (
       <View style={styles.container}>
         <CustomNavbar
@@ -57,17 +73,23 @@ class LmpLiveScore extends React.Component {
           theme={NAVBAR_THEME.WHITE}
           titleAlign="center"
         />
-        {this._renderScoreTable()}
+
+        {isFetchingData && <SimpleLoader />}
+        {_.isEmpty(liveScoreData) && !isFetchingData && <EmptyStateText />}
+        {!isFetchingData &&
+          !_.isEmpty(liveScoreData) &&
+          this._renderScoreTable()}
       </View>
     );
   }
 }
 
 const mapStateToProps = ({ liveScore }) => ({
-  liveScoreData: liveScore.lmp
+  liveScoreData: liveScore.lmp,
+  isFetchingData: liveScore.lmpFetching
 });
 
-const actions = { setTabbarType };
+const actions = { setTabbarType, getScoreLmpRequest };
 
 export default connect(
   mapStateToProps,

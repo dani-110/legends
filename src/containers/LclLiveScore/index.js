@@ -14,7 +14,8 @@ import { setTabbarType } from "../../actions/GeneralActions";
 
 class LclLiveScore extends Component {
   static propTypes = {
-    setTabbarType: PropTypes.func.isRequired
+    setTabbarType: PropTypes.func.isRequired,
+    data: PropTypes.object.isRequired
   };
 
   static defaultProps = {};
@@ -71,6 +72,7 @@ class LclLiveScore extends Component {
 
   render() {
     const { activeTabIndex } = this.state;
+    console.log({ PPPP: this.props });
     return (
       <View style={[styles.container]}>
         <CustomNavbar
@@ -81,9 +83,9 @@ class LclLiveScore extends Component {
           titleAlign="center"
         />
         {this._renderTabsHeader()}
-        {activeTabIndex === 0 && <SinglesOne />}
-        {activeTabIndex === 1 && <Foursome />}
-        {activeTabIndex === 2 && <SinglesTwo />}
+        {activeTabIndex === 0 && <SinglesOne data={this.props.data} />}
+        {activeTabIndex === 1 && <Foursome data={this.props.data} />}
+        {activeTabIndex === 2 && <SinglesTwo data={this.props.data} />}
       </View>
     );
   }
