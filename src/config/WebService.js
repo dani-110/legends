@@ -41,6 +41,14 @@ export const USER_SIGNIN = {
   type: REQUEST_TYPE.POST
 };
 
+// API DASHBOARD ROUTES
+
+export const GET_DASHBOARD_DATA = {
+  route: "DashboardData",
+  access_token_required: true,
+  type: REQUEST_TYPE.GET
+};
+
 // API TOURNAMENTS ROUTES
 
 export const GET_POTY_TOURNAMENT = {
@@ -109,6 +117,14 @@ export const USER_SIGNOUT = {
   type: REQUEST_TYPE.POST
 };
 
+// API ENTER SCORE ROUTES
+
+export const GET_ENTER_SCORE_DATA = {
+  route: "GetHoleDataForTournament",
+  access_token_required: true,
+  type: REQUEST_TYPE.GET
+};
+
 export const GET_LIVE_DATA = {
   route: "LiveData",
   access_token_required: true,
@@ -119,6 +135,27 @@ export const GET_SCORE_LCL_SINGLES1 = {
   route: "GetScoresLCLSingles1",
   access_token_required: true,
   type: REQUEST_TYPE.GET
+};
+
+export const POST_POTY_SCORE = {
+  route: "EnterPotyScore",
+  access_token_required: true,
+  type: REQUEST_TYPE.POST
+};
+export const POST_LCL_SCORE = {
+  route: "EnterScoreLCL",
+  access_token_required: true,
+  type: REQUEST_TYPE.POST
+};
+export const POST_LMP_SCORE = {
+  route: "EnterScoreLMP",
+  access_token_required: true,
+  type: REQUEST_TYPE.POST
+};
+export const POST_DMP_SCORE = {
+  route: "EnterScoreDMP",
+  access_token_required: true,
+  type: REQUEST_TYPE.POST
 };
 
 export const GET_SCORE_LCL_SINGLES2 = {

@@ -34,12 +34,12 @@ const DRAWER_ITEMS = [
       Actions.news();
     }
   },
-  {
-    text: "Settings",
-    onPress: () => {
-      Actions.settings();
-    }
-  },
+  // {
+  //   text: "Settings",
+  //   onPress: () => {
+  //     Actions.settings();
+  //   }
+  // },
   { text: "Logout", onPress: () => getLoggedOut() }
 ];
 

@@ -26,6 +26,7 @@ export const SET_SELECTED_TABS = "SET_SELECTED_TABS";
 export const SET_TABBAR_TYPE = "SET_TABBAR_TYPE";
 export const TOGGLE_TABBAR = "TOGGLE_TABBAR";
 export const LOGOUT = "LOGOUT";
+export const GET_DASHBOARD_DATA = createRequestTypes("GET_DASHBOARD_DATA");
 export const EMPTY = createRequestTypes("EMPTY");
 export const GET_NEWS = createRequestTypes("GET_NEWS");
 export const GET_POTY_LEADERBOARD = createRequestTypes("GET_POTY_LEADERBOARD");
@@ -41,6 +42,13 @@ export const GET_USER_PROFILE = createRequestTypes("GET_USER_PROFILE");
 
 export const GET_POTY_SCORE_NET = createRequestTypes("GET_POTY_SCORE_NET");
 export const GET_POTY_SCORE_GROSS = createRequestTypes("GET_POTY_SCORE_GROSS");
+
+export const GET_ENTER_SCORE_DATA = createRequestTypes("GET_ENTER_SCORE_DATA");
+
+export const POST_POTY_SCORE = createRequestTypes("POST_POTY_SCORE");
+export const POST_LCL_SCORE = createRequestTypes("POST_LCL_SCORE");
+export const POST_LMP_SCORE = createRequestTypes("POST_LMP_SCORE");
+export const POST_DMP_SCORE = createRequestTypes("POST_DMP_SCORE");
 export const GET_LIVE_DATA = createRequestTypes("GET_LIVE_DATA");
 export const GET_SCORE_LCL_SINGLES1 = createRequestTypes(
   "GET_SCORE_LCL_SINGLES1"

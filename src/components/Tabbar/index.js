@@ -14,6 +14,13 @@ const BUTTON_TYPES = {
   textIcon: "textIcon"
 };
 
+const ActionType = {
+  poty: () => Actions.potylivescore(),
+  lmp: () => Actions.lmplivescore(),
+  dmp: () => Actions.dmplivescore(),
+  lcl: () => Actions.lcllivescore()
+};
+
 const tabsData = [
   {
     name: "drawer",
@@ -62,7 +69,9 @@ const tabsData = [
     disableImage: Images.arrow_circle_grey,
     type: BUTTON_TYPES.textIcon,
     selectedTab: 2,
-    onPress: () => Actions.potylivescore()
+    dependency: "current_match",
+    onPress: (tabIsActive, props) =>
+      ActionType[props.current_match[0].type].call()
   }
 ];
 
@@ -113,7 +122,8 @@ class Tabbar extends React.PureComponent {
     selectedIndex: PropTypes.number.isRequired,
     setSelectedTab: PropTypes.func.isRequired,
     defaultTabbar: PropTypes.bool.isRequired,
-    showTabbar: PropTypes.bool.isRequired
+    showTabbar: PropTypes.bool.isRequired,
+    current_match: PropTypes.array.isRequired
   };
 
   static defaultProps = {};
@@ -126,6 +136,7 @@ class Tabbar extends React.PureComponent {
     const { selectedIndex, defaultTabbar, showTabbar } = this.props;
     // const selectedIndex = 4;
     const data = defaultTabbar ? tabsData : livematchtabsData;
+
     return (
       showTabbar && (
         <View style={styles.container}>
@@ -156,27 +167,36 @@ class Tabbar extends React.PureComponent {
               );
             }
 
+            const isEnabled = element.dependency
+              ? this.props[element.dependency].length
+              : true;
             return (
               <ButtonView
                 key={index}
                 style={styles.itemWrapper}
+                isDisabled={!isEnabled}
                 onPress={() => {
                   if (element.selectedTab) {
                     this.props.setSelectedTab(element.selectedTab);
                   }
-                  element.onPress(selectedIndex === index);
+                  element.onPress(selectedIndex === index, this.props);
                 }}
               >
-                <View style={styles.btn2}>
+                <View style={[styles.btn2, !isEnabled && styles.disabled]}>
                   <Image
                     source={
-                      selectedIndex === index
-                        ? element.selectedImage
-                        : element.image
+                      isEnabled
+                        ? selectedIndex === index
+                          ? element.selectedImage
+                          : element.image
+                        : element.disableImage
                     }
                     style={styles.btn2Image}
                   />
-                  <Text size="xSmall" color={Colors.green}>
+                  <Text
+                    size="xSmall"
+                    color={isEnabled ? Colors.green : Colors.grey}
+                  >
                     {element.name}
                   </Text>
                 </View>
@@ -193,7 +213,8 @@ class Tabbar extends React.PureComponent {
 const mapStateToProps = ({ general }) => ({
   selectedIndex: general.selectedIndex,
   defaultTabbar: general.defaultTabbar,
-  showTabbar: general.showTabbar
+  showTabbar: general.showTabbar,
+  current_match: general.current_match
 });
 
 const actions = { setSelectedTab };

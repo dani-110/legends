@@ -52,5 +52,26 @@ export default StyleSheet.create({
     backgroundColor: Colors.darkBlue,
     borderRadius: 20,
     padding: 15
+  },
+
+  rowStyles: {
+    ...AppStyles.borderBottomGrey,
+    ...AppStyles.flexRow,
+    // ...AppStyles.basePadding,
+    ...AppStyles.alignItemsCenter
+  },
+  rowItemStyles: {
+    borderColor: Colors.transparent,
+    borderWidth: 0.5,
+    ...AppStyles.basePadding,
+    height: 52,
+    width: 60,
+    justifyContent: "center"
+  },
+  rowItemActiveStyles: {
+    borderColor: Colors.grey
+  },
+  activeColRowItemActiveStyles: {
+    backgroundColor: Colors.greenTint
   }
 });

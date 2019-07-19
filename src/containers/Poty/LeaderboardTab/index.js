@@ -63,7 +63,6 @@ class LeaderboardTab extends Component {
 
   render() {
     const { leaderboardData, isFetchingData } = this.props;
-    console.log({ LeaderboardTab: this.props });
     return (
       <View style={styles.container}>
         {isFetchingData && leaderboardData.length === 0 && <SimpleLoader />}
