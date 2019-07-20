@@ -85,7 +85,7 @@ class EnterScore extends React.Component {
 
   getLatestScores = () => {
     const { current_match } = this.props;
-    const { type, id, schedule_id, match_id, tee_off_time } = current_match[1];
+    const { type, id, schedule_id, match_id, tee_off_time } = current_match[0];
 
     const param = `${type}/${id}${schedule_id && `/${schedule_id}`}${match_id &&
       `/${match_id}`}`;
@@ -106,7 +106,7 @@ class EnterScore extends React.Component {
 
   _isEditable(key) {
     const { current_match } = this.props;
-    const { type } = current_match[1];
+    const { type } = current_match[0];
     const unEditableKeys = ["Name", "Net", "Gross"];
     console.log("type", type);
     if (type === "lcl" || type === "lmp" || type === "dmp")
@@ -264,7 +264,7 @@ class EnterScore extends React.Component {
       this._swiper.state.index
     ];
     const { current_match } = this.props;
-    const { id, type, match_id, schedule_id } = current_match[1];
+    const { id, type, match_id, schedule_id } = current_match[0];
     const playerIndex = {
       1: [1, 1, 1],
       2: [1, 2, 0],

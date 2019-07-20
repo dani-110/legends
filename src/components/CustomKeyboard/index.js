@@ -79,6 +79,7 @@ export default class CustomKeyboard extends React.PureComponent {
               const per = index == 0 ? "" : index == 1 ? 0 : 1;
               return (
                 <TouchableOpacity
+                  key={`minikeys${index}`}
                   onPress={() => onKeyPress(per)}
                   style={styles.miniKeyBoardButton}
                 >

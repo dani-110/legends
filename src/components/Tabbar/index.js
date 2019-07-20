@@ -70,8 +70,26 @@ const tabsData = [
     type: BUTTON_TYPES.textIcon,
     selectedTab: 2,
     dependency: "current_match",
-    onPress: (tabIsActive, props) =>
-      ActionType[props.current_match[0].type].call()
+    onPress: (tabIsActive, props) => {
+      const data = props.current_match[0];
+      switch (props.current_match[0].type) {
+        case "poty":
+          return Actions.jump("potylivescore", { data });
+
+        case "lmp":
+          return Actions.jump("lmplivescore", { data });
+
+        case "dmp":
+          return Actions.jump("dmplivescore", { data });
+
+        case "lcl":
+          return Actions.jump("lcllivescore", { data });
+
+        default:
+          break;
+      }
+    }
+    // ActionType[props.current_match[0].type].call()
   }
 ];
 
