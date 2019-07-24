@@ -79,7 +79,7 @@ export default class PotyScoreTable extends React.Component {
         ]}
       >
         <View width={60}>
-          <Text textAlign="center">{index}</Text>
+          <Text textAlign="center">{index + 1}</Text>
         </View>
         <View style={[AppStyles.flex2]}>
           <Text>{item.name || " "}</Text>
