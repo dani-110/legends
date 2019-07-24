@@ -89,17 +89,17 @@ export default class PotyScoreTable extends React.Component {
         </View>
         <View
           width={45}
-          style={[styles.score, item.topar < 0 && styles.negativePar]}
+          style={[styles.score, item.net_score < 0 && styles.negativePar]}
         >
           <Text
             size="xLarge"
-            style={[item.topar < 0 && styles.negativeParText]}
+            style={[item.net_score < 0 && styles.negativeParText]}
           >
-            {item.topar || item.par || " "}
+            {item.net_score || item.par || 0}
           </Text>
         </View>
         <View width={70}>
-          <Text textAlign="center">{item.net_score || item.thru || " "}</Text>
+          <Text textAlign="center">{item.topar || item.thru || " "}</Text>
         </View>
       </View>
     );
