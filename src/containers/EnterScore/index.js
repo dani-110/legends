@@ -424,10 +424,14 @@ class EnterScore extends React.Component {
           ]}
           onPress={() =>
             this._isEditable(key) &&
-            this._showKeyBoard(key === "FIR", key, rowItemIndex)
+            this._showKeyBoard(
+              key === "FIR" || key === "GIR",
+              key,
+              rowItemIndex
+            )
           }
         >
-          {key === "FIR" ? (
+          {key === "FIR" || key === "GIR" ? (
             rowItem === 1 ? (
               <RNImage source={Images.check} />
             ) : rowItem === 0 ? (
