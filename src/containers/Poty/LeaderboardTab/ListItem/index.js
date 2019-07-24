@@ -22,7 +22,7 @@ export default class ListItem extends React.PureComponent {
       >
         <Text
           type="bold"
-          style={{ width: 50 }}
+          style={{ width: 70 }}
           size="small"
           color={Colors.text.secondary}
         >
@@ -35,7 +35,7 @@ export default class ListItem extends React.PureComponent {
             AppStyles.alignItemsCenter
           ]}
         >
-          <Image source={{ uri: data.avatar }} style={styles.image} />
+          {/* <Image source={{ uri: data.avatar }} style={styles.image} /> */}
           <Text
             type="bold"
             size="small"
