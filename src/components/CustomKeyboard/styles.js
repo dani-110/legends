@@ -15,7 +15,7 @@ export default StyleSheet.create({
     elevation: 5
   },
   numericWraper: {
-    height: 80,
+    height: 135,
     width: "100%",
     backgroundColor: "white"
   },
@@ -23,7 +23,7 @@ export default StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     height: 45,
-    width: "16.66%",
+    width: "25%",
     borderBottomWidth: 0.5,
     borderBottomColor: Colors.greyTint,
     borderEndWidth: 0.5,
@@ -36,7 +36,7 @@ export default StyleSheet.create({
     flexDirection: "row"
   },
   miniWraper: {
-    height: 40,
+    height: 80,
     width: "100%",
     backgroundColor: "white",
     flexDirection: "row"
@@ -44,7 +44,7 @@ export default StyleSheet.create({
   miniKeyBoardButton: {
     justifyContent: "center",
     alignItems: "center",
-    height: 45,
+    height: 80,
     width: "33.33%",
     borderEndWidth: 0.5,
     borderEndColor: Colors.greyTint

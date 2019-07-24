@@ -39,7 +39,7 @@ class Poty extends Component {
           title="POTY"
           hasBorder={false}
           theme={NAVBAR_THEME.WHITE}
-          titleAlign="left"
+          titleAlign="center"
         />
         {this._renderTabsHeader()}
         {activeTabIndex === 0 && <LeaderboardTab />}

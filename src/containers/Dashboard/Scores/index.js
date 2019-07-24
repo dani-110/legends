@@ -75,7 +75,7 @@ class Scores extends React.Component {
     return (
       <View style={[AppStyles.doubleBaseMargin, AppStyles.mBottom10]}>
         <Text color={Colors.black}>
-          Handicap <Text>{current_handicap}</Text>
+          Handicap <Text color={Colors.blue}>{current_handicap}</Text>
         </Text>
         <View style={[AppStyles.flexRow, AppStyles.spaceBetween]}>
           {this.getSingleScore("blue", false, blue_tee_handicap, Colors.blue)}

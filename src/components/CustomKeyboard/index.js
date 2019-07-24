@@ -10,7 +10,7 @@ import {
 import Util from "../../util";
 import styles from "./styles";
 import { Text } from "../";
-import { Images } from "../../theme";
+import { Images, Fonts } from "../../theme";
 
 export default class CustomKeyboard extends React.PureComponent {
   constructor(props) {
@@ -48,11 +48,11 @@ export default class CustomKeyboard extends React.PureComponent {
   render() {
     const { mini, visible, onKeyPress } = this.props;
     const miniKeys = [
-      "Del",
+      "DEL",
       <Image source={Images.cross} />,
       <Image source={Images.check} />
     ];
-    const numericKeys = [["Del", 0, 1, 2, 3, 4], ["-", 5, 6, 7, 8, 9]];
+    const numericKeys = [[0, 1, 2, 3], ["DEL", 4, 5, 6], ["-", 7, 8, 9]];
 
     // if (!visible) {
     //   return null;
@@ -68,7 +68,7 @@ export default class CustomKeyboard extends React.PureComponent {
           {
             marginBottom: this.state.animation.interpolate({
               inputRange: [0, 1],
-              outputRange: [mini ? -40 : -80, 0]
+              outputRange: [mini ? -80 : -135, 0]
             })
           }
         ]}
@@ -86,7 +86,9 @@ export default class CustomKeyboard extends React.PureComponent {
                   {React.isValidElement(item) ? (
                     <View>{item}</View>
                   ) : (
-                    <Text type="bold">{item}</Text>
+                    <Text size={Fonts.size.xxLarge} type="bold">
+                      {item}
+                    </Text>
                   )}
                 </TouchableOpacity>
               );
