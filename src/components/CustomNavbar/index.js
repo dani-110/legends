@@ -72,8 +72,12 @@ export default class CustomNavbar extends React.Component {
       <View
         style={[
           AppStyles.flex,
-          AppStyles.centerInner,
-          { position: "absolute", left: 50, right: 50 }
+          // AppStyles.centerInner
+          titleAlign === "center" && {
+            position: "absolute",
+            left: 50,
+            right: 50
+          }
         ]}
       >
         <Text
@@ -82,13 +86,17 @@ export default class CustomNavbar extends React.Component {
           ellipsizeMode="tail"
           size="large"
           type="bold"
-          style={styles.title}
+          style={[styles.title]}
           textAlign={titleAlign}
         >
           {title || ""}
         </Text>
         {!_.isEmpty(subtitle) && (
-          <Text size="xSmall" color={Colors.black2Tinted}>
+          <Text
+            size="xSmall"
+            color={Colors.black2Tinted}
+            textAlign={titleAlign}
+          >
             {subtitle || ""}
           </Text>
         )}
@@ -136,7 +144,13 @@ export default class CustomNavbar extends React.Component {
             : {}
         ]}
       >
-        <View style={[AppStyles.flexRow, AppStyles.alignItemsCenter]}>
+        <View
+          style={[
+            styles.titleContainer,
+            AppStyles.flexRow,
+            AppStyles.alignItemsCenter
+          ]}
+        >
           {this.renderLeft(leftBtnImage, leftBtnPress, leftBtnText, hasBack)}
           {this.renderTitle(title, subtitle, titleColor, theme, titleAlign)}
         </View>

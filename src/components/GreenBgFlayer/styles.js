@@ -10,6 +10,6 @@ export default StyleSheet.create({
   },
   image: {
     width: Metrics.screenWidth,
-    height: Metrics.screenWidth * 0.73
+    height: 205
   }
 });

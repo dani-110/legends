@@ -12,7 +12,7 @@ export default StyleSheet.create({
     backgroundColor: Colors.background.primary
   },
   userDetailsWrapper: {
-    paddingBottom: 25,
+    // paddingBottom: 25,
     paddingHorizontal: 10,
     borderBottomWidth: 1,
     borderColor: Colors.separator,
