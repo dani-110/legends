@@ -20,8 +20,8 @@ class Login extends Component {
   state = {
     errors: {},
     loading: false,
-    email: "",
-    password: "",
+    email: "omerartistic@gmail.com",
+    password: "123456",
     hidePassword: true
   };
 
