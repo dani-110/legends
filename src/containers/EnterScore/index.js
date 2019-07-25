@@ -127,14 +127,6 @@ class EnterScore extends React.Component {
   _onClickScroll = toIndex => {
     const { index, total } = this._swiper.state;
     const countSlides = total - 1;
-    if (this.state.showKeyBoard) {
-      this.setState({
-        showKeyBoard: false,
-        miniKeyBoard: false,
-        current: -1,
-        index: -1
-      });
-    }
     if (index !== toIndex && toIndex >= 0 && toIndex <= countSlides) {
       let resultSlide = 0;
       if (toIndex > index && toIndex !== countSlides) {
@@ -164,6 +156,7 @@ class EnterScore extends React.Component {
   }
 
   _keyPress(text) {
+    swipe = false;
     const { current, index, scoreCard, miniKeyBoard } = this.state;
     const tempData = _.cloneDeep(scoreCard);
     const holeIndex = this._swiper.state.index;
@@ -179,21 +172,72 @@ class EnterScore extends React.Component {
       "text: ",
       text
     );
+    debugger;
     // return;
     if (miniKeyBoard) {
       tempData[holeIndex][current][index] = text;
     } else {
-      if (text != "Del" && text != "-") {
+      if (text != "DEL" && text != "-") {
         tempData[holeIndex][current][index] = text;
-      } else if (text === "Del") {
+      } else if (text === "DEL") {
         tempData[holeIndex][current][index] = "";
       }
     }
-    this.setState({ scoreCard: tempData }, () => {
-      this._updateGrossNetScores().then(() => {
-        this._postData(current, index, tempData, text);
+    if (
+      current === "FIR" ||
+      current === "GIR" ||
+      (text != "DEL" && text != "-" && text != 1)
+    ) {
+      newIndex = index;
+      newCurrent = current;
+      if (current === "Stroke") {
+        newCurrent = "FIR";
+      } else if (current === "FIR") {
+        newCurrent = "GIR";
+      } else if (current === "GIR") {
+        newCurrent = "Putts";
+      } else if (current === "Putts") {
+        newIndex = index + 1;
+        newCurrent = "Stroke";
+        if (index === 3 && holeIndex < 17) {
+          newIndex = 0;
+          swipe = true;
+        }
+      }
+      newMini = false;
+      if (newCurrent === "FIR" || newCurrent === "GIR") {
+        newMini = true;
+      }
+      newShowKeyboard = true;
+      if (holeIndex === 17 && index === 3 && current === "Putts") {
+        (newShowKeyboard = false), (newMini = false);
+      }
+
+      debugger;
+      this.setState(
+        {
+          scoreCard: tempData,
+          current: newCurrent,
+          miniKeyBoard: newMini,
+          index: newIndex,
+          showKeyBoard: newShowKeyboard
+        },
+        () => {
+          this._updateGrossNetScores().then(() => {
+            this._postData(current, index, tempData, text);
+          });
+          if (swipe) {
+            this._onClickScroll(this._swiper.state.index + 1);
+          }
+        }
+      );
+    } else {
+      this.setState({ scoreCard: tempData }, () => {
+        this._updateGrossNetScores().then(() => {
+          this._postData(current, index, tempData, text);
+        });
       });
-    });
+    }
   }
 
   async _updateGrossNetScores() {
@@ -406,7 +450,14 @@ class EnterScore extends React.Component {
       </View>
     );
   }
-
+  _onSwipe() {
+    this.setState({
+      current: "Stroke",
+      index: 0,
+      showKeyBoard: true,
+      miniKeyBoard: false
+    });
+  }
   _renderRowValues(data, key) {
     const { current, index } = this.state;
     return data[key].map((rowItem, rowItemIndex) => (
@@ -543,9 +594,7 @@ class EnterScore extends React.Component {
                 showsButtons={false}
                 loop={false}
                 showsPagination={false}
-                onIndexChanged={() => {
-                  this._hideKeyboard();
-                }}
+                onIndexChanged={() => this._onSwipe()}
               >
                 {holes.map((holeInfo, index) => (
                   <View key={`holes-${index}`}>
