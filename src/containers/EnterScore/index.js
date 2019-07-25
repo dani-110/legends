@@ -132,7 +132,6 @@ class EnterScore extends React.Component {
     const { current_match } = this.props;
     const { type } = current_match[0];
     const unEditableKeys = ["Name", "Net", "Gross"];
-    console.log("type", type);
     if (type === "lcl" || type === "lmp" || type === "dmp")
       unEditableKeys.push("FIR", "GIR", "Putts");
     return !unEditableKeys.includes(key);
@@ -184,20 +183,7 @@ class EnterScore extends React.Component {
     const { current, index, scoreCard, miniKeyBoard } = this.state;
     const tempData = _.cloneDeep(scoreCard);
     const holeIndex = this._swiper.state.index;
-    console.log(
-      "current:",
-      current,
-      "index:",
-      index,
-      "scoreCard:",
-      scoreCard,
-      "miniKeyBoard: ",
-      miniKeyBoard,
-      "text: ",
-      text
-    );
-    debugger;
-    // return;
+
     if (miniKeyBoard) {
       tempData[holeIndex][current][index] = text;
     } else {
@@ -214,11 +200,11 @@ class EnterScore extends React.Component {
     ) {
       newIndex = index;
       newCurrent = current;
-      if (current === "Stroke") {
+      if (current === "Stroke" && this._isEditable("FIR")) {
         newCurrent = "FIR";
-      } else if (current === "FIR") {
+      } else if (current === "FIR" && this._isEditable("GIR")) {
         newCurrent = "GIR";
-      } else if (current === "GIR") {
+      } else if (current === "GIR" && this._isEditable("Putts")) {
         newCurrent = "Putts";
       } else if (current === "Putts") {
         newIndex = index + 1;
@@ -237,7 +223,6 @@ class EnterScore extends React.Component {
         (newShowKeyboard = false), (newMini = false);
       }
 
-      debugger;
       this.setState(
         {
           scoreCard: tempData,
@@ -272,7 +257,7 @@ class EnterScore extends React.Component {
     const holeStroke = scoreCard[holeIndex].Stroke[index];
     const previousGross =
       (scoreCard[holeIndex - 1] && scoreCard[holeIndex - 1].Gross[index]) || 0;
-    const handicap = scoreCard[holeIndex].Name[index].handicap;
+    const handicap = scoreCard[holeIndex].Name[index].handicap || 0;
     const gross = holeStroke - holePar + previousGross;
     const net = gross - handicap;
 
@@ -334,10 +319,10 @@ class EnterScore extends React.Component {
     const { current_match } = this.props;
     const { id, type, match_id, schedule_id } = current_match[0];
     const playerIndex = {
-      1: [1, 1, 1],
-      2: [1, 2, 0],
-      3: [2, 1, 3],
-      4: [2, 2, 2]
+      1: [0, "", 1],
+      2: [2, 0, 0],
+      3: [1, "", 3],
+      4: [2, 1, 2]
     };
     const score_array = {};
     const netscore_array = {};
