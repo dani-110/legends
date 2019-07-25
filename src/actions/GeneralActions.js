@@ -2,6 +2,7 @@
 
 import {
   SET_SELECTED_TABS,
+  ENABLE_ENTER_SCORE,
   SET_TABBAR_TYPE,
   TOGGLE_TABBAR,
   GET_DASHBOARD_DATA
@@ -46,5 +47,12 @@ export function getDashboardDataFailure(data) {
   return {
     data,
     type: GET_DASHBOARD_DATA.FAILURE
+  };
+}
+
+export function enableEnterScore(data) {
+  return {
+    data,
+    type: ENABLE_ENTER_SCORE.SUCCESS
   };
 }

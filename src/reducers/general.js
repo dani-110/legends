@@ -5,7 +5,8 @@ import {
   SET_TABBAR_TYPE,
   TOGGLE_TABBAR,
   GET_DASHBOARD_DATA,
-  USER_SIGNOUT
+  USER_SIGNOUT,
+  ENABLE_ENTER_SCORE
 } from "../actions/ActionTypes";
 
 const initialState = Immutable({
@@ -20,7 +21,8 @@ const initialState = Immutable({
     //   match_id: "",
     //   tee_off_time: "11:30:00"
     // }
-  ]
+  ],
+  enable_enter_score: false
 });
 
 export default (state = initialState, action) => {
@@ -46,6 +48,12 @@ export default (state = initialState, action) => {
     case GET_DASHBOARD_DATA.SUCCESS: {
       return Immutable.merge(state, {
         current_match: action.data && action.data.current_match
+      });
+    }
+
+    case ENABLE_ENTER_SCORE.SUCCESS: {
+      return Immutable.merge(state, {
+        enable_enter_score: action.data
       });
     }
 
