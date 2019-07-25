@@ -1,9 +1,11 @@
 // @flow
+import _ from "lodash";
 import Immutable from "seamless-immutable";
 import {
   USER_SIGNIN,
   GET_USER_PROFILE,
-  USER_SIGNOUT
+  USER_SIGNOUT,
+  UPLOAD_USER_IMAGE
 } from "../actions/ActionTypes";
 
 const initialState = Immutable({
@@ -38,6 +40,14 @@ export default (state = initialState, action) => {
         isFetchingProfileData: false
       });
     }
+
+    case UPLOAD_USER_IMAGE.SUCCESS: {
+      const tempProfile = _.cloneDeep(state.profileData);
+      return Immutable.merge(state, {
+        profileData: { ...tempProfile, ...{ picture: action.url } }
+      });
+    }
+
     case USER_SIGNOUT.SUCCESS: {
       return Immutable.merge(state, initialState);
     }

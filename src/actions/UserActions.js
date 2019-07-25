@@ -6,7 +6,8 @@ import {
   USER_SIGNOUT,
   UPDATE_USER_PROFILE,
   USER_FORGOT_PASSWORD,
-  GET_USER_PROFILE
+  GET_USER_PROFILE,
+  UPLOAD_USER_IMAGE
 } from "./ActionTypes";
 
 export function userSignupRequest(payload, responseCallback) {
@@ -94,5 +95,20 @@ export function getUserProfileFailure(data) {
   return {
     data,
     type: GET_USER_PROFILE.FAILURE
+  };
+}
+
+export function uploadUserImageRequest(payload, responseCallback) {
+  return {
+    payload,
+    responseCallback,
+    type: UPLOAD_USER_IMAGE.REQUEST
+  };
+}
+
+export function uploadUserImageSuccess(url) {
+  return {
+    url,
+    type: UPLOAD_USER_IMAGE.SUCCESS
   };
 }

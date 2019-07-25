@@ -3,6 +3,8 @@ package com.legendstour;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.clipsub.rnbottomsheet.RNBottomSheetPackage;
+import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.github.yamill.orientation.OrientationPackage;
 import com.horcrux.svg.SvgPackage;
@@ -26,6 +28,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNBottomSheetPackage(),
+            new PickerPackage(),
             new LinearGradientPackage(),
             new OrientationPackage(),
             new SvgPackage()

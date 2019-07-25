@@ -11,6 +11,7 @@ const greyTint = "rgba(112,112,112,0.1)";
 const grey6 = "#7e838f";
 const yellow = "#ffc415";
 const yellow2 = "yellow";
+const whiteOpaque = "rgba(255,255,255,0.75)";
 
 const green = "#00bc56";
 const darkBlue = "#293045";
@@ -97,5 +98,6 @@ export default {
   graphColorThree,
   graphColorFour,
   purple,
-  grey6
+  grey6,
+  whiteOpaque
 };
