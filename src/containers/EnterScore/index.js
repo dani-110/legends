@@ -200,11 +200,11 @@ class EnterScore extends React.Component {
     ) {
       newIndex = index;
       newCurrent = current;
-      if (current === "Stroke" && this._isEditable("FIR")) {
+      if (current === "Stroke") {
         newCurrent = "FIR";
-      } else if (current === "FIR" && this._isEditable("GIR")) {
+      } else if (current === "FIR") {
         newCurrent = "GIR";
-      } else if (current === "GIR" && this._isEditable("Putts")) {
+      } else if (current === "GIR") {
         newCurrent = "Putts";
       } else if (current === "Putts") {
         newIndex = index + 1;
