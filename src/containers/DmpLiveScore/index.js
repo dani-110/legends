@@ -14,15 +14,17 @@ import {
 import { getScoreDmpRequest } from "../../actions/LiveMatchesActions";
 
 import { NAVBAR_THEME } from "../../constants";
-import { setTabbarType } from "../../actions/GeneralActions";
+import { setTabbarType, enableEnterScore } from "../../actions/GeneralActions";
 
 class DmpLiveScore extends React.Component {
   static propTypes = {
     liveScoreData: PropTypes.object.isRequired,
     setTabbarType: PropTypes.func.isRequired,
+    enableEnterScore: PropTypes.func.isRequired,
     getScoreDmpRequest: PropTypes.func.isRequired,
     data: PropTypes.object.isRequired,
-    isFetchingData: PropTypes.bool.isRequired
+    isFetchingData: PropTypes.bool.isRequired,
+    current_match: PropTypes.object.isRequired
   };
 
   static defaultProps = {};
@@ -45,8 +47,9 @@ class DmpLiveScore extends React.Component {
   }
 
   componentWillMount() {
-    const { match_id, schedule_id, season_id } = this.props.data;
+    const { id, match_id, schedule_id, season_id } = this.props.data;
     this.props.getScoreDmpRequest(`${match_id}/${schedule_id}/${season_id}`);
+    this.props.enableEnterScore(id === this.props.current_match[0].id);
   }
 
   _onEnter() {
@@ -63,12 +66,16 @@ class DmpLiveScore extends React.Component {
   }
 
   render() {
-    const { isFetchingData, liveScoreData } = this.props;
+    const {
+      data: { title, venue },
+      isFetchingData,
+      liveScoreData
+    } = this.props;
     return (
       <View style={styles.container}>
         <CustomNavbar
-          title="DMP Better Ball"
-          subtitle="DHA Golf Club"
+          title={title}
+          subtitle={venue}
           hasBorder={false}
           theme={NAVBAR_THEME.WHITE}
           titleAlign="center"
@@ -85,12 +92,13 @@ class DmpLiveScore extends React.Component {
   }
 }
 
-const mapStateToProps = ({ liveScore }) => ({
+const mapStateToProps = ({ liveScore, general }) => ({
   liveScoreData: liveScore.dmp,
-  isFetchingData: liveScore.dmpFetching
+  isFetchingData: liveScore.dmpFetching,
+  current_match: general.current_match
 });
 
-const actions = { setTabbarType, getScoreDmpRequest };
+const actions = { setTabbarType, getScoreDmpRequest, enableEnterScore };
 
 export default connect(
   mapStateToProps,

@@ -118,7 +118,8 @@ class Tabbar extends React.PureComponent {
     setSelectedTab: PropTypes.func.isRequired,
     defaultTabbar: PropTypes.bool.isRequired,
     showTabbar: PropTypes.bool.isRequired,
-    current_match: PropTypes.array.isRequired
+    current_match: PropTypes.array.isRequired,
+    enable_enter_score: PropTypes.bool.isRequired
   };
 
   static defaultProps = {};
@@ -165,11 +166,14 @@ class Tabbar extends React.PureComponent {
             const isEnabled = element.dependency
               ? this.props[element.dependency].length
               : true;
+
+            const isEnterScoreDisabled =
+              element.name == "Enter Score" && !this.props.enable_enter_score;
             return (
               <ButtonView
                 key={index}
                 style={styles.itemWrapper}
-                isDisabled={!isEnabled}
+                isDisabled={!isEnabled || isEnterScoreDisabled}
                 onPress={() => {
                   if (element.selectedTab) {
                     this.props.setSelectedTab(element.selectedTab);
@@ -177,10 +181,15 @@ class Tabbar extends React.PureComponent {
                   element.onPress(selectedIndex === index, this.props);
                 }}
               >
-                <View style={[styles.btn2, !isEnabled && styles.disabled]}>
+                <View
+                  style={[
+                    styles.btn2,
+                    !isEnabled || (isEnterScoreDisabled && styles.disabled)
+                  ]}
+                >
                   <Image
                     source={
-                      isEnabled
+                      isEnabled && !isEnterScoreDisabled
                         ? selectedIndex === index
                           ? element.selectedImage
                           : element.image
@@ -190,7 +199,11 @@ class Tabbar extends React.PureComponent {
                   />
                   <Text
                     size="xSmall"
-                    color={isEnabled ? Colors.green : Colors.grey}
+                    color={
+                      isEnabled && !isEnterScoreDisabled
+                        ? Colors.green
+                        : Colors.grey
+                    }
                   >
                     {element.name}
                   </Text>
@@ -209,7 +222,8 @@ const mapStateToProps = ({ general }) => ({
   selectedIndex: general.selectedIndex,
   defaultTabbar: general.defaultTabbar,
   showTabbar: general.showTabbar,
-  current_match: general.current_match
+  current_match: general.current_match,
+  enable_enter_score: general.enable_enter_score
 });
 
 const actions = { setSelectedTab };

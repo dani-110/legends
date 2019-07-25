@@ -13,18 +13,20 @@ import { NAVBAR_THEME } from "../../constants";
 import Tabbar from "../../components/Tabbar";
 import PotyScoreTable from "./PotyScoreTable";
 import Util from "../../util";
-import { setTabbarType } from "../../actions/GeneralActions";
+import { setTabbarType, enableEnterScore } from "../../actions/GeneralActions";
 
 class PotyLiveScore extends React.Component {
   static propTypes = {
     setTabbarType: PropTypes.func.isRequired,
+    enableEnterScore: PropTypes.func.isRequired,
     liveScoreDataNet: PropTypes.array.isRequired,
     liveScoreDataGross: PropTypes.array.isRequired,
     isFetchingNet: PropTypes.bool.isRequired,
     isFetchingGross: PropTypes.bool.isRequired,
     getPotyScoreNetRequest: PropTypes.func.isRequired,
     getPotyScoreGrossRequest: PropTypes.func.isRequired,
-    data: PropTypes.object.isRequired
+    data: PropTypes.object.isRequired,
+    current_match: PropTypes.object.isRequired
   };
 
   static defaultProps = {};
@@ -52,6 +54,9 @@ class PotyLiveScore extends React.Component {
 
   componentWillMount() {
     this.props.getPotyScoreNetRequest();
+    this.props.enableEnterScore(
+      this.props.data.id === this.props.current_match[0].id
+    );
   }
 
   _renderTabsHeader() {
@@ -125,15 +130,17 @@ class PotyLiveScore extends React.Component {
   }
 }
 
-const mapStateToProps = ({ liveScore }) => ({
+const mapStateToProps = ({ liveScore, general }) => ({
   liveScoreDataNet: liveScore.poty.net,
   liveScoreDataGross: liveScore.poty.gross,
   isFetchingNet: liveScore.poty.isFetchingNet,
-  isFetchingGross: liveScore.poty.isFetchingGross
+  isFetchingGross: liveScore.poty.isFetchingGross,
+  current_match: general.current_match
 });
 
 const actions = {
   setTabbarType,
+  enableEnterScore,
   getPotyScoreNetRequest,
   getPotyScoreGrossRequest
 };

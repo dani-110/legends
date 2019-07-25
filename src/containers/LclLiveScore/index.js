@@ -10,12 +10,14 @@ import Util from "../../util";
 import SinglesOne from "./SinglesOne";
 import Foursome from "./Foursome";
 import SinglesTwo from "./SinglesTwo";
-import { setTabbarType } from "../../actions/GeneralActions";
+import { setTabbarType, enableEnterScore } from "../../actions/GeneralActions";
 
 class LclLiveScore extends Component {
   static propTypes = {
     setTabbarType: PropTypes.func.isRequired,
-    data: PropTypes.object.isRequired
+    enableEnterScore: PropTypes.func.isRequired,
+    data: PropTypes.object.isRequired,
+    current_match: PropTypes.object.isRequired
   };
 
   static defaultProps = {};
@@ -40,6 +42,12 @@ class LclLiveScore extends Component {
   state = {
     activeTabIndex: 0
   };
+
+  componentWillMount() {
+    this.props.enableEnterScore(
+      this.props.data.id === this.props.current_match[0].id
+    );
+  }
 
   _onEnter() {
     this.props.setTabbarType(false);
@@ -72,12 +80,14 @@ class LclLiveScore extends Component {
 
   render() {
     const { activeTabIndex } = this.state;
-    console.log({ PPPP: this.props });
+    const {
+      data: { title, venue }
+    } = this.props;
     return (
       <View style={[styles.container]}>
         <CustomNavbar
-          title="LCL Matchplay"
-          subtitle="DHA Golf Club"
+          title={title}
+          subtitle={venue}
           hasBorder={false}
           theme={NAVBAR_THEME.WHITE}
           titleAlign="center"
@@ -91,9 +101,11 @@ class LclLiveScore extends Component {
   }
 }
 
-const mapStateToProps = () => ({});
+const mapStateToProps = ({ general }) => ({
+  current_match: general.current_match
+});
 
-const actions = { setTabbarType };
+const actions = { setTabbarType, enableEnterScore };
 
 export default connect(
   mapStateToProps,
