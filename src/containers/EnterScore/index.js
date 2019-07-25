@@ -204,10 +204,8 @@ class EnterScore extends React.Component {
     ) {
       newIndex = index;
       newCurrent = current;
-      debugger;
-      if (type === "poty") {
-        debugger;
 
+      if (type === "poty") {
         if (current === "Stroke") {
           newCurrent = "FIR";
         } else if (current === "FIR") {
@@ -223,7 +221,6 @@ class EnterScore extends React.Component {
           }
         }
       } else {
-        debugger;
         newIndex = index + 1;
         if (index === 3 && holeIndex < 17) {
           newIndex = 0;
@@ -277,8 +274,8 @@ class EnterScore extends React.Component {
     const gross = holeStroke - holePar + previousGross;
     const net = gross - handicap;
 
-    tempData[holeIndex].Gross[index] = gross;
-    tempData[holeIndex].Net[index] = net;
+    tempData[holeIndex].Gross[index - 1] = gross;
+    tempData[holeIndex].Net[index - 1] = net;
 
     await this.setStateAsync({ scoreCard: tempData });
   }
@@ -326,7 +323,7 @@ class EnterScore extends React.Component {
     return updatedData;
   }
 
-  _postData(current, indexParam, scoreCard, value) {
+  _postData(current, indexParam, scoreCardd, value) {
     const keyBindings = {
       Stroke: "strokes",
       FIR: "fir",
@@ -334,12 +331,13 @@ class EnterScore extends React.Component {
       Putts: "putts"
     };
     const {
+      current_match,
       enterScoreData: { holeData }
     } = this.props;
     const { hole_number, index, par } = holeData.holes[
       this._swiper.state.index
     ];
-    const { current_match } = this.props;
+    const { scoreCard } = this.state;
     const { id, type, match_id, schedule_id } = current_match[0];
     const playerIndex = {
       1: [0, "", 1],
