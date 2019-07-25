@@ -412,7 +412,7 @@ class EnterScore extends React.Component {
         hasBorder={false}
         theme={NAVBAR_THEME.WHITE}
         titleAlign="center"
-        rightBtnImage={Images.scoreCard}
+        /*  rightBtnImage={Images.scoreCard}
         rightBtnPress={() => {
           Actions.scorecard({
             act: {
@@ -424,7 +424,7 @@ class EnterScore extends React.Component {
               schedule_id: schedule_id ? schedule_id : ""
             }
           });
-        }}
+        }} */
       />
     );
   }
