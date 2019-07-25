@@ -7,7 +7,11 @@ import Orientation from "react-native-orientation";
 import PropTypes from "prop-types";
 import { CustomNavbar, Text, ScoreValue, Loader } from "../../components";
 import { NAVBAR_THEME } from "../../constants";
-import { getPotyUserScoreCardRequest } from "../../actions/ScoreCardActions";
+import {
+  getPotyUserScoreCardRequest,
+  getHoleDataForTournamentRequest,
+  getPotyGroupScoreCardRequest
+} from "../../actions/ScoreCardActions";
 import styles from "./styles";
 import { AppStyles, Colors } from "../../theme";
 import { toggleTabbar } from "../../actions/GeneralActions";
@@ -47,18 +51,47 @@ class ScoreCard extends Component {
 
   componentDidMount() {
     const { act } = this.props;
-    switch (act.action) {
-      case "potySingleUSer": {
-        util.showLoader(this);
-        let subroute = `${act.id}`;
-        this.props.getPotyUserScoreCardRequest(subroute, data => {
-          if (data) {
-            util.hideLoader(this);
-            scoreCardData = util.generateScoreCardData(data.data, act.userName);
-            this.setState({ scoreCardData });
+    if (act) {
+      switch (act.action) {
+        case "potySingleUSer": {
+          util.showLoader(this);
+          let subroute = `${act.id}`;
+          this.props.getPotyUserScoreCardRequest(subroute, data => {
+            if (data) {
+              util.hideLoader(this);
+              scoreCardData = util.generateScoreCardData(
+                data.data,
+                act.userName
+              );
+              this.setState({ scoreCardData });
+            }
+          });
+          break;
+        }
+        case "GetHoleDataForTournament": {
+          debugger;
+          if (act.type === "poty") {
+            util.showLoader(this);
+            this.props.getPotyGroupScoreCardRequest(data => {
+              if (data) {
+                scoreCardData = [];
+                util.hideLoader(this);
+                for (i = 0; i < data.length; i++) {
+                  scoreCardData.push(
+                    util.generateScoreCardData(
+                      data[i].scorecard,
+                      data[i].player_name
+                    )
+                  );
+                }
+                this.setState({ scoreCardData });
+                console.table(data);
+              }
+            });
+          } else {
+            console.log("no poty");
           }
-        });
-        break;
+        }
       }
     }
   }
@@ -79,6 +112,7 @@ class ScoreCard extends Component {
   }
 
   _renderHeader({ holeNumber, index, par, players }, startFrom, endTo, type) {
+    debugger;
     const mapData = holeNumber.slice(startFrom, endTo);
 
     return (
@@ -171,6 +205,7 @@ class ScoreCard extends Component {
       <View style={[AppStyles.flexRow, styles.scoreRowWrapper]}>
         <View style={AppStyles.flex}>
           {players.map((playerItem, playerIndex) => {
+            debugger;
             const mapData = playerItem.score.slice(startFrom, endTo);
 
             return (
@@ -255,7 +290,12 @@ const mapStateToProps = ({ scoreCard }, { scoreCardData }) => ({
   scoreCardData: _.isEmpty(scoreCardData) ? scoreCard.data : scoreCardData
 });
 
-const actions = { toggleTabbar, getPotyUserScoreCardRequest };
+const actions = {
+  toggleTabbar,
+  getPotyUserScoreCardRequest,
+  getPotyGroupScoreCardRequest,
+  getHoleDataForTournamentRequest
+};
 
 export default connect(
   mapStateToProps,

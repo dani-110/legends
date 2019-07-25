@@ -398,6 +398,8 @@ class EnterScore extends React.Component {
   };
 
   _renderTitle() {
+    const { current_match } = this.props;
+    const { id, type, match_id, schedule_id } = current_match[0];
     const {
       enterScoreData: {
         holeData: { tournament_name, course_name }
@@ -411,6 +413,18 @@ class EnterScore extends React.Component {
         theme={NAVBAR_THEME.WHITE}
         titleAlign="center"
         rightBtnImage={Images.scoreCard}
+        rightBtnPress={() => {
+          Actions.scorecard({
+            act: {
+              action: "GetHoleDataForTournament",
+              id: id,
+              type: "poty",
+              season_id: parseInt(id, 10),
+              match_id: match_id ? match_id : "",
+              schedule_id: schedule_id ? schedule_id : ""
+            }
+          });
+        }}
       />
     );
   }
