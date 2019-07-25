@@ -72,12 +72,14 @@ class LclLiveScore extends Component {
 
   render() {
     const { activeTabIndex } = this.state;
-    console.log({ PPPP: this.props });
+    const {
+      data: { title, venue }
+    } = this.props;
     return (
       <View style={[styles.container]}>
         <CustomNavbar
-          title="LCL Matchplay"
-          subtitle="DHA Golf Club"
+          title={title}
+          subtitle={venue}
           hasBorder={false}
           theme={NAVBAR_THEME.WHITE}
           titleAlign="center"

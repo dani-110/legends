@@ -44,8 +44,10 @@ class LmpLiveScore extends React.Component {
   }
 
   componentWillMount() {
-    const { match_id, schedule_id, season_id } = this.props.data;
-    this.props.getScoreLmpRequest(`${match_id}/${schedule_id}/${season_id}`);
+    const { id, match_id, schedule_id, season_id } = this.props.data;
+    this.props.getScoreLmpRequest(
+      `${match_id}/${schedule_id}/${season_id || id}`
+    );
   }
 
   _onEnter() {
@@ -62,13 +64,16 @@ class LmpLiveScore extends React.Component {
   }
 
   render() {
-    const { isFetchingData, liveScoreData } = this.props;
-
+    const {
+      data: { title, venue },
+      isFetchingData,
+      liveScoreData
+    } = this.props;
     return (
       <View style={styles.container}>
         <CustomNavbar
-          title="LMP Better Ball"
-          subtitle="DHA Golf Club"
+          title={title}
+          subtitle={venue}
           hasBorder={false}
           theme={NAVBAR_THEME.WHITE}
           titleAlign="center"

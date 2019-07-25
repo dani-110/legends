@@ -63,12 +63,16 @@ class DmpLiveScore extends React.Component {
   }
 
   render() {
-    const { isFetchingData, liveScoreData } = this.props;
+    const {
+      data: { title, venue },
+      isFetchingData,
+      liveScoreData
+    } = this.props;
     return (
       <View style={styles.container}>
         <CustomNavbar
-          title="DMP Better Ball"
-          subtitle="DHA Golf Club"
+          title={title}
+          subtitle={venue}
           hasBorder={false}
           theme={NAVBAR_THEME.WHITE}
           titleAlign="center"
