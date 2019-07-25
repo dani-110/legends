@@ -31,9 +31,11 @@ import { NAVBAR_THEME, ENTER_SCORE_POLLING_TIME } from "../../constants";
 import styles from "./styles";
 import Tabbar from "../../components/Tabbar";
 import { AppStyles, Colors, Images } from "../../theme";
+import { setTabbarType } from "../../actions/GeneralActions";
 
 class EnterScore extends React.Component {
   static propTypes = {
+    setTabbarType: PropTypes.func.isRequired,
     current_match: PropTypes.array.isRequired,
     userData: PropTypes.object.isRequired,
     getEnterScoreDataRequest: PropTypes.func.isRequired,
@@ -45,6 +47,19 @@ class EnterScore extends React.Component {
   };
 
   static defaultProps = {};
+
+  static onEnter() {
+    if (EnterScore.instance) {
+      EnterScore.instance._onEnter();
+    }
+  }
+
+  static onExit() {
+    if (EnterScore.instance) {
+      EnterScore.instance._onExit();
+    }
+  }
+
   constructor(props) {
     super(props);
     this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
@@ -55,6 +70,7 @@ class EnterScore extends React.Component {
       index: -1,
       scoreCard: []
     };
+    EnterScore.instance = this;
   }
 
   componentWillMount() {
@@ -94,6 +110,14 @@ class EnterScore extends React.Component {
       this.setState({ scoreCard: this._manipulateDataForScoreCard(data) });
     });
   };
+
+  _onEnter() {
+    this.props.setTabbarType(false);
+  }
+
+  _onExit() {
+    this.props.setTabbarType(true);
+  }
 
   handleBackButtonClick() {
     if (this.state.showKeyBoard) {
@@ -580,7 +604,8 @@ const actions = {
   postPotyScoreRequest,
   postLclScoreRequest,
   postLmpScoreRequest,
-  postDmpScoreRequest
+  postDmpScoreRequest,
+  setTabbarType
 };
 
 export default connect(
