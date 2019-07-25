@@ -61,3 +61,5 @@ export const GET_SCORE_LCL_FOURSOME = createRequestTypes(
 );
 export const GET_SCORE_LMP = createRequestTypes("GET_SCORE_LMP");
 export const GET_SCORE_DMP = createRequestTypes("GET_SCORE_DMP");
+
+export const UPLOAD_USER_IMAGE = createRequestTypes("UPLOAD_USER_IMAGE");

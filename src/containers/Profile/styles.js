@@ -53,5 +53,14 @@ export default StyleSheet.create({
   calendarImage: {
     position: "absolute",
     left: 40
+  },
+  imageLoadingWrapper: {
+    backgroundColor: Colors.whiteOpaque,
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
+    top: 0,
+    ...AppStyles.centerInner
   }
 });

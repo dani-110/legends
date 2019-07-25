@@ -3,7 +3,8 @@ import {
   USER_SIGNUP,
   USER_SIGNIN,
   USER_SIGNOUT,
-  GET_USER_PROFILE
+  GET_USER_PROFILE,
+  UPLOAD_USER_IMAGE
 } from "../actions/ActionTypes";
 import { SAGA_ALERT_TIMEOUT } from "../constants";
 import {
@@ -11,13 +12,15 @@ import {
   userSigninSuccess,
   userSignOutSuccess,
   getUserProfileSuccess,
-  getUserProfileFailure
+  getUserProfileFailure,
+  uploadUserImageSuccess
 } from "../actions/UserActions";
 import {
   USER_SIGNUP as USER_SIGNUP_URL,
   USER_SIGNIN as USER_SIGNIN_URL,
   USER_SIGNOUT as USER_SIGNOUT_URL,
   GET_USER_PROFILE as GET_USER_PROFILE_URL,
+  UPLOAD_USER_IMAGE as UPLOAD_USER_IMAGE_URL,
   callRequest
 } from "../config/WebService";
 import ApiSauce from "../services/ApiSauce";
@@ -135,9 +138,42 @@ function* getUserProfile() {
   }
 }
 
+function* uploadUserImage() {
+  while (true) {
+    const { payload, responseCallback } = yield take(UPLOAD_USER_IMAGE.REQUEST);
+    try {
+      const response = yield call(
+        callRequest,
+        UPLOAD_USER_IMAGE_URL,
+        payload,
+        "",
+        {
+          Accept: "application/json, text/plain, */*",
+          "Content-Type":
+            "multipart/form-data; boundary=--------------------------343064211568812807073801"
+          // Accept: "multipart/form-data"
+        },
+        ApiSauce
+      );
+
+      if (Util.isSuccessResponse(response)) {
+        if (responseCallback) responseCallback(response.image_url, null);
+        yield put(uploadUserImageSuccess(response.image_url));
+      } else {
+        if (responseCallback) responseCallback(null, true);
+        alert("Something went wrong");
+      }
+    } catch (err) {
+      if (responseCallback) responseCallback(null, err);
+      // alert(err.message);
+    }
+  }
+}
+
 export default function* root() {
   yield fork(signup);
   yield fork(signout);
   yield fork(signin);
   yield fork(getUserProfile);
+  yield fork(uploadUserImage);
 }

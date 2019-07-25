@@ -182,6 +182,12 @@ export const GET_SCORE_LMP = {
   type: REQUEST_TYPE.GET
 };
 
+export const UPLOAD_USER_IMAGE = {
+  route: "UpdateProfilePicture",
+  access_token_required: true,
+  type: REQUEST_TYPE.POST
+};
+
 export const callRequest = function(
   url,
   data,

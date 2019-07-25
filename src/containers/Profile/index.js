@@ -2,8 +2,14 @@
 import _ from "lodash";
 import { connect } from "react-redux";
 import React, { Component } from "react";
-import { View, Image as RNImage, ScrollView } from "react-native";
+import {
+  View,
+  Image as RNImage,
+  ScrollView,
+  ActivityIndicator
+} from "react-native";
 import { Actions } from "react-native-router-flux";
+import BottomSheet from "react-native-bottomsheet";
 import PropTypes from "prop-types";
 import {
   CustomNavbar,
@@ -13,8 +19,12 @@ import {
   ButtonView,
   SimpleLoader
 } from "../../components";
+import MediaPicker from "../../services/MediaPicker";
 import { NAVBAR_THEME } from "../../constants";
-import { getUserProfileRequest } from "../../actions/UserActions";
+import {
+  getUserProfileRequest,
+  uploadUserImageRequest
+} from "../../actions/UserActions";
 import styles from "./styles";
 import { Images, AppStyles, Colors } from "../../theme";
 import Scores from "../Dashboard/Scores";
@@ -25,16 +35,62 @@ class Profile extends Component {
   static propTypes = {
     getUserProfileRequest: PropTypes.func.isRequired,
     isFetchingProfile: PropTypes.bool.isRequired,
-    userData: PropTypes.object.isRequired
+    userData: PropTypes.object.isRequired,
+    uploadUserImageRequest: PropTypes.func.isRequired
   };
 
-  state = {
-    activeTabIndex: 0
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeTabIndex: 0,
+      imageUri: props.userData.user_info[0].picture,
+      uploadingImage: false
+    };
+  }
 
   componentWillMount() {
     this.props.getUserProfileRequest();
   }
+
+  setImage = uri => {
+    this.setState({
+      imageUri: uri
+    });
+  };
+
+  _onEditImagePress = () => {
+    const options = ["Camera", "Gallery"];
+    if (!Util.isPlatformAndroid()) options.push("Cancel");
+    const cancelIndex = Util.isPlatformAndroid() ? -1 : options.length - 1;
+
+    BottomSheet.showBottomSheetWithOptions(
+      {
+        options,
+        title: "Select Image",
+        cancelButtonIndex: cancelIndex
+      },
+      value => {
+        if (value !== cancelIndex || Util.isPlatformAndroid()) {
+          // handle actions here
+          if (value === 0) {
+            // Camera press
+            MediaPicker.pickImageFromCamera(image => {
+              console.log({ pickImageFromCamera: image });
+              this._uploadUserImage(image);
+            }, true);
+          } else if (value === 1) {
+            // gallery press
+
+            MediaPicker.pickImageFromGallery(image => {
+              console.log({ pickImageFromGallery: image });
+
+              this._uploadUserImage(image);
+            }, true);
+          }
+        }
+      }
+    );
+  };
 
   TABS_DATA = [
     {
@@ -49,20 +105,50 @@ class Profile extends Component {
     }
   ];
 
-  _renderUserDetails({ name, picture }) {
+  _uploadUserImage = uri => {
+    const imageFormData = new FormData();
+    const photo = {
+      uri,
+      type: "image/jpeg",
+      name: "myimage.jpg"
+    };
+    imageFormData.append("myimage", photo);
+    this.setState({ uploadingImage: true });
+    this.props.uploadUserImageRequest(imageFormData, newImageUrl => {
+      this.setState({ uploadingImage: false });
+
+      if (newImageUrl) {
+        // success
+        this.setImage(uri);
+      } else {
+        // error
+        this.setImage(this.props.userData.user_info[0]);
+      }
+    });
+  };
+
+  _renderUserDetails({ name, picture }, imageUri, uploadingImage) {
     return (
       <View style={styles.userDetailsWrapper}>
         <View style={styles.imageContainer}>
           <View style={styles.imageWrapper}>
             <Image
-              source={{ uri: picture }}
+              source={{ uri: imageUri }}
               resizeMode="cover"
               style={styles.userImage}
             />
           </View>
-          {/* <View style={styles.editProfileWrapper}>
+          <ButtonView
+            style={styles.editProfileWrapper}
+            onPress={this._onEditImagePress}
+          >
             <RNImage source={Images.edit_icon} style={styles.editProfile} />
-          </View> */}
+          </ButtonView>
+          {uploadingImage && (
+            <View style={styles.imageLoadingWrapper}>
+              <ActivityIndicator color={Colors.kgDarkGreen} />
+            </View>
+          )}
         </View>
         <Text
           style={[AppStyles.margin20]}
@@ -120,7 +206,7 @@ class Profile extends Component {
   }
 
   render() {
-    const { activeTabIndex } = this.state;
+    const { activeTabIndex, imageUri, uploadingImage } = this.state;
     const { isFetchingProfile, userData } = this.props;
 
     return (
@@ -136,7 +222,11 @@ class Profile extends Component {
 
         {!_.isEmpty(userData) && (
           <ScrollView>
-            {this._renderUserDetails(userData.user_info[0])}
+            {this._renderUserDetails(
+              userData.user_info[0],
+              imageUri,
+              uploadingImage
+            )}
             {this._renderScores()}
             {this._renderLatestScorecardButton()}
             {this._renderTabsHeader()}
@@ -158,7 +248,7 @@ const mapStateToProps = ({ user }) => ({
   userData: user.profileData,
   isFetchingProfile: user.isFetchingProfileData
 });
-const actions = { getUserProfileRequest };
+const actions = { getUserProfileRequest, uploadUserImageRequest };
 
 export default connect(
   mapStateToProps,
