@@ -1,4 +1,8 @@
-import { GET_POTY_USER_SCORE_CARD } from "./ActionTypes";
+import {
+  GET_POTY_USER_SCORE_CARD,
+  GET_HOLE_DATA_FOR_TOURNAMENT,
+  GET_POTY_GROUP_SCORCARD
+} from "./ActionTypes";
 
 export function getPotyUserScoreCardRequest(subroute, responseCallback) {
   return {
@@ -11,5 +15,18 @@ export function getPotyUserScoreCardSuccess(data) {
   return {
     data,
     type: GET_POTY_USER_SCORE_CARD.SUCCESS
+  };
+}
+export function getHoleDataForTournamentRequest(subroute, responseCallback) {
+  return {
+    subroute,
+    responseCallback,
+    type: GET_HOLE_DATA_FOR_TOURNAMENT.REQUEST
+  };
+}
+export function getPotyGroupScoreCardRequest(responseCallback) {
+  return {
+    responseCallback,
+    type: GET_POTY_GROUP_SCORCARD.REQUEST
   };
 }

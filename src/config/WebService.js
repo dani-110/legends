@@ -194,6 +194,17 @@ export const GET_POTY_USER_SCORE_CARD = {
   access_token_required: true,
   type: REQUEST_TYPE.GET
 };
+export const GET_HOLE_DATA_FOR_TOURNAMENT = {
+  route: "GetHoleDataForTournament",
+  access_token_required: true,
+  type: REQUEST_TYPE.GET
+};
+
+export const GET_POTY_GROUP_SCORCARD = {
+  route: "GetPotyGroupScorecard",
+  access_token_required: true,
+  type: REQUEST_TYPE.GET
+};
 export const callRequest = function(
   url,
   data,

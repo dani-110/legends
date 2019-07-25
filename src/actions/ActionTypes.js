@@ -70,3 +70,9 @@ export const GET_POTY_USER_SCORE_CARD = createRequestTypes(
   "GET_POTY_USER_SCORE_CARD"
 );
 export const ENABLE_ENTER_SCORE = createRequestTypes("ENABLE_ENTER_SCORE");
+export const GET_HOLE_DATA_FOR_TOURNAMENT = createRequestTypes(
+  "GET_HOLE_DATA_FOR_TOURNAMENT"
+);
+export const GET_POTY_GROUP_SCORCARD = createRequestTypes(
+  "GET_POTY_GROUP_SCORCARD"
+);
