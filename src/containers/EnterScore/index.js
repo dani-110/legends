@@ -84,7 +84,9 @@ class EnterScore extends React.Component {
       this.handleBackButtonClick
     );
   }
-
+  componentDidMount() {
+    this._onSwipe();
+  }
   componentWillUnmount() {
     clearInterval(this.dataPolling);
     BackHandler.removeEventListener(
@@ -180,6 +182,8 @@ class EnterScore extends React.Component {
   }
 
   _keyPress(text) {
+    const { current_match } = this.props;
+    const { type } = current_match[0];
     swipe = false;
     const { current, index, scoreCard, miniKeyBoard } = this.state;
     const tempData = _.cloneDeep(scoreCard);
@@ -196,7 +200,6 @@ class EnterScore extends React.Component {
       "text: ",
       text
     );
-    debugger;
     // return;
     if (miniKeyBoard) {
       tempData[holeIndex][current][index] = text;
@@ -214,20 +217,33 @@ class EnterScore extends React.Component {
     ) {
       newIndex = index;
       newCurrent = current;
-      if (current === "Stroke") {
-        newCurrent = "FIR";
-      } else if (current === "FIR") {
-        newCurrent = "GIR";
-      } else if (current === "GIR") {
-        newCurrent = "Putts";
-      } else if (current === "Putts") {
+      debugger;
+      if (type === "poty") {
+        debugger;
+
+        if (current === "Stroke") {
+          newCurrent = "FIR";
+        } else if (current === "FIR") {
+          newCurrent = "GIR";
+        } else if (current === "GIR") {
+          newCurrent = "Putts";
+        } else if (current === "Putts") {
+          newIndex = index + 1;
+          newCurrent = "Stroke";
+          if (index === 3 && holeIndex < 17) {
+            newIndex = 0;
+            swipe = true;
+          }
+        }
+      } else {
+        debugger;
         newIndex = index + 1;
-        newCurrent = "Stroke";
         if (index === 3 && holeIndex < 17) {
           newIndex = 0;
           swipe = true;
         }
       }
+
       newMini = false;
       if (newCurrent === "FIR" || newCurrent === "GIR") {
         newMini = true;
@@ -236,8 +252,6 @@ class EnterScore extends React.Component {
       if (holeIndex === 17 && index === 3 && current === "Putts") {
         (newShowKeyboard = false), (newMini = false);
       }
-
-      debugger;
       this.setState(
         {
           scoreCard: tempData,
@@ -287,7 +301,14 @@ class EnterScore extends React.Component {
 
     const updatedData = [];
 
-    for (let i = 0; i < 18; i++) {
+    dataLength = 0;
+    players.map(player => {
+      if (player.scorecard.length > dataLength) {
+        dataLength = player.scorecard.length;
+      }
+    });
+
+    for (let i = 0; i < dataLength; i++) {
       updatedData.push({
         Name: [],
         Stroke: [],
@@ -402,6 +423,7 @@ class EnterScore extends React.Component {
         hasBorder={false}
         theme={NAVBAR_THEME.WHITE}
         titleAlign="center"
+        rightBtnImage={Images.scoreCard}
       />
     );
   }

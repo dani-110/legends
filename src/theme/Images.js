@@ -42,6 +42,7 @@ const splash_background = require("../assets/images/splash_background/splash_bac
 const splash_logo = require("../assets/images/splash_logo/splash_logo.png");
 const no_image = require("../assets/images/noImage.png");
 
+const scoreCard = require("../assets/icon/ScoreCard/ScoreCard.png");
 export default {
   logo,
   splash_bg,
@@ -84,5 +85,6 @@ export default {
   arrow_right_white,
   splash_background,
   splash_logo,
-  no_image
+  no_image,
+  scoreCard
 };

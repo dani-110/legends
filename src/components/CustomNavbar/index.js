@@ -17,6 +17,9 @@ export default class CustomNavbar extends React.Component {
     leftBtnImage: PropTypes.number,
     leftBtnPress: PropTypes.func,
     leftBtnText: PropTypes.string,
+    rightBtnImage: PropTypes.number,
+    rightBtnPress: PropTypes.func,
+    rightBtnText: PropTypes.string,
     titleColor: PropTypes.string,
     hasBorder: PropTypes.bool,
     style: PropTypes.object,
@@ -36,6 +39,9 @@ export default class CustomNavbar extends React.Component {
     leftBtnImage: undefined,
     leftBtnPress: Actions.pop,
     leftBtnText: "",
+    rightBtnImage: undefined,
+    rightBtnPress: () => {},
+    rightBtnText: "",
     hasBorder: true,
     style: {},
     hasSearch: false,
@@ -66,7 +72,34 @@ export default class CustomNavbar extends React.Component {
       </ButtonView>
     );
   }
-
+  renderRight(rightBtnImage, rightBtnPress, rightBtnText) {
+    return (
+      <ButtonView
+        onPress={rightBtnPress}
+        style={[{ position: "absolute", right: 20 }, styles.rightBtn]}
+      >
+        {!_.isEmpty(rightBtnText) && (
+          <Text
+            type="medium"
+            numberOfLines={1}
+            ellipsizeMode="tail"
+            size="small"
+          >
+            {rightBtnText}
+          </Text>
+        )}
+        {!_.isUndefined(rightBtnImage) && (
+          <View>
+            <Image
+              source={rightBtnImage}
+              style={styles.btnImage}
+              resizeMode="contain"
+            />
+          </View>
+        )}
+      </ButtonView>
+    );
+  }
   renderTitle(title, subtitle, titleColor, theme, titleAlign) {
     return (
       <View
@@ -116,6 +149,9 @@ export default class CustomNavbar extends React.Component {
       leftBtnImage,
       leftBtnPress,
       leftBtnText,
+      rightBtnImage,
+      rightBtnPress,
+      rightBtnText,
       titleColor,
       hasBorder,
       style,
@@ -153,6 +189,7 @@ export default class CustomNavbar extends React.Component {
         >
           {this.renderLeft(leftBtnImage, leftBtnPress, leftBtnText, hasBack)}
           {this.renderTitle(title, subtitle, titleColor, theme, titleAlign)}
+          {this.renderRight(rightBtnImage, rightBtnPress, rightBtnText)}
         </View>
 
         {hasSearch && (

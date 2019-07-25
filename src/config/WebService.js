@@ -187,7 +187,13 @@ export const UPLOAD_USER_IMAGE = {
   access_token_required: true,
   type: REQUEST_TYPE.POST
 };
+// API SCORE CARD
 
+export const GET_POTY_USER_SCORE_CARD = {
+  route: "GetPotyScorecard",
+  access_token_required: true,
+  type: REQUEST_TYPE.GET
+};
 export const callRequest = function(
   url,
   data,
