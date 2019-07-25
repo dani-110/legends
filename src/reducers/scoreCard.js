@@ -4,6 +4,7 @@ import { SET_SELECTED_TABS, USER_SIGNOUT } from "../actions/ActionTypes";
 
 const initialState = Immutable({
   data: {
+    /* 
     holeNumber: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18],
     index: [10, 2, 14, 18, 8, 6, 12, 16, 4, 10, 2, 14, 18, 8, 6, 12, 16, 4],
     par: [4, 5, 4, 5, 4, 4, 3, 4, 4, 4, 5, 4, 3, 5, 4, 4, 3, 4],
@@ -24,7 +25,7 @@ const initialState = Immutable({
         score: [4, 5, 3, 6, 3, 4, 4, 5, 6, 7, 2, 5, 3, 6, 0, 0, "", ""],
         name: "Asim Siddique"
       }
-    ]
+    ] */
   }
 });
 

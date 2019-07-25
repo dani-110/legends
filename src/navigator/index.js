@@ -53,6 +53,7 @@ const navigator = Actions.create(
     <Scene key="welcome" component={Welcome} hideNavBar initial />
     <Scene key="login" component={Login} hideNavBar />
     <Scene key="forgotPassword" component={ForgotPassword} hideNavBar />
+    <Scene key="scorecard" component={ScoreCard} hideNavBar />
 
     <Drawer
       hideNavBar

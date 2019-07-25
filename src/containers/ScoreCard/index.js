@@ -5,19 +5,24 @@ import React, { Component } from "react";
 import { View, ScrollView } from "react-native";
 import Orientation from "react-native-orientation";
 import PropTypes from "prop-types";
-import { CustomNavbar, Text, ScoreValue } from "../../components";
+import { CustomNavbar, Text, ScoreValue, Loader } from "../../components";
 import { NAVBAR_THEME } from "../../constants";
+import { getPotyUserScoreCardRequest } from "../../actions/ScoreCardActions";
 import styles from "./styles";
 import { AppStyles, Colors } from "../../theme";
 import { toggleTabbar } from "../../actions/GeneralActions";
+import util from "../../util";
 
 class ScoreCard extends Component {
   static propTypes = {
-    scoreCardData: PropTypes.object.isRequired,
-    toggleTabbar: PropTypes.func.isRequired
+    scoreCardData: PropTypes.object,
+    toggleTabbar: PropTypes.func.isRequired,
+    act: PropTypes.object.isRequired
   };
 
-  static defaultProps = {};
+  static defaultProps = {
+    scoreCardData: {}
+  };
 
   static onEnter() {
     if (ScoreCard.instance) {
@@ -34,6 +39,28 @@ class ScoreCard extends Component {
   constructor(props) {
     super(props);
     ScoreCard.instance = this;
+    this.state = {
+      loading: false,
+      scoreCardData: props.scoreCardData
+    };
+  }
+
+  componentDidMount() {
+    const { act } = this.props;
+    switch (act.action) {
+      case "potySingleUSer": {
+        util.showLoader(this);
+        let subroute = `${act.id}`;
+        this.props.getPotyUserScoreCardRequest(subroute, data => {
+          if (data) {
+            util.hideLoader(this);
+            scoreCardData = util.generateScoreCardData(data.data, act.userName);
+            this.setState({ scoreCardData });
+          }
+        });
+        break;
+      }
+    }
   }
 
   componentWillMount() {
@@ -43,7 +70,6 @@ class ScoreCard extends Component {
   componentWillUnmount() {
     Orientation.lockToPortrait();
   }
-
   _onEnter() {
     this.props.toggleTabbar(false);
   }
@@ -199,7 +225,7 @@ class ScoreCard extends Component {
   }
 
   render() {
-    const { scoreCardData } = this.props;
+    const { loading, scoreCardData } = this.state;
     return (
       <View style={styles.container}>
         <CustomNavbar
@@ -209,13 +235,17 @@ class ScoreCard extends Component {
           isLandscape
           titleAlign="left"
         />
-        <View style={styles.innerWrapper}>
-          <ScrollView contentContainerStyle={{ minWidth: 660 }}>
-            {this._renderView(scoreCardData, 0, 9, "Out")}
-            <View style={AppStyles.mBottom20} />
-            {this._renderView(scoreCardData, 9, 18, "In")}
-          </ScrollView>
-        </View>
+        {!_.isEmpty(scoreCardData) && (
+          <View style={styles.innerWrapper}>
+            <ScrollView contentContainerStyle={{ minWidth: 660 }}>
+              {this._renderView(scoreCardData, 0, 9, "Out")}
+              <View style={AppStyles.mBottom20} />
+              {this._renderView(scoreCardData, 9, 18, "In")}
+            </ScrollView>
+          </View>
+        )}
+
+        <Loader loading={loading} />
       </View>
     );
   }
@@ -225,7 +255,7 @@ const mapStateToProps = ({ scoreCard }, { scoreCardData }) => ({
   scoreCardData: _.isEmpty(scoreCardData) ? scoreCard.data : scoreCardData
 });
 
-const actions = { toggleTabbar };
+const actions = { toggleTabbar, getPotyUserScoreCardRequest };
 
 export default connect(
   mapStateToProps,

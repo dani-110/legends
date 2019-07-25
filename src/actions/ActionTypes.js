@@ -64,4 +64,9 @@ export const GET_SCORE_DMP = createRequestTypes("GET_SCORE_DMP");
 
 export const UPLOAD_USER_IMAGE = createRequestTypes("UPLOAD_USER_IMAGE");
 
+//ScoreCard Actions
+
+export const GET_POTY_USER_SCORE_CARD = createRequestTypes(
+  "GET_POTY_USER_SCORE_CARD"
+);
 export const ENABLE_ENTER_SCORE = createRequestTypes("ENABLE_ENTER_SCORE");

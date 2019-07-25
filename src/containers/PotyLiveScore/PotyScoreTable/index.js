@@ -4,12 +4,18 @@ import React from "react";
 import PropTypes from "prop-types";
 import { View, FlatList } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
-import { Text, SimpleLoader, EmptyStateText } from "../../../components";
+import {
+  Text,
+  SimpleLoader,
+  EmptyStateText,
+  ButtonView
+} from "../../../components";
+import { getPotyUserScoreCardRequest } from "../../../actions/ScoreCardActions";
 import styles from "./styles";
 import Util from "../../../util";
 import { AppStyles, Colors } from "../../../theme";
-
-export default class PotyScoreTable extends React.Component {
+import { Actions } from "react-native-router-flux";
+class PotyScoreTable extends React.Component {
   static propTypes = {
     liveScoreData: PropTypes.array.isRequired,
     isFetchingData: PropTypes.bool.isRequired
@@ -21,7 +27,15 @@ export default class PotyScoreTable extends React.Component {
     //
     // this.props.getPotyScoreNetRequest();
   }
-
+  _getScoreCard(id) {
+    let subroute = `${id}`;
+    this.props.getPotyUserScoreCardRequest(subroute, data => {
+      debugger;
+      if (data) {
+        console.log(data);
+      }
+    });
+  }
   _renderTable() {
     const { liveScoreData } = this.props;
 
@@ -29,7 +43,7 @@ export default class PotyScoreTable extends React.Component {
       <View style={[styles.overflowHidden, AppStyles.mTop10]}>
         <FlatList
           data={liveScoreData}
-          renderItem={this._renderRow}
+          renderItem={(item, index) => this._renderRow(item, index)}
           keyExtractor={Util.keyExtractor}
           ListHeaderComponent={this._renderHeader}
           stickyHeaderIndices={[0]}
@@ -70,13 +84,18 @@ export default class PotyScoreTable extends React.Component {
 
   _renderRow({ item, index }) {
     return (
-      <View
+      <ButtonView
         style={[
           styles.row,
           AppStyles.flexRow,
           AppStyles.spaceBetween,
           AppStyles.alignItemsCenter
         ]}
+        onPress={() =>
+          Actions.scorecard({
+            act: { action: "potySingleUSer", id: item.id, userName: item.name }
+          })
+        }
       >
         <View width={60}>
           <Text textAlign="center">{index + 1}</Text>
@@ -101,7 +120,7 @@ export default class PotyScoreTable extends React.Component {
         <View width={70}>
           <Text textAlign="center">{item.topar || item.thru || " "}</Text>
         </View>
-      </View>
+      </ButtonView>
     );
   }
 
@@ -116,15 +135,11 @@ export default class PotyScoreTable extends React.Component {
     );
   }
 }
+const mapStateToProps = () => ({});
 
-// const mapStateToProps = ({ liveScore }) => ({
-//   liveScoreData: liveScore.poty.net,
-//   isFetchingData: liveScore.poty.isFetchingNet
-// });
+const actions = { getPotyUserScoreCardRequest };
 
-// const actions = { getPotyScoreNetRequest };
-
-// export default connect(
-//   mapStateToProps,
-//   actions
-// )(PotyScoreTable);
+export default connect(
+  mapStateToProps,
+  actions
+)(PotyScoreTable);
