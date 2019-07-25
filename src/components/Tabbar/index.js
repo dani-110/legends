@@ -14,13 +14,6 @@ const BUTTON_TYPES = {
   textIcon: "textIcon"
 };
 
-const ActionType = {
-  poty: () => Actions.potylivescore(),
-  lmp: () => Actions.lmplivescore(),
-  dmp: () => Actions.dmplivescore(),
-  lcl: () => Actions.lcllivescore()
-};
-
 const tabsData = [
   {
     name: "drawer",
@@ -74,7 +67,6 @@ const tabsData = [
       const data = props.current_match[0];
       return Actions.jump(`${props.current_match[0].type}livescore`, { data });
     }
-    // ActionType[props.current_match[0].type].call()
   }
 ];
 

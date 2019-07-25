@@ -20,9 +20,9 @@ class Foursome extends React.Component {
   static defaultProps = {};
 
   componentWillMount() {
-    const { match_id, schedule_id, season_id } = this.props.data;
+    const { match_id, schedule_id, season_id, id } = this.props.data;
     this.props.getScoreLclFoursomeRequest(
-      `${match_id}/${schedule_id}/${season_id}`
+      `${match_id}/${schedule_id}/${season_id || id}`
     );
   }
 

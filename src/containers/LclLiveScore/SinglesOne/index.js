@@ -22,14 +22,18 @@ class SinglesOne extends React.Component {
 
   componentWillMount() {
     const {
+      id,
       match_id,
       schedule_id,
       season_id,
       team1_p1,
       team2_p1
     } = this.props.data;
+
+    console.log(this.props.data);
+
     this.props.getScoreLclSingles1Request(
-      `${match_id}/${schedule_id}/${season_id}/${Util.removeSpaces(
+      `${match_id}/${schedule_id}/${season_id || id}/${Util.removeSpaces(
         team1_p1 || ""
       )}/${Util.removeSpaces(team2_p1 || "")}`
     );
