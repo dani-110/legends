@@ -13,13 +13,13 @@ const initialState = Immutable({
   defaultTabbar: true,
   showTabbar: true,
   current_match: [
-    {
-      type: "poty",
-      id: 115,
-      schedule_id: "",
-      match_id: "",
-      tee_off_time: "11:30:00"
-    }
+    // {
+    //   type: "poty",
+    //   id: 115,
+    //   schedule_id: "",
+    //   match_id: "",
+    //   tee_off_time: "11:30:00"
+    // }
   ]
 });
 
@@ -45,7 +45,7 @@ export default (state = initialState, action) => {
 
     case GET_DASHBOARD_DATA.SUCCESS: {
       return Immutable.merge(state, {
-        // current_match: action.data && action.data.current_match
+        current_match: action.data && action.data.current_match
       });
     }
 

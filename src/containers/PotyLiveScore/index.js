@@ -23,7 +23,8 @@ class PotyLiveScore extends React.Component {
     isFetchingNet: PropTypes.bool.isRequired,
     isFetchingGross: PropTypes.bool.isRequired,
     getPotyScoreNetRequest: PropTypes.func.isRequired,
-    getPotyScoreGrossRequest: PropTypes.func.isRequired
+    getPotyScoreGrossRequest: PropTypes.func.isRequired,
+    data: PropTypes.object.isRequired
   };
 
   static defaultProps = {};
@@ -89,15 +90,16 @@ class PotyLiveScore extends React.Component {
       liveScoreDataNet,
       liveScoreDataGross,
       isFetchingNet,
-      isFetchingGross
+      isFetchingGross,
+      data: { name, venue }
     } = this.props;
     const { activeTabIndex } = this.state;
 
     return (
       <View style={styles.container}>
         <CustomNavbar
-          title="Stroke Play Individual Net"
-          subtitle="Karachi Golf Club - Red &amp; Yellow"
+          title={name}
+          subtitle={venue}
           hasBorder={false}
           theme={NAVBAR_THEME.WHITE}
           titleAlign="center"

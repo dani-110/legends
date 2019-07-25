@@ -405,21 +405,23 @@ class EnterScore extends React.Component {
     const manipulatedData = this.state.scoreCard[index];
 
     return (
-      <View>
-        {Object.keys(manipulatedData).map((key, index) => (
-          <View
-            key={`row-${key}`}
-            style={[
-              (key === "Name" || key === "Net" || key === "Gross") &&
-                styles.background,
-              styles.rowStyles
-            ]}
-          >
-            {this._renderRowLabel(key)}
-            {this._renderRowValues(manipulatedData, key)}
-          </View>
-        ))}
-      </View>
+      manipulatedData && (
+        <View>
+          {Object.keys(manipulatedData).map((key, index) => (
+            <View
+              key={`row-${key}`}
+              style={[
+                (key === "Name" || key === "Net" || key === "Gross") &&
+                  styles.background,
+                styles.rowStyles
+              ]}
+            >
+              {this._renderRowLabel(key)}
+              {this._renderRowValues(manipulatedData, key)}
+            </View>
+          ))}
+        </View>
+      )
     );
   }
 
