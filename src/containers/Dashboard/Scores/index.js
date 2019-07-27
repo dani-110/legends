@@ -46,7 +46,11 @@ class Scores extends React.Component {
         >
           <AnimateNumber
             value={score}
-            formatter={val => (suffix ? `${val}${suffix}` : `${val}`)}
+            formatter={val =>
+              suffix
+                ? `${Math.round(val * 10) / 10}${suffix}`
+                : `${Math.round(val * 10) / 10}`
+            }
             countBy={1}
             interval={42}
           />
@@ -75,7 +79,10 @@ class Scores extends React.Component {
     return (
       <View style={[AppStyles.doubleBaseMargin, AppStyles.mBottom10]}>
         <Text color={Colors.black}>
-          Handicap <Text color={Colors.blue}>{current_handicap || 0}</Text>
+          Handicap{" "}
+          <Text color={Colors.blue}>
+            {Math.round(current_handicap * 10) / 10 || 0}
+          </Text>
         </Text>
         <View style={[AppStyles.flexRow, AppStyles.spaceBetween]}>
           {this.getSingleScore("blue", false, blue_tee_handicap, Colors.blue)}
