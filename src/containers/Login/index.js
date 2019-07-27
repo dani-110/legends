@@ -147,11 +147,13 @@ class Login extends Component {
           </ButtonView>
         </View>
 
-        <ButtonView style={AppStyles.mTop5} onPress={Actions.forgotPassword}>
-          <Text textAlign="right" color={Colors.green}>
-            Forgot your password?
-          </Text>
-        </ButtonView>
+        <View style={[AppStyles.alignItemsFlexEnd]}>
+          <ButtonView style={AppStyles.mTop5} onPress={Actions.forgotPassword}>
+            <Text textAlign="right" color={Colors.green}>
+              Forgot your password?
+            </Text>
+          </ButtonView>
+        </View>
 
         <Button
           background={Colors.green}
