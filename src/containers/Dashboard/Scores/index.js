@@ -85,9 +85,9 @@ class Scores extends React.Component {
           </Text>
         </Text>
         <View style={[AppStyles.flexRow, AppStyles.spaceBetween]}>
-          {this.getSingleScore("blue", false, blue_tee_handicap, Colors.blue)}
+          {this.getSingleScore("Blue", false, blue_tee_handicap, Colors.blue)}
           {this.getSingleScore(
-            "white",
+            "White",
             false,
             white_tee_handicap,
             Colors.white

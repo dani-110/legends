@@ -112,7 +112,7 @@ class SideMenu extends React.PureComponent {
       <View style={styles.container}>
         {!_.isEmpty(userData) && this.renderUserDetails(userData.user_info[0])}
         {this.renderOptionsList()}
-        {/* this.renderVersionNumber() */}
+        {this.renderVersionNumber()}
       </View>
     );
   }
