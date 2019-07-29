@@ -108,9 +108,11 @@ class EnterScore extends React.Component {
     const param = `${type}/${id}${schedule_id && `/${schedule_id}`}${match_id &&
       `/${match_id}`}`;
 
-    this.props.getEnterScoreDataRequest(param, data => {
-      this.setState({ scoreCard: this._manipulateDataForScoreCard(data) });
-    });
+    if (!this.state.showKeyBoard) {
+      this.props.getEnterScoreDataRequest(param, data => {
+        this.setState({ scoreCard: this._manipulateDataForScoreCard(data) });
+      });
+    }
   };
 
   _onEnter() {
@@ -183,7 +185,7 @@ class EnterScore extends React.Component {
   _keyPress(text) {
     const { current_match } = this.props;
     const { type } = current_match[0];
-    swipe = false;
+    let swipe = false;
     const { current, index, scoreCard, miniKeyBoard } = this.state;
     const tempData = _.cloneDeep(scoreCard);
     const holeIndex = this._swiper.state.index;
@@ -200,10 +202,10 @@ class EnterScore extends React.Component {
     if (
       current === "FIR" ||
       current === "GIR" ||
-      (text != "DEL" && text != "-" && text != 1)
+      (text !== "DEL" && text !== "-" && text !== 1)
     ) {
-      newIndex = index;
-      newCurrent = current;
+      let newIndex = index;
+      let newCurrent = current;
 
       if (type === "poty") {
         if (current === "Stroke") {
@@ -215,26 +217,30 @@ class EnterScore extends React.Component {
         } else if (current === "Putts") {
           newIndex = index + 1;
           newCurrent = "Stroke";
-          if (index === 3 && holeIndex < 17) {
+          if (index === scoreCard[0].Name.length - 1 && holeIndex < 17) {
             newIndex = 0;
             swipe = true;
           }
         }
       } else {
         newIndex = index + 1;
-        if (index === 3 && holeIndex < 17) {
+        if (index === scoreCard[0].Name.length - 1 && holeIndex < 17) {
           newIndex = 0;
           swipe = true;
         }
       }
 
-      newMini = false;
+      let newMini = false;
       if (newCurrent === "FIR" || newCurrent === "GIR") {
         newMini = true;
       }
-      newShowKeyboard = true;
+      let newShowKeyboard = true;
       if (holeIndex === 17 && index === 3 && current === "Putts") {
         (newShowKeyboard = false), (newMini = false);
+      }
+
+      if (swipe) {
+        this._onClickScroll(this._swiper.state.index + 1);
       }
       this.setState(
         {
@@ -248,9 +254,6 @@ class EnterScore extends React.Component {
           this._updateGrossNetScores().then(() => {
             this._postData(current, index, tempData, text);
           });
-          if (swipe) {
-            this._onClickScroll(this._swiper.state.index + 1);
-          }
         }
       );
     } else {
@@ -270,12 +273,12 @@ class EnterScore extends React.Component {
     const holeStroke = scoreCard[holeIndex].Stroke[index];
     const previousGross =
       (scoreCard[holeIndex - 1] && scoreCard[holeIndex - 1].Gross[index]) || 0;
-    const handicap = scoreCard[holeIndex].Name[index].handicap || 0;
+    const handicap = scoreCard[0].Name[index].handicap || 0;
     const gross = holeStroke - holePar + previousGross;
     const net = gross - handicap;
 
-    tempData[holeIndex].Gross[index - 1] = gross;
-    tempData[holeIndex].Net[index - 1] = net;
+    tempData[holeIndex].Gross[index] = gross || 0;
+    tempData[holeIndex].Net[index] = net || 0;
 
     await this.setStateAsync({ scoreCard: tempData });
   }
@@ -285,14 +288,14 @@ class EnterScore extends React.Component {
 
     const updatedData = [];
 
-    dataLength = 0;
+    let dataLength = 1;
     players.map(player => {
       if (player.scorecard.length > dataLength) {
         dataLength = player.scorecard.length;
       }
     });
 
-    for (let i = 0; i < dataLength; i++) {
+    for (let i = 0; i < 18; i++) {
       updatedData.push({
         Name: [],
         Stroke: [],
@@ -305,12 +308,12 @@ class EnterScore extends React.Component {
     }
 
     players.map(player => {
+      updatedData[0].Name.push({
+        id: player.íd || player.id,
+        initials: player.initials,
+        handicap: player.handicap
+      });
       player.scorecard.map((score, index) => {
-        updatedData[index].Name.push({
-          id: player.íd || player.id,
-          initials: player.initials,
-          handicap: player.handicap
-        });
         updatedData[index].Stroke.push(score.strokes);
         updatedData[index].FIR.push(score.fir);
         updatedData[index].GIR.push(score.gir);
@@ -349,8 +352,12 @@ class EnterScore extends React.Component {
     const netscore_array = {};
 
     for (let i = hole_number - 1; i < 18; i++) {
-      score_array[`hole${i + 1}`] = scoreCard[i].Gross[indexParam];
-      netscore_array[`hole${i + 1}`] = scoreCard[i].Net[indexParam];
+      if (scoreCard[i].Gross[indexParam]) {
+        score_array[`hole${i + 1}`] = scoreCard[i].Gross[indexParam];
+      }
+      if (scoreCard[i].Net[indexParam]) {
+        netscore_array[`hole${i + 1}`] = scoreCard[i].Net[indexParam];
+      }
     }
 
     const payload = {
@@ -359,12 +366,12 @@ class EnterScore extends React.Component {
       hole_number,
       index,
       par,
-      user_id: scoreCard[hole_number - 1].Name[indexParam].id || null,
-      player_id: scoreCard[hole_number - 1].Name[indexParam].id || null,
+      user_id: scoreCard[0].Name[indexParam].id || null,
+      player_id: scoreCard[0].Name[indexParam].id || null,
       tournament_id: parseInt(id, 10) || null,
       key: keyBindings[current] || null,
       value: parseInt(value, 10),
-      score: scoreCard[hole_number - 1].Gross[indexParam] || null,
+      score: scoreCard[hole_number - 1].Gross[indexParam] || 0,
       net_score: scoreCard[hole_number - 1].Net[indexParam] || null,
       netscore_array,
       score_array,
@@ -374,8 +381,8 @@ class EnterScore extends React.Component {
       player1_stroke: !(indexParam % 2) ? value : "",
       player2_stroke: indexParam % 2 ? value : "",
       season_id: parseInt(id, 10) || null,
-      opponent_id:
-        scoreCard[hole_number - 1].Name[playerIndex[indexParam + 1][2]].id
+      opponent_id: scoreCard[0].Name[playerIndex[indexParam + 1][2]].id,
+      adj_score: 0
     };
     this._postDataByType[type](payload);
   }
@@ -427,6 +434,57 @@ class EnterScore extends React.Component {
     );
   }
 
+  _renderSwiper(players, holes) {
+    let dataLength = 1;
+    // players &&
+    //   players.map(player => {
+    //     if (player.scorecard.length > dataLength) {
+    //       dataLength = player.scorecard.length;
+    //     }
+    //   });
+
+    const lastEditableKey = "Putts";
+
+    const { scoreCard } = this.state;
+    const playerCount = scoreCard[0].Name.length;
+    for (let i = 0, l = scoreCard.length; i < l; i++) {
+      if (scoreCard[i][lastEditableKey].length === playerCount) {
+        dataLength = i + 1;
+      } else {
+        break;
+      }
+    }
+
+    const holeScreens = [];
+
+    for (let i = 0; i <= dataLength; i++) {
+      holeScreens.push(
+        <View>
+          <View>
+            {this._renderHoleInfo(holes[i])}
+            {this._renderScoreTable(holes[i], i)}
+          </View>
+        </View>
+      );
+    }
+
+    return (
+      <Swiper
+        style={{ height: 450 }}
+        index={dataLength}
+        ref={swiper => {
+          this._swiper = swiper;
+        }}
+        showsButtons={false}
+        loop={false}
+        showsPagination={false}
+        onIndexChanged={() => this._onSwipe()}
+      >
+        {holeScreens}
+      </Swiper>
+    );
+  }
+
   _renderHoleInfo(holeInfo) {
     const { hole_number, index, par } = holeInfo;
     return (
@@ -474,7 +532,7 @@ class EnterScore extends React.Component {
         <View>
           {Object.keys(manipulatedData).map((key, index) => (
             <View
-              key={`row-${key}`}
+              // key={`row-${key}`}
               style={[
                 (key === "Name" || key === "Net" || key === "Gross") &&
                   styles.background,
@@ -482,7 +540,9 @@ class EnterScore extends React.Component {
               ]}
             >
               {this._renderRowLabel(key)}
-              {this._renderRowValues(manipulatedData, key)}
+              {key === "Name"
+                ? this._renderRowHeader()
+                : this._renderRowValues(manipulatedData, key)}
             </View>
           ))}
         </View>
@@ -498,35 +558,45 @@ class EnterScore extends React.Component {
     );
   }
   _onSwipe() {
-    this.setState({
-      current: "Stroke",
-      index: 0,
-      showKeyBoard: true,
-      miniKeyBoard: false
-    });
+    // this.setState({
+    //   current: "Stroke",
+    //   index: 0,
+    //   showKeyBoard: true,
+    //   miniKeyBoard: false
+    // });
+  }
+  _renderRowHeader() {
+    const { scoreCard } = this.state;
+
+    const { Name } = scoreCard[0];
+
+    return Name.map(item => (
+      <View style={[AppStyles.centerInner, styles.rowItemStyles]}>
+        <Text textAlign="center" style={AppStyles.centerInner}>
+          {item.initials}
+        </Text>
+      </View>
+    ));
   }
   _renderRowValues(data, key) {
-    const { current, index } = this.state;
-    return data[key].map((rowItem, rowItemIndex) => (
-      <View key={`scorecard=${rowItemIndex}`}>
+    const { current, index, scoreCard } = this.state;
+    const { Name } = scoreCard[0];
+
+    return Name.map((nameItem, nameIndex) => {
+      const rowItem = data[key][nameIndex];
+      return (
         <TouchableOpacity
           style={[
             AppStyles.centerInner,
-            rowItemIndex === index &&
-              key !== "Name" &&
-              styles.activeColRowItemActiveStyles,
             styles.rowItemStyles,
-            rowItemIndex === index &&
+            nameIndex === index &&
               key === current &&
-              styles.rowItemActiveStyles
+              styles.rowItemActiveStyles,
+            nameIndex === index && styles.activeColRowItemActiveStyles
           ]}
           onPress={() =>
             this._isEditable(key) &&
-            this._showKeyBoard(
-              key === "FIR" || key === "GIR",
-              key,
-              rowItemIndex
-            )
+            this._showKeyBoard(key === "FIR" || key === "GIR", key, nameIndex)
           }
         >
           {key === "FIR" || key === "GIR" ? (
@@ -542,12 +612,51 @@ class EnterScore extends React.Component {
             )
           ) : (
             <Text textAlign="center" style={AppStyles.centerInner}>
-              {key === "Name" ? rowItem.initials : rowItem}
+              {rowItem}
             </Text>
           )}
         </TouchableOpacity>
-      </View>
-    ));
+      );
+    });
+
+    // return data[key].map((rowItem, rowItemIndex) => (
+    //   <View key={`scorecard=${rowItemIndex}`}>
+    //     <TouchableOpacity
+    //       style={[
+    //         AppStyles.centerInner,
+    //         styles.rowItemStyles,
+    //         rowItemIndex === index &&
+    //           key === current &&
+    //           styles.rowItemActiveStyles
+    //       ]}
+    //       onPress={() =>
+    //         this._isEditable(key) &&
+    //         this._showKeyBoard(
+    //           key === "FIR" || key === "GIR",
+    //           key,
+    //           rowItemIndex
+    //         )
+    //       }
+    //     >
+    //       {key === "FIR" || key === "GIR" ? (
+    //         rowItem === 1 ? (
+    //           <RNImage source={Images.check} />
+    //         ) : rowItem === 0 ? (
+    //           <RNImage source={Images.cross} />
+    //         ) : (
+    //           <RNImage
+    //             style={{ height: 18, width: 38 }}
+    //             source={Images.no_image}
+    //           />
+    //         )
+    //       ) : (
+    //         <Text textAlign="center" style={AppStyles.centerInner}>
+    //           {rowItem}
+    //         </Text>
+    //       )}
+    //     </TouchableOpacity>
+    //   </View>
+    // ));
   }
 
   _renderButton = () => (
@@ -609,7 +718,7 @@ class EnterScore extends React.Component {
       enterScoreData: { isFetchingData, holeData }
     } = this.props;
 
-    const { holes } = holeData;
+    const { holes, players } = holeData;
 
     return (
       <View style={styles.container}>
@@ -633,25 +742,7 @@ class EnterScore extends React.Component {
                 }
               }}
             >
-              <Swiper
-                style={{ height: 450 }}
-                ref={swiper => {
-                  this._swiper = swiper;
-                }}
-                showsButtons={false}
-                loop={false}
-                showsPagination={false}
-                onIndexChanged={() => this._onSwipe()}
-              >
-                {holes.map((holeInfo, index) => (
-                  <View key={`holes-${index}`}>
-                    <View>
-                      {this._renderHoleInfo(holeInfo)}
-                      {this._renderScoreTable(holeInfo, index)}
-                    </View>
-                  </View>
-                ))}
-              </Swiper>
+              {this._renderSwiper(players, holes)}
             </ScrollView>
             {this._renderButton()}
             {this._renderKeyboard()}
