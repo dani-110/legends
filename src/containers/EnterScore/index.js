@@ -194,9 +194,17 @@ class EnterScore extends React.Component {
       tempData[holeIndex][current][index] = text;
     } else {
       if (text != "DEL" && text != "-") {
-        tempData[holeIndex][current][index] = text;
+        if (tempData[holeIndex][current][index] === 1) {
+          tempData[holeIndex][current][index] = `${
+            tempData[holeIndex][current][index]
+          }${text}`;
+        } else {
+          tempData[holeIndex][current][index] = text;
+        }
       } else if (text === "DEL") {
         tempData[holeIndex][current][index] = "";
+      } else if (text === "-") {
+        tempData[holeIndex][current][index] = "-";
       }
     }
     if (
@@ -274,11 +282,27 @@ class EnterScore extends React.Component {
     const previousGross =
       (scoreCard[holeIndex - 1] && scoreCard[holeIndex - 1].Gross[index]) || 0;
     const handicap = scoreCard[0].Name[index].handicap || 0;
-    const gross = holeStroke - holePar + previousGross;
+    const gross =
+      holeStroke && _.isInteger(holeStroke)
+        ? holeStroke - holePar + previousGross
+        : previousGross;
     const net = gross - handicap;
 
-    tempData[holeIndex].Gross[index] = gross || 0;
-    tempData[holeIndex].Net[index] = net || 0;
+    const Player_Hole_Score = holeStroke;
+    const Hole_Par = holePar;
+    const Hole_Strokes = index <= handicap ? 1 : 0;
+    const Previous_Net_Score =
+      (scoreCard[holeIndex - 1] && scoreCard[holeIndex - 1].Net[index]) || 0;
+
+    const Current_Net_Score =
+      Player_Hole_Score && _.isInteger(Player_Hole_Score)
+        ? Player_Hole_Score - Hole_Par - Hole_Strokes + Previous_Net_Score
+        : Previous_Net_Score;
+
+    for (let i = 0; i < 18; i++) {
+      tempData[i].Gross[index] = gross;
+      tempData[i].Net[index] = Current_Net_Score;
+    }
 
     await this.setStateAsync({ scoreCard: tempData });
   }
@@ -351,39 +375,55 @@ class EnterScore extends React.Component {
     const score_array = {};
     const netscore_array = {};
 
-    for (let i = hole_number - 1; i < 18; i++) {
-      if (scoreCard[i].Gross[indexParam]) {
-        score_array[`hole${i + 1}`] = scoreCard[i].Gross[indexParam];
-      }
-      if (scoreCard[i].Net[indexParam]) {
-        netscore_array[`hole${i + 1}`] = scoreCard[i].Net[indexParam];
-      }
+    for (let i = 0; i < 18; i++) {
+      score_array[`hole${i + 1}`] = scoreCard[i].Gross[indexParam];
+      netscore_array[`hole${i + 1}`] = scoreCard[i].Net[indexParam];
     }
 
-    const payload = {
-      match_id,
-      schedule_id,
-      hole_number,
-      index,
-      par,
-      user_id: scoreCard[0].Name[indexParam].id || null,
-      player_id: scoreCard[0].Name[indexParam].id || null,
-      tournament_id: parseInt(id, 10) || null,
-      key: keyBindings[current] || null,
-      value: parseInt(value, 10),
-      score: scoreCard[hole_number - 1].Gross[indexParam] || 0,
-      net_score: scoreCard[hole_number - 1].Net[indexParam] || null,
-      netscore_array,
-      score_array,
-      player: `p${playerIndex[indexParam + 1][0]}${
-        playerIndex[indexParam + 1][1]
-      }`,
-      player1_stroke: !(indexParam % 2) ? value : "",
-      player2_stroke: indexParam % 2 ? value : "",
-      season_id: parseInt(id, 10) || null,
-      opponent_id: scoreCard[0].Name[playerIndex[indexParam + 1][2]].id,
-      adj_score: 0
-    };
+    // const adj_score = this._calculateAdjScore;
+
+    let payload = {};
+    if (type === "poty") {
+      payload = {
+        adj_score: 0,
+        hole_number,
+        index,
+        key: keyBindings[current] || null,
+        net_score: scoreCard[hole_number - 1].Net[indexParam] || null,
+        par,
+        score: scoreCard[hole_number - 1].Gross[indexParam] || 0,
+        tournament_id: parseInt(id, 10) || null,
+        user_id: scoreCard[0].Name[indexParam].id || null,
+        value: _.isInteger(value) ? parseInt(value, 10) : value,
+        netscore_array,
+        score_array
+      };
+    } else {
+      payload = {
+        match_id,
+        schedule_id,
+        hole_number,
+        index,
+        par,
+        user_id: scoreCard[0].Name[indexParam].id || null,
+        player_id: scoreCard[0].Name[indexParam].id || null,
+        tournament_id: parseInt(id, 10) || null,
+        key: keyBindings[current] || null,
+        value: _.isInteger(value) ? parseInt(value, 10) : value,
+        score: scoreCard[hole_number - 1].Gross[indexParam] || 0,
+        net_score: scoreCard[hole_number - 1].Net[indexParam] || null,
+        netscore_array,
+        score_array,
+        player: `p${playerIndex[indexParam + 1][0]}${
+          playerIndex[indexParam + 1][1]
+        }`,
+        player1_stroke: !(indexParam % 2) ? value : "",
+        player2_stroke: indexParam % 2 ? value : "",
+        season_id: parseInt(id, 10) || null,
+        opponent_id: scoreCard[0].Name[playerIndex[indexParam + 1][2]].id,
+        adj_score: 0
+      };
+    }
     this._postDataByType[type](payload);
   }
 
@@ -446,10 +486,19 @@ class EnterScore extends React.Component {
     const lastEditableKey = "Putts";
 
     const { scoreCard } = this.state;
+
+    if (!scoreCard.length) {
+      return (
+        <View style={[AppStyles.flex, AppStyles.doubleBaseMargin]}>
+          <SimpleLoader />
+        </View>
+      );
+    }
+
     const playerCount = scoreCard[0].Name.length;
     for (let i = 0, l = scoreCard.length; i < l; i++) {
       if (scoreCard[i][lastEditableKey].length === playerCount) {
-        dataLength = i + 1;
+        dataLength = dataLength < 17 ? i + 1 : dataLength;
       } else {
         break;
       }
@@ -457,7 +506,7 @@ class EnterScore extends React.Component {
 
     const holeScreens = [];
 
-    for (let i = 0; i <= dataLength; i++) {
+    for (let i = 0; i <= 17; i++) {
       holeScreens.push(
         <View>
           <View>
@@ -501,7 +550,7 @@ class EnterScore extends React.Component {
             Hole
           </Text>
           <Text textAlign="center" size="xxxLarge">
-            {hole_number}
+            {("0" + hole_number).slice(-2)}
           </Text>
         </View>
         <View>
@@ -509,7 +558,7 @@ class EnterScore extends React.Component {
             Index
           </Text>
           <Text textAlign="center" size="xxxLarge">
-            {index}
+            {("0" + index).slice(-2)}
           </Text>
         </View>
         <View>
@@ -612,7 +661,13 @@ class EnterScore extends React.Component {
             )
           ) : (
             <Text textAlign="center" style={AppStyles.centerInner}>
-              {rowItem}
+              {key === "Gross"
+                ? rowItem === 0
+                  ? "E"
+                  : Math.sign(rowItem) === 1
+                  ? `+${rowItem}`
+                  : rowItem
+                : rowItem}
             </Text>
           )}
         </TouchableOpacity>

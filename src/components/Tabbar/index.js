@@ -106,8 +106,9 @@ const livematchtabsData = [
     selectedImage: Images.arrow_circle_green,
     disableImage: Images.arrow_circle_grey,
     type: BUTTON_TYPES.textIcon,
+    selectedTab: 3,
     onPress: () => {
-      Actions.jump("enterscore");
+      Actions.jump("enterscore_tab");
     }
   }
 ];

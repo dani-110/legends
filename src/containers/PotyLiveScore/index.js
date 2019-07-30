@@ -26,7 +26,7 @@ class PotyLiveScore extends React.Component {
     getPotyScoreNetRequest: PropTypes.func.isRequired,
     getPotyScoreGrossRequest: PropTypes.func.isRequired,
     data: PropTypes.object.isRequired,
-    current_match: PropTypes.object.isRequired
+    current_match: PropTypes.array.isRequired
   };
 
   static defaultProps = {};
@@ -54,9 +54,11 @@ class PotyLiveScore extends React.Component {
 
   componentWillMount() {
     this.props.getPotyScoreNetRequest();
-    this.props.enableEnterScore(
-      this.props.data.id === this.props.current_match[0].id
-    );
+    if (this.props.current_match.length) {
+      this.props.enableEnterScore(
+        this.props.data.id === this.props.current_match[0].id
+      );
+    }
   }
 
   _renderTabsHeader() {
