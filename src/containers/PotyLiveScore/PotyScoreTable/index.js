@@ -1,5 +1,6 @@
 // @flow
 import { connect } from "react-redux";
+import _ from "lodash";
 import React from "react";
 import PropTypes from "prop-types";
 import { View, FlatList } from "react-native";
@@ -101,7 +102,9 @@ class PotyScoreTable extends React.Component {
           <Text textAlign="center">{index + 1}</Text>
         </View>
         <View style={[AppStyles.flex2]}>
-          <Text>{item.name || " "}</Text>
+          <Text>
+            {_.capitalize(item.name.replace(/\s+/g, " ").trim()) || " "}
+          </Text>
         </View>
         <View width={65}>
           <Text textAlign="center">{item.score || " "}</Text>

@@ -4,13 +4,12 @@ import { Colors, Metrics, AppStyles } from "../../theme";
 
 export default StyleSheet.create({
   container: {
-    width: Metrics.screenWidth,
+    width: "100%",
     backgroundColor: Colors.background.primary,
     paddingTop: Metrics.statusBarHeight,
     paddingBottom: Metrics.baseMargin,
-    height: Metrics.navBarHeight,
-    justifyContent: "center",
-    backgroundColor: "red"
+    // height: Metrics.navBarHeight,
+    justifyContent: "center"
   },
   borderBottom: {
     borderBottomWidth: 0.5,
@@ -29,7 +28,7 @@ export default StyleSheet.create({
     alignItems: "flex-end"
   },
   searchHeader: {
-    height: Metrics.navBarHeight + 50
+    // height: Metrics.navBarHeight + 50
   },
   titleContainer: {
     paddingHorizontal: 20

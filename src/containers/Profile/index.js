@@ -178,7 +178,11 @@ class Profile extends Component {
           onPress={() =>
             Actions.dashboard_tab_scorecard({
               scoreCardData: Util.generateScoreCardData(
-                this.props.userData.latest_scorecard,
+                {
+                  course_name: this.props.userData.course_name,
+                  holes: this.props.userData.holes,
+                  scorecards: this.props.userData.latest_scorecard
+                },
                 this.props.userData.user_info[0].name
               )
             })

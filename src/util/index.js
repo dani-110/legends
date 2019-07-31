@@ -121,21 +121,25 @@ class Util {
   isSuccessResponse = response => _.isNull(response.error);
 
   generateScoreCardData(data, singlePlayerName) {
-    console.log({ generateScoreCardData: data });
     if (singlePlayerName) {
       const holeNumber = [];
       const index = [];
       const par = [];
       const score = [];
+      const { holes, scorecards, course_name } = data;
+      holes.forEach((hole, holeIndex) => {
+        holeNumber[holeIndex] = hole.hole_number;
+        index[holeIndex] = hole.index;
+        par[holeIndex] = hole.par;
+        score[holeIndex] = null;
+      });
 
-      data.forEach((element, itemIndex) => {
-        holeNumber[itemIndex] = element.hole_number;
-        index[itemIndex] = element.index;
-        par[itemIndex] = element.par;
-        score[itemIndex] = element.score;
+      scorecards.forEach(scoreItem => {
+        score[scoreItem.hole_number - 1] = scoreItem.strokes;
       });
 
       return {
+        course_name,
         holeNumber,
         index,
         par,

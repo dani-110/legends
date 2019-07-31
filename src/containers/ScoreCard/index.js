@@ -21,11 +21,12 @@ class ScoreCard extends Component {
   static propTypes = {
     scoreCardData: PropTypes.object,
     toggleTabbar: PropTypes.func.isRequired,
-    act: PropTypes.object.isRequired
+    act: PropTypes.object
   };
 
   static defaultProps = {
-    scoreCardData: {}
+    scoreCardData: {},
+    act: {}
   };
 
   static onEnter() {
@@ -49,6 +50,10 @@ class ScoreCard extends Component {
     };
   }
 
+  componentWillMount() {
+    Orientation.lockToLandscapeRight();
+  }
+
   componentDidMount() {
     const { act } = this.props;
     if (act) {
@@ -69,7 +74,6 @@ class ScoreCard extends Component {
           break;
         }
         case "GetHoleDataForTournament": {
-          debugger;
           if (act.type === "poty") {
             util.showLoader(this);
             this.props.getPotyGroupScoreCardRequest(data => {
@@ -91,13 +95,13 @@ class ScoreCard extends Component {
           } else {
             console.log("no poty");
           }
+          break;
         }
+
+        default:
+          break;
       }
     }
-  }
-
-  componentWillMount() {
-    Orientation.lockToLandscapeRight();
   }
 
   componentWillUnmount() {
@@ -111,8 +115,14 @@ class ScoreCard extends Component {
     this.props.toggleTabbar(true);
   }
 
+  _sumValues(array, startFrom = null, endTo = null) {
+    if (_.isInteger(startFrom) && _.isInteger(endTo)) {
+      return _.sum(array.slice(startFrom, endTo));
+    }
+    return _.sum(array);
+  }
+
   _renderHeader({ holeNumber, index, par, players }, startFrom, endTo, type) {
-    debugger;
     const mapData = holeNumber.slice(startFrom, endTo);
 
     return (
@@ -149,7 +159,7 @@ class ScoreCard extends Component {
             <View key={holeIndex}>
               <View style={styles.width2}>
                 <Text color={Colors.text.secondary} size="xxSmall">
-                  {index[holeIndex]}
+                  {index[holeItem - 1]}
                 </Text>
               </View>
             </View>
@@ -179,20 +189,20 @@ class ScoreCard extends Component {
             <View key={holeIndex}>
               <View style={styles.width2}>
                 <Text color={Colors.text.secondary} size="xxSmall">
-                  {par[holeIndex]}
+                  {par[holeItem - 1]}
                 </Text>
               </View>
             </View>
           ))}
           <View style={styles.width3}>
             <Text color={Colors.text.secondary} size="xxSmall">
-              {_.sum(par)}
+              {this._sumValues(par, startFrom, endTo)}
             </Text>
           </View>
 
           <View style={styles.width3}>
             <Text color={Colors.text.secondary} size="xxSmall">
-              {_.sum(par)}
+              {this._sumValues(par)}
             </Text>
           </View>
         </View>
@@ -205,8 +215,8 @@ class ScoreCard extends Component {
       <View style={[AppStyles.flexRow, styles.scoreRowWrapper]}>
         <View style={AppStyles.flex}>
           {players.map((playerItem, playerIndex) => {
-            debugger;
             const mapData = playerItem.score.slice(startFrom, endTo);
+            const mappedHoleNumber = holeNumber.slice(startFrom, endTo);
 
             return (
               <View
@@ -226,7 +236,7 @@ class ScoreCard extends Component {
                         <ScoreValue
                           size="xxSmall"
                           score={scoreItem}
-                          par={par[itemIndex]}
+                          par={par[mappedHoleNumber[itemIndex] - 1]}
                         />
                       </View>
                     );
@@ -234,12 +244,12 @@ class ScoreCard extends Component {
                 </View>
                 <View style={styles.width3}>
                   <Text color={Colors.text.secondary} size="xxSmall">
-                    32
+                    {this._sumValues(mapData)}
                   </Text>
                 </View>
                 <View style={styles.width3}>
                   <Text color={Colors.text.secondary} size="xxSmall">
-                    82
+                    {this._sumValues(playerItem.score)}
                   </Text>
                 </View>
               </View>
@@ -264,7 +274,7 @@ class ScoreCard extends Component {
     return (
       <View style={styles.container}>
         <CustomNavbar
-          title="Karachi Golf Club - Red & Yellow Screen"
+          title={scoreCardData.course_name}
           hasBorder={false}
           theme={NAVBAR_THEME.WHITE}
           isLandscape
