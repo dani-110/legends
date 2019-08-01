@@ -273,35 +273,91 @@ class EnterScore extends React.Component {
     }
   }
 
+  /**
+   * @state : {
+   *  index: active column
+   *  scoreCard: Complete scores | eg: [0:{hole_number: 1}]
+   * }
+   * @holeIndex : Current hole index starting with 0
+   */
   async _updateGrossNetScores() {
+    // const { index, scoreCard } = this.state;
+    // const holeIndex = this._swiper.state.index;
+    // const tempData = _.cloneDeep(scoreCard);
+    // const holePar = this.props.enterScoreData.holeData.holes[holeIndex].par;
+    // const holeStroke = scoreCard[holeIndex].Stroke[index];
+    // const previousGross =
+    //   (scoreCard[holeIndex - 1] && scoreCard[holeIndex - 1].Gross[index]) || 0;
+    // const handicap = scoreCard[0].Name[index].handicap || 0;
+    // const gross =
+    //   holeStroke && _.isInteger(holeStroke)
+    //     ? holeStroke - holePar + previousGross
+    //     : previousGross;
+    // const net = gross - handicap;
+
+    // const Player_Hole_Score = holeStroke;
+    // const Hole_Par = holePar;
+    // const Hole_Strokes = index <= handicap ? 1 : 0;
+    // const Previous_Net_Score =
+    //   (scoreCard[holeIndex - 1] && scoreCard[holeIndex - 1].Net[index]) || 0;
+
+    // const Current_Net_Score =
+    //   Player_Hole_Score && _.isInteger(Player_Hole_Score)
+    //     ? Player_Hole_Score - Hole_Par - Hole_Strokes + Previous_Net_Score
+    //     : Previous_Net_Score;
+
+    // for (let i = 0; i < 18; i++) {
+    //   tempData[i].Gross[index] = gross;
+    //   tempData[i].Net[index] = Current_Net_Score;
+    // }
+
     const { index, scoreCard } = this.state;
-    const holeIndex = this._swiper.state.index;
+    const {
+      enterScoreData: {
+        holeData: { holes }
+      }
+    } = this.props;
     const tempData = _.cloneDeep(scoreCard);
-    const holePar = this.props.enterScoreData.holeData.holes[holeIndex].par;
-    const holeStroke = scoreCard[holeIndex].Stroke[index];
-    const previousGross =
-      (scoreCard[holeIndex - 1] && scoreCard[holeIndex - 1].Gross[index]) || 0;
-    const handicap = scoreCard[0].Name[index].handicap || 0;
-    const gross =
-      holeStroke && _.isInteger(holeStroke)
-        ? holeStroke - holePar + previousGross
-        : previousGross;
-    const net = gross - handicap;
+    const { Name } = scoreCard[0];
 
-    const Player_Hole_Score = holeStroke;
-    const Hole_Par = holePar;
-    const Hole_Strokes = index <= handicap ? 1 : 0;
-    const Previous_Net_Score =
-      (scoreCard[holeIndex - 1] && scoreCard[holeIndex - 1].Net[index]) || 0;
-
-    const Current_Net_Score =
-      Player_Hole_Score && _.isInteger(Player_Hole_Score)
-        ? Player_Hole_Score - Hole_Par - Hole_Strokes + Previous_Net_Score
-        : Previous_Net_Score;
+    let gross = 0;
+    let net = 0;
 
     for (let i = 0; i < 18; i++) {
+      const { Stroke } = scoreCard[i];
+      const { par } = holes[i];
+      const handicap = Name[index].handicap || 0;
+      const holeStroke = index <= handicap ? 1 : 0;
+      const previousGross =
+        i < 1
+          ? 0
+          : tempData[i - 1].Gross[index] &&
+            _.isInteger(tempData[i - 1].Gross[index])
+          ? tempData[i - 1].Gross[index]
+          : 0;
+      const previousNet =
+        i < 1
+          ? 0
+          : tempData[i - 1].Net[index] &&
+            _.isInteger(tempData[i - 1].Net[index])
+          ? tempData[i - 1].Net[index]
+          : 0;
+
+      gross =
+        Stroke[index] && _.isInteger(Stroke[index])
+          ? Stroke[index] - par + previousGross
+          : previousGross;
+      net =
+        Stroke[index] && _.isInteger(Stroke[index])
+          ? Stroke[index] - par - holeStroke + previousNet
+          : previousNet;
       tempData[i].Gross[index] = gross;
-      tempData[i].Net[index] = Current_Net_Score;
+      tempData[i].Net[index] = net;
+    }
+    for (let i = 0; i < 18; i++) {
+      if (_.isInteger(scoreCard[i].Stroke[index]))
+        tempData[i].Gross[index] = gross;
+      if (_.isInteger(scoreCard[i].Stroke[index])) tempData[i].Net[index] = net;
     }
 
     await this.setStateAsync({ scoreCard: tempData });
