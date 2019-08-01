@@ -9,6 +9,7 @@ import {
   ActivityIndicator
 } from "react-native";
 import { Actions } from "react-native-router-flux";
+import { setSelectedTab } from "../../actions/GeneralActions";
 import BottomSheet from "react-native-bottomsheet";
 import PropTypes from "prop-types";
 import {
@@ -36,7 +37,8 @@ class Profile extends Component {
     getUserProfileRequest: PropTypes.func.isRequired,
     isFetchingProfile: PropTypes.bool.isRequired,
     userData: PropTypes.object.isRequired,
-    uploadUserImageRequest: PropTypes.func.isRequired
+    uploadUserImageRequest: PropTypes.func.isRequired,
+    setSelectedTab: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -50,6 +52,7 @@ class Profile extends Component {
 
   componentWillMount() {
     this.props.getUserProfileRequest();
+    this.props.setSelectedTab(-1);
   }
 
   setImage = uri => {
@@ -252,7 +255,11 @@ const mapStateToProps = ({ user }) => ({
   userData: user.profileData,
   isFetchingProfile: user.isFetchingProfileData
 });
-const actions = { getUserProfileRequest, uploadUserImageRequest };
+const actions = {
+  getUserProfileRequest,
+  uploadUserImageRequest,
+  setSelectedTab
+};
 
 export default connect(
   mapStateToProps,

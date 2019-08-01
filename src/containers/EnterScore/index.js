@@ -27,7 +27,7 @@ import {
   SimpleLoader,
   EmptyStateText
 } from "../../components";
-import { NAVBAR_THEME, ENTER_SCORE_POLLING_TIME } from "../../constants";
+import { NAVBAR_THEME, POLLING_TIME } from "../../constants";
 import styles from "./styles";
 import Tabbar from "../../components/Tabbar";
 import { AppStyles, Colors, Images } from "../../theme";
@@ -77,7 +77,7 @@ class EnterScore extends React.Component {
     this.getLatestScores();
     this.dataPolling = setInterval(() => {
       this.getLatestScores();
-    }, ENTER_SCORE_POLLING_TIME);
+    }, POLLING_TIME);
 
     BackHandler.addEventListener(
       "hardwareBackPress",
@@ -553,8 +553,15 @@ class EnterScore extends React.Component {
 
     const playerCount = scoreCard[0].Name.length;
     for (let i = 0, l = scoreCard.length; i < l; i++) {
-      if (scoreCard[i][lastEditableKey].length === playerCount) {
+      const { Stroke, FIR, GIR, Putts } = scoreCard[i];
+
+      if (
+        (((Stroke.length === FIR.length) === GIR.length) === Putts.length) ===
+        playerCount
+      ) {
         dataLength = dataLength < 17 ? i + 1 : dataLength;
+      } else if (Stroke.length || FIR.length || GIR.length || Putts.length) {
+        dataLength = i;
       } else {
         break;
       }

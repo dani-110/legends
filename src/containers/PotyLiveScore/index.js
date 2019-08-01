@@ -9,7 +9,7 @@ import {
   getPotyScoreGrossRequest
 } from "../../actions/LiveMatchesActions";
 import { CustomNavbar, TopTabs } from "../../components";
-import { NAVBAR_THEME } from "../../constants";
+import { NAVBAR_THEME, POLLING_TIME } from "../../constants";
 import Tabbar from "../../components/Tabbar";
 import PotyScoreTable from "./PotyScoreTable";
 import Util from "../../util";
@@ -54,11 +54,19 @@ class PotyLiveScore extends React.Component {
 
   componentWillMount() {
     this.props.getPotyScoreNetRequest();
+    this.dataPolling = setInterval(() => {
+      this.props.getPotyScoreNetRequest();
+    }, POLLING_TIME);
+
     if (this.props.current_match.length) {
       this.props.enableEnterScore(
         this.props.data.id === this.props.current_match[0].id
       );
     }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.dataPolling);
   }
 
   _renderTabsHeader() {

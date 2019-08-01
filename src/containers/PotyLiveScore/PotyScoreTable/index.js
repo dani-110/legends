@@ -103,7 +103,7 @@ class PotyScoreTable extends React.Component {
         </View>
         <View style={[AppStyles.flex2]}>
           <Text>
-            {_.capitalize(item.name.replace(/\s+/g, " ").trim()) || " "}
+            {Util.titleCase(item.name.replace(/\s+/g, " ").trim()) || " "}
           </Text>
         </View>
         <View width={65}>
