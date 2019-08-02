@@ -1509,7 +1509,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.lwl.legends;
 				PRODUCT_NAME = LegendsTour;
-				PROVISIONING_PROFILE_SPECIFIER = LWLDevProvisioningProfile;
+				PROVISIONING_PROFILE_SPECIFIER = LegendsDevProvisioningProfile;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;

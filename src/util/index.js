@@ -120,7 +120,7 @@ class Util {
 
   isSuccessResponse = response => _.isNull(response.error);
 
-  generateScoreCardData(data, singlePlayerName) {
+  generateScoreCardData(data, singlePlayerName = null) {
     if (singlePlayerName) {
       const holeNumber = [];
       const index = [];
@@ -151,6 +151,43 @@ class Util {
         ]
       };
     }
+
+    const holeNumber = [];
+    const index = [];
+    const par = [];
+    const playersArray = [];
+    const {
+      course: { name, holes },
+      players
+    } = data;
+    holes.forEach((hole, holeIndex) => {
+      holeNumber[holeIndex] = hole.hole_number;
+      index[holeIndex] = hole.index;
+      par[holeIndex] = hole.par;
+    });
+
+    players.forEach(player => {
+      const score = [];
+      for (let i = 0; i < 18; i++) {
+        score[i] = null;
+      }
+      player.scorecard.forEach(scoreItem => {
+        score[scoreItem.hole_number - 1] = scoreItem.strokes;
+      });
+
+      playersArray.push({
+        name: player.player_name,
+        score
+      });
+    });
+
+    return {
+      course_name: name,
+      holeNumber,
+      index,
+      par,
+      players: playersArray
+    };
   }
 
   getManipulatedLiveMatchesData = data => {

@@ -21,7 +21,8 @@ class ScoreCard extends Component {
   static propTypes = {
     scoreCardData: PropTypes.object,
     toggleTabbar: PropTypes.func.isRequired,
-    act: PropTypes.object
+    act: PropTypes.object,
+    getPotyGroupScoreCardRequest: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -78,22 +79,11 @@ class ScoreCard extends Component {
             util.showLoader(this);
             this.props.getPotyGroupScoreCardRequest(data => {
               if (data) {
-                scoreCardData = [];
                 util.hideLoader(this);
-                for (i = 0; i < data.length; i++) {
-                  scoreCardData.push(
-                    util.generateScoreCardData(
-                      data[i].scorecard,
-                      data[i].player_name
-                    )
-                  );
-                }
+                const scoreCardData = util.generateScoreCardData(data);
                 this.setState({ scoreCardData });
-                console.table(data);
               }
             });
-          } else {
-            console.log("no poty");
           }
           break;
         }

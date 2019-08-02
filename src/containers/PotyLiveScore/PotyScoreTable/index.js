@@ -30,12 +30,7 @@ class PotyScoreTable extends React.Component {
   }
   _getScoreCard(id) {
     let subroute = `${id}`;
-    this.props.getPotyUserScoreCardRequest(subroute, data => {
-      debugger;
-      if (data) {
-        console.log(data);
-      }
-    });
+    this.props.getPotyUserScoreCardRequest(subroute, data => {});
   }
   _renderTable() {
     const { liveScoreData } = this.props;

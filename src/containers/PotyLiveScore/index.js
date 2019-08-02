@@ -54,7 +54,7 @@ class PotyLiveScore extends React.Component {
 
   componentWillMount() {
     this.props.getPotyScoreNetRequest();
-    this.dataPolling = setInterval(() => {
+    this.dataPollingNet = setInterval(() => {
       this.props.getPotyScoreNetRequest();
     }, POLLING_TIME);
 
@@ -66,7 +66,8 @@ class PotyLiveScore extends React.Component {
   }
 
   componentWillUnmount() {
-    clearInterval(this.dataPolling);
+    clearInterval(this.dataPollingNet);
+    clearInterval(this.dataPollingGross);
   }
 
   _renderTabsHeader() {
@@ -88,6 +89,9 @@ class PotyLiveScore extends React.Component {
       onPress: () => {
         this.props.getPotyScoreGrossRequest();
         Util.setSelectedTabIndex(this, 1);
+        this.dataPollingGross = setInterval(() => {
+          this.props.getPotyScoreGrossRequest();
+        }, POLLING_TIME);
       }
     }
   ];

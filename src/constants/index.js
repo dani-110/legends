@@ -40,4 +40,4 @@ export const ERROR_MESSAGES = {
   session_expired_error: "Session expired, Please login again"
 };
 
-export const POLLING_TIME = 3000;
+export const POLLING_TIME = 5000;
