@@ -744,7 +744,7 @@ class EnterScore extends React.Component {
             )
           ) : (
             <Text textAlign="center" style={AppStyles.centerInner}>
-              {key === "Gross"
+              {key === "Gross" || key === "Net"
                 ? rowItem === 0
                   ? "E"
                   : Math.sign(rowItem) === 1

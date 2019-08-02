@@ -113,7 +113,9 @@ class Login extends Component {
           selectionColor={Colors.black}
           value={email}
           ref={ref => (this.email = ref)}
-          onChangeText={value => this.setState({ email: value })}
+          onChangeText={value =>
+            this.setState({ email: value.replace(/\s+/g, "") })
+          }
           returnKeyType="next"
           onSubmitEditing={this._onSubmitEmail}
         />

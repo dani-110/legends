@@ -4,68 +4,7 @@ import Immutable from "seamless-immutable";
 import { USER_SIGNOUT } from "../actions/ActionTypes";
 
 const initialState = Immutable({
-  data: [
-    {
-      description: "POTY match play results announced",
-      unread: true
-    },
-    {
-      description: "POTY match play results announced",
-      unread: true
-    },
-    {
-      description: "POTY match play results announced",
-      unread: false
-    },
-    {
-      description: "POTY match play results announced",
-      unread: false
-    },
-    {
-      description: "POTY match play results announced",
-      unread: false
-    },
-    {
-      description: "POTY match play results announced",
-      unread: false
-    },
-    {
-      description: "POTY match play results announced",
-      unread: false
-    },
-    {
-      description: "POTY match play results announced",
-      unread: false
-    },
-    {
-      description: "POTY match play results announced",
-      unread: false
-    },
-    {
-      description: "POTY match play results announced",
-      unread: false
-    },
-    {
-      description: "POTY match play results announced",
-      unread: false
-    },
-    {
-      description: "POTY match play results announced",
-      unread: false
-    },
-    {
-      description: "POTY match play results announced",
-      unread: false
-    },
-    {
-      description: "POTY match play results announced",
-      unread: false
-    },
-    {
-      description: "POTY match play results announced",
-      unread: false
-    }
-  ]
+  data: []
 });
 
 export default (state = initialState, action) => {

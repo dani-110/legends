@@ -32,6 +32,13 @@ class PotyScoreTable extends React.Component {
     let subroute = `${id}`;
     this.props.getPotyUserScoreCardRequest(subroute, data => {});
   }
+  _formatPar(value) {
+    if (value > 0) return `+${value}`;
+
+    if (value === 0) return "E";
+
+    return value;
+  }
   _renderTable() {
     const { liveScoreData } = this.props;
 
@@ -112,7 +119,9 @@ class PotyScoreTable extends React.Component {
             size="xLarge"
             style={[item.net_score < 0 && styles.negativeParText]}
           >
-            {item.net_score || item.par || 0}
+            {this._formatPar(item.net_score) ||
+              this._formatPar(item.par) ||
+              "E"}
           </Text>
         </View>
         <View width={70}>

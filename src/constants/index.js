@@ -9,6 +9,9 @@ export const DATE_FORMAT1 = "dddd, DD MMMM, YYYY";
 export const TIME_FORMAT1 = "H:mm";
 export const TIME_FORMAT2 = "HH:mm:ss";
 
+export const IMAGE_MAX_WIDTH = 400;
+export const IMAGE_MAX_HEIGHT = 400;
+
 // Message types
 export const MESSAGE_TYPES = {
   INFO: "info",

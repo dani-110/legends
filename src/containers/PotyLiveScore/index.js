@@ -54,9 +54,6 @@ class PotyLiveScore extends React.Component {
 
   componentWillMount() {
     this.props.getPotyScoreNetRequest();
-    this.dataPollingNet = setInterval(() => {
-      this.props.getPotyScoreNetRequest();
-    }, POLLING_TIME);
 
     if (this.props.current_match.length) {
       this.props.enableEnterScore(
@@ -66,8 +63,8 @@ class PotyLiveScore extends React.Component {
   }
 
   componentWillUnmount() {
-    clearInterval(this.dataPollingNet);
-    clearInterval(this.dataPollingGross);
+    // clearInterval(this.dataPollingNet);
+    // clearInterval(this.dataPollingGross);
   }
 
   _renderTabsHeader() {
@@ -89,19 +86,24 @@ class PotyLiveScore extends React.Component {
       onPress: () => {
         this.props.getPotyScoreGrossRequest();
         Util.setSelectedTabIndex(this, 1);
-        this.dataPollingGross = setInterval(() => {
-          this.props.getPotyScoreGrossRequest();
-        }, POLLING_TIME);
       }
     }
   ];
 
   _onEnter() {
+    this.dataPollingNet = setInterval(() => {
+      this.props.getPotyScoreNetRequest();
+    }, POLLING_TIME);
+    this.dataPollingGross = setInterval(() => {
+      this.props.getPotyScoreGrossRequest();
+    }, POLLING_TIME);
     this.props.setTabbarType(false);
   }
 
   _onExit() {
     this.props.setTabbarType(true);
+    clearInterval(this.dataPollingNet);
+    clearInterval(this.dataPollingGross);
   }
 
   render() {

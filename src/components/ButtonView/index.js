@@ -1,6 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { TouchableOpacity, TouchableNativeFeedback, View } from "react-native";
+import {
+  TouchableOpacity,
+  TouchableNativeFeedback,
+  View,
+  Platform
+} from "react-native";
 import Util from "../../util";
 
 export default class ButtonView extends React.PureComponent {
@@ -21,18 +26,44 @@ export default class ButtonView extends React.PureComponent {
     isDisabled: false
   };
 
+  disableOnPress = false;
+
+  debounceTime = Platform.select({
+    ios: 200,
+    android: 700
+  });
+
+  _onPress(onPress) {
+    if (!this.disableOnPress) {
+      this.disableOnPress = true;
+      if (onPress) {
+        onPress();
+      }
+
+      setTimeout(() => {
+        this.disableOnPress = false;
+      }, this.debounceTime);
+    }
+  }
+
   render() {
     const {
       style,
       children,
       rippleOnAndroid,
       isDisabled,
+      onPress,
       ...rest
     } = this.props;
 
     if (Util.isPlatformAndroid() && rippleOnAndroid) {
       return !isDisabled ? (
-        <TouchableNativeFeedback {...rest}>
+        <TouchableNativeFeedback
+          {...rest}
+          onPress={() => {
+            this._onPress(onPress);
+          }}
+        >
           <View style={style}>{this.props.children}</View>
         </TouchableNativeFeedback>
       ) : (
@@ -41,7 +72,14 @@ export default class ButtonView extends React.PureComponent {
     }
 
     return !isDisabled ? (
-      <TouchableOpacity style={style} activeOpacity={0.7} {...rest}>
+      <TouchableOpacity
+        style={style}
+        activeOpacity={0.7}
+        {...rest}
+        onPress={() => {
+          this._onPress(onPress);
+        }}
+      >
         {this.props.children}
       </TouchableOpacity>
     ) : (

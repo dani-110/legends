@@ -214,7 +214,10 @@ class ScoreCard extends Component {
                 key={playerIndex}
               >
                 <View style={AppStyles.flex}>
-                  <Text style={styles.width1} size="xSmall">
+                  <Text
+                    style={[styles.width1, styles.playerName]}
+                    size="xSmall"
+                  >
                     {playerItem.name}
                   </Text>
                 </View>

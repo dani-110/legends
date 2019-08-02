@@ -104,7 +104,7 @@ class SideMenu extends React.PureComponent {
     return (
       <View style={[AppStyles.mBottom30]}>
         <Text textAlign="center" color={Colors.grey} size="small">
-          Version 0.5.4
+          Version 0.6
         </Text>
       </View>
     );
