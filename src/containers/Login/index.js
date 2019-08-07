@@ -113,7 +113,9 @@ class Login extends Component {
           selectionColor={Colors.black}
           value={email}
           ref={ref => (this.email = ref)}
-          onChangeText={value => this.setState({ email: value })}
+          onChangeText={value =>
+            this.setState({ email: value.replace(/\s+/g, "") })
+          }
           returnKeyType="next"
           onSubmitEditing={this._onSubmitEmail}
         />
@@ -147,11 +149,13 @@ class Login extends Component {
           </ButtonView>
         </View>
 
-        <ButtonView style={AppStyles.mTop5} onPress={Actions.forgotPassword}>
-          <Text textAlign="right" color={Colors.green}>
-            Forgot your password?
-          </Text>
-        </ButtonView>
+        <View style={[AppStyles.alignItemsFlexEnd]}>
+          <ButtonView style={AppStyles.mTop5} onPress={Actions.forgotPassword}>
+            <Text textAlign="right" color={Colors.green}>
+              Forgot your password?
+            </Text>
+          </ButtonView>
+        </View>
 
         <Button
           background={Colors.green}

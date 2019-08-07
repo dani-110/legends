@@ -4,13 +4,12 @@ import { Colors, Metrics, AppStyles } from "../../theme";
 
 export default StyleSheet.create({
   container: {
-    width: Metrics.screenWidth,
+    width: "100%",
     backgroundColor: Colors.background.primary,
-    paddingTop: Metrics.statusBarHeight,
+    paddingTop: Metrics.statusBarHeight || 20,
     paddingBottom: Metrics.baseMargin,
     height: Metrics.navBarHeight,
-    justifyContent: "center",
-    backgroundColor: "red"
+    justifyContent: "center"
   },
   borderBottom: {
     borderBottomWidth: 0.5,

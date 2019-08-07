@@ -89,10 +89,12 @@ const navigator = Actions.create(
             <Scene key="lcllivescore" component={LclLiveScore} hideNavBar />
             <Scene key="dmplivescore" component={DmpLiveScore} hideNavBar />
             <Scene key="lmplivescore" component={LmpLiveScore} hideNavBar />
-            <Scene key="enterscore" component={EnterScore} hideNavBar />
             <Scene key="live_tab_scorecard" component={ScoreCard} hideNavBar />
           </Stack>
           <Scene key="notification_tab" component={Notification} hideNavBar />
+          <Stack key="enterscore_tab">
+            <Scene key="enterscore" component={EnterScore} hideNavBar />
+          </Stack>
         </Tabs>
         <Scene key="lmp" component={Lmp} hideNavBar />
         <Scene key="dmp" component={Dmp} hideNavBar />

@@ -1,6 +1,9 @@
 // @flow
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { View } from "react-native";
+import PropTypes from "prop-types";
+import { setSelectedTab } from "../../actions/GeneralActions";
 import { CustomNavbar, TopTabs } from "../../components";
 import { NAVBAR_THEME } from "../../constants";
 import PointsTableTab from "./PointsTableTab";
@@ -8,10 +11,19 @@ import MonthlyMatches from "./MonthlyMatches";
 import styles from "./styles";
 import Util from "../../util";
 
-export default class Lcl extends Component {
+class Lcl extends Component {
+  static propTypes = {
+    setSelectedTab: PropTypes.func.isRequired
+  };
+
   state = {
     activeTabIndex: 0
   };
+
+  componentWillMount() {
+    this.props.setSelectedTab(-1);
+  }
+
   TABS_DATA = [
     {
       image: "sort",
@@ -47,3 +59,12 @@ export default class Lcl extends Component {
     );
   }
 }
+
+const mapStateToProps = () => ({});
+
+const actions = { setSelectedTab };
+
+export default connect(
+  mapStateToProps,
+  actions
+)(Lcl);

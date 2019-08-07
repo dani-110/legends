@@ -120,22 +120,26 @@ class Util {
 
   isSuccessResponse = response => _.isNull(response.error);
 
-  generateScoreCardData(data, singlePlayerName) {
-    console.log({ generateScoreCardData: data });
+  generateScoreCardData(data, singlePlayerName = null) {
     if (singlePlayerName) {
       const holeNumber = [];
       const index = [];
       const par = [];
       const score = [];
+      const { holes, scorecards, course_name } = data;
+      holes.forEach((hole, holeIndex) => {
+        holeNumber[holeIndex] = hole.hole_number;
+        index[holeIndex] = hole.index;
+        par[holeIndex] = hole.par;
+        score[holeIndex] = null;
+      });
 
-      data.forEach((element, itemIndex) => {
-        holeNumber[itemIndex] = element.hole_number;
-        index[itemIndex] = element.index;
-        par[itemIndex] = element.par;
-        score[itemIndex] = element.score;
+      scorecards.forEach(scoreItem => {
+        score[scoreItem.hole_number - 1] = scoreItem.strokes;
       });
 
       return {
+        course_name,
         holeNumber,
         index,
         par,
@@ -147,6 +151,43 @@ class Util {
         ]
       };
     }
+
+    const holeNumber = [];
+    const index = [];
+    const par = [];
+    const playersArray = [];
+    const {
+      course: { name, holes },
+      players
+    } = data;
+    holes.forEach((hole, holeIndex) => {
+      holeNumber[holeIndex] = hole.hole_number;
+      index[holeIndex] = hole.index;
+      par[holeIndex] = hole.par;
+    });
+
+    players.forEach(player => {
+      const score = [];
+      for (let i = 0; i < 18; i++) {
+        score[i] = null;
+      }
+      player.scorecard.forEach(scoreItem => {
+        score[scoreItem.hole_number - 1] = scoreItem.strokes;
+      });
+
+      playersArray.push({
+        name: player.player_name,
+        score
+      });
+    });
+
+    return {
+      course_name: name,
+      holeNumber,
+      index,
+      par,
+      players: playersArray
+    };
   }
 
   getManipulatedLiveMatchesData = data => {
@@ -197,6 +238,14 @@ class Util {
 
   removeSpaces(str) {
     return str.replace(/\s/g, "");
+  }
+
+  titleCase(str) {
+    str = str.toLowerCase().split(" ");
+    for (var i = 0; i < str.length; i++) {
+      str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
+    }
+    return str.join(" ");
   }
 }
 

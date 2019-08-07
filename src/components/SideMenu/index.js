@@ -5,6 +5,7 @@ import { View, Image, Linking } from "react-native";
 import { connect } from "react-redux";
 import { Actions } from "react-native-router-flux";
 import PropTypes from "prop-types";
+import { setSelectedTab } from "../../actions/GeneralActions";
 import { Text, ButtonView } from "../../components";
 import DataHandler from "../../services/DataHandler";
 import { userSignOutRequest } from "../../actions/UserActions";
@@ -14,14 +15,16 @@ import styles from "./styles";
 const DRAWER_ITEMS = [
   {
     text: "POTY",
-    onPress: () => Actions.poty()
+    onPress: () => Actions.poty(),
+    activeTab: 1
   },
   {
     text: "LCL",
-    onPress: () => Actions.lcl()
+    onPress: () => Actions.lcl(),
+    activeTab: 1
   },
-  { text: "LMP", onPress: () => Actions.lmp() },
-  { text: "DMP", onPress: () => Actions.dmp() },
+  { text: "LMP", onPress: () => Actions.lmp(), activeTab: 1 },
+  { text: "DMP", onPress: () => Actions.dmp(), activeTab: 1 },
   {
     text: "Rules",
     onPress: () => {
@@ -30,9 +33,8 @@ const DRAWER_ITEMS = [
   },
   {
     text: "News",
-    onPress: () => {
-      Actions.news();
-    }
+    onPress: () => Actions.news(),
+    activeTab: 1
   },
   // {
   //   text: "Settings",
@@ -53,7 +55,8 @@ function getLoggedOut() {
 
 class SideMenu extends React.PureComponent {
   static propTypes = {
-    userData: PropTypes.object.isRequired
+    userData: PropTypes.object.isRequired,
+    setSelectedTab: PropTypes.func.isRequired
   };
 
   static defaultProps = {};
@@ -84,6 +87,7 @@ class SideMenu extends React.PureComponent {
             key={index}
             onPress={() => {
               Actions.drawerClose();
+              element.activeTab && this.props.setSelectedTab(element.activeTab);
               element.onPress();
             }}
           >
@@ -100,7 +104,7 @@ class SideMenu extends React.PureComponent {
     return (
       <View style={[AppStyles.mBottom30]}>
         <Text textAlign="center" color={Colors.grey} size="small">
-          Version 0.0.1
+          Version 0.6
         </Text>
       </View>
     );
@@ -112,7 +116,7 @@ class SideMenu extends React.PureComponent {
       <View style={styles.container}>
         {!_.isEmpty(userData) && this.renderUserDetails(userData.user_info[0])}
         {this.renderOptionsList()}
-        {/* this.renderVersionNumber() */}
+        {this.renderVersionNumber()}
       </View>
     );
   }
@@ -121,7 +125,7 @@ class SideMenu extends React.PureComponent {
 const mapStateToProps = ({ user }) => ({
   userData: user.profileData
 });
-const actions = {};
+const actions = { setSelectedTab };
 
 export default connect(
   mapStateToProps,

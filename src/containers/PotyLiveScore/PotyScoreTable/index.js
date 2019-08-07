@@ -1,5 +1,6 @@
 // @flow
 import { connect } from "react-redux";
+import _ from "lodash";
 import React from "react";
 import PropTypes from "prop-types";
 import { View, FlatList } from "react-native";
@@ -29,12 +30,14 @@ class PotyScoreTable extends React.Component {
   }
   _getScoreCard(id) {
     let subroute = `${id}`;
-    this.props.getPotyUserScoreCardRequest(subroute, data => {
-      debugger;
-      if (data) {
-        console.log(data);
-      }
-    });
+    this.props.getPotyUserScoreCardRequest(subroute, data => {});
+  }
+  _formatPar(value) {
+    if (value > 0) return `+${value}`;
+
+    if (value === 0) return "E";
+
+    return value;
   }
   _renderTable() {
     const { liveScoreData } = this.props;
@@ -101,7 +104,9 @@ class PotyScoreTable extends React.Component {
           <Text textAlign="center">{index + 1}</Text>
         </View>
         <View style={[AppStyles.flex2]}>
-          <Text>{item.name || " "}</Text>
+          <Text>
+            {Util.titleCase(item.name.replace(/\s+/g, " ").trim()) || " "}
+          </Text>
         </View>
         <View width={65}>
           <Text textAlign="center">{item.score || " "}</Text>
@@ -114,7 +119,9 @@ class PotyScoreTable extends React.Component {
             size="xLarge"
             style={[item.net_score < 0 && styles.negativeParText]}
           >
-            {item.net_score || item.par || 0}
+            {this._formatPar(item.net_score) ||
+              this._formatPar(item.par) ||
+              "E"}
           </Text>
         </View>
         <View width={70}>

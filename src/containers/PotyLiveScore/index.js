@@ -9,7 +9,7 @@ import {
   getPotyScoreGrossRequest
 } from "../../actions/LiveMatchesActions";
 import { CustomNavbar, TopTabs } from "../../components";
-import { NAVBAR_THEME } from "../../constants";
+import { NAVBAR_THEME, POLLING_TIME } from "../../constants";
 import Tabbar from "../../components/Tabbar";
 import PotyScoreTable from "./PotyScoreTable";
 import Util from "../../util";
@@ -26,7 +26,7 @@ class PotyLiveScore extends React.Component {
     getPotyScoreNetRequest: PropTypes.func.isRequired,
     getPotyScoreGrossRequest: PropTypes.func.isRequired,
     data: PropTypes.object.isRequired,
-    current_match: PropTypes.object.isRequired
+    current_match: PropTypes.array.isRequired
   };
 
   static defaultProps = {};
@@ -54,9 +54,17 @@ class PotyLiveScore extends React.Component {
 
   componentWillMount() {
     this.props.getPotyScoreNetRequest();
-    this.props.enableEnterScore(
-      this.props.data.id === this.props.current_match[0].id
-    );
+
+    if (this.props.current_match.length) {
+      this.props.enableEnterScore(
+        this.props.data.id === this.props.current_match[0].id
+      );
+    }
+  }
+
+  componentWillUnmount() {
+    // clearInterval(this.dataPollingNet);
+    // clearInterval(this.dataPollingGross);
   }
 
   _renderTabsHeader() {
@@ -83,11 +91,19 @@ class PotyLiveScore extends React.Component {
   ];
 
   _onEnter() {
+    this.dataPollingNet = setInterval(() => {
+      this.props.getPotyScoreNetRequest();
+    }, POLLING_TIME);
+    this.dataPollingGross = setInterval(() => {
+      this.props.getPotyScoreGrossRequest();
+    }, POLLING_TIME);
     this.props.setTabbarType(false);
   }
 
   _onExit() {
     this.props.setTabbarType(true);
+    clearInterval(this.dataPollingNet);
+    clearInterval(this.dataPollingGross);
   }
 
   render() {

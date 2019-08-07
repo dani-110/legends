@@ -27,7 +27,7 @@ import {
   SimpleLoader,
   EmptyStateText
 } from "../../components";
-import { NAVBAR_THEME, ENTER_SCORE_POLLING_TIME } from "../../constants";
+import { NAVBAR_THEME, POLLING_TIME } from "../../constants";
 import styles from "./styles";
 import Tabbar from "../../components/Tabbar";
 import { AppStyles, Colors, Images } from "../../theme";
@@ -77,7 +77,7 @@ class EnterScore extends React.Component {
     this.getLatestScores();
     this.dataPolling = setInterval(() => {
       this.getLatestScores();
-    }, ENTER_SCORE_POLLING_TIME);
+    }, POLLING_TIME);
 
     BackHandler.addEventListener(
       "hardwareBackPress",
@@ -108,9 +108,11 @@ class EnterScore extends React.Component {
     const param = `${type}/${id}${schedule_id && `/${schedule_id}`}${match_id &&
       `/${match_id}`}`;
 
-    this.props.getEnterScoreDataRequest(param, data => {
-      this.setState({ scoreCard: this._manipulateDataForScoreCard(data) });
-    });
+    if (!this.state.showKeyBoard) {
+      this.props.getEnterScoreDataRequest(param, data => {
+        this.setState({ scoreCard: this._manipulateDataForScoreCard(data) });
+      });
+    }
   };
 
   _onEnter() {
@@ -150,24 +152,18 @@ class EnterScore extends React.Component {
   }
 
   _onClickScroll = toIndex => {
+    this._swiper.scrollBy(toIndex, true);
+  };
+
+  _isButtonDisabled = buttonType => {
+    // If swiper has not initiated yet.
+    if (!this._swiper) return true;
+
     const { index, total } = this._swiper.state;
-    const countSlides = total - 1;
-    if (index !== toIndex && toIndex >= 0 && toIndex <= countSlides) {
-      let resultSlide = 0;
-      if (toIndex > index && toIndex !== countSlides) {
-        resultSlide = toIndex - index;
-        this._swiper.scrollBy(resultSlide, true);
-      } else if (toIndex > index && toIndex === countSlides) {
-        resultSlide = index + 1;
-        this._swiper.scrollBy(resultSlide, true);
-      } else if (toIndex < index && toIndex !== 0) {
-        resultSlide = (index - toIndex) * -1;
-        this._swiper.scrollBy(resultSlide, true);
-      } else if (toIndex < index && toIndex === 0) {
-        resultSlide = index * -1;
-        this._swiper.scrollBy(resultSlide, true);
-      }
-    }
+
+    if (buttonType === "prev") return index < 1;
+
+    return index > total - 1;
   };
 
   _hideKeyboard() {
@@ -183,27 +179,34 @@ class EnterScore extends React.Component {
   _keyPress(text) {
     const { current_match } = this.props;
     const { type } = current_match[0];
-    swipe = false;
+    let swipe = false;
     const { current, index, scoreCard, miniKeyBoard } = this.state;
     const tempData = _.cloneDeep(scoreCard);
     const holeIndex = this._swiper.state.index;
 
     if (miniKeyBoard) {
       tempData[holeIndex][current][index] = text;
-    } else {
-      if (text != "DEL" && text != "-") {
+    } else if (text !== "DEL" && text !== "-") {
+      if (tempData[holeIndex][current][index] === 1) {
+        tempData[holeIndex][current][index] = `${
+          tempData[holeIndex][current][index]
+        }${text}`;
+      } else {
         tempData[holeIndex][current][index] = text;
-      } else if (text === "DEL") {
-        tempData[holeIndex][current][index] = "";
       }
+    } else if (text === "DEL") {
+      tempData[holeIndex][current][index] = "";
+    } else if (text === "-") {
+      tempData[holeIndex][current][index] = "-";
     }
+
     if (
       current === "FIR" ||
       current === "GIR" ||
-      (text != "DEL" && text != "-" && text != 1)
+      (text !== "DEL" && text !== 1)
     ) {
-      newIndex = index;
-      newCurrent = current;
+      let newIndex = index;
+      let newCurrent = current;
 
       if (type === "poty") {
         if (current === "Stroke") {
@@ -215,26 +218,30 @@ class EnterScore extends React.Component {
         } else if (current === "Putts") {
           newIndex = index + 1;
           newCurrent = "Stroke";
-          if (index === 3 && holeIndex < 17) {
+          if (index === scoreCard[0].Name.length - 1 && holeIndex < 17) {
             newIndex = 0;
             swipe = true;
           }
         }
       } else {
         newIndex = index + 1;
-        if (index === 3 && holeIndex < 17) {
+        if (index === scoreCard[0].Name.length - 1 && holeIndex < 17) {
           newIndex = 0;
           swipe = true;
         }
       }
 
-      newMini = false;
+      let newMini = false;
       if (newCurrent === "FIR" || newCurrent === "GIR") {
         newMini = true;
       }
-      newShowKeyboard = true;
+      let newShowKeyboard = true;
       if (holeIndex === 17 && index === 3 && current === "Putts") {
         (newShowKeyboard = false), (newMini = false);
+      }
+
+      if (swipe) {
+        this._swiper.scrollBy(1, true);
       }
       this.setState(
         {
@@ -246,36 +253,79 @@ class EnterScore extends React.Component {
         },
         () => {
           this._updateGrossNetScores().then(() => {
-            this._postData(current, index, tempData, text);
+            this._postData(holeIndex, current, index, tempData, text);
           });
-          if (swipe) {
-            this._onClickScroll(this._swiper.state.index + 1);
-          }
         }
       );
     } else {
       this.setState({ scoreCard: tempData }, () => {
         this._updateGrossNetScores().then(() => {
-          this._postData(current, index, tempData, text);
+          this._postData(holeIndex, current, index, tempData, text);
         });
       });
     }
   }
 
+  /**
+   * @state : {
+   *  index: active column
+   *  scoreCard: Complete scores | eg: [0:{hole_number: 1}]
+   * }
+   * @holeIndex : Current hole index starting with 0
+   */
   async _updateGrossNetScores() {
     const { index, scoreCard } = this.state;
-    const holeIndex = this._swiper.state.index;
+    const {
+      enterScoreData: {
+        holeData: { holes }
+      }
+    } = this.props;
     const tempData = _.cloneDeep(scoreCard);
-    const holePar = this.props.enterScoreData.holeData.holes[holeIndex].par;
-    const holeStroke = scoreCard[holeIndex].Stroke[index];
-    const previousGross =
-      (scoreCard[holeIndex - 1] && scoreCard[holeIndex - 1].Gross[index]) || 0;
-    const handicap = scoreCard[holeIndex].Name[index].handicap || 0;
-    const gross = holeStroke - holePar + previousGross;
-    const net = gross - handicap;
+    const { Name } = scoreCard[0];
 
-    tempData[holeIndex].Gross[index - 1] = gross;
-    tempData[holeIndex].Net[index - 1] = net;
+    let gross = 0;
+    let net = 0;
+
+    for (let i = 0; i < 18; i += 1) {
+      const { Stroke } = scoreCard[i];
+      const par = holes[i].par;
+      const holeIndex = holes[i].index;
+      const handicap = Name[index].handicap || 0;
+      const holeStroke = holeIndex <= handicap ? 1 : 0;
+      const previousGross =
+        i < 1
+          ? 0
+          : tempData[i - 1].Gross[index] &&
+            _.isInteger(tempData[i - 1].Gross[index])
+          ? tempData[i - 1].Gross[index]
+          : 0;
+      const previousNet =
+        i < 1
+          ? 0
+          : tempData[i - 1].Net[index] &&
+            _.isInteger(tempData[i - 1].Net[index])
+          ? tempData[i - 1].Net[index]
+          : 0;
+
+      gross =
+        Stroke[index] && _.isInteger(Stroke[index])
+          ? Stroke[index] - par + previousGross
+          : previousGross;
+      net =
+        Stroke[index] && _.isInteger(Stroke[index])
+          ? Stroke[index] - par - holeStroke + previousNet
+          : previousNet;
+      tempData[i].Gross[index] = gross;
+      tempData[i].Net[index] = net;
+    }
+    for (let i = 0; i < 18; i++) {
+      if (_.isInteger(scoreCard[i].Stroke[index])) {
+        tempData[i].Gross[index] = gross;
+      }
+      if (_.isInteger(scoreCard[i].Stroke[index])) {
+        tempData[i].Net[index] = net;
+      }
+    }
 
     await this.setStateAsync({ scoreCard: tempData });
   }
@@ -285,45 +335,44 @@ class EnterScore extends React.Component {
 
     const updatedData = [];
 
-    dataLength = 0;
+    let dataLength = 1;
     players.map(player => {
       if (player.scorecard.length > dataLength) {
         dataLength = player.scorecard.length;
       }
     });
 
-    for (let i = 0; i < dataLength; i++) {
+    for (let i = 0; i < 18; i++) {
       updatedData.push({
-        Name: [],
-        Stroke: [],
-        FIR: [],
-        GIR: [],
-        Putts: [],
-        Net: [],
-        Gross: []
+        Name: ["", "", "", ""],
+        Stroke: ["", "", "", ""],
+        FIR: ["", "", "", ""],
+        GIR: ["", "", "", ""],
+        Putts: ["", "", "", ""],
+        Net: ["", "", "", ""],
+        Gross: ["", "", "", ""]
       });
     }
 
-    players.map(player => {
+    players.map((player, playerIndex) => {
+      updatedData[0].Name[playerIndex] = {
+        id: player.íd || player.id,
+        initials: player.initials,
+        handicap: player.handicap
+      };
       player.scorecard.map((score, index) => {
-        updatedData[index].Name.push({
-          id: player.íd || player.id,
-          initials: player.initials,
-          handicap: player.handicap
-        });
-        updatedData[index].Stroke.push(score.strokes);
-        updatedData[index].FIR.push(score.fir);
-        updatedData[index].GIR.push(score.gir);
-        updatedData[index].Putts.push(score.putts);
-        updatedData[index].Net.push(score.net_score);
-        updatedData[index].Gross.push(score.score);
+        updatedData[score.hole_number - 1].Stroke[playerIndex] = score.strokes;
+        updatedData[score.hole_number - 1].FIR[playerIndex] = score.fir;
+        updatedData[score.hole_number - 1].GIR[playerIndex] = score.gir;
+        updatedData[score.hole_number - 1].Putts[playerIndex] = score.putts;
+        updatedData[score.hole_number - 1].Net[playerIndex] = score.net_score;
+        updatedData[score.hole_number - 1].Gross[playerIndex] = score.score;
       });
     });
-
     return updatedData;
   }
 
-  _postData(current, indexParam, scoreCardd, value) {
+  _postData(holeIndex, current, indexParam, scoreCardd, value) {
     const keyBindings = {
       Stroke: "strokes",
       FIR: "fir",
@@ -334,10 +383,9 @@ class EnterScore extends React.Component {
       current_match,
       enterScoreData: { holeData }
     } = this.props;
-    const { hole_number, index, par } = holeData.holes[
-      this._swiper.state.index
-    ];
+    const { index, par } = holeData.holes[holeIndex];
     const { scoreCard } = this.state;
+    const handicap = scoreCard[0].Name[indexParam].handicap || 0;
     const { id, type, match_id, schedule_id } = current_match[0];
     const playerIndex = {
       1: [0, "", 1],
@@ -348,35 +396,58 @@ class EnterScore extends React.Component {
     const score_array = {};
     const netscore_array = {};
 
-    for (let i = hole_number - 1; i < 18; i++) {
-      score_array[`hole${i + 1}`] = scoreCard[i].Gross[indexParam];
-      netscore_array[`hole${i + 1}`] = scoreCard[i].Net[indexParam];
+    for (let i = holeIndex; i < 18; i++) {
+      score_array[`hole${i + 1}`] = scoreCard[i].Stroke[indexParam]
+        ? scoreCard[i].Gross[indexParam]
+        : "";
+      netscore_array[`hole${i + 1}`] = scoreCard[i].Stroke[indexParam]
+        ? scoreCard[i].Net[indexParam]
+        : "";
     }
 
-    const payload = {
-      match_id,
-      schedule_id,
-      hole_number,
-      index,
-      par,
-      user_id: scoreCard[hole_number - 1].Name[indexParam].id || null,
-      player_id: scoreCard[hole_number - 1].Name[indexParam].id || null,
-      tournament_id: parseInt(id, 10) || null,
-      key: keyBindings[current] || null,
-      value: parseInt(value, 10),
-      score: scoreCard[hole_number - 1].Gross[indexParam] || null,
-      net_score: scoreCard[hole_number - 1].Net[indexParam] || null,
-      netscore_array,
-      score_array,
-      player: `p${playerIndex[indexParam + 1][0]}${
-        playerIndex[indexParam + 1][1]
-      }`,
-      player1_stroke: !(indexParam % 2) ? value : "",
-      player2_stroke: indexParam % 2 ? value : "",
-      season_id: parseInt(id, 10) || null,
-      opponent_id:
-        scoreCard[hole_number - 1].Name[playerIndex[indexParam + 1][2]].id
-    };
+    let payload = {};
+    if (type === "poty") {
+      const adj_score = this._calculateAdjScore(handicap, par, value);
+
+      payload = {
+        adj_score,
+        hole_number: holeIndex + 1,
+        index,
+        key: keyBindings[current] || null,
+        net_score: scoreCard[holeIndex].Net[indexParam] || null,
+        par,
+        score: scoreCard[holeIndex].Gross[indexParam] || 0,
+        tournament_id: parseInt(id, 10) || null,
+        user_id: scoreCard[0].Name[indexParam].id || null,
+        value: _.isInteger(value) ? parseInt(value, 10) : value,
+        netscore_array,
+        score_array
+      };
+    } else {
+      payload = {
+        match_id,
+        schedule_id,
+        hole_number: holeIndex + 1,
+        index,
+        par,
+        user_id: scoreCard[0].Name[indexParam].id || null,
+        player_id: scoreCard[0].Name[indexParam].id || null,
+        tournament_id: parseInt(id, 10) || null,
+        key: keyBindings[current] || null,
+        value: _.isInteger(value) ? parseInt(value, 10) : value,
+        score: scoreCard[holeIndex].Gross[indexParam] || 0,
+        net_score: scoreCard[holeIndex].Net[indexParam] || null,
+        netscore_array,
+        score_array,
+        player: `p${playerIndex[indexParam + 1][0]}${
+          playerIndex[indexParam + 1][1]
+        }`,
+        player1_stroke: !(indexParam % 2) ? value : "",
+        player2_stroke: indexParam % 2 ? value : "",
+        season_id: parseInt(id, 10) || null,
+        opponent_id: scoreCard[0].Name[playerIndex[indexParam + 1][2]].id
+      };
+    }
     this._postDataByType[type](payload);
   }
 
@@ -395,6 +466,48 @@ class EnterScore extends React.Component {
     }
   };
 
+  _calculateAdjScore(current_handicap, par, stroke) {
+    let adj_score = "";
+    let checkValue = "";
+
+    if (current_handicap <= 9) {
+      checkValue = par + 2;
+    } else if (current_handicap >= 10 && current_handicap <= 19) {
+      checkValue = 7;
+    } else if (current_handicap >= 20 && current_handicap <= 29) {
+      checkValue = 8;
+    } else if (current_handicap >= 30 && current_handicap <= 39) {
+      checkValue = 9;
+    } else if (current_handicap >= 40) {
+      checkValue = 10;
+    }
+
+    if (checkValue < stroke) {
+      adj_score = checkValue;
+    } else {
+      adj_score = stroke;
+    }
+
+    if (adj_score === 0) return "EVEN";
+    return adj_score;
+  }
+
+  /**
+   * This methd takes array and checks if it contains any scores
+   *
+   * @param array the array to be checked.
+   * @returns Returns `2` if the array has all the scores filled, `1` if it has any score else `0`.
+   */
+  _arrayHasScores(array) {
+    let countValues = 0;
+    array.forEach(item => {
+      _.isInteger(item) && countValues++;
+    });
+    if (countValues === 4) return 2;
+    if (countValues > 0) return 1;
+    return 0;
+  }
+
   _renderTitle() {
     const { current_match } = this.props;
     const { id, type, match_id, schedule_id } = current_match[0];
@@ -410,20 +523,97 @@ class EnterScore extends React.Component {
         hasBorder={false}
         theme={NAVBAR_THEME.WHITE}
         titleAlign="center"
-        /*  rightBtnImage={Images.scoreCard}
+        rightBtnImage={Images.scoreCard}
         rightBtnPress={() => {
           Actions.scorecard({
             act: {
               action: "GetHoleDataForTournament",
-              id: id,
-              type: "poty",
-              season_id: parseInt(id, 10),
-              match_id: match_id ? match_id : "",
-              schedule_id: schedule_id ? schedule_id : ""
+              // id: id,
+              type: "poty"
+              // season_id: parseInt(id, 10),
+              // match_id: match_id ? match_id : "",
+              // schedule_id: schedule_id ? schedule_id : ""
             }
           });
-        }} */
+        }}
       />
+    );
+  }
+
+  _renderSwiper(players, holes) {
+    const dataLength = 0;
+    // players &&
+    //   players.map(player => {
+    //     if (player.scorecard.length > dataLength) {
+    //       dataLength = player.scorecard.length;
+    //     }
+    //   });
+
+    const lastEditableKey = "Putts";
+
+    const { scoreCard } = this.state;
+
+    if (!scoreCard.length) {
+      return (
+        <View style={[AppStyles.flex, AppStyles.doubleBaseMargin]}>
+          <SimpleLoader />
+        </View>
+      );
+    }
+
+    /**
+     * TODO: This needs to be handled properly.
+     */
+
+    // for (let i = 0, l = scoreCard.length; i < l; i++) {
+    //   const { Stroke, FIR, GIR, Putts } = scoreCard[i];
+
+    //   if (
+    //     (((this._arrayHasScores(Stroke) === this._arrayHasScores(FIR)) ===
+    //       this._arrayHasScores(GIR)) ===
+    //       this._arrayHasScores(Putts)) ===
+    //     2
+    //   ) {
+    //     dataLength = dataLength < 17 ? i + 1 : dataLength;
+    //   } else if (
+    //     (((this._arrayHasScores(Stroke) === this._arrayHasScores(FIR)) ===
+    //       this._arrayHasScores(GIR)) ===
+    //       this._arrayHasScores(Putts)) ===
+    //     1
+    //   ) {
+    //     dataLength = i;
+    //   } else {
+    //     break;
+    //   }
+    // }
+
+    const holeScreens = [];
+
+    for (let i = 0; i <= 17; i += 1) {
+      holeScreens.push(
+        <View>
+          <View>
+            {this._renderHoleInfo(holes[i])}
+            {this._renderScoreTable(holes[i], i)}
+          </View>
+        </View>
+      );
+    }
+
+    return (
+      <Swiper
+        style={{ height: 450 }}
+        // index={dataLength}
+        ref={swiper => {
+          this._swiper = swiper;
+        }}
+        showsButtons={false}
+        loop={false}
+        showsPagination={false}
+        onIndexChanged={() => this._onSwipe()}
+      >
+        {holeScreens}
+      </Swiper>
     );
   }
 
@@ -443,7 +633,7 @@ class EnterScore extends React.Component {
             Hole
           </Text>
           <Text textAlign="center" size="xxxLarge">
-            {hole_number}
+            {("0" + hole_number).slice(-2)}
           </Text>
         </View>
         <View>
@@ -451,7 +641,7 @@ class EnterScore extends React.Component {
             Index
           </Text>
           <Text textAlign="center" size="xxxLarge">
-            {index}
+            {("0" + index).slice(-2)}
           </Text>
         </View>
         <View>
@@ -474,7 +664,7 @@ class EnterScore extends React.Component {
         <View>
           {Object.keys(manipulatedData).map((key, index) => (
             <View
-              key={`row-${key}`}
+              // key={`row-${key}`}
               style={[
                 (key === "Name" || key === "Net" || key === "Gross") &&
                   styles.background,
@@ -482,7 +672,9 @@ class EnterScore extends React.Component {
               ]}
             >
               {this._renderRowLabel(key)}
-              {this._renderRowValues(manipulatedData, key)}
+              {key === "Name"
+                ? this._renderRowHeader()
+                : this._renderRowValues(manipulatedData, key)}
             </View>
           ))}
         </View>
@@ -498,35 +690,45 @@ class EnterScore extends React.Component {
     );
   }
   _onSwipe() {
-    this.setState({
-      current: "Stroke",
-      index: 0,
-      showKeyBoard: true,
-      miniKeyBoard: false
-    });
+    // this.setState({
+    //   current: "Stroke",
+    //   index: 0,
+    //   showKeyBoard: true,
+    //   miniKeyBoard: false
+    // });
+  }
+  _renderRowHeader() {
+    const { scoreCard } = this.state;
+
+    const { Name } = scoreCard[0];
+
+    return Name.map(item => (
+      <View style={[AppStyles.centerInner, styles.rowItemStyles]}>
+        <Text textAlign="center" style={AppStyles.centerInner}>
+          {item.initials}
+        </Text>
+      </View>
+    ));
   }
   _renderRowValues(data, key) {
-    const { current, index } = this.state;
-    return data[key].map((rowItem, rowItemIndex) => (
-      <View key={`scorecard=${rowItemIndex}`}>
+    const { current, index, scoreCard } = this.state;
+    const { Name } = scoreCard[0];
+
+    return Name.map((nameItem, nameIndex) => {
+      const rowItem = data[key][nameIndex];
+      return (
         <TouchableOpacity
           style={[
             AppStyles.centerInner,
-            rowItemIndex === index &&
-              key !== "Name" &&
-              styles.activeColRowItemActiveStyles,
             styles.rowItemStyles,
-            rowItemIndex === index &&
+            nameIndex === index &&
               key === current &&
-              styles.rowItemActiveStyles
+              styles.rowItemActiveStyles,
+            nameIndex === index && styles.activeColRowItemActiveStyles
           ]}
           onPress={() =>
             this._isEditable(key) &&
-            this._showKeyBoard(
-              key === "FIR" || key === "GIR",
-              key,
-              rowItemIndex
-            )
+            this._showKeyBoard(key === "FIR" || key === "GIR", key, nameIndex)
           }
         >
           {key === "FIR" || key === "GIR" ? (
@@ -542,12 +744,18 @@ class EnterScore extends React.Component {
             )
           ) : (
             <Text textAlign="center" style={AppStyles.centerInner}>
-              {key === "Name" ? rowItem.initials : rowItem}
+              {key === "Gross" || key === "Net"
+                ? rowItem === 0
+                  ? "E"
+                  : Math.sign(rowItem) === 1
+                  ? `+${rowItem}`
+                  : rowItem
+                : rowItem}
             </Text>
           )}
         </TouchableOpacity>
-      </View>
-    ));
+      );
+    });
   }
 
   _renderButton = () => (
@@ -557,8 +765,8 @@ class EnterScore extends React.Component {
           <ButtonView
             style={[styles.button, styles.buttonActive]}
             color={Colors.white}
-            onPress={() => this._onClickScroll(this._swiper.state.index - 1)}
-            // isDisabled={this._swiper.state.index <= 1}
+            onPress={() => this._onClickScroll(-1)}
+            // isDisabled={this._isButtonDisabled("prev")}
           >
             <RNImage
               style={[styles.buttonIcon, styles.buttonIconLeft]}
@@ -570,8 +778,8 @@ class EnterScore extends React.Component {
           </ButtonView>
           <ButtonView
             style={[styles.button, styles.buttonInActive]}
-            onPress={() => this._onClickScroll(this._swiper.state.index + 1)}
-            // isDisabled={this._swiper.state.index >= 18}
+            onPress={() => this._onClickScroll(1)}
+            // isDisabled={this._isButtonDisabled("next")}
           >
             <Text size="xSmall">Next</Text>
             <RNImage
@@ -609,7 +817,7 @@ class EnterScore extends React.Component {
       enterScoreData: { isFetchingData, holeData }
     } = this.props;
 
-    const { holes } = holeData;
+    const { holes, players } = holeData;
 
     return (
       <View style={styles.container}>
@@ -633,25 +841,7 @@ class EnterScore extends React.Component {
                 }
               }}
             >
-              <Swiper
-                style={{ height: 450 }}
-                ref={swiper => {
-                  this._swiper = swiper;
-                }}
-                showsButtons={false}
-                loop={false}
-                showsPagination={false}
-                onIndexChanged={() => this._onSwipe()}
-              >
-                {holes.map((holeInfo, index) => (
-                  <View key={`holes-${index}`}>
-                    <View>
-                      {this._renderHoleInfo(holeInfo)}
-                      {this._renderScoreTable(holeInfo, index)}
-                    </View>
-                  </View>
-                ))}
-              </Swiper>
+              {this._renderSwiper(players, holes)}
             </ScrollView>
             {this._renderButton()}
             {this._renderKeyboard()}

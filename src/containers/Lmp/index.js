@@ -5,6 +5,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { View, ScrollView } from "react-native";
 import Orientation from "react-native-orientation";
+import { setSelectedTab } from "../../actions/GeneralActions";
 import {
   Text,
   CustomNavbar,
@@ -43,7 +44,8 @@ class Lmp extends React.Component {
   static propTypes = {
     lmpTournamentData: PropTypes.object.isRequired,
     isFetchingData: PropTypes.bool.isRequired,
-    getLmpResultsRequest: PropTypes.func.isRequired
+    getLmpResultsRequest: PropTypes.func.isRequired,
+    setSelectedTab: PropTypes.func.isRequired
   };
 
   static defaultProps = {};
@@ -55,6 +57,7 @@ class Lmp extends React.Component {
   componentWillMount() {
     Orientation.lockToLandscapeRight();
     this.props.getLmpResultsRequest();
+    this.props.setSelectedTab(-1);
   }
 
   componentWillUnmount() {
@@ -267,7 +270,7 @@ const mapStateToProps = ({ tournament }) => ({
   isFetchingData: tournament.lmp.isFetchingLeaderboard
 });
 
-const actions = { getLmpResultsRequest };
+const actions = { getLmpResultsRequest, setSelectedTab };
 
 export default connect(
   mapStateToProps,

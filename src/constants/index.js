@@ -9,6 +9,9 @@ export const DATE_FORMAT1 = "dddd, DD MMMM, YYYY";
 export const TIME_FORMAT1 = "H:mm";
 export const TIME_FORMAT2 = "HH:mm:ss";
 
+export const IMAGE_MAX_WIDTH = 400;
+export const IMAGE_MAX_HEIGHT = 400;
+
 // Message types
 export const MESSAGE_TYPES = {
   INFO: "info",
@@ -40,4 +43,4 @@ export const ERROR_MESSAGES = {
   session_expired_error: "Session expired, Please login again"
 };
 
-export const ENTER_SCORE_POLLING_TIME = 10000;
+export const POLLING_TIME = 5000;

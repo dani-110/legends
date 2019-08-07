@@ -2,6 +2,8 @@
 import { connect } from "react-redux";
 import React, { Component } from "react";
 import { View } from "react-native";
+import PropTypes from "prop-types";
+import { setSelectedTab } from "../../actions/GeneralActions";
 import { CustomNavbar, TopTabs } from "../../components";
 import { NAVBAR_THEME } from "../../constants";
 import LeaderboardTab from "./LeaderboardTab";
@@ -10,9 +12,18 @@ import styles from "./styles";
 import Util from "../../util";
 
 class Poty extends Component {
+  static propTypes = {
+    setSelectedTab: PropTypes.func.isRequired
+  };
+
   state = {
     activeTabIndex: 0
   };
+
+  componentWillMount() {
+    this.props.setSelectedTab(-1);
+  }
+
   TABS_DATA = [
     {
       image: "sort",
@@ -51,7 +62,7 @@ class Poty extends Component {
 
 const mapStateToProps = () => ({});
 
-const actions = {};
+const actions = { setSelectedTab };
 
 export default connect(
   mapStateToProps,

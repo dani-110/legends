@@ -105,7 +105,7 @@ export default class CustomNavbar extends React.Component {
       <View
         style={[
           AppStyles.flex,
-          // AppStyles.centerInner
+          AppStyles.centerInner,
           titleAlign === "center" && {
             position: "absolute",
             left: 50,
@@ -174,7 +174,7 @@ export default class CustomNavbar extends React.Component {
             : { backgroundColor: Colors.white },
           isLandscape
             ? {
-                height: Metrics.navBarHeightLandscape,
+                // height: Metrics.navBarHeightLandscape,
                 paddingTop: Metrics.statusBarHeightLandscape
               }
             : {}

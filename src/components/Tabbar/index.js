@@ -27,13 +27,14 @@ const tabsData = [
     image: Images.home_outline,
     selectedImage: Images.home_black,
     type: BUTTON_TYPES.icon,
-    onPress: tabIsActive => {
-      if (tabIsActive) {
-        Actions.jump("dashboard_tab_main");
-      } else {
-        Actions.jump("dashboard_tab");
-      }
-    }
+    // onPress: tabIsActive => {
+    //   if (tabIsActive) {
+    //     Actions.jump("dashboard_tab_main");
+    //   } else {
+    //     Actions.jump("dashboard_tab");
+    //   }
+    // }
+    onPress: () => Actions.jump("dashboard_tab_main")
   },
   {
     name: "live",
@@ -106,8 +107,9 @@ const livematchtabsData = [
     selectedImage: Images.arrow_circle_green,
     disableImage: Images.arrow_circle_grey,
     type: BUTTON_TYPES.textIcon,
+    selectedTab: 3,
     onPress: () => {
-      Actions.jump("enterscore");
+      Actions.jump("enterscore_tab");
     }
   }
 ];

@@ -5,6 +5,7 @@ import React, { Component } from "react";
 import { View, Image, ImageBackground } from "react-native";
 import PropTypes from "prop-types";
 import { Actions } from "react-native-router-flux";
+import Orientation from "react-native-orientation";
 
 import { Images, Colors } from "../../theme";
 import styles from "./styles";
@@ -17,14 +18,14 @@ class Welcome extends Component {
 
   componentDidMount() {
     const { userData } = this.props;
-
+    Orientation.lockToPortrait();
     setTimeout(() => {
       if (!_.isEmpty(userData) && !_.isEmpty(userData.token)) {
         Actions.reset("drawerMenu");
       } else {
         Actions.reset("login");
       }
-    }, 1000);
+    }, 5000);
   }
 
   render() {

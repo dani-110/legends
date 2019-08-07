@@ -1,5 +1,6 @@
 // @flow
 import React from "react";
+import _ from "lodash";
 import PropTypes from "prop-types";
 import { View } from "react-native";
 import { Text } from "../";
@@ -7,16 +8,16 @@ import styles from "./styles";
 import { Colors } from "../../theme";
 
 function getScoreColor(score, par) {
-  if (score === par + 1) {
+  if (_.isInteger(score) && score === par + 1) {
     // blue
     return { bg: Colors.blue, text: Colors.white };
-  } else if (score === par - 1) {
+  } else if (_.isInteger(score) && score === par - 1) {
     // red
     return { bg: Colors.red, text: Colors.white };
-  } else if (score === par + 2) {
+  } else if (_.isInteger(score) && score > par + 1) {
     // black
     return { bg: Colors.black, text: Colors.white };
-  } else if (score === par - 2) {
+  } else if (_.isInteger(score) && score < par - 1) {
     // yellow
     return { bg: Colors.yellow, text: Colors.black };
   }

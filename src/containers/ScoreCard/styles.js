@@ -35,5 +35,8 @@ export default StyleSheet.create({
     // width: 680,
     flex: 1,
     paddingBottom: isIphoneX() ? 30 : 0
+  },
+  playerName: {
+    lineHeight: 24
   }
 });
