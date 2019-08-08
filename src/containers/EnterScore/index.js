@@ -246,14 +246,20 @@ class EnterScore extends React.Component {
       this.setState(
         {
           scoreCard: tempData,
-          current: newCurrent,
           miniKeyBoard: newMini,
-          index: newIndex,
           showKeyBoard: newShowKeyboard
         },
         () => {
           this._updateGrossNetScores().then(() => {
-            this._postData(holeIndex, current, index, tempData, text);
+            this.setState(
+              {
+                current: newCurrent,
+                index: newIndex
+              },
+              () => {
+                this._postData(holeIndex, current, index, tempData, text);
+              }
+            );
           });
         }
       );
@@ -406,9 +412,9 @@ class EnterScore extends React.Component {
     }
 
     let payload = {};
-    if (type === "poty") {
-      const adj_score = this._calculateAdjScore(handicap, par, value);
+    const adj_score = this._calculateAdjScore(handicap, par, value);
 
+    if (type === "poty") {
       payload = {
         adj_score,
         hole_number: holeIndex + 1,
@@ -422,6 +428,24 @@ class EnterScore extends React.Component {
         value: _.isInteger(value) ? parseInt(value, 10) : value,
         netscore_array,
         score_array
+      };
+    } else if (type === "lcl") {
+      payload = {
+        adj_score,
+        hole_number: holeIndex + 1,
+        index,
+        par,
+        value: _.isInteger(value) ? parseInt(value, 10) : value,
+        match_id: parseInt(match_id, 10) || null,
+        opponent_id: scoreCard[0].Name[playerIndex[indexParam + 1][2]].id,
+        player: `p${playerIndex[indexParam + 1][0]}${
+          playerIndex[indexParam + 1][1]
+        }`,
+        player1_stroke: !(indexParam % 2) ? value : "",
+        player2_stroke: indexParam % 2 ? value : "",
+        player_id: scoreCard[0].Name[indexParam].id || null,
+        schedule_id: parseInt(schedule_id, 10) || null,
+        season_id: parseInt(id, 10) || null
       };
     } else {
       payload = {
