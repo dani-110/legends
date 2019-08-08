@@ -48,9 +48,11 @@ export default class TextInput extends React.PureComponent {
     } = this.props;
     return (
       <View style={containerStyle}>
-        <Text color={Colors.grey2} style={AppStyles.mTop10}>
-          {label}
-        </Text>
+        {label ? (
+          <Text color={Colors.grey2} style={AppStyles.mTop10}>
+            {label}
+          </Text>
+        ) : null}
 
         <View>
           <RNTextInput

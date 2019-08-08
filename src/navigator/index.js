@@ -32,7 +32,8 @@ import {
   PotyLiveScore,
   EnterScore,
   Lmp,
-  Dmp
+  Dmp,
+  PlayersDirectory
 } from "../containers";
 
 function onBackPress() {
@@ -76,6 +77,11 @@ const navigator = Actions.create(
             <Scene key="poty" component={Poty} hideNavBar />
             <Scene key="lcl" component={Lcl} hideNavBar />
             <Scene key="profile" component={Profile} hideNavBar />
+            <Scene
+              key="playersdirectory"
+              component={PlayersDirectory}
+              hideNavBar
+            />
             <Scene
               key="dashboard_tab_scorecard"
               component={ScoreCard}

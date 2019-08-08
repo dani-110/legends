@@ -205,6 +205,14 @@ export const GET_POTY_GROUP_SCORCARD = {
   access_token_required: true,
   type: REQUEST_TYPE.GET
 };
+
+// PLAYERS DIRECTORY
+export const GET_PLAYERS_DIRECTORY = {
+  route: "GetAllPlayers",
+  access_token_required: true,
+  type: REQUEST_TYPE.GET
+};
+
 export const callRequest = function(
   url,
   data,

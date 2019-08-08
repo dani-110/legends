@@ -41,6 +41,7 @@ const arrow_right_white = require("../assets/icon/arrow_right_white/arrow_right_
 const splash_background = require("../assets/images/splash_background/splash_background.png");
 const splash_logo = require("../assets/images/splash_logo/splash_logo.png");
 const no_image = require("../assets/images/noImage.png");
+const search_icon = require("../assets/icon/search_icon/search_icon.png");
 
 const scoreCard = require("../assets/icon/ScoreCard/ScoreCard.png");
 export default {
@@ -86,5 +87,6 @@ export default {
   splash_background,
   splash_logo,
   no_image,
-  scoreCard
+  scoreCard,
+  search_icon
 };
