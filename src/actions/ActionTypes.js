@@ -64,8 +64,7 @@ export const GET_SCORE_DMP = createRequestTypes("GET_SCORE_DMP");
 
 export const UPLOAD_USER_IMAGE = createRequestTypes("UPLOAD_USER_IMAGE");
 
-//ScoreCard Actions
-
+// ScoreCard Actions
 export const GET_POTY_USER_SCORE_CARD = createRequestTypes(
   "GET_POTY_USER_SCORE_CARD"
 );
@@ -75,4 +74,9 @@ export const GET_HOLE_DATA_FOR_TOURNAMENT = createRequestTypes(
 );
 export const GET_POTY_GROUP_SCORCARD = createRequestTypes(
   "GET_POTY_GROUP_SCORCARD"
+);
+
+// Players Directory
+export const GET_PLAYERS_DIRECTORY = createRequestTypes(
+  "GET_PLAYERS_DIRECTORY"
 );

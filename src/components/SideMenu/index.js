@@ -25,6 +25,11 @@ const DRAWER_ITEMS = [
   // },
   // { text: "LMP", onPress: () => Actions.lmp(), activeTab: 1 },
   // { text: "DMP", onPress: () => Actions.dmp(), activeTab: 1 },
+
+  {
+    text: "Players Directory",
+    onPress: () => Actions.playersdirectory()
+  },
   {
     text: "Rules",
     onPress: () => {
