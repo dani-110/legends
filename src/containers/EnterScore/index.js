@@ -2,6 +2,7 @@
 import { connect } from "react-redux";
 import React from "react";
 import PropTypes from "prop-types";
+import moment from "moment";
 import {
   View,
   Image as RNImage,
@@ -60,6 +61,17 @@ class EnterScore extends React.Component {
     }
   }
 
+  static getDerivedStateFromProps(props, state) {
+    if (!_.isEqual(props.enterScoreData, state.prevEnterScoreData)) {
+      return {
+        prevEnterScoreData: props.enterScoreData,
+        scoreCard: manipulateDataForScoreCard(props.enterScoreData.holeData)
+      };
+    }
+
+    return null;
+  }
+
   constructor(props) {
     super(props);
     this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
@@ -73,7 +85,11 @@ class EnterScore extends React.Component {
     EnterScore.instance = this;
   }
 
-  componentWillMount() {
+  state = {
+    lastUpdatedOn: null
+  };
+
+  componentDidMount() {
     this.getLatestScores();
     this.dataPolling = setInterval(() => {
       this.getLatestScores();
@@ -83,10 +99,9 @@ class EnterScore extends React.Component {
       "hardwareBackPress",
       this.handleBackButtonClick
     );
-  }
-  componentDidMount() {
     this._onSwipe();
   }
+
   componentWillUnmount() {
     clearInterval(this.dataPolling);
     BackHandler.removeEventListener(
@@ -104,15 +119,19 @@ class EnterScore extends React.Component {
   getLatestScores = () => {
     const { current_match } = this.props;
     const { type, id, schedule_id, match_id, tee_off_time } = current_match[0];
+    const { showKeyBoard, lastUpdatedOn } = this.state;
+
+    if (showKeyBoard) return;
 
     const param = `${type}/${id}${schedule_id && `/${schedule_id}`}${match_id &&
-      `/${match_id}`}`;
+      `/${match_id}`}${lastUpdatedOn ? `/${lastUpdatedOn}` : ``}`;
 
-    if (!this.state.showKeyBoard) {
-      this.props.getEnterScoreDataRequest(param, data => {
-        this.setState({ scoreCard: this._manipulateDataForScoreCard(data) });
+    this.props.getEnterScoreDataRequest(param, data => {
+      this.setState({
+        lastUpdatedOn: moment().unix()
+        // scoreCard: this._manipulateDataForScoreCard(data)
       });
-    }
+    });
   };
 
   _onEnter() {
@@ -334,48 +353,6 @@ class EnterScore extends React.Component {
     }
 
     await this.setStateAsync({ scoreCard: tempData });
-  }
-
-  _manipulateDataForScoreCard(data) {
-    const { players } = data;
-
-    const updatedData = [];
-
-    let dataLength = 1;
-    players.map(player => {
-      if (player.scorecard.length > dataLength) {
-        dataLength = player.scorecard.length;
-      }
-    });
-
-    for (let i = 0; i < 18; i++) {
-      updatedData.push({
-        Name: ["", "", "", ""],
-        Stroke: ["", "", "", ""],
-        FIR: ["", "", "", ""],
-        GIR: ["", "", "", ""],
-        Putts: ["", "", "", ""],
-        Net: ["", "", "", ""],
-        Gross: ["", "", "", ""]
-      });
-    }
-
-    players.map((player, playerIndex) => {
-      updatedData[0].Name[playerIndex] = {
-        id: player.íd || player.id,
-        initials: player.initials,
-        handicap: player.handicap
-      };
-      player.scorecard.map((score, index) => {
-        updatedData[score.hole_number - 1].Stroke[playerIndex] = score.strokes;
-        updatedData[score.hole_number - 1].FIR[playerIndex] = score.fir;
-        updatedData[score.hole_number - 1].GIR[playerIndex] = score.gir;
-        updatedData[score.hole_number - 1].Putts[playerIndex] = score.putts;
-        updatedData[score.hole_number - 1].Net[playerIndex] = score.net_score;
-        updatedData[score.hole_number - 1].Gross[playerIndex] = score.score;
-      });
-    });
-    return updatedData;
   }
 
   _postData(holeIndex, current, indexParam, scoreCardd, value) {
@@ -682,7 +659,6 @@ class EnterScore extends React.Component {
 
   _renderScoreTable(holeInfo, index) {
     const manipulatedData = this.state.scoreCard[index];
-
     return (
       manipulatedData && (
         <View>
@@ -713,6 +689,7 @@ class EnterScore extends React.Component {
       </View>
     );
   }
+
   _onSwipe() {
     // this.setState({
     //   current: "Stroke",
@@ -721,9 +698,9 @@ class EnterScore extends React.Component {
     //   miniKeyBoard: false
     // });
   }
+
   _renderRowHeader() {
     const { scoreCard } = this.state;
-
     const { Name } = scoreCard[0];
 
     return Name.map(item => (
@@ -893,6 +870,50 @@ const actions = {
   postDmpScoreRequest,
   setTabbarType
 };
+
+function manipulateDataForScoreCard(data) {
+  const { players } = data;
+
+  if (!players) return;
+
+  const updatedData = [];
+
+  for (let i = 0; i < 18; i++) {
+    updatedData.push({
+      Name: [],
+      Stroke: [],
+      FIR: [],
+      GIR: [],
+      Putts: [],
+      Net: [],
+      Gross: []
+    });
+
+    for (let j = 0, l = players.length; j < l; j++) {
+      for (data in updatedData[i]) {
+        updatedData[i][data].push("");
+      }
+    }
+  }
+
+  players.map((player, playerIndex) => {
+    updatedData[0].Name[playerIndex] = {
+      id: player.íd || player.id,
+      initials: player.initials,
+      handicap: player.handicap
+    };
+    player.scorecard.map(score => {
+      updatedData[score.hole_number - 1].Stroke[playerIndex] = score.strokes;
+      updatedData[score.hole_number - 1].FIR[playerIndex] = score.fir;
+      updatedData[score.hole_number - 1].GIR[playerIndex] = score.gir;
+      updatedData[score.hole_number - 1].Putts[playerIndex] = score.putts;
+      updatedData[score.hole_number - 1].Net[playerIndex] = score.net_score;
+      updatedData[score.hole_number - 1].Gross[playerIndex] = score.score;
+    });
+  });
+
+  return updatedData;
+}
 
 export default connect(
   mapStateToProps,

@@ -1,12 +1,21 @@
 // @flow
 
 import {
+  GET_ENTER_SCORE_POLLING_DATA,
   GET_ENTER_SCORE_DATA,
   POST_POTY_SCORE,
   POST_LCL_SCORE,
   POST_LMP_SCORE,
   POST_DMP_SCORE
 } from "./ActionTypes";
+
+export function getEnterScorePollingDataSuccess(payload, responseCallback) {
+  return {
+    payload,
+    responseCallback,
+    type: GET_ENTER_SCORE_POLLING_DATA.SUCCESS
+  };
+}
 
 export function getEnterScoreDataRequest(payload, responseCallback) {
   return {

@@ -43,6 +43,9 @@ export const GET_USER_PROFILE = createRequestTypes("GET_USER_PROFILE");
 export const GET_POTY_SCORE_NET = createRequestTypes("GET_POTY_SCORE_NET");
 export const GET_POTY_SCORE_GROSS = createRequestTypes("GET_POTY_SCORE_GROSS");
 
+export const GET_ENTER_SCORE_POLLING_DATA = createRequestTypes(
+  "GET_ENTER_SCORE_POLLING_DATA"
+);
 export const GET_ENTER_SCORE_DATA = createRequestTypes("GET_ENTER_SCORE_DATA");
 
 export const POST_POTY_SCORE = createRequestTypes("POST_POTY_SCORE");
