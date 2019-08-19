@@ -83,3 +83,6 @@ export const GET_POTY_GROUP_SCORCARD = createRequestTypes(
 export const GET_PLAYERS_DIRECTORY = createRequestTypes(
   "GET_PLAYERS_DIRECTORY"
 );
+
+// Notifications
+export const GET_NOTIFICATIONS = createRequestTypes("GET_NOTIFICATIONS");

@@ -4,18 +4,25 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Text, View, Image as RNImage, FlatList } from "react-native";
 import Swipeout from "react-native-swipeout";
-import { CustomNavbar, Button } from "../../components";
+import { CustomNavbar, Button, SimpleLoader } from "../../components";
 import styles from "./styles";
 import Util from "../../util";
 import { NAVBAR_THEME } from "../../constants";
 import { Images, AppStyles, Colors } from "../../theme";
+import { getNotificationsRequest } from "../../actions/NotificationsActions";
 
 class Notification extends Component {
   static propTypes = {
-    notificationsData: PropTypes.array.isRequired
+    notificationsData: PropTypes.array.isRequired,
+    notificationsFetching: PropTypes.bool.isRequired,
+    getNotificationsRequest: PropTypes.func.isRequired
   };
 
   static defaultProps = {};
+
+  componentWillMount() {
+    this.props.getNotificationsRequest();
+  }
 
   _swipeoutBtns = [
     {
@@ -52,7 +59,8 @@ class Notification extends Component {
       style={AppStyles.mBottom5}
       right={this._swipeoutBtns}
       backgroundColor={
-        item.unread ? Colors.greenTintZeroPointFive : Colors.white
+        Colors.white
+        // !item.read_at ? Colors.greenTintZeroPointFive : Colors.white
       }
     >
       <View
@@ -60,11 +68,11 @@ class Notification extends Component {
           styles.notificationItem,
           AppStyles.flexRow,
           AppStyles.spaceBetween,
-          AppStyles.alignItemsCenter,
-          item.unread && styles.unreadItem
+          AppStyles.alignItemsCenter
+          // !item.read_at && styles.unreadItem
         ]}
       >
-        <Text>{item.description}</Text>
+        <Text>{item.data.text}</Text>
         <RNImage source={Images.arrow_right} />
       </View>
     </Swipeout>
@@ -84,7 +92,7 @@ class Notification extends Component {
   );
 
   render() {
-    const { notificationsData } = this.props;
+    const { notificationsFetching, notificationsData } = this.props;
     return (
       <View style={styles.container}>
         <CustomNavbar
@@ -95,7 +103,9 @@ class Notification extends Component {
           titleAlign="center"
         />
         <View style={[AppStyles.paddingVerticalBase, AppStyles.flex]}>
-          {this._renderNotifications(notificationsData)}
+          {notificationsFetching && <SimpleLoader />}
+          {!notificationsFetching &&
+            this._renderNotifications(notificationsData)}
           {notificationsData.length > 0 && this._renderClearButton()}
         </View>
       </View>
@@ -104,10 +114,11 @@ class Notification extends Component {
 }
 
 const mapStateToProps = ({ notification }) => ({
-  notificationsData: notification.data
+  notificationsData: notification.data,
+  notificationsFetching: notification.isFetching
 });
 
-const actions = {};
+const actions = { getNotificationsRequest };
 
 export default connect(
   mapStateToProps,

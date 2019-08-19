@@ -219,6 +219,13 @@ export const GET_PLAYERS_DIRECTORY = {
   type: REQUEST_TYPE.GET
 };
 
+// PLAYERS DIRECTORY
+export const GET_NOTIFICATIONS = {
+  route: "GetNotifications",
+  access_token_required: true,
+  type: REQUEST_TYPE.GET
+};
+
 export const callRequest = function(
   url,
   data,
