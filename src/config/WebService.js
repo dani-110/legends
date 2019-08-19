@@ -41,6 +41,12 @@ export const USER_SIGNIN = {
   type: REQUEST_TYPE.POST
 };
 
+export const USER_FORGOT_PASSWORD = {
+  route: "password/email",
+  access_token_required: false,
+  type: REQUEST_TYPE.POST
+};
+
 // API DASHBOARD ROUTES
 
 export const GET_DASHBOARD_DATA = {
