@@ -5,40 +5,7 @@ import { GET_PLAYERS_DIRECTORY, USER_SIGNOUT } from "../actions/ActionTypes";
 
 const initialState = Immutable({
   isFetching: false,
-  data: [
-    {
-      name: "Amer badshah",
-      handicap: 21.5
-    },
-    {
-      name: "Amer badshah",
-      handicap: 21.5
-    },
-    {
-      name: "Amer badshah",
-      handicap: 21.5
-    },
-    {
-      name: "Amer badshah",
-      handicap: 21.5
-    },
-    {
-      name: "Amer badshah",
-      handicap: 21.5
-    },
-    {
-      name: "Amer badshah",
-      handicap: 21.5
-    },
-    {
-      name: "Amer badshah",
-      handicap: 21.5
-    },
-    {
-      name: "Amer badshah",
-      handicap: 21.5
-    }
-  ]
+  data: []
 });
 
 export default (state = initialState, action) => {
