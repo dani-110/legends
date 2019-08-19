@@ -18,13 +18,18 @@ const DRAWER_ITEMS = [
     onPress: () => Actions.poty(),
     activeTab: 1
   },
+  // {
+  //   text: "LCL",
+  //   onPress: () => Actions.lcl(),
+  //   activeTab: 1
+  // },
+  // { text: "LMP", onPress: () => Actions.lmp(), activeTab: 1 },
+  // { text: "DMP", onPress: () => Actions.dmp(), activeTab: 1 },
+
   {
-    text: "LCL",
-    onPress: () => Actions.lcl(),
-    activeTab: 1
+    text: "Players Directory",
+    onPress: () => Actions.playersdirectory()
   },
-  { text: "LMP", onPress: () => Actions.lmp(), activeTab: 1 },
-  { text: "DMP", onPress: () => Actions.dmp(), activeTab: 1 },
   {
     text: "Rules",
     onPress: () => {
@@ -36,12 +41,12 @@ const DRAWER_ITEMS = [
     onPress: () => Actions.news(),
     activeTab: 1
   },
-  // {
-  //   text: "Settings",
-  //   onPress: () => {
-  //     Actions.settings();
-  //   }
-  // },
+  {
+    text: "Settings",
+    onPress: () => {
+      Actions.settings();
+    }
+  },
   { text: "Logout", onPress: () => getLoggedOut() }
 ];
 

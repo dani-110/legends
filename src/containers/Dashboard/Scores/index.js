@@ -85,16 +85,38 @@ class Scores extends React.Component {
           </Text>
         </Text>
         <View style={[AppStyles.flexRow, AppStyles.spaceBetween]}>
-          {this.getSingleScore("Blue", false, blue_tee_handicap, Colors.blue)}
+          {this.getSingleScore(
+            "Blue",
+            false,
+            Math.round(blue_tee_handicap * 10) / 10,
+            Colors.blue
+          )}
           {this.getSingleScore(
             "White",
             false,
-            white_tee_handicap,
+            Math.round(white_tee_handicap * 10) / 10,
             Colors.white
           )}
-          {this.getSingleScore("FIR", true, fir, Colors.green, "%")}
-          {this.getSingleScore("GIR", true, gir, Colors.red2, "%")}
-          {this.getSingleScore("PPR", true, ppr, Colors.black2)}
+          {this.getSingleScore(
+            "FIR",
+            true,
+            Math.round(fir * 10) / 10,
+            Colors.green,
+            "%"
+          )}
+          {this.getSingleScore(
+            "GIR",
+            true,
+            Math.round(gir * 10) / 10,
+            Colors.red2,
+            "%"
+          )}
+          {this.getSingleScore(
+            "PPR",
+            true,
+            Math.round(ppr * 10) / 10,
+            Colors.black2
+          )}
         </View>
 
         {this.props.showViewProfile && (
