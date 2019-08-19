@@ -2,6 +2,7 @@
 import { connect } from "react-redux";
 import React from "react";
 import PropTypes from "prop-types";
+import moment from "moment";
 import { View } from "react-native";
 import styles from "./styles";
 import {
@@ -53,7 +54,7 @@ class PotyLiveScore extends React.Component {
   };
 
   componentWillMount() {
-    this.props.getPotyScoreNetRequest();
+    this._getPotyScoreNetRequest();
 
     if (this.props.current_match.length) {
       this.props.enableEnterScore(
@@ -77,7 +78,7 @@ class PotyLiveScore extends React.Component {
     {
       title: "Net",
       onPress: () => {
-        this.props.getPotyScoreNetRequest();
+        this._getPotyScoreNetRequest();
         Util.setSelectedTabIndex(this, 0);
       }
     },
@@ -90,9 +91,19 @@ class PotyLiveScore extends React.Component {
     }
   ];
 
+  _getPotyScoreNetRequest() {
+    const { netLastUpdatedOn } = this.state;
+    const param = netLastUpdatedOn ? `${netLastUpdatedOn}` : "";
+    this.props.getPotyScoreNetRequest(param, data => {
+      this.setState({
+        netLastUpdatedOn: moment().unix()
+      });
+    });
+  }
+
   _onEnter() {
     this.dataPollingNet = setInterval(() => {
-      this.props.getPotyScoreNetRequest();
+      this._getPotyScoreNetRequest();
     }, POLLING_TIME);
     this.dataPollingGross = setInterval(() => {
       this.props.getPotyScoreGrossRequest();

@@ -11,8 +11,10 @@ import {
   GET_SCORE_LMP
 } from "./ActionTypes";
 
-export function getPotyScoreNetRequest() {
+export function getPotyScoreNetRequest(subroute, responseCallback) {
   return {
+    subroute,
+    responseCallback,
     type: GET_POTY_SCORE_NET.REQUEST
   };
 }

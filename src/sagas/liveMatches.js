@@ -50,19 +50,22 @@ function alert(message, type = "error") {
 
 function* getPotyScoreNet() {
   while (true) {
-    const { responseCallback } = yield take(GET_POTY_SCORE_NET.REQUEST);
+    const { subroute, responseCallback } = yield take(
+      GET_POTY_SCORE_NET.REQUEST
+    );
     try {
       const response = yield call(
         callRequest,
         GET_POTY_SCORE_NET_URL,
         {},
-        "",
+        subroute,
         {},
         ApiSauce
       );
       console.log("response", response);
       if (Util.isSuccessResponse(response)) {
         yield put(getPotyScoreNetSuccess(response.data));
+        if (responseCallback) responseCallback(response.data);
       } else {
         yield put(getPotyScoreNetFailure());
         alert(response.error);

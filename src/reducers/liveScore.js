@@ -45,7 +45,7 @@ export default (state = initialState, action) => {
 
     case GET_POTY_SCORE_NET.SUCCESS: {
       const tempPoty = _.cloneDeep(state.poty);
-      tempPoty.net = action.data;
+      tempPoty.net = _.unionBy(action.data, tempPoty.net, "id");
       tempPoty.isFetchingNet = false;
       return Immutable.merge(state, {
         poty: tempPoty
@@ -70,7 +70,7 @@ export default (state = initialState, action) => {
 
     case GET_POTY_SCORE_GROSS.SUCCESS: {
       const tempPoty = _.cloneDeep(state.poty);
-      tempPoty.gross = action.data;
+      tempPoty.gross = _.unionBy(action.data, tempPoty.gross, "id");
       tempPoty.isFetchingGross = false;
       return Immutable.merge(state, {
         poty: tempPoty
