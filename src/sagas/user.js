@@ -4,7 +4,8 @@ import {
   USER_SIGNIN,
   USER_SIGNOUT,
   GET_USER_PROFILE,
-  UPLOAD_USER_IMAGE
+  UPLOAD_USER_IMAGE,
+  USER_FORGOT_PASSWORD
 } from "../actions/ActionTypes";
 import { SAGA_ALERT_TIMEOUT } from "../constants";
 import {
@@ -21,6 +22,7 @@ import {
   USER_SIGNOUT as USER_SIGNOUT_URL,
   GET_USER_PROFILE as GET_USER_PROFILE_URL,
   UPLOAD_USER_IMAGE as UPLOAD_USER_IMAGE_URL,
+  USER_FORGOT_PASSWORD as USER_FORGOT_PASSWORD_URL,
   callRequest
 } from "../config/WebService";
 import ApiSauce from "../services/ApiSauce";
@@ -112,6 +114,33 @@ function* signout() {
   }
 }
 
+function* forgetPassword() {
+  while (true) {
+    const { payload, responseCallback } = yield take(
+      USER_FORGOT_PASSWORD.REQUEST
+    );
+    try {
+      const response = yield call(
+        callRequest,
+        USER_FORGOT_PASSWORD_URL,
+        payload,
+        "",
+        {},
+        ApiSauce
+      );
+      console.log("response", response);
+      if (response) {
+        if (responseCallback) responseCallback(response);
+      } else {
+        alert("Something went wrong");
+      }
+    } catch (err) {
+      if (responseCallback) responseCallback(null);
+      Util.topAlert(err.message, "error");
+    }
+  }
+}
+
 function* getUserProfile() {
   while (true) {
     const { responseCallback } = yield take(GET_USER_PROFILE.REQUEST);
@@ -174,6 +203,7 @@ export default function* root() {
   yield fork(signup);
   yield fork(signout);
   yield fork(signin);
+  yield fork(forgetPassword);
   yield fork(getUserProfile);
   yield fork(uploadUserImage);
 }
