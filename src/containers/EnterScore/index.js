@@ -121,7 +121,7 @@ class EnterScore extends React.Component {
     const { type, id, schedule_id, match_id, tee_off_time } = current_match[0];
     const { showKeyBoard, lastUpdatedOn } = this.state;
 
-    if (showKeyBoard) return;
+    // if (showKeyBoard) return;
 
     const param = `${type}/${id}${schedule_id && `/${schedule_id}`}${match_id &&
       `/${match_id}`}${lastUpdatedOn ? `/${lastUpdatedOn}` : ``}`;
