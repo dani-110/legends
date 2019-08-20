@@ -222,6 +222,7 @@ class EnterScore extends React.Component {
     if (
       current === "FIR" ||
       current === "GIR" ||
+      current === "Putts" ||
       (text !== "DEL" && text !== 1)
     ) {
       let newIndex = index;

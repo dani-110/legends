@@ -1,5 +1,6 @@
 // @flow
 import Immutable from "seamless-immutable";
+import _ from "lodash";
 
 import { GET_NOTIFICATIONS, USER_SIGNOUT } from "../actions/ActionTypes";
 
@@ -17,8 +18,10 @@ export default (state = initialState, action) => {
     }
 
     case GET_NOTIFICATIONS.SUCCESS: {
+      let tempData = _.cloneDeep(state.data);
+      tempData = _.unionBy(action.data, tempData, "id");
       return Immutable.merge(state, {
-        data: action.data,
+        data: tempData,
         isFetching: false
       });
     }

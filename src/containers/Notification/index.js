@@ -25,16 +25,16 @@ class Notification extends Component {
   }
 
   _swipeoutBtns = [
-    {
-      text: "Delete",
-      backgroundColor: Colors.red,
-      type: "delete",
-      component: (
-        <View style={[AppStyles.centerInner, AppStyles.flex]}>
-          <RNImage source={Images.delete_white} />
-        </View>
-      )
-    }
+    // {
+    //   text: "Delete",
+    //   backgroundColor: Colors.red,
+    //   type: "delete",
+    //   component: (
+    //     <View style={[AppStyles.centerInner, AppStyles.flex]}>
+    //       <RNImage source={Images.delete_white} />
+    //     </View>
+    //   )
+    // }
   ];
 
   _renderNotifications = notifications => (
