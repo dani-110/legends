@@ -28,11 +28,11 @@ class Dashboard extends Component {
     }
   }
 
-  static onExit() {
-    if (Dashboard.instance) {
-      Dashboard.instance._onExit();
-    }
-  }
+  // static onExit() {
+  //   if (Dashboard.instance) {
+  //     Dashboard.instance._onExit();
+  //   }
+  // }
 
   constructor(props) {
     super(props);
@@ -47,9 +47,9 @@ class Dashboard extends Component {
     this.props.setSelectedTab(1);
   }
 
-  _onExit() {
-    this.props.setSelectedTab(-1);
-  }
+  // _onExit() {
+  //   this.props.setSelectedTab(-1);
+  // }
 
   renderLeaderboard() {
     return <PotyLeaderboardDB />;

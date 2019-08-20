@@ -32,13 +32,12 @@ function* getnotifications() {
         ApiSauce
       );
       console.log("response", response);
-      yield put(getNotificationsSuccess(response));
-      // if (Util.isSuccessResponse(response)) {
-      //   yield put(getNotificationsSuccess(response.data));
-      // } else {
-      //   yield put(getNotificationsFailure());
-      //   alert(response.error);
-      // }
+      if (Util.isSuccessResponse(response)) {
+        yield put(getNotificationsSuccess(response.data));
+      } else {
+        yield put(getNotificationsFailure());
+        alert(response.error);
+      }
     } catch (err) {
       yield put(getNotificationsFailure());
       alert(err.message);

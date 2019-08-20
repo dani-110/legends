@@ -44,6 +44,8 @@ class Notification extends Component {
       keyExtractor={Util.keyExtractor}
       ListEmptyComponent={() => this._renderEmptyScreen()}
       contentContainerStyle={{ flexGrow: 1 }}
+      onRefresh={this.props.getNotificationsRequest}
+      refreshing={this.props.notificationsFetching}
     />
   );
 
@@ -72,7 +74,7 @@ class Notification extends Component {
           // !item.read_at && styles.unreadItem
         ]}
       >
-        <Text>{item.data.text}</Text>
+        <Text>{item.notification.text}</Text>
         <RNImage source={Images.arrow_right} />
       </View>
     </Swipeout>
