@@ -30,12 +30,12 @@ const DRAWER_ITEMS = [
     text: "Players Directory",
     onPress: () => Actions.playersdirectory()
   },
-  {
-    text: "Rules",
-    onPress: () => {
-      Linking.openURL("https://www.google.com");
-    }
-  },
+  // {
+  //   text: "Rules",
+  //   onPress: () => {
+  //     Linking.openURL("https://www.google.com");
+  //   }
+  // },
   {
     text: "News",
     onPress: () => Actions.news(),
@@ -109,7 +109,7 @@ class SideMenu extends React.PureComponent {
     return (
       <View style={[AppStyles.mBottom30]}>
         <Text textAlign="center" color={Colors.grey} size="small">
-          Version 0.2.2
+          Version 1.0
         </Text>
       </View>
     );
