@@ -219,11 +219,23 @@ export const GET_PLAYERS_DIRECTORY = {
   type: REQUEST_TYPE.GET
 };
 
-// PLAYERS DIRECTORY
+// NOTIFICATIONS
 export const GET_NOTIFICATIONS = {
   route: "GetNotifications",
   access_token_required: true,
   type: REQUEST_TYPE.GET
+};
+
+export const MARK_NOTIFICATIONS_AS_READ = {
+  route: "GetNotifications/MarkAllAsRead",
+  access_token_required: true,
+  type: REQUEST_TYPE.GET
+};
+
+export const DELETE_NOTIFICATION = {
+  route: "GetNotifications",
+  access_token_required: true,
+  type: REQUEST_TYPE.DELETE
 };
 
 export const callRequest = function(

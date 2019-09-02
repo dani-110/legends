@@ -1,13 +1,23 @@
 import { take, put, call, fork } from "redux-saga/effects";
 import _ from "lodash";
-import { GET_NOTIFICATIONS } from "../actions/ActionTypes";
+import {
+  GET_NOTIFICATIONS,
+  MARK_NOTIFICATIONS_AS_READ,
+  DELETE_NOTIFICATION
+} from "../actions/ActionTypes";
 import { SAGA_ALERT_TIMEOUT } from "../constants";
 import {
   getNotificationsFailure,
-  getNotificationsSuccess
+  getNotificationsSuccess,
+  markNotificationsReadSuccess,
+  markNotificationsReadFailure,
+  deleteNotificationsSuccess,
+  deleteNotificationsFailure
 } from "../actions/NotificationsActions";
 import {
   GET_NOTIFICATIONS as GET_NOTIFICATIONS_URL,
+  MARK_NOTIFICATIONS_AS_READ as MARK_NOTIFICATIONS_AS_READ_URL,
+  DELETE_NOTIFICATION as DELETE_NOTIFICATION_URL,
   callRequest
 } from "../config/WebService";
 import ApiSauce from "../services/ApiSauce";
@@ -21,7 +31,7 @@ function alert(message, type = "error") {
 
 function* getnotifications() {
   while (true) {
-    const { payload } = yield take(GET_NOTIFICATIONS.REQUEST);
+    const { responseCallback } = yield take(GET_NOTIFICATIONS.REQUEST);
     try {
       const response = yield call(
         callRequest,
@@ -33,6 +43,7 @@ function* getnotifications() {
       );
       console.log("response", response);
       if (Util.isSuccessResponse(response)) {
+        responseCallback && responseCallback(response.data);
         yield put(getNotificationsSuccess(response.data));
       } else {
         yield put(getNotificationsFailure());
@@ -44,6 +55,61 @@ function* getnotifications() {
     }
   }
 }
+
+function* marknotificationsread() {
+  while (true) {
+    const { payload } = yield take(MARK_NOTIFICATIONS_AS_READ.REQUEST);
+    try {
+      const response = yield call(
+        callRequest,
+        MARK_NOTIFICATIONS_AS_READ_URL,
+        {},
+        "",
+        {},
+        ApiSauce
+      );
+      console.log("response", response);
+      if (Util.isSuccessResponse(response)) {
+        yield put(markNotificationsReadSuccess(response.data));
+      } else {
+        yield put(markNotificationsReadFailure());
+        alert(response.error);
+      }
+    } catch (err) {
+      yield put(markNotificationsReadFailure());
+      alert(err.message);
+    }
+  }
+}
+
+function* deletenotifications() {
+  while (true) {
+    const { parameter } = yield take(DELETE_NOTIFICATION.REQUEST);
+    try {
+      const response = yield call(
+        callRequest,
+        DELETE_NOTIFICATION_URL,
+        {},
+        parameter,
+        {},
+        ApiSauce
+      );
+      console.log("response", response);
+      if (Util.isSuccessResponse(response)) {
+        yield put(deleteNotificationsSuccess(parameter));
+      } else {
+        yield put(deleteNotificationsFailure());
+        alert(response.error);
+      }
+    } catch (err) {
+      yield put(deleteNotificationsFailure());
+      alert(err.message);
+    }
+  }
+}
+
 export default function* root() {
   yield fork(getnotifications);
+  yield fork(marknotificationsread);
+  yield fork(deletenotifications);
 }

@@ -2,7 +2,12 @@
 import Immutable from "seamless-immutable";
 import _ from "lodash";
 
-import { GET_NOTIFICATIONS, USER_SIGNOUT } from "../actions/ActionTypes";
+import {
+  GET_NOTIFICATIONS,
+  USER_SIGNOUT,
+  MARK_NOTIFICATIONS_AS_READ,
+  DELETE_NOTIFICATION
+} from "../actions/ActionTypes";
 
 const initialState = Immutable({
   isFetching: false,
@@ -29,6 +34,24 @@ export default (state = initialState, action) => {
     case GET_NOTIFICATIONS.FAILURE: {
       return Immutable.merge(state, {
         isFetching: false
+      });
+    }
+
+    case MARK_NOTIFICATIONS_AS_READ.SUCCESS: {
+      let tempData = _.cloneDeep(state.data);
+      for (let i = 0, l = tempData.length; i < l; i++) {
+        tempData[i].read_at = true;
+      }
+      return Immutable.merge(state, {
+        data: tempData
+      });
+    }
+
+    case DELETE_NOTIFICATION.SUCCESS: {
+      let tempData = _.cloneDeep(state.data);
+      _.remove(tempData, n => n.id === action.data);
+      return Immutable.merge(state, {
+        data: tempData
       });
     }
 

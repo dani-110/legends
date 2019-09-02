@@ -9,33 +9,26 @@ import styles from "./styles";
 import Util from "../../util";
 import { NAVBAR_THEME } from "../../constants";
 import { Images, AppStyles, Colors } from "../../theme";
-import { getNotificationsRequest } from "../../actions/NotificationsActions";
+import {
+  getNotificationsRequest,
+  markNotificationsReadRequest,
+  deleteNotificationsRequest
+} from "../../actions/NotificationsActions";
 
 class Notification extends Component {
   static propTypes = {
     notificationsData: PropTypes.array.isRequired,
     notificationsFetching: PropTypes.bool.isRequired,
-    getNotificationsRequest: PropTypes.func.isRequired
+    getNotificationsRequest: PropTypes.func.isRequired,
+    markNotificationsReadRequest: PropTypes.func.isRequired,
+    deleteNotificationsRequest: PropTypes.func.isRequired
   };
 
   static defaultProps = {};
 
   componentWillMount() {
-    this.props.getNotificationsRequest();
+    this._getNotifications();
   }
-
-  _swipeoutBtns = [
-    // {
-    //   text: "Delete",
-    //   backgroundColor: Colors.red,
-    //   type: "delete",
-    //   component: (
-    //     <View style={[AppStyles.centerInner, AppStyles.flex]}>
-    //       <RNImage source={Images.delete_white} />
-    //     </View>
-    //   )
-    // }
-  ];
 
   _renderNotifications = notifications => (
     <FlatList
@@ -44,10 +37,18 @@ class Notification extends Component {
       keyExtractor={Util.keyExtractor}
       ListEmptyComponent={() => this._renderEmptyScreen()}
       contentContainerStyle={{ flexGrow: 1 }}
-      onRefresh={this.props.getNotificationsRequest}
+      onRefresh={this._getNotifications}
       refreshing={this.props.notificationsFetching}
     />
   );
+
+  _getNotifications() {
+    return this.props.getNotificationsRequest(() => {
+      setTimeout(() => {
+        this.props.markNotificationsReadRequest();
+      }, 1500);
+    });
+  }
 
   _renderEmptyScreen = () => (
     <View style={[AppStyles.flex, AppStyles.centerInner]}>
@@ -56,29 +57,48 @@ class Notification extends Component {
     </View>
   );
 
-  _renderItem = ({ item }) => (
-    <Swipeout
-      style={AppStyles.mBottom5}
-      right={this._swipeoutBtns}
-      backgroundColor={
-        Colors.white
-        // !item.read_at ? Colors.greenTintZeroPointFive : Colors.white
+  _renderItem = ({ item }) => {
+    const swipeoutBtns = [
+      {
+        text: "Delete",
+        backgroundColor: Colors.red,
+        type: "delete",
+        component: (
+          <View style={[AppStyles.centerInner, AppStyles.flex]}>
+            <RNImage source={Images.delete_white} />
+          </View>
+        ),
+        onPress: () => {
+          this.props.deleteNotificationsRequest(item.id);
+        }
       }
-    >
-      <View
-        style={[
-          styles.notificationItem,
-          AppStyles.flexRow,
-          AppStyles.spaceBetween,
-          AppStyles.alignItemsCenter
-          // !item.read_at && styles.unreadItem
-        ]}
+    ];
+
+    return (
+      <Swipeout
+        style={AppStyles.mBottom5}
+        right={swipeoutBtns}
+        autoClose
+        backgroundColor={
+          // Colors.white
+          !item.read_at ? Colors.greenTintZeroPointFive : Colors.white
+        }
       >
-        <Text>{item.notification.text}</Text>
-        <RNImage source={Images.arrow_right} />
-      </View>
-    </Swipeout>
-  );
+        <View
+          style={[
+            styles.notificationItem,
+            AppStyles.flexRow,
+            AppStyles.spaceBetween,
+            AppStyles.alignItemsCenter,
+            !item.read_at && styles.unreadItem
+          ]}
+        >
+          <Text>{item.notification.text}</Text>
+          <RNImage source={Images.arrow_right} />
+        </View>
+      </Swipeout>
+    );
+  };
 
   _renderClearButton = () => (
     <View style={[AppStyles.paddingVerticalBase]}>
@@ -120,7 +140,11 @@ const mapStateToProps = ({ notification }) => ({
   notificationsFetching: notification.isFetching
 });
 
-const actions = { getNotificationsRequest };
+const actions = {
+  getNotificationsRequest,
+  markNotificationsReadRequest,
+  deleteNotificationsRequest
+};
 
 export default connect(
   mapStateToProps,
