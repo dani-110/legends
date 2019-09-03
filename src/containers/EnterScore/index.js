@@ -91,9 +91,6 @@ class EnterScore extends React.Component {
 
   componentDidMount() {
     this.getLatestScores();
-    this.dataPolling = setInterval(() => {
-      this.getLatestScores();
-    }, POLLING_TIME);
 
     BackHandler.addEventListener(
       "hardwareBackPress",
@@ -103,7 +100,6 @@ class EnterScore extends React.Component {
   }
 
   componentWillUnmount() {
-    clearInterval(this.dataPolling);
     BackHandler.removeEventListener(
       "hardwareBackPress",
       this.handleBackButtonClick
@@ -136,10 +132,14 @@ class EnterScore extends React.Component {
 
   _onEnter() {
     this.props.setTabbarType(false);
+    this.dataPolling = setInterval(() => {
+      this.getLatestScores();
+    }, POLLING_TIME);
   }
 
   _onExit() {
     this.props.setTabbarType(true);
+    clearInterval(this.dataPolling);
   }
 
   handleBackButtonClick() {
@@ -207,9 +207,9 @@ class EnterScore extends React.Component {
       tempData[holeIndex][current][index] = text;
     } else if (text !== "DEL" && text !== "-") {
       if (tempData[holeIndex][current][index] === 1) {
-        tempData[holeIndex][current][index] = `${
-          tempData[holeIndex][current][index]
-        }${text}`;
+        tempData[holeIndex][current][
+          index
+        ] = `${tempData[holeIndex][current][index]}${text}`;
       } else {
         tempData[holeIndex][current][index] = text;
       }
@@ -610,7 +610,6 @@ class EnterScore extends React.Component {
           this._swiper = swiper;
         }}
         showsButtons={false}
-        loop={false}
         showsPagination={false}
         onIndexChanged={() => this._onSwipe()}
       >
