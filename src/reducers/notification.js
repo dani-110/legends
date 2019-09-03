@@ -6,7 +6,8 @@ import {
   GET_NOTIFICATIONS,
   USER_SIGNOUT,
   MARK_NOTIFICATIONS_AS_READ,
-  DELETE_NOTIFICATION
+  DELETE_NOTIFICATION,
+  DELETE_ALL_NOTIFICATIONS
 } from "../actions/ActionTypes";
 
 const initialState = Immutable({
@@ -52,6 +53,12 @@ export default (state = initialState, action) => {
       _.remove(tempData, n => n.id === action.data);
       return Immutable.merge(state, {
         data: tempData
+      });
+    }
+
+    case DELETE_ALL_NOTIFICATIONS.SUCCESS: {
+      return Immutable.merge(state, {
+        data: []
       });
     }
 

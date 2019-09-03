@@ -232,6 +232,12 @@ export const MARK_NOTIFICATIONS_AS_READ = {
   type: REQUEST_TYPE.GET
 };
 
+export const DELETE_ALL_NOTIFICATIONS = {
+  route: "DeleteAllNotifications",
+  access_token_required: true,
+  type: REQUEST_TYPE.DELETE
+};
+
 export const DELETE_NOTIFICATION = {
   route: "GetNotifications",
   access_token_required: true,

@@ -12,7 +12,8 @@ import { Images, AppStyles, Colors } from "../../theme";
 import {
   getNotificationsRequest,
   markNotificationsReadRequest,
-  deleteNotificationsRequest
+  deleteNotificationsRequest,
+  deleteAllNotificationsRequest
 } from "../../actions/NotificationsActions";
 
 class Notification extends Component {
@@ -21,7 +22,8 @@ class Notification extends Component {
     notificationsFetching: PropTypes.bool.isRequired,
     getNotificationsRequest: PropTypes.func.isRequired,
     markNotificationsReadRequest: PropTypes.func.isRequired,
-    deleteNotificationsRequest: PropTypes.func.isRequired
+    deleteNotificationsRequest: PropTypes.func.isRequired,
+    deleteAllNotificationsRequest: PropTypes.func.isRequired
   };
 
   static defaultProps = {};
@@ -107,6 +109,9 @@ class Notification extends Component {
         color={Colors.white}
         size="medium"
         background={Colors.darkBlue}
+        onPress={() => {
+          this.props.deleteAllNotificationsRequest();
+        }}
       >
         Clear all notifications
       </Button>
@@ -143,7 +148,8 @@ const mapStateToProps = ({ notification }) => ({
 const actions = {
   getNotificationsRequest,
   markNotificationsReadRequest,
-  deleteNotificationsRequest
+  deleteNotificationsRequest,
+  deleteAllNotificationsRequest
 };
 
 export default connect(

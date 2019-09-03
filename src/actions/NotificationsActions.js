@@ -3,7 +3,8 @@
 import {
   GET_NOTIFICATIONS,
   DELETE_NOTIFICATION,
-  MARK_NOTIFICATIONS_AS_READ
+  MARK_NOTIFICATIONS_AS_READ,
+  DELETE_ALL_NOTIFICATIONS
 } from "./ActionTypes";
 
 export function getNotificationsRequest(responseCallback) {
@@ -62,5 +63,25 @@ export function deleteNotificationsSuccess(data) {
 export function deleteNotificationsFailure() {
   return {
     type: DELETE_NOTIFICATION.FAILURE
+  };
+}
+
+export function deleteAllNotificationsRequest(parameter) {
+  return {
+    parameter,
+    type: DELETE_ALL_NOTIFICATIONS.REQUEST
+  };
+}
+
+export function deleteAllNotificationsSuccess(data) {
+  return {
+    data,
+    type: DELETE_ALL_NOTIFICATIONS.SUCCESS
+  };
+}
+
+export function deleteAllNotificationsFailure() {
+  return {
+    type: DELETE_ALL_NOTIFICATIONS.FAILURE
   };
 }

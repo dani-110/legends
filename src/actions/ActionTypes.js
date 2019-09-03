@@ -90,3 +90,6 @@ export const MARK_NOTIFICATIONS_AS_READ = createRequestTypes(
   "MARK_NOTIFICATIONS_AS_READ"
 );
 export const DELETE_NOTIFICATION = createRequestTypes("DELETE_NOTIFICATION");
+export const DELETE_ALL_NOTIFICATIONS = createRequestTypes(
+  "DELETE_ALL_NOTIFICATIONS"
+);

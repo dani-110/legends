@@ -3,7 +3,8 @@ import _ from "lodash";
 import {
   GET_NOTIFICATIONS,
   MARK_NOTIFICATIONS_AS_READ,
-  DELETE_NOTIFICATION
+  DELETE_NOTIFICATION,
+  DELETE_ALL_NOTIFICATIONS
 } from "../actions/ActionTypes";
 import { SAGA_ALERT_TIMEOUT } from "../constants";
 import {
@@ -12,12 +13,15 @@ import {
   markNotificationsReadSuccess,
   markNotificationsReadFailure,
   deleteNotificationsSuccess,
-  deleteNotificationsFailure
+  deleteNotificationsFailure,
+  deleteAllNotificationsSuccess,
+  deleteAllNotificationsFailure
 } from "../actions/NotificationsActions";
 import {
   GET_NOTIFICATIONS as GET_NOTIFICATIONS_URL,
   MARK_NOTIFICATIONS_AS_READ as MARK_NOTIFICATIONS_AS_READ_URL,
   DELETE_NOTIFICATION as DELETE_NOTIFICATION_URL,
+  DELETE_ALL_NOTIFICATIONS as DELETE_ALL_NOTIFICATIONS_URL,
   callRequest
 } from "../config/WebService";
 import ApiSauce from "../services/ApiSauce";
@@ -108,8 +112,35 @@ function* deletenotifications() {
   }
 }
 
+function* deleteallnotifications() {
+  while (true) {
+    const { parameter } = yield take(DELETE_ALL_NOTIFICATIONS.REQUEST);
+    try {
+      const response = yield call(
+        callRequest,
+        DELETE_ALL_NOTIFICATIONS_URL,
+        {},
+        "",
+        {},
+        ApiSauce
+      );
+      console.log("response", response);
+      if (Util.isSuccessResponse(response)) {
+        yield put(deleteAllNotificationsSuccess());
+      } else {
+        yield put(deleteAllNotificationsFailure());
+        alert(response.error);
+      }
+    } catch (err) {
+      yield put(deleteAllNotificationsFailure());
+      alert(err.message);
+    }
+  }
+}
+
 export default function* root() {
   yield fork(getnotifications);
   yield fork(marknotificationsread);
   yield fork(deletenotifications);
+  yield fork(deleteallnotifications);
 }
