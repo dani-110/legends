@@ -17,9 +17,10 @@ export function getEnterScorePollingDataSuccess(payload, responseCallback) {
   };
 }
 
-export function getEnterScoreDataRequest(payload, responseCallback) {
+export function getEnterScoreDataRequest(payload, matchType, responseCallback) {
   return {
     payload,
+    matchType,
     responseCallback,
     type: GET_ENTER_SCORE_DATA.REQUEST
   };

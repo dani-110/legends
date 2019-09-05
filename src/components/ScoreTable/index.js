@@ -3,7 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { View, FlatList } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
-import { Text } from "../../components";
+import { Text, EmptyStateText } from "../../components";
 import styles from "./styles";
 import Util from "../../util";
 import { AppStyles, Colors } from "../../theme";
@@ -29,6 +29,7 @@ export default class ScoreTable extends React.Component {
           keyExtractor={Util.keyExtractor}
           ListHeaderComponent={this._renderHeader}
           stickyHeaderIndices={[0]}
+          ListEmptyComponent={<EmptyStateText />}
         />
       </View>
     );

@@ -122,7 +122,7 @@ class EnterScore extends React.Component {
     const param = `${type}/${id}${schedule_id && `/${schedule_id}`}${match_id &&
       `/${match_id}`}${lastUpdatedOn ? `/${lastUpdatedOn}` : ``}`;
 
-    this.props.getEnterScoreDataRequest(param, data => {
+    this.props.getEnterScoreDataRequest(param, type, data => {
       this.setState({
         lastUpdatedOn: moment().unix()
         // scoreCard: this._manipulateDataForScoreCard(data)
@@ -228,27 +228,33 @@ class EnterScore extends React.Component {
       let newIndex = index;
       let newCurrent = current;
 
-      if (type === "poty") {
-        if (current === "Stroke") {
-          newCurrent = "FIR";
-        } else if (current === "FIR") {
-          newCurrent = "GIR";
-        } else if (current === "GIR") {
-          newCurrent = "Putts";
-        } else if (current === "Putts") {
-          newIndex = index + 1;
-          newCurrent = "Stroke";
-          if (index === scoreCard[0].Name.length - 1 && holeIndex < 17) {
-            newIndex = 0;
-            swipe = true;
-          }
-        }
-      } else {
-        newIndex = index + 1;
-        if (index === scoreCard[0].Name.length - 1 && holeIndex < 17) {
-          newIndex = 0;
-          swipe = true;
-        }
+      // if (type === "poty") {
+      //   if (current === "Stroke") {
+      //     newCurrent = "FIR";
+      //   } else if (current === "FIR") {
+      //     newCurrent = "GIR";
+      //   } else if (current === "GIR") {
+      //     newCurrent = "Putts";
+      //   } else if (current === "Putts") {
+      //     newIndex = index + 1;
+      //     newCurrent = "Stroke";
+      //     if (index === scoreCard[0].Name.length - 1 && holeIndex < 17) {
+      //       newIndex = 0;
+      //       swipe = true;
+      //     }
+      //   }
+      // } else {
+      //   newIndex = index + 1;
+      //   if (index === scoreCard[0].Name.length - 1 && holeIndex < 17) {
+      //     newIndex = 0;
+      //     swipe = true;
+      //   }
+      // }
+
+      newIndex = index + 1;
+      if (index === scoreCard[0].Name.length - 1 && holeIndex < 17) {
+        newIndex = 0;
+        swipe = true;
       }
 
       let newMini = false;

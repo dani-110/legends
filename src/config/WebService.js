@@ -125,8 +125,23 @@ export const USER_SIGNOUT = {
 
 // API ENTER SCORE ROUTES
 
-export const GET_ENTER_SCORE_DATA = {
+export const GET_ENTER_SCORE_DATA_POTY = {
   route: "GetHoleDataForTournament",
+  access_token_required: true,
+  type: REQUEST_TYPE.GET
+};
+export const GET_ENTER_SCORE_DATA_LCL = {
+  route: "GetHoleDataForLclTournament",
+  access_token_required: true,
+  type: REQUEST_TYPE.GET
+};
+export const GET_ENTER_SCORE_DATA_LMP = {
+  route: "GetHoleDataForLmpTournament",
+  access_token_required: true,
+  type: REQUEST_TYPE.GET
+};
+export const GET_ENTER_SCORE_DATA_DMP = {
+  route: "GetHoleDataForDmpTournament",
   access_token_required: true,
   type: REQUEST_TYPE.GET
 };
