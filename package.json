@@ -16,6 +16,7 @@
     "react-native": "0.59.5",
     "react-native-animate-number": "^0.1.2",
     "react-native-bottomsheet": "^2.0.1",
+    "react-native-firebase": "^5.5.6",
     "react-native-image-crop-picker": "0.24.1",
     "react-native-iphone-x-helper": "^1.2.0",
     "react-native-keyboard-spacer": "^0.4.1",
