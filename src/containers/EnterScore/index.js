@@ -549,15 +549,14 @@ class EnterScore extends React.Component {
   }
 
   _renderSwiper(players, holes) {
-    const dataLength = 0;
-    // players &&
-    //   players.map(player => {
-    //     if (player.scorecard.length > dataLength) {
-    //       dataLength = player.scorecard.length;
-    //     }
-    //   });
-
-    const lastEditableKey = "Putts";
+    let dataLength = 0;
+    if (players) {
+      players.map(player => {
+        if (player.scorecard.length > dataLength) {
+          dataLength = player.scorecard.length;
+        }
+      });
+    }
 
     const { scoreCard } = this.state;
 
@@ -611,7 +610,7 @@ class EnterScore extends React.Component {
     return (
       <Swiper
         style={{ height: 450 }}
-        // index={dataLength}
+        index={dataLength - 1}
         ref={swiper => {
           this._swiper = swiper;
         }}
@@ -631,7 +630,8 @@ class EnterScore extends React.Component {
       <View
         style={[
           AppStyles.flexRow,
-          AppStyles.marginVerticalBase,
+          // AppStyles.marginVerticalBase,
+          AppStyles.mBottomBase,
           AppStyles.alignItemsCenter,
           AppStyles.spaceAround
         ]}

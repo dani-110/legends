@@ -33,16 +33,17 @@ export default class NewsItem extends React.Component {
           <Text type="bold" color={Colors.black2}>
             {data.title}
           </Text>
-          <Text size="small" color={Colors.grey}>{`  ${
-            data.description
-          }`}</Text>
+          <Text
+            size="small"
+            color={Colors.grey}
+          >{`  ${data.description}`}</Text>
         </Text>
         <View style={[styles.imageContainer, AppStyles.mTop15]}>
           {data.picture && (
             <Image
               source={{ uri: data.picture }}
               style={{ width: "100%", height: 220 }}
-              resizeMode="contain"
+              resizeMode="cover"
             />
           )}
         </View>
