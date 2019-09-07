@@ -615,6 +615,7 @@ class EnterScore extends React.Component {
         ref={swiper => {
           this._swiper = swiper;
         }}
+        loop={false}
         showsButtons={false}
         showsPagination={false}
         onIndexChanged={() => this._onSwipe()}

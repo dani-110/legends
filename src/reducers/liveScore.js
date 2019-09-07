@@ -14,12 +14,6 @@ import {
 } from "../actions/ActionTypes";
 
 const initialState = Immutable({
-  lclSinglesOne: {},
-  lclSinglesOneFetching: false,
-  lclFoursome: {},
-  lclFoursomeFetching: false,
-  lclSinglesTwo: {},
-  lclSinglesTwoFetching: false,
   lmp: {},
   lmpFetching: false,
   dmp: {},
@@ -30,6 +24,18 @@ const initialState = Immutable({
     isFetchingNet: false,
     gross: [],
     isFetchingGross: false
+  },
+
+  lcl: {
+    singlesOne: {},
+    singlesTwo: {},
+    fourSome: {},
+    isFetchingSinglesOne: {},
+    isFetchingSinglesTwo: {},
+    isFetchingFourSome: {},
+    isLodedOnceSinglesOne: {},
+    isLodedOnceSinglesTwo: {},
+    isLodedOnceFourSome: {}
   }
 });
 
@@ -86,62 +92,83 @@ export default (state = initialState, action) => {
     }
 
     case GET_SCORE_LCL_SINGLES1.REQUEST: {
+      const tempLcl = _.cloneDeep(state.lcl);
+      tempLcl.isFetchingSinglesOne = true;
       return Immutable.merge(state, {
-        lclSinglesOneFetching: true,
-        lclSinglesOne: {}
+        lcl: tempLcl
       });
     }
 
     case GET_SCORE_LCL_SINGLES1.SUCCESS: {
+      const tempLcl = _.cloneDeep(state.lcl);
+      tempLcl.isFetchingSinglesOne = false;
+      tempLcl.isLodedOnceSinglesOne = true;
+      tempLcl.singlesOne = action.data;
+
       return Immutable.merge(state, {
-        lclSinglesOneFetching: false,
-        lclSinglesOne: action.data
+        lcl: tempLcl
       });
     }
 
     case GET_SCORE_LCL_SINGLES1.FAILURE: {
+      const tempLcl = _.cloneDeep(state.lcl);
+      tempLcl.isFetchingSinglesOne = false;
       return Immutable.merge(state, {
-        lclSinglesOneFetching: false
+        lcl: tempLcl
       });
     }
 
     case GET_SCORE_LCL_SINGLES2.REQUEST: {
+      const tempLcl = _.cloneDeep(state.lcl);
+      tempLcl.isFetchingSinglesTwo = true;
       return Immutable.merge(state, {
-        lclSinglesTwoFetching: true,
-        lclSinglesTwo: {}
+        lcl: tempLcl
       });
     }
 
     case GET_SCORE_LCL_SINGLES2.SUCCESS: {
+      const tempLcl = _.cloneDeep(state.lcl);
+      tempLcl.isFetchingSinglesTwo = false;
+      tempLcl.isLodedOnceSinglesTwo = true;
+      tempLcl.singlesTwo = action.data;
+
       return Immutable.merge(state, {
-        lclSinglesTwoFetching: false,
-        lclSinglesTwo: action.data
+        lcl: tempLcl
       });
     }
 
     case GET_SCORE_LCL_SINGLES2.FAILURE: {
+      const tempLcl = _.cloneDeep(state.lcl);
+      tempLcl.isFetchingSinglesTwo = false;
       return Immutable.merge(state, {
-        lclSinglesTwoFetching: false
+        lcl: tempLcl
       });
     }
 
     case GET_SCORE_LCL_FOURSOME.REQUEST: {
+      const tempLcl = _.cloneDeep(state.lcl);
+      tempLcl.isFetchingFourSome = true;
       return Immutable.merge(state, {
-        lclFoursomeFetching: true,
-        lclFoursome: {}
+        lcl: tempLcl
       });
     }
 
     case GET_SCORE_LCL_FOURSOME.SUCCESS: {
+      const tempLcl = _.cloneDeep(state.lcl);
+      tempLcl.isFetchingFourSome = false;
+      tempLcl.isLodedOnceFourSome = true;
+      tempLcl.fourSome = action.data;
+
       return Immutable.merge(state, {
-        lclFoursomeFetching: false,
-        lclFoursome: action.data
+        lcl: tempLcl
       });
     }
 
     case GET_SCORE_LCL_FOURSOME.FAILURE: {
+      const tempLcl = _.cloneDeep(state.lcl);
+      tempLcl.isFetchingFourSome = false;
       return Immutable.merge(state, {
-        lclFoursomeFetching: false
+        lcl: tempLcl
       });
     }
 
