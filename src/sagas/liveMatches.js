@@ -132,7 +132,9 @@ function* getLiveData() {
 
 function* getScoreLclSingles1() {
   while (true) {
-    const { subRoute } = yield take(GET_SCORE_LCL_SINGLES1.REQUEST);
+    const { subRoute, responseCallback } = yield take(
+      GET_SCORE_LCL_SINGLES1.REQUEST
+    );
     try {
       const response = yield call(
         callRequest,
@@ -143,6 +145,7 @@ function* getScoreLclSingles1() {
         ApiSauce
       );
       if (Util.isSuccessResponse(response)) {
+        responseCallback && responseCallback();
         yield put(getScoreLclSingles1Success(response.data));
       } else {
         yield put(getScoreLclSingles1Failure());
@@ -157,7 +160,9 @@ function* getScoreLclSingles1() {
 
 function* getScoreLclSingles2() {
   while (true) {
-    const { subRoute } = yield take(GET_SCORE_LCL_SINGLES2.REQUEST);
+    const { subRoute, responseCallback } = yield take(
+      GET_SCORE_LCL_SINGLES2.REQUEST
+    );
     try {
       const response = yield call(
         callRequest,
@@ -168,6 +173,7 @@ function* getScoreLclSingles2() {
         ApiSauce
       );
       if (Util.isSuccessResponse(response)) {
+        responseCallback && responseCallback();
         yield put(getScoreLclSingles2Success(response.data));
       } else {
         yield put(getScoreLclSingles2Failure());
@@ -182,7 +188,9 @@ function* getScoreLclSingles2() {
 
 function* getScoreLclFoursome() {
   while (true) {
-    const { subRoute } = yield take(GET_SCORE_LCL_FOURSOME.REQUEST);
+    const { subRoute, responseCallback } = yield take(
+      GET_SCORE_LCL_FOURSOME.REQUEST
+    );
     try {
       const response = yield call(
         callRequest,
@@ -193,6 +201,7 @@ function* getScoreLclFoursome() {
         ApiSauce
       );
       if (Util.isSuccessResponse(response)) {
+        responseCallback && responseCallback();
         yield put(getScoreLclFoursomeSuccess(response.data));
       } else {
         yield put(getScoreLclFoursomeFailure());

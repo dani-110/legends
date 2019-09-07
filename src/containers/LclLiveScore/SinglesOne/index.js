@@ -1,5 +1,6 @@
 // @flow
 import _ from "lodash";
+import moment from "moment";
 import { connect } from "react-redux";
 import React from "react";
 import PropTypes from "prop-types";
@@ -9,18 +10,36 @@ import { getScoreLclSingles1Request } from "../../../actions/LiveMatchesActions"
 import { ScoreTable, SimpleLoader, EmptyStateText } from "../../../components";
 import ProjectedScore from "../ProjectedScore";
 import Util from "../../../util";
+import { POLLING_TIME } from "../../../constants";
 
 class SinglesOne extends React.Component {
   static propTypes = {
+    selectedIndex: PropTypes.string.isRequired,
     liveScoreData: PropTypes.object.isRequired,
     getScoreLclSingles1Request: PropTypes.func.isRequired,
     data: PropTypes.object.isRequired,
-    isFetchingData: PropTypes.bool.isRequired
+    isFetchingData: PropTypes.bool.isRequired,
+    isLoadedOnce: PropTypes.bool.isRequired
   };
 
   static defaultProps = {};
 
+  state = {
+    dataLastUpdatedOn: ""
+  };
+
   componentWillMount() {
+    this._getScoreLclSingles1Request();
+    this.dataPolling = setInterval(() => {
+      if (this.props.selectedIndex === 2) this._getScoreLclSingles1Request();
+    }, POLLING_TIME);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.dataPolling);
+  }
+
+  _getScoreLclSingles1Request() {
     const {
       id,
       match_id,
@@ -30,13 +49,17 @@ class SinglesOne extends React.Component {
       team2_p1
     } = this.props.data;
 
-    console.log(this.props.data);
+    const { dataLastUpdatedOn } = this.state;
+    const param = `${match_id}/${schedule_id}/${season_id ||
+      id}/${Util.removeSpaces(team1_p1 || "")}/${Util.removeSpaces(
+      team2_p1 || ""
+    )}${dataLastUpdatedOn ? `/${dataLastUpdatedOn}` : ``}`;
 
-    this.props.getScoreLclSingles1Request(
-      `${match_id}/${schedule_id}/${season_id || id}/${Util.removeSpaces(
-        team1_p1 || ""
-      )}/${Util.removeSpaces(team2_p1 || "")}`
-    );
+    this.props.getScoreLclSingles1Request(param, data => {
+      this.setState({
+        dataLastUpdatedOn: moment().unix()
+      });
+    });
   }
 
   _renderProjectedScore() {
@@ -50,26 +73,27 @@ class SinglesOne extends React.Component {
   }
 
   render() {
-    const { isFetchingData, liveScoreData } = this.props;
+    const { isFetchingData, isLoadedOnce, liveScoreData } = this.props;
+
     return (
       <View style={styles.container}>
         {_.isEmpty(liveScoreData) && !isFetchingData && <EmptyStateText />}
 
-        {isFetchingData && <SimpleLoader />}
-        {!isFetchingData &&
+        {!isLoadedOnce && <SimpleLoader />}
+        {isLoadedOnce &&
           !_.isEmpty(liveScoreData) &&
           this._renderProjectedScore()}
-        {!isFetchingData &&
-          !_.isEmpty(liveScoreData) &&
-          this._renderScoreTable()}
+        {isLoadedOnce && !_.isEmpty(liveScoreData) && this._renderScoreTable()}
       </View>
     );
   }
 }
 
-const mapStateToProps = ({ liveScore }) => ({
-  liveScoreData: liveScore.lclSinglesOne,
-  isFetchingData: liveScore.lclSinglesOneFetching
+const mapStateToProps = ({ general, liveScore }) => ({
+  liveScoreData: liveScore.lcl.singlesOne,
+  isFetchingData: liveScore.lcl.isFetchingSinglesOne,
+  isLoadedOnce: liveScore.lcl.isLodedOnceSinglesOne,
+  selectedIndex: general.selectedIndex
 });
 
 const actions = { getScoreLclSingles1Request };

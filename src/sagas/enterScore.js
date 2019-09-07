@@ -20,7 +20,10 @@ import {
   postDmpScoreFailure
 } from "../actions/EnterScoreActions";
 import {
-  GET_ENTER_SCORE_DATA as GET_ENTER_SCORE_DATA_URL,
+  GET_ENTER_SCORE_DATA_POTY as GET_ENTER_SCORE_DATA_POTY_URL,
+  GET_ENTER_SCORE_DATA_LCL as GET_ENTER_SCORE_DATA_LCL_URL,
+  GET_ENTER_SCORE_DATA_LMP as GET_ENTER_SCORE_DATA_LMP_URL,
+  GET_ENTER_SCORE_DATA_DMP as GET_ENTER_SCORE_DATA_DMP_URL,
   POST_POTY_SCORE as POST_POTY_SCORE_URL,
   POST_LCL_SCORE as POST_LCL_SCORE_URL,
   POST_LMP_SCORE as POST_LMP_SCORE_URL,
@@ -30,6 +33,13 @@ import {
 import ApiSauce from "../services/ApiSauce";
 import Util from "../util";
 
+const GET_ENTER_SCORE_DATA_URL = {
+  poty: GET_ENTER_SCORE_DATA_POTY_URL,
+  lcl: GET_ENTER_SCORE_DATA_LCL_URL,
+  lmp: GET_ENTER_SCORE_DATA_LMP_URL,
+  dmp: GET_ENTER_SCORE_DATA_DMP_URL
+};
+
 function alert(message, type = "error") {
   setTimeout(() => {
     Util.topAlert(message, type);
@@ -38,13 +48,13 @@ function alert(message, type = "error") {
 
 function* getEnterScoreData() {
   while (true) {
-    const { payload, responseCallback } = yield take(
+    const { payload, matchType, responseCallback } = yield take(
       GET_ENTER_SCORE_DATA.REQUEST
     );
     try {
       const response = yield call(
         callRequest,
-        GET_ENTER_SCORE_DATA_URL,
+        GET_ENTER_SCORE_DATA_URL[matchType],
         {},
         payload,
         {},

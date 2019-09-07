@@ -70,9 +70,10 @@ export function getLivedataFailure() {
   };
 }
 
-export function getScoreLclSingles1Request(subRoute) {
+export function getScoreLclSingles1Request(subRoute, responseCallback) {
   return {
     subRoute,
+    responseCallback,
     type: GET_SCORE_LCL_SINGLES1.REQUEST
   };
 }
@@ -90,9 +91,10 @@ export function getScoreLclSingles1Failure() {
   };
 }
 
-export function getScoreLclSingles2Request(subRoute) {
+export function getScoreLclSingles2Request(subRoute, responseCallback) {
   return {
     subRoute,
+    responseCallback,
     type: GET_SCORE_LCL_SINGLES2.REQUEST
   };
 }
@@ -110,9 +112,10 @@ export function getScoreLclSingles2Failure() {
   };
 }
 
-export function getScoreLclFoursomeRequest(subRoute) {
+export function getScoreLclFoursomeRequest(subRoute, responseCallback) {
   return {
     subRoute,
+    responseCallback,
     type: GET_SCORE_LCL_FOURSOME.REQUEST
   };
 }
