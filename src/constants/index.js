@@ -44,3 +44,13 @@ export const ERROR_MESSAGES = {
 };
 
 export const POLLING_TIME = 5000;
+
+export const LEGENDS_NOTIFICATION_CHANNEL = {
+  id: "legends-channel",
+  name: "Legends Notifications"
+};
+
+export const NOTIFICATION_PERMISSION_DENIED_ERROR =
+  "Please allow notifications and get notified timely";
+
+export const NOTIFICATIONS_TOPICS_TO_SUBSCRIBE = "legendstourgolf";

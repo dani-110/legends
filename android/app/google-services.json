@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1084518066401",
+    "firebase_url": "https://ltgolf-c63dd.firebaseio.com",
+    "project_id": "ltgolf-c63dd",
+    "storage_bucket": "ltgolf-c63dd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1084518066401:android:4b354f454e5188fb",
+        "android_client_info": {
+          "package_name": "com.legendstour"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1084518066401-3lrrb4221jgvnq7qmnbfelt01jv5fk8a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIVZVPVtQfwkZB4YBHCQzrfon-UPP35JM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1084518066401-3lrrb4221jgvnq7qmnbfelt01jv5fk8a.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1084518066401-mmkd2q477vamvm2ksk595i9du4dqcemv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.lwl.legends"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
