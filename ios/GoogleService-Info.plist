@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1084518066401-mmkd2q477vamvm2ksk595i9du4dqcemv.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1084518066401-mmkd2q477vamvm2ksk595i9du4dqcemv</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA1P1cBu8wRPXjKYpVxwwIX3TKN2PeYPOk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1084518066401</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.lwl.legends</string>
+	<key>PROJECT_ID</key>
+	<string>ltgolf-c63dd</string>
+	<key>STORAGE_BUCKET</key>
+	<string>ltgolf-c63dd.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1084518066401:ios:a49376d5b51369f8</string>
+	<key>DATABASE_URL</key>
+	<string>https://ltgolf-c63dd.firebaseio.com</string>
+</dict>
+</plist>

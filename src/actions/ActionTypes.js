@@ -78,6 +78,9 @@ export const GET_HOLE_DATA_FOR_TOURNAMENT = createRequestTypes(
 export const GET_POTY_GROUP_SCORCARD = createRequestTypes(
   "GET_POTY_GROUP_SCORCARD"
 );
+export const GET_LCL_GROUP_SCORCARD = createRequestTypes(
+  "GET_LCL_GROUP_SCORCARD"
+);
 
 // Players Directory
 export const GET_PLAYERS_DIRECTORY = createRequestTypes(

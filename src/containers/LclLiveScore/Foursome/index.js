@@ -29,9 +29,9 @@ class Foursome extends React.Component {
 
   componentWillMount() {
     this._getScoreLclFoursomeRequest();
-    this.dataPolling = setInterval(() => {
-      if (this.props.selectedIndex === 2) this._getScoreLclFoursomeRequest();
-    }, POLLING_TIME);
+    // this.dataPolling = setInterval(() => {
+    //   if (this.props.selectedIndex === 2) this._getScoreLclFoursomeRequest();
+    // }, POLLING_TIME);
   }
 
   componentWillUnmount() {

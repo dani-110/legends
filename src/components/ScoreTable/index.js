@@ -42,6 +42,8 @@ export default class ScoreTable extends React.Component {
     const {
       liveScoreData: { players }
     } = this.props;
+    console.log(this.props);
+    debugger;
     return (
       <View
         style={[

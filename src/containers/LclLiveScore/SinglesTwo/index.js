@@ -30,9 +30,9 @@ class SinglesTwo extends React.Component {
 
   componentWillMount() {
     this._getScoreLclSingles2Request();
-    this.dataPolling = setInterval(() => {
-      if (this.props.selectedIndex === 2) this._getScoreLclSingles2Request();
-    }, POLLING_TIME);
+    // this.dataPolling = setInterval(() => {
+    //   if (this.props.selectedIndex === 2) this._getScoreLclSingles2Request();
+    // }, POLLING_TIME);
   }
 
   componentWillUnmount() {

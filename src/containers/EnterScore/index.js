@@ -118,9 +118,13 @@ class EnterScore extends React.Component {
     const { showKeyBoard, lastUpdatedOn } = this.state;
 
     // if (showKeyBoard) return;
-
-    const param = `${type}/${id}${schedule_id && `/${schedule_id}`}${match_id &&
-      `/${match_id}`}${lastUpdatedOn ? `/${lastUpdatedOn}` : ``}`;
+    let param = "";
+    if (type === "poty") {
+      param = `${type}/${id}`;
+    } else {
+      param = `${type}/${id}${schedule_id && `/${schedule_id}`}${match_id &&
+        `/${match_id}`}${lastUpdatedOn ? `/${lastUpdatedOn}` : ``}`;
+    }
 
     this.props.getEnterScoreDataRequest(param, type, data => {
       this.setState({
@@ -517,13 +521,14 @@ class EnterScore extends React.Component {
   }
 
   _renderTitle() {
-    const { current_match } = this.props;
-    const { id, type, match_id, schedule_id } = current_match[0];
     const {
+      current_match,
       enterScoreData: {
-        holeData: { tournament_name, course_name }
+        holeData: { tournament_name, course_name, players }
       }
     } = this.props;
+    const { type, id, schedule_id, match_id } = current_match[0];
+
     return (
       <CustomNavbar
         title={tournament_name}
@@ -536,11 +541,15 @@ class EnterScore extends React.Component {
           Actions.scorecard({
             act: {
               action: "GetHoleDataForTournament",
-              // id: id,
-              type: "poty"
-              // season_id: parseInt(id, 10),
-              // match_id: match_id ? match_id : "",
-              // schedule_id: schedule_id ? schedule_id : ""
+              id,
+              type,
+              season_id: parseInt(id, 10),
+              match_id,
+              schedule_id,
+              team1_p1: players && players[0] && players[0].id,
+              team2_p1: players && players[1] && players[1].id,
+              team1_p2: players && players[2] && players[2].id,
+              team2_p2: players && players[3] && players[3].id
             }
           });
         }}
@@ -610,7 +619,7 @@ class EnterScore extends React.Component {
     return (
       <Swiper
         style={{ height: 450 }}
-        index={dataLength - 1}
+        // index={dataLength - 1}
         ref={swiper => {
           this._swiper = swiper;
         }}
