@@ -24,6 +24,10 @@ class PotyScoreTable extends React.Component {
 
   static defaultProps = {};
 
+  state = {
+    rank: 1
+  };
+
   componentWillMount() {
     //
     // this.props.getPotyScoreNetRequest();
@@ -41,6 +45,7 @@ class PotyScoreTable extends React.Component {
   }
   _renderTable() {
     const { liveScoreData } = this.props;
+    this.state.rank = 1;
 
     return (
       <View style={[styles.overflowHidden, AppStyles.mTop10]}>
@@ -86,6 +91,17 @@ class PotyScoreTable extends React.Component {
   );
 
   _renderRow({ item, index }) {
+    const { liveScoreData } = this.props;
+
+    if (
+      index > 0 &&
+      (liveScoreData[index - 1].net_score !== item.net_score ||
+        liveScoreData[index - 1].par !== item.par)
+    ) {
+      this.state.rank++;
+    }
+    const rowID = _.clone(this.state.rank);
+
     return (
       <ButtonView
         style={[
@@ -101,7 +117,7 @@ class PotyScoreTable extends React.Component {
         }
       >
         <View width={60}>
-          <Text textAlign="center">{index + 1}</Text>
+          <Text textAlign="center">{rowID}</Text>
         </View>
         <View style={[AppStyles.flex2]}>
           <Text>
