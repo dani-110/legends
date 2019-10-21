@@ -226,6 +226,11 @@ export const GET_POTY_GROUP_SCORCARD = {
   access_token_required: true,
   type: REQUEST_TYPE.GET
 };
+export const GET_LCL_GROUP_SCORCARD = {
+  route: "GetLCLFullScorecard",
+  access_token_required: true,
+  type: REQUEST_TYPE.GET
+};
 
 // PLAYERS DIRECTORY
 export const GET_PLAYERS_DIRECTORY = {

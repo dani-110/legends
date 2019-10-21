@@ -17,7 +17,7 @@ class LclLiveScore extends Component {
     setTabbarType: PropTypes.func.isRequired,
     enableEnterScore: PropTypes.func.isRequired,
     data: PropTypes.object.isRequired,
-    current_match: PropTypes.object.isRequired
+    current_match: PropTypes.array.isRequired
   };
 
   static defaultProps = {};
@@ -81,12 +81,12 @@ class LclLiveScore extends Component {
   render() {
     const { activeTabIndex } = this.state;
     const {
-      data: { title, venue }
+      data: { title, name, venue }
     } = this.props;
     return (
       <View style={[styles.container]}>
         <CustomNavbar
-          title={title}
+          title={title || name}
           subtitle={venue}
           hasBorder={false}
           theme={NAVBAR_THEME.WHITE}

@@ -30,12 +30,12 @@ const initialState = Immutable({
     singlesOne: {},
     singlesTwo: {},
     fourSome: {},
-    isFetchingSinglesOne: {},
-    isFetchingSinglesTwo: {},
-    isFetchingFourSome: {},
-    isLodedOnceSinglesOne: {},
-    isLodedOnceSinglesTwo: {},
-    isLodedOnceFourSome: {}
+    isFetchingSinglesOne: false,
+    isFetchingSinglesTwo: false,
+    isFetchingFourSome: false,
+    isLodedOnceSinglesOne: false,
+    isLodedOnceSinglesTwo: false,
+    isLodedOnceFourSome: false
   }
 });
 

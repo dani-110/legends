@@ -14,7 +14,7 @@ import { POLLING_TIME } from "../../../constants";
 
 class SinglesOne extends React.Component {
   static propTypes = {
-    selectedIndex: PropTypes.string.isRequired,
+    selectedIndex: PropTypes.number.isRequired,
     liveScoreData: PropTypes.object.isRequired,
     getScoreLclSingles1Request: PropTypes.func.isRequired,
     data: PropTypes.object.isRequired,
@@ -30,9 +30,9 @@ class SinglesOne extends React.Component {
 
   componentWillMount() {
     this._getScoreLclSingles1Request();
-    this.dataPolling = setInterval(() => {
-      if (this.props.selectedIndex === 2) this._getScoreLclSingles1Request();
-    }, POLLING_TIME);
+    // this.dataPolling = setInterval(() => {
+    //   if (this.props.selectedIndex === 2) this._getScoreLclSingles1Request();
+    // }, POLLING_TIME);
   }
 
   componentWillUnmount() {

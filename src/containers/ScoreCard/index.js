@@ -10,7 +10,8 @@ import { NAVBAR_THEME } from "../../constants";
 import {
   getPotyUserScoreCardRequest,
   getHoleDataForTournamentRequest,
-  getPotyGroupScoreCardRequest
+  getPotyGroupScoreCardRequest,
+  getLclGroupScoreCardRequest
 } from "../../actions/ScoreCardActions";
 import styles from "./styles";
 import { AppStyles, Colors } from "../../theme";
@@ -22,7 +23,9 @@ class ScoreCard extends Component {
     scoreCardData: PropTypes.object,
     toggleTabbar: PropTypes.func.isRequired,
     act: PropTypes.object,
-    getPotyGroupScoreCardRequest: PropTypes.func.isRequired
+    getPotyGroupScoreCardRequest: PropTypes.func.isRequired,
+    getLclGroupScoreCardRequest: PropTypes.func.isRequired,
+    getPotyUserScoreCardRequest: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -61,11 +64,11 @@ class ScoreCard extends Component {
       switch (act.action) {
         case "potySingleUSer": {
           util.showLoader(this);
-          let subroute = `${act.id}`;
+          const subroute = `${act.id}`;
           this.props.getPotyUserScoreCardRequest(subroute, data => {
             if (data) {
               util.hideLoader(this);
-              scoreCardData = util.generateScoreCardData(
+              const scoreCardData = util.generateScoreCardData(
                 data.data,
                 act.userName
               );
@@ -78,6 +81,17 @@ class ScoreCard extends Component {
           if (act.type === "poty") {
             util.showLoader(this);
             this.props.getPotyGroupScoreCardRequest(data => {
+              if (data) {
+                util.hideLoader(this);
+                const scoreCardData = util.generateScoreCardData(data);
+                this.setState({ scoreCardData });
+              }
+            });
+          } else if (act.type === "lcl") {
+            util.showLoader(this);
+
+            const subroute = `${act.match_id}/${act.schedule_id}/${act.season_id}/${act.team1_p1}/${act.team2_p1}/${act.team1_p2}/${act.team2_p2}`;
+            this.props.getLclGroupScoreCardRequest(subroute, data => {
               if (data) {
                 util.hideLoader(this);
                 const scoreCardData = util.generateScoreCardData(data);
@@ -297,6 +311,7 @@ const actions = {
   toggleTabbar,
   getPotyUserScoreCardRequest,
   getPotyGroupScoreCardRequest,
+  getLclGroupScoreCardRequest,
   getHoleDataForTournamentRequest
 };
 

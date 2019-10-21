@@ -1,7 +1,8 @@
 import {
   GET_POTY_USER_SCORE_CARD,
   GET_HOLE_DATA_FOR_TOURNAMENT,
-  GET_POTY_GROUP_SCORCARD
+  GET_POTY_GROUP_SCORCARD,
+  GET_LCL_GROUP_SCORCARD
 } from "./ActionTypes";
 
 export function getPotyUserScoreCardRequest(subroute, responseCallback) {
@@ -28,5 +29,12 @@ export function getPotyGroupScoreCardRequest(responseCallback) {
   return {
     responseCallback,
     type: GET_POTY_GROUP_SCORCARD.REQUEST
+  };
+}
+export function getLclGroupScoreCardRequest(subroute, responseCallback) {
+  return {
+    subroute,
+    responseCallback,
+    type: GET_LCL_GROUP_SCORCARD.REQUEST
   };
 }
