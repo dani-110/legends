@@ -36,14 +36,16 @@ export default class ScoreTable extends React.Component {
   }
 
   _renderHeader = () => {
+    const {
+      liveScoreData: { score }
+    } = this.props;
+
     const playerOneColor = Colors.red3;
     const playerTwoColor = Colors.blue2;
 
     const {
       liveScoreData: { players }
     } = this.props;
-    console.log(this.props);
-    debugger;
     return (
       <View
         style={[
@@ -78,11 +80,25 @@ export default class ScoreTable extends React.Component {
               {players[0].team_1_players || players[0].team_1_player}
             </Text>
           </View>
-          <View style={[styles.score, { backgroundColor: playerOneColor }]}>
+
+          <View
+            style={[
+              styles.score,
+              {
+                backgroundColor:
+                  score[score.length - 1].scoredBy == 1
+                    ? playerOneColor
+                    : score[score.length - 1].scoredBy == 2
+                    ? playerTwoColor
+                    : Colors.darkBlue
+              }
+            ]}
+          >
             <Text textAlign="center" color={Colors.white}>
-              1UP
+              {score[score.length - 1].score}
             </Text>
           </View>
+
           <View style={[AppStyles.flex2, AppStyles.pLeft5, AppStyles.pRight5]}>
             <Text style={[AppStyles.alignItemsCenter]} textAlign="center">
               {players[0].team_2_players || players[0].team_2_player}
@@ -116,9 +132,9 @@ export default class ScoreTable extends React.Component {
           end={{ x: 1, y: 0 }}
           style={[AppStyles.flex, AppStyles.mTop5, AppStyles.mBottom5]}
           colors={[
-            item.scoredBy === 1 ? `${playerOneColor}1a` : Colors.transparent,
+            item.scoredBy == 1 ? `${playerOneColor}1a` : Colors.transparent,
             Colors.transparent,
-            item.scoredBy === 2 ? `${playerTwoColor}1a` : Colors.transparent
+            item.scoredBy == 2 ? `${playerTwoColor}1a` : Colors.transparent
           ]}
         >
           <View
@@ -130,9 +146,9 @@ export default class ScoreTable extends React.Component {
               AppStyles.alignItemsCenter,
               {
                 borderLeftColor:
-                  item.scoredBy === 1 ? playerOneColor : Colors.transparent,
+                  item.scoredBy == 1 ? playerOneColor : Colors.transparent,
                 borderRightColor:
-                  item.scoredBy === 2 ? playerTwoColor : Colors.transparent
+                  item.scoredBy == 2 ? playerTwoColor : Colors.transparent
               }
             ]}
           >
