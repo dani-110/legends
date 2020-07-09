@@ -13,6 +13,12 @@ pod 'Firebase/Messaging', '~> 6.3.0'
   target 'LegendsTour-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
+    pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+
+    pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
+
+    pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
+
   end
 
   target 'LegendsTourTests' do
