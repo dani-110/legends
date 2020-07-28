@@ -45,6 +45,15 @@ export default class ListItem extends React.PureComponent {
             {data.name}
           </Text>
         </View>
+
+        <Text
+          type="bold"
+          size="small"
+          style={{ width: 60 }}
+          color={Colors.text.secondary}
+        >
+          Events_Data
+        </Text>
         <Text
           type="bold"
           size="small"

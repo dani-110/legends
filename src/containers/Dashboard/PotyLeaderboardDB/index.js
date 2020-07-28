@@ -2,8 +2,10 @@
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { View, FlatList } from "react-native";
+import { View, FlatList,StyleSheet } from "react-native";
 import { Actions } from "react-native-router-flux";
+import ViewPager from '@react-native-community/viewpager';
+
 import {
   Text,
   ButtonView,
@@ -76,6 +78,7 @@ class PotyLeaderboardDB extends PureComponent {
             AppStyles.mBottom10
           ]}
         >
+           <ViewPager style={styles2.viewPager} initialPage={0}>
           <FlatList
             data={potyData}
             renderItem={this._renderItem}
@@ -83,6 +86,21 @@ class PotyLeaderboardDB extends PureComponent {
             ListHeaderComponent={this._renderHeader}
             stickyHeaderIndices={[0]}
           />
+          <FlatList
+            data={potyData}
+            renderItem={this._renderItem}
+            keyExtractor={Util.keyExtractor}
+            ListHeaderComponent={this._renderHeader}
+            stickyHeaderIndices={[0]}
+          />
+          <FlatList
+            data={potyData}
+            renderItem={this._renderItem}
+            keyExtractor={Util.keyExtractor}
+            ListHeaderComponent={this._renderHeader}
+            stickyHeaderIndices={[0]}
+          />
+          </ViewPager>
 
           {isFetchingData && potyData.length === 0 && <SimpleLoader />}
           {!isFetchingData && potyData.length === 0 && (
@@ -105,6 +123,12 @@ class PotyLeaderboardDB extends PureComponent {
     );
   }
 }
+
+const styles2 = StyleSheet.create({
+  viewPager: {
+    flex: 1,
+  },
+});
 
 const mapStateToProps = ({ tournament }) => ({
   potyData: Util.getTrimmedDataFromArray(tournament.poty.leaderboard, 7),

@@ -19,6 +19,8 @@ pod 'Firebase/Messaging', '~> 6.3.0'
 
     pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
 
+    pod 'react-native-viewpager', :path => '../node_modules/@react-native-community/viewpager'
+
   end
 
   target 'LegendsTourTests' do
