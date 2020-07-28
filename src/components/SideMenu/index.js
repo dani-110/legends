@@ -18,24 +18,24 @@ const DRAWER_ITEMS = [
     onPress: () => Actions.poty(),
     activeTab: 1
   },
-  // {
-  //   text: "LCL",
-  //   onPress: () => Actions.lcl(),
-  //   activeTab: 1
-  // },
-  // { text: "LMP", onPress: () => Actions.lmp(), activeTab: 1 },
-  // { text: "DMP", onPress: () => Actions.dmp(), activeTab: 1 },
+  {
+    text: "LCL",
+    onPress: () => Actions.lcl(),
+    activeTab: 1
+  },
+  { text: "LMP", onPress: () => Actions.lmp(), activeTab: 1 },
+  { text: "DMP", onPress: () => Actions.dmp(), activeTab: 1 },
 
   {
     text: "Players Directory",
     onPress: () => Actions.playersdirectory()
   },
-  // {
-  //   text: "Rules",
-  //   onPress: () => {
-  //     Linking.openURL("https://www.google.com");
-  //   }
-  // },
+  {
+    text: "Rules",
+    onPress: () => {
+      Linking.openURL("https://www.google.com");
+    }
+  },
   {
     text: "News",
     onPress: () => Actions.news(),

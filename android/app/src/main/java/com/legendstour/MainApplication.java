@@ -19,6 +19,7 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
+import com.reactnativecommunity.viewpager.RNCViewPagerPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -46,7 +47,8 @@ public class MainApplication extends Application implements ReactApplication {
             new LinearGradientPackage(),
             new OrientationPackage(),
             new SvgPackage(),
-            new RNFirebaseMessagingPackage()
+            new RNFirebaseMessagingPackage(),
+            new RNCViewPagerPackage()
       );
     }
 

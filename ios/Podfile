@@ -19,7 +19,7 @@ pod 'Firebase/Messaging', '~> 6.3.0'
 
     pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
 
-    pod 'RNScreens', :path => '../node_modules/react-native-screens'
+    pod 'react-native-viewpager', :path => '../node_modules/@react-native-community/viewpager'
 
   end
 

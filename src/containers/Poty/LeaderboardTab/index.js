@@ -37,6 +37,10 @@ class LeaderboardTab extends Component {
         <Text type="bold" style={AppStyles.flex} textAlign="left">
           Player Name
         </Text>
+
+        <Text type="bold" style={{ width: 60 }}>
+          Events Header
+        </Text>
         <Text type="bold" style={{ width: 60 }}>
           Points
         </Text>
