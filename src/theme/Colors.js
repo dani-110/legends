@@ -13,15 +13,19 @@ const yellow = "#ffc415";
 const yellow2 = "yellow";
 const whiteOpaque = "rgba(255,255,255,0.75)";
 
-const green = "#00bc56";
+const green = "#06623B";
+const lightGreen = "#00BC56";
 const darkBlue = "#293045";
 const purple = "#9816f4";
 const iceblue = "#f5f8ff";
 
 const transparent = "rgba(0,0,0,0)";
+
 const red = "#f94242";
 const red2 = "#FF5733";
 const red3 = "#ff4c3e";
+const red4 = "#FE5200";
+const red5 = "#C60001";
 const blue = "#033FFF";
 const blue2 = "#2556db";
 const primary = white;
@@ -52,8 +56,10 @@ const separator = "#f2f2f2";
 
 const windowTint = "rgba(0, 0, 0, 0.4)";
 const windowTintWhite = "rgba(255, 255, 255, 0.7)";
-const greenTint = "rgba(0, 188, 86, 0.1)";
-const greenTintZeroPointFive = "rgba(0, 188, 86, 0.05)";
+//const greenTint = "rgba(0, 188, 86, 0.1)";
+//const greenTintZeroPointFive = "rgba(0, 188, 86, 0.05)";
+const greenTint = "rgba(6,98,59,0.1)";
+const greenTintZeroPointFive = "rgba(6, 98, 59, 0.05)";
 
 const graphColorOne = "#0CBBC4";
 const graphColorTwo = "#3DCEA0";
@@ -93,7 +99,10 @@ export default {
   black2Tinted,
   blue2,
   red3,
+  red4,
+  red5,
   graphColorOne,
+  lightGreen,
   graphColorTwo,
   graphColorThree,
   graphColorFour,

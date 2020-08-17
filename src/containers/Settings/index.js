@@ -17,8 +17,8 @@ class Settings extends Component {
   state = {
     settingsData: [
       { verbose: "All Notifications", isEnable: true },
-      { verbose: "All Events", isEnable: false },
-      { verbose: "Latest News", isEnable: false }
+      { verbose: "All Events", isEnable: true },
+      { verbose: "Latest News", isEnable: true }
     ]
   };
 

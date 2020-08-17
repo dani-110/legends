@@ -81,28 +81,28 @@ class Scores extends React.Component {
     } = this.props;
 
     return (
-      <View style={[AppStyles.doubleBaseMargin, AppStyles.mBottom10]}>
+      <View style={[AppStyles.mediumMargin, AppStyles.mBottom10]}>
         <ScrollView horizontal={true}>
           <View>
             <Text color={Colors.black}>
-              Handicap{" "}
-              <Text color={Colors.blue}>
+             {/* // Handicap{" "} */}
+              {/* <Text color={Colors.blue}>
                 {Math.round(current_handicap * 10) / 10 || 0}
-              </Text>
+              </Text> */}
             </Text>
             <View style={[AppStyles.flexRow, AppStyles.spaceBetween]}>
               {this.getSingleScore(
-                "Blue",
-                false,
+                "HCP",
+                true,
                 Math.round(blue_tee_handicap * 10) / 10,
                 Colors.blue
               )}
-              {this.getSingleScore(
+              {/* {this.getSingleScore(
                 "White",
                 false,
                 Math.round(white_tee_handicap * 10) / 10,
                 Colors.white
-              )}
+              )} */}
               {this.getSingleScore(
                 "FIR",
                 true,
@@ -114,7 +114,7 @@ class Scores extends React.Component {
                 "GIR",
                 true,
                 Math.round(gir * 10) / 10,
-                Colors.red2,
+                Colors.red5,
                 "%"
               )}
               {this.getSingleScore(
@@ -127,7 +127,7 @@ class Scores extends React.Component {
                 "WIN",
                 true,
                 Math.round(ppr * 10) / 10,
-                Colors.purple
+                Colors.red4
               )}
 
             </View>

@@ -47,6 +47,7 @@ export default {
   listBottomPadding: LIST_BOTTOM_PADDING,
   smallMargin: ratio(8),
   baseMargin: ratio(16),
+  mediumMargin: ratio(10),
   doubleBaseMargin: ratio(20),
   statusBarHeight: STATUSBAR_HEIGHT,
   statusBarHeightLandscape: STATUSBAR_HEIGHT_LANDSCAPE,

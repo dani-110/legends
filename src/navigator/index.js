@@ -20,6 +20,7 @@ import {
   Dashboard,
   LiveTab,
   News,
+  Sponsors,
   Notification,
   Poty,
   ScoreCard,
@@ -74,6 +75,7 @@ const navigator = Actions.create(
           <Stack key="dashboard_tab">
             <Scene key="dashboard_tab_main" component={Dashboard} hideNavBar />
             <Scene key="news" component={News} hideNavBar />
+            <Scene key="sponsors" component={Sponsors} hideNavBar />
             <Scene key="poty" component={Poty} hideNavBar />
             <Scene key="lcl" component={Lcl} hideNavBar />
             <Scene key="profile" component={Profile} hideNavBar />

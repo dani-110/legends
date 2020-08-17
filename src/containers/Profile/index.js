@@ -129,7 +129,21 @@ class Profile extends Component {
       }
     });
   };
-
+  _renderHeader() {
+    return (
+      <View style={[AppStyles.flexRow, AppStyles.pBottom5, AppStyles.mTop5, AppStyles.mLeft20]}>
+        <Text style={AppStyles.flex} color={Colors.grey3}>
+          Course
+        </Text>
+        <Text style={AppStyles.flex} color={Colors.grey3}>
+          Score
+        </Text>
+        <Text style={{ width: 60 }} color={Colors.grey3}>
+          Date
+        </Text>
+      </View>
+    );
+  }
   _renderUserDetails({ name, picture }, imageUri, uploadingImage) {
     return (
       <View style={styles.userDetailsWrapper}>
@@ -234,8 +248,9 @@ class Profile extends Component {
               imageUri,
               uploadingImage
             )}
-            {this._renderScores()}
-            {this._renderLatestScorecardButton()}
+            {this._renderHeader()}
+            {/* {this._renderScores()}
+            {this._renderLatestScorecardButton()} */}
             {this._renderTabsHeader()}
 
             {activeTabIndex === 0 && (

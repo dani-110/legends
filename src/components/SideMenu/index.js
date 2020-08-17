@@ -9,7 +9,7 @@ import { setSelectedTab } from "../../actions/GeneralActions";
 import { Text, ButtonView } from "../../components";
 import DataHandler from "../../services/DataHandler";
 import { userSignOutRequest } from "../../actions/UserActions";
-import { Colors, AppStyles } from "../../theme";
+import { Colors, AppStyles, Images } from "../../theme";
 import styles from "./styles";
 
 const DRAWER_ITEMS = [
@@ -42,6 +42,12 @@ const DRAWER_ITEMS = [
     activeTab: 1
   },
   {
+    text: "Sponsors",
+    onPress: () => Actions.sponsors(),
+    activeTab: 1
+  },
+  //
+  {
     text: "Settings",
     onPress: () => {
       Actions.settings();
@@ -69,17 +75,23 @@ class SideMenu extends React.PureComponent {
   renderUserDetails({ name, picture }) {
     return (
       <View style={styles.userDetailsWrapper}>
-        <ButtonView style={styles.imageWrapper} onPress={Actions.profile}>
-          <Image
-            source={{ uri: picture }}
-            resizeMode="cover"
-            style={styles.userImage}
-          />
+        <ButtonView onPress={Actions.profile}>
+          <View style={styles.imageWrapper} >
+            <Image
+              source={{ uri: picture }}
+              resizeMode="cover"
+              style={styles.userImage}
+            />
+          </View>
+          <Image source={Images.image_edit} style={{ position: "absolute", bottom: 30, right: 0 }} />
         </ButtonView>
+
         <Text size="large" type="bold" color={Colors.text.secondary}>
           {name}
         </Text>
       </View>
+
+
     );
   }
 
