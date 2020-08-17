@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import _ from "lodash";
 import { connect } from "react-redux";
-import { View, FlatList, Image as RNImage } from "react-native";
+import { View, FlatList,Image as RNImage } from "react-native";
 import PropTypes from "prop-types";
 import { setSelectedTab } from "../../actions/GeneralActions";
 import { getPlayersDirectoryRequest } from "../../actions/PlayersDirectoryActions";
@@ -18,6 +18,19 @@ import { NAVBAR_THEME } from "../../constants";
 import styles from "./styles";
 import Util from "../../util";
 import { AppStyles, Colors, Images } from "../../theme";
+import AlphabetSectionList from 'react-native-alphabet-sectionlist';
+
+const dataAlphabet = {
+  'A': [{ name: 'A1' }, { name: 'A2' }, { name: 'A3' }],
+  'B': [{ name: 'A1' }, { name: 'A2' }, { name: 'A3' }],
+  "E": [{ name: 'E1' }, { name: 'E2' }, { name: 'E3' }, { name: 'E4' }],
+  'F': [{ name: 'F1' }, { name: 'F2' }, { name: 'F3' }],
+  'H': [{ name: 'H1' }, { name: 'H2' }, { name: 'H3' }, { name: 'H5' }],
+  'J': [{ name: 'J1' }, { name: 'J2' }, { name: 'J3' }, { name: 'J5' }],
+  'K': [{ name: 'K1' }, { name: 'K2' }, { name: 'K3' }, { name: 'K5' }],
+  'N': [{ name: 'N1' }, { name: 'N2' }, { name: 'N3' }, { name: 'N5' }],
+  'Y': [{ name: 'Y1' }, { name: 'Y2' }, { name: 'Y3' }, { name: 'Y5' }, { name: 'Y6' }],
+};
 
 class Lcl extends Component {
   static propTypes = {
@@ -62,7 +75,16 @@ class Lcl extends Component {
     return (
       <View style={[AppStyles.flex, styles.overflowHidden]}>
         {this._renderSearchBar()}
-        <FlatList
+
+        <AlphabetSectionList
+          data={dataAlphabet}
+          renderItem={renderItem}
+          renderHeader={renderHeader}
+          // custom section header
+          renderSectionHeader={renderSectionHeader}
+          sectionHeaderTextStyle={{ fontSize: 60, color: 'red' }} />
+
+        {/* <FlatList
           style={[AppStyles.flex]}
           data={playersDirectoryData}
           renderItem={this._renderRow}
@@ -70,7 +92,7 @@ class Lcl extends Component {
           ListHeaderComponent={this._renderHeader}
           stickyHeaderIndices={[0]}
           ListEmptyComponent={() => <EmptyStateText />}
-        />
+        /> */}
       </View>
     );
   }
@@ -163,8 +185,9 @@ class Lcl extends Component {
           titleAlign="center"
         />
 
-        {isFetching && playersDirectoryData.length === 0 && <SimpleLoader />}
-        {!isFetching && this._renderPlayersList()}
+        {/* {isFetching && playersDirectoryData.length === 0 && <SimpleLoader />}
+        {!isFetching && this._renderPlayersList()} */}
+        {this._renderPlayersList()}
       </View>
     );
   }
@@ -180,3 +203,39 @@ export default connect(
   mapStateToProps,
   actions
 )(Lcl);
+
+
+//////////////////////////// ALPHABET LIST //////////////////////
+renderItem = ({ item }) => {
+  return (
+    <View style={{
+      marginLeft: 10,
+      paddingVertical: 10,
+      borderBottomColor: 'yellow',
+      borderBottomWidth: 0.5
+    }}>
+      <Text>row is:{item.name}</Text>
+    </View>
+  )
+}
+
+renderHeader = () => {
+  return (
+    <View>
+      <Text >header1</Text>
+      <Text>header2</Text>
+    </View>
+  )
+}
+
+renderSectionHeader = ({ section: { title } }) => {
+  return (
+    <View style={{
+      paddingLeft: 10,
+      backgroundColor: '#f1f2f3',
+      paddingVertical: 5,
+    }}>
+      <Text style={{ color: 'blue' }}>title is:{title}</Text>
+    </View>
+  )
+}

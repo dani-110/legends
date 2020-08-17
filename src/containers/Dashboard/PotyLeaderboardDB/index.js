@@ -2,7 +2,7 @@
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { View, FlatList,StyleSheet } from "react-native";
+import { View, FlatList, StyleSheet } from "react-native";
 import { Actions } from "react-native-router-flux";
 import ViewPager from '@react-native-community/viewpager';
 
@@ -43,6 +43,11 @@ class PotyLeaderboardDB extends PureComponent {
         >
           {item.name}
         </Text>
+        <View style={{ flex:1 , justifyContent:'center',alignItems:'center'}}>
+        <Text type="bold"  color={Colors.text.secondary}>
+          {item.rank}
+        </Text>
+        </View>
         <Text type="bold" style={{ width: 60 }} color={Colors.text.secondary}>
           {item.points}
         </Text>
@@ -59,6 +64,11 @@ class PotyLeaderboardDB extends PureComponent {
         <Text style={AppStyles.flex} color={Colors.grey3}>
           Player
         </Text>
+        <View style={{ flex:1 , justifyContent:'center',alignItems:'center'}}>
+        <Text color={Colors.grey3}>
+          Events
+        </Text>
+        </View>
         <Text style={{ width: 60 }} color={Colors.grey3}>
           Points
         </Text>
@@ -70,43 +80,63 @@ class PotyLeaderboardDB extends PureComponent {
     const { potyData, isFetchingData } = this.props;
     return (
       <View style={[AppStyles.borderBottomGrey, AppStyles.pBottom10]}>
-        <View
-          style={[
-            styles.container,
-            AppStyles.cardView,
-            AppStyles.mTop10,
-            AppStyles.mBottom10
-          ]}
-        >
-           <ViewPager style={styles2.viewPager} initialPage={0}>
-          <FlatList
-            data={potyData}
-            renderItem={this._renderItem}
-            keyExtractor={Util.keyExtractor}
-            ListHeaderComponent={this._renderHeader}
-            stickyHeaderIndices={[0]}
-          />
-          <FlatList
-            data={potyData}
-            renderItem={this._renderItem}
-            keyExtractor={Util.keyExtractor}
-            ListHeaderComponent={this._renderHeader}
-            stickyHeaderIndices={[0]}
-          />
-          <FlatList
-            data={potyData}
-            renderItem={this._renderItem}
-            keyExtractor={Util.keyExtractor}
-            ListHeaderComponent={this._renderHeader}
-            stickyHeaderIndices={[0]}
-          />
-          </ViewPager>
+        <ViewPager style={[styleViewPager.viewPager]}>
+          <View
+            style={[
+              styles.container,
+              { backgroundColor: "#00000000" }
+            ]}
+          >
+            <View
+              style={[
+                styles.container,
+                AppStyles.cardView,
+              ]}
+            >
 
-          {isFetchingData && potyData.length === 0 && <SimpleLoader />}
-          {!isFetchingData && potyData.length === 0 && (
-            <EmptyStateText containerStyle={AppStyles.justifyFlexStart} />
-          )}
-        </View>
+              <FlatList
+                data={potyData}
+                renderItem={this._renderItem}
+                keyExtractor={Util.keyExtractor}
+                ListHeaderComponent={this._renderHeader}
+                stickyHeaderIndices={[0]}
+              />
+
+              {isFetchingData && potyData.length === 0 && <SimpleLoader />}
+              {!isFetchingData && potyData.length === 0 && (
+                <EmptyStateText containerStyle={AppStyles.justifyFlexStart} />
+              )}
+            </View>
+          </View>
+          <View
+            style={[
+              styles.container,
+              { backgroundColor: "#00000000" }
+            ]}
+          >
+            <View
+              style={[
+                styles.container,
+                AppStyles.cardView,
+              ]}
+            >
+
+              <FlatList
+                data={potyData}
+                renderItem={this._renderItem}
+                keyExtractor={Util.keyExtractor}
+                ListHeaderComponent={this._renderHeader}
+                stickyHeaderIndices={[0]}
+              />
+
+              {isFetchingData && potyData.length === 0 && <SimpleLoader />}
+              {!isFetchingData && potyData.length === 0 && (
+                <EmptyStateText containerStyle={AppStyles.justifyFlexStart} />
+              )}
+            </View>
+          </View>
+        </ViewPager>
+
         {potyData.length > 0 && (
           <ButtonView
             style={[AppStyles.alignItemsFlexEnd, AppStyles.pRight25]}
@@ -124,11 +154,14 @@ class PotyLeaderboardDB extends PureComponent {
   }
 }
 
-const styles2 = StyleSheet.create({
+const styleViewPager = StyleSheet.create({
   viewPager: {
     flex: 1,
+    backgroundColor: 'transparent',
+    minHeight: 300
   },
 });
+
 
 const mapStateToProps = ({ tournament }) => ({
   potyData: Util.getTrimmedDataFromArray(tournament.poty.leaderboard, 7),
