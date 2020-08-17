@@ -421,7 +421,9 @@ const basePadding = {
 const baseMargin = {
   margin: Metrics.baseMargin
 };
-
+const mediumMargin = {
+  margin: Metrics.mediumMargin
+};
 const doubleBaseMargin = {
   margin: Metrics.doubleBaseMargin
 };
@@ -607,6 +609,7 @@ export default {
   alignItemsFlexStart,
   basePadding,
   baseMargin,
+  mediumMargin,
   primaryBackground,
   height200,
   lHeight20,

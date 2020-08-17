@@ -1,5 +1,5 @@
 // @flow
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 import { Colors, AppStyles } from "../../../../theme";
 
 export default StyleSheet.create({
@@ -13,5 +13,18 @@ export default StyleSheet.create({
     paddingVertical: 3,
     borderRadius: 15,
     width: 90
+  },
+  buttonStyle: {
+    backgroundColor: Colors.green,
+    borderRadius: 50,
+    width: 150,
+  },
+
+  dialogBoxStyle: {
+    flexDirection: 'row',
+    alignContent: 'center',
+    justifyContent: 'center',
+    width: Dimensions.get('window').width * .7,
+    height: Dimensions.get('window').width * .15
   }
 });

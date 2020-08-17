@@ -5,6 +5,8 @@ const forgot_lock = require("../assets/images/forgot_lock/forgot_lock.png");
 const dummy_user = require("../assets/images/dummy_user/dummy_user.png");
 
 const back_icon = require("../assets/icon/back_icon/back_icon.png");
+//E:\Projects\github\react_native\LegendsApp\src\assets\icon\image_edit
+const image_edit = require("../assets/icon/image_edit/Change_DP.png");
 const drawer_black = require("../assets/icon/drawer_black/drawer_black.png");
 const home_black = require("../assets/icon/home_black/home_black.png");
 const home_outline = require("../assets/icon/home_outline/home_outline.png");
@@ -51,6 +53,7 @@ export default {
   forgot_lock,
   back_icon,
   drawer_black,
+  image_edit,
   home_black,
   home_outline,
   live_black,

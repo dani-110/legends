@@ -10,6 +10,7 @@ import ScoreCard from "./ScoreCard";
 import Lcl from "./Lcl";
 import Profile from "./Profile";
 import News from "./News";
+import Sponsors from "./Sponsors";
 import Settings from "./Settings";
 import LclLiveScore from "./LclLiveScore";
 import DmpLiveScore from "./DmpLiveScore";
@@ -32,6 +33,7 @@ export {
   Lcl,
   Profile,
   News,
+  Sponsors,
   Settings,
   LclLiveScore,
   DmpLiveScore,
