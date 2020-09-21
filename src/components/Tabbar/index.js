@@ -66,6 +66,7 @@ const tabsData = [
     dependency: "current_match",
     onPress: (tabIsActive, props) => {
       const data = props.current_match[0];
+      alert(props.current_match[0].type);
       return Actions.jump(`${props.current_match[0].type}livescore`, { data });
     }
   }

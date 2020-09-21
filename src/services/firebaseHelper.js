@@ -50,6 +50,7 @@ const getPermissions = async () => {
 };
 
 const showLocalNotification = data => {
+   ;
   const { title, deliveryId, body, type } = data;
   // console.log({ data });
   const notification = new firebase.notifications.Notification()
@@ -69,6 +70,7 @@ const showLocalNotification = data => {
 };
 
 const navigateOnNotificationTap = (data, isFreshLaunch = false) => {
+   ;
   firebase.notifications().removeAllDeliveredNotifications();
 
   /* switch (data.type) {

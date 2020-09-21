@@ -46,6 +46,7 @@ export default (state = initialState, action) => {
     }
 
     case GET_DASHBOARD_DATA.SUCCESS: {
+      //debugger
       return Immutable.merge(state, {
         current_match: action.data && action.data.current_match
       });

@@ -47,6 +47,7 @@ function alert(message, type = "error") {
 }
 
 function* getEnterScoreData() {
+  console.log("//////////--------->");
   while (true) {
     const { payload, matchType, responseCallback } = yield take(
       GET_ENTER_SCORE_DATA.REQUEST
@@ -60,7 +61,7 @@ function* getEnterScoreData() {
         {},
         ApiSauce
       );
-      console.log("response", response);
+      console.log("response--------|||->", response);
       if (Util.isSuccessResponse(response)) {
         responseCallback && responseCallback(response.data);
         yield put(getEnterScoreDataSuccess(response.data));

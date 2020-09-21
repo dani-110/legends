@@ -1,42 +1,35 @@
 {
   "project_info": {
-    "project_number": "1084518066401",
-    "firebase_url": "https://ltgolf-c63dd.firebaseio.com",
-    "project_id": "ltgolf-c63dd",
-    "storage_bucket": "ltgolf-c63dd.appspot.com"
+    "project_number": "943924828873",
+    "firebase_url": "https://legends-notification.firebaseio.com",
+    "project_id": "legends-notification",
+    "storage_bucket": "legends-notification.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1084518066401:android:4b354f454e5188fb",
+        "mobilesdk_app_id": "1:943924828873:android:978d9b80e44ef020ce8b18",
         "android_client_info": {
           "package_name": "com.legendstour"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1084518066401-3lrrb4221jgvnq7qmnbfelt01jv5fk8a.apps.googleusercontent.com",
+          "client_id": "943924828873-6cnfjdebol6te78euv7q93gp99me2ccb.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBIVZVPVtQfwkZB4YBHCQzrfon-UPP35JM"
+          "current_key": "AIzaSyAMh_MQatLrll2T41pSyYnFR0xWjglFobk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1084518066401-3lrrb4221jgvnq7qmnbfelt01jv5fk8a.apps.googleusercontent.com",
+              "client_id": "943924828873-6cnfjdebol6te78euv7q93gp99me2ccb.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "1084518066401-mmkd2q477vamvm2ksk595i9du4dqcemv.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.lwl.legends"
-              }
             }
           ]
         }

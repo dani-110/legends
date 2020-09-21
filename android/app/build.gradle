@@ -171,6 +171,10 @@ dependencies {
     implementation "com.google.firebase:firebase-core:16.0.9"
     implementation "com.google.firebase:firebase-messaging:18.0.0"
     implementation project(':@react-native-community_viewpager')
+
+    compile(project(':react-native-firebase')) {   
+       transitive = false
+   }
 }
 
 // Run this once to be able to run the application with BUCK

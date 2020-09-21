@@ -44,6 +44,7 @@ class LclLiveScore extends Component {
   };
 
   componentWillMount() {
+    // 
     this.props.enableEnterScore(
       this.props.data.id === this.props.current_match[0].id
     );

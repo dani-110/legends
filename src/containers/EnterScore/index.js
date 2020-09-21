@@ -47,6 +47,9 @@ class EnterScore extends React.Component {
     enterScoreData: PropTypes.object.isRequired
   };
 
+  //HOLD PAYLOAD DATA..
+  tmpData = [];
+
   static defaultProps = {};
 
   static onEnter() {
@@ -62,6 +65,7 @@ class EnterScore extends React.Component {
   }
 
   static getDerivedStateFromProps(props, state) {
+    //debugger
     if (!_.isEqual(props.enterScoreData, state.prevEnterScoreData)) {
       return {
         prevEnterScoreData: props.enterScoreData,
@@ -121,7 +125,20 @@ class EnterScore extends React.Component {
     let param = "";
     if (type === "poty") {
       param = `${type}/${id}`;
-    } else {
+    }
+    else if (type === "lmp") {
+      param = `${type}/${id}/${schedule_id && ` /${schedule_id}`}${match_id &&
+        `/${match_id}`}`;//${lastUpdatedOn ? `/${lastUpdatedOn}` : ``}
+    }
+    else if (type === "dmp") {
+      param = `${type}/${id}/${schedule_id && ` /${schedule_id}`}${match_id &&
+        `/${match_id}`}`;//${lastUpdatedOn ? `/${lastUpdatedOn}` : ``}
+    }
+    else if (type === "lcl") {
+      param = `${type}/${id}/${schedule_id && ` /${schedule_id}`}${match_id &&
+        `/${match_id}`}`;//${lastUpdatedOn ? `/${lastUpdatedOn}` : ``}
+    }
+    else {
       param = `${type}/${id}${schedule_id && `/${schedule_id}`}${match_id &&
         `/${match_id}`}${lastUpdatedOn ? `/${lastUpdatedOn}` : ``}`;
     }
@@ -200,6 +217,7 @@ class EnterScore extends React.Component {
   }
 
   _keyPress(text) {
+    console.log("keyboard data is:" + text)
     const { current_match } = this.props;
     const { type } = current_match[0];
     let swipe = false;
@@ -333,15 +351,15 @@ class EnterScore extends React.Component {
           ? 0
           : tempData[i - 1].Gross[index] &&
             _.isInteger(tempData[i - 1].Gross[index])
-          ? tempData[i - 1].Gross[index]
-          : 0;
+            ? tempData[i - 1].Gross[index]
+            : 0;
       const previousNet =
         i < 1
           ? 0
           : tempData[i - 1].Net[index] &&
             _.isInteger(tempData[i - 1].Net[index])
-          ? tempData[i - 1].Net[index]
-          : 0;
+            ? tempData[i - 1].Net[index]
+            : 0;
 
       gross =
         Stroke[index] && _.isInteger(Stroke[index])
@@ -367,6 +385,7 @@ class EnterScore extends React.Component {
   }
 
   _postData(holeIndex, current, indexParam, scoreCardd, value) {
+    console.log("hole index is:" + holeIndex);
     const keyBindings = {
       Stroke: "strokes",
       FIR: "fir",
@@ -428,7 +447,7 @@ class EnterScore extends React.Component {
         opponent_id: scoreCard[0].Name[playerIndex[indexParam + 1][2]].id,
         player: `p${playerIndex[indexParam + 1][0]}${
           playerIndex[indexParam + 1][1]
-        }`,
+          }`,
         player1_stroke: !(indexParam % 2) ? value : "",
         player2_stroke: indexParam % 2 ? value : "",
         player_id: scoreCard[0].Name[indexParam].id || null,
@@ -453,7 +472,7 @@ class EnterScore extends React.Component {
         score_array,
         player: `p${playerIndex[indexParam + 1][0]}${
           playerIndex[indexParam + 1][1]
-        }`,
+          }`,
         player1_stroke: !(indexParam % 2) ? value : "",
         player2_stroke: indexParam % 2 ? value : "",
         season_id: parseInt(id, 10) || null,
@@ -558,6 +577,7 @@ class EnterScore extends React.Component {
   }
 
   _renderSwiper(players, holes) {
+    debugger
     let dataLength = 0;
     if (players) {
       players.map(player => {
@@ -680,17 +700,21 @@ class EnterScore extends React.Component {
         <View>
           {Object.keys(manipulatedData).map((key, index) => (
             <View
-              // key={`row-${key}`}
-              style={[
-                (key === "Name" || key === "Net" || key === "Gross") &&
-                  styles.background,
-                styles.rowStyles
-              ]}
+            // key={`row-${key}`}
+            // style={[
+            //   (key === "Name" || key === "Net" || key === "Gross") &&
+            //   styles.background,
+            //   styles.rowStyles
+            // ]}
             >
-              {this._renderRowLabel(key)}
-              {key === "Name"
-                ? this._renderRowHeader()
-                : this._renderRowValues(manipulatedData, key)}
+              {/* {this._renderRowLabel(key)} */}
+              {key === "Name" ?
+                this._renderRowHeader()
+                : this._renderRowValues(manipulatedData, key)
+              }
+
+              {/* {this._renderRowValues(manipulatedData, key)} */}
+
             </View>
           ))}
         </View>
@@ -716,61 +740,97 @@ class EnterScore extends React.Component {
   }
 
   _renderRowHeader() {
-    const { scoreCard } = this.state;
-    const { Name } = scoreCard[0];
+    // const { scoreCard } = this.state;
+    // const { Name } = scoreCard[0];
 
-    return Name.map(item => (
-      <View style={[AppStyles.centerInner, styles.rowItemStyles]}>
-        <Text textAlign="center" style={AppStyles.centerInner}>
-          {item.initials}
-        </Text>
+    // return Name.map(item => (
+    //   <View style={[AppStyles.centerInner, styles.rowItemStyles]}>
+    //     <Text textAlign="center" style={AppStyles.centerInner}>
+    //       {item.initials}
+    //     </Text>
+    //   </View>
+    // ))
+    return (
+      <View style={{ ...styles.background, paddingBottom: 5, paddingTop: 5 }}>
+        <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
+          <Text >Name</Text>
+          <Text>Strokes</Text>
+        </View>
       </View>
-    ));
+    )
   }
+
+
   _renderRowValues(data, key) {
     const { current, index, scoreCard } = this.state;
     const { Name } = scoreCard[0];
-
     return Name.map((nameItem, nameIndex) => {
       const rowItem = data[key][nameIndex];
       return (
-        <TouchableOpacity
-          style={[
-            AppStyles.centerInner,
-            styles.rowItemStyles,
-            nameIndex === index &&
-              key === current &&
-              styles.rowItemActiveStyles,
-            nameIndex === index && styles.activeColRowItemActiveStyles
-          ]}
-          onPress={() =>
-            this._isEditable(key) &&
-            this._showKeyBoard(key === "FIR" || key === "GIR", key, nameIndex)
-          }
-        >
-          {key === "FIR" || key === "GIR" ? (
-            rowItem === 1 ? (
-              <RNImage source={Images.check} />
-            ) : rowItem === 0 ? (
-              <RNImage source={Images.cross} />
-            ) : (
-              <RNImage
-                style={{ height: 18, width: 38 }}
-                source={Images.no_image}
-              />
-            )
-          ) : (
-            <Text textAlign="center" style={AppStyles.centerInner}>
-              {key === "Gross" || key === "Net"
-                ? rowItem === 0
-                  ? "E"
-                  : Math.sign(rowItem) === 1
-                  ? `+${rowItem}`
-                  : rowItem
-                : rowItem}
-            </Text>
-          )}
-        </TouchableOpacity>
+        // <View style={{paddingBottom:3,paddingTop:10}}>
+        //   <View style={{flexDirection:"row",justifyContent:"space-around"}}>
+        // <Text>{nameItem.initials}</Text>
+
+        // <TouchableOpacity
+        //   style={[
+        //     AppStyles.centerInner,
+        //     styles.rowItemStyles,
+        //     nameIndex === index &&
+        //     key === current &&
+        //     styles.rowItemActiveStyles,
+        //     nameIndex === index && styles.activeColRowItemActiveStyles
+        //   ]}
+        //   onPress={() =>
+        //     this._isEditable(key) &&
+        //     this._showKeyBoard(key === "FIR" || key === "GIR", key, nameIndex)
+        //   }
+        // >
+        //   </TouchableOpacity>
+        // </View>
+        // </View>
+
+        <View style={{ paddingBottom: 3, paddingTop: 10 }}>
+          <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
+            <Text style={{ marginTop: 20 }}> {key === "FIR" || key === "GIR" ? "" : nameItem.initials}</Text>
+            <TouchableOpacity
+              style={[
+                AppStyles.centerInner,
+                styles.rowItemStyles,
+                nameIndex === index &&
+                key === current &&
+                styles.rowItemActiveStyles,
+                nameIndex === index && styles.activeColRowItemActiveStyles
+              ]}
+              onPress={() =>
+                this._isEditable(key) &&
+                this._showKeyBoard(key === "FIR" || key === "GIR", key, nameIndex)
+              }
+            >
+              {key === "FIR" || key === "GIR" ? (
+                rowItem === 1 ? (
+                  <RNImage source={Images.check} />
+                ) : rowItem === 0 ? (
+                  <RNImage source={Images.cross} />
+                ) : (
+                      <RNImage
+                        style={{ height: 18, width: 38 }}
+                        source={Images.no_image}
+                      />
+                    )
+              ) : (
+                  <Text textAlign="center" style={AppStyles.centerInner}>
+                    {key === "Gross" || key === "Net"
+                      ? rowItem === 0
+                        ? "E"
+                        : Math.sign(rowItem) === 1
+                          ? `+${rowItem}`
+                          : rowItem
+                      : rowItem}
+                  </Text>
+                )}
+            </TouchableOpacity>
+          </View>
+        </View>
       );
     });
   }
@@ -783,7 +843,7 @@ class EnterScore extends React.Component {
             style={[styles.button, styles.buttonActive]}
             color={Colors.white}
             onPress={() => this._onClickScroll(-1)}
-            // isDisabled={this._isButtonDisabled("prev")}
+          // isDisabled={this._isButtonDisabled("prev")}
           >
             <RNImage
               style={[styles.buttonIcon, styles.buttonIconLeft]}
@@ -796,7 +856,7 @@ class EnterScore extends React.Component {
           <ButtonView
             style={[styles.button, styles.buttonInActive]}
             onPress={() => this._onClickScroll(1)}
-            // isDisabled={this._isButtonDisabled("next")}
+          // isDisabled={this._isButtonDisabled("next")}
           >
             <Text size="xSmall">Next</Text>
             <RNImage
@@ -834,6 +894,7 @@ class EnterScore extends React.Component {
       enterScoreData: { isFetchingData, holeData }
     } = this.props;
 
+    //debugger
     const { holes, players } = holeData;
 
     return (
@@ -850,8 +911,8 @@ class EnterScore extends React.Component {
                 this.myScroll = ref;
               }}
               scrollEventThrottle={5}
-              onMomentumScrollBegin={(vale, text) => {}}
-              onMomentumScrollEnd={(vale, text) => {}}
+              onMomentumScrollBegin={(vale, text) => { }}
+              onMomentumScrollEnd={(vale, text) => { }}
               onScroll={(vale, text) => {
                 if (vale.nativeEvent.contentOffset.y < -30) {
                   this._hideKeyboard();
@@ -864,8 +925,8 @@ class EnterScore extends React.Component {
             {this._renderKeyboard()}
           </React.Fragment>
         ) : (
-          <EmptyStateText />
-        )}
+              <EmptyStateText />
+            )}
       </View>
     );
   }
@@ -888,7 +949,10 @@ const actions = {
 };
 
 function manipulateDataForScoreCard(data) {
+  //debugger
+  console.log("-++++++ers")
   const { players } = data;
+  console.log("----------||-==players" + players)
 
   if (!players) return;
 
@@ -918,13 +982,18 @@ function manipulateDataForScoreCard(data) {
       initials: player.initials,
       handicap: player.handicap
     };
-    player.scorecard.map(score => {
-      updatedData[score.hole_number - 1].Stroke[playerIndex] = score.strokes;
-      updatedData[score.hole_number - 1].FIR[playerIndex] = score.fir;
-      updatedData[score.hole_number - 1].GIR[playerIndex] = score.gir;
-      updatedData[score.hole_number - 1].Putts[playerIndex] = score.putts;
-      updatedData[score.hole_number - 1].Net[playerIndex] = score.net_score;
-      updatedData[score.hole_number - 1].Gross[playerIndex] = score.score;
+
+    player.scorecard.map((score, inn) => {
+      //debugger;
+      if (score) {
+        console.log("score is:" + score);
+        updatedData[score.hole_number - 1].Stroke[playerIndex] = score.strokes;
+        updatedData[score.hole_number - 1].FIR[playerIndex] = score.fir;
+        updatedData[score.hole_number - 1].GIR[playerIndex] = score.gir;
+        updatedData[score.hole_number - 1].Putts[playerIndex] = score.putts;
+        updatedData[score.hole_number - 1].Net[playerIndex] = score.net_score;
+        updatedData[score.hole_number - 1].Gross[playerIndex] = score.score;
+      }
     });
   });
 

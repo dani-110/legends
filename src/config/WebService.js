@@ -1,7 +1,7 @@
 import _ from "lodash";
 import Util from "../util";
 
-export const BASE_URL = "https://legendstourgolf.com/api/";
+export const BASE_URL = "http://legend.livewireapps.info/api/";//"https://legendstourgolf.com/api/";
 
 export const API_TIMEOUT = 30000;
 
@@ -131,17 +131,17 @@ export const GET_ENTER_SCORE_DATA_POTY = {
   type: REQUEST_TYPE.GET
 };
 export const GET_ENTER_SCORE_DATA_LCL = {
-  route: "GetHoleDataForLclTournament",
+  route: "GetHoleDataForTournament",//"GetHoleDataForLclTournament",
   access_token_required: true,
   type: REQUEST_TYPE.GET
 };
 export const GET_ENTER_SCORE_DATA_LMP = {
-  route: "GetHoleDataForLmpTournament",
+  route: "GetHoleDataForTournament",//"GetHoleDataForLmpTournament",
   access_token_required: true,
   type: REQUEST_TYPE.GET
 };
 export const GET_ENTER_SCORE_DATA_DMP = {
-  route: "GetHoleDataForDmpTournament",
+  route: "GetHoleDataForTournament",//"GetHoleDataForDmpTournament",
   access_token_required: true,
   type: REQUEST_TYPE.GET
 };
@@ -264,7 +264,7 @@ export const DELETE_NOTIFICATION = {
   type: REQUEST_TYPE.DELETE
 };
 
-export const callRequest = function(
+export const callRequest = function (
   url,
   data,
   parameter,

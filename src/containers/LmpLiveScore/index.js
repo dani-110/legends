@@ -46,6 +46,7 @@ class LmpLiveScore extends React.Component {
   }
 
   componentWillMount() {
+    // 
     const { id, match_id, schedule_id, season_id } = this.props.data;
     this.props.getScoreLmpRequest(
       `${match_id}/${schedule_id}/${season_id || id}`
