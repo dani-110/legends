@@ -5,6 +5,8 @@ import PropTypes from "prop-types";
 import { View, FlatList, StyleSheet } from "react-native";
 import { Actions } from "react-native-router-flux";
 import ViewPager from '@react-native-community/viewpager';
+import styles2 from "../../../components/CustomNavbar/styles";
+
 
 import {
   Text,
@@ -43,10 +45,10 @@ class PotyLeaderboardDB extends PureComponent {
         >
           {item.name}
         </Text>
-        <View style={{ flex:1 , justifyContent:'center',alignItems:'center'}}>
-        <Text type="bold"  color={Colors.text.secondary}>
-          {item.rank}
-        </Text>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Text type="bold" color={Colors.text.secondary}>
+            {item.rank}
+          </Text>
         </View>
         <Text type="bold" style={{ width: 60 }} color={Colors.text.secondary}>
           {item.points}
@@ -64,9 +66,9 @@ class PotyLeaderboardDB extends PureComponent {
         <Text style={AppStyles.flex} color={Colors.grey3}>
           Player
         </Text>
-        <View style={{ flex:1 , justifyContent:'center',alignItems:'center'}}>
-        <Text color={Colors.grey3}>
-          Events
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Text color={Colors.grey3}>
+            Events
         </Text>
         </View>
         <Text style={{ width: 60 }} color={Colors.grey3}>
@@ -77,78 +79,113 @@ class PotyLeaderboardDB extends PureComponent {
   }
 
   render() {
-    const { potyData, isFetchingData } = this.props;
+    const { potyData, isFetchingData, lcl_leaderboard } = this.props;
     return (
       <View style={[AppStyles.borderBottomGrey, AppStyles.pBottom10]}>
         <ViewPager style={[styleViewPager.viewPager]}>
+
           <View
-            style={[
-              styles.container,
-              { backgroundColor: "#00000000" }
-            ]}
+            style={{
+              ...styles.container,
+              backgroundColor: "#00000000",
+            }
+            }
           >
-            <View
-              style={[
-                styles.container,
-                AppStyles.cardView,
-              ]}
-            >
 
-              <FlatList
-                data={potyData}
-                renderItem={this._renderItem}
-                keyExtractor={Util.keyExtractor}
-                ListHeaderComponent={this._renderHeader}
-                stickyHeaderIndices={[0]}
-              />
-
-              {isFetchingData && potyData.length === 0 && <SimpleLoader />}
-              {!isFetchingData && potyData.length === 0 && (
-                <EmptyStateText containerStyle={AppStyles.justifyFlexStart} />
-              )}
-            </View>
-          </View>
-          <View
-            style={[
-              styles.container,
-              { backgroundColor: "#00000000" }
-            ]}
-          >
-            <View
-              style={[
-                styles.container,
-                AppStyles.cardView,
-              ]}
-            >
-
-              <FlatList
-                data={potyData}
-                renderItem={this._renderItem}
-                keyExtractor={Util.keyExtractor}
-                ListHeaderComponent={this._renderHeader}
-                stickyHeaderIndices={[0]}
-              />
-
-              {isFetchingData && potyData.length === 0 && <SimpleLoader />}
-              {!isFetchingData && potyData.length === 0 && (
-                <EmptyStateText containerStyle={AppStyles.justifyFlexStart} />
-              )}
-            </View>
-          </View>
-        </ViewPager>
-
-        {potyData.length > 0 && (
-          <ButtonView
-            style={[AppStyles.alignItemsFlexEnd, AppStyles.pRight25]}
-            onPress={Actions.poty}
-          >
-            <Text
+            <Text color={Colors.white}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+              size="large"
               type="bold"
-              size="xSmall"
-              color={Colors.green}
-            >{`VIEW ALL >`}</Text>
-          </ButtonView>
-        )}
+              style={{ ...styles2.title, marginTop: 20, justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }}
+            >POTY Leaderboard</Text>
+            <View
+              style={[
+                styles.container,
+                AppStyles.cardView,
+              ]}
+            >
+
+
+              <FlatList
+                data={potyData}
+                renderItem={this._renderItem}
+                keyExtractor={Util.keyExtractor}
+                ListHeaderComponent={this._renderHeader}
+                stickyHeaderIndices={[0]}
+              />
+
+              {isFetchingData && potyData.length === 0 && <SimpleLoader />}
+              {!isFetchingData && potyData.length === 0 && (
+                <EmptyStateText containerStyle={AppStyles.justifyFlexStart} />
+              )}
+            </View>
+            {potyData.length > 0 && (
+              <ButtonView
+                style={[AppStyles.alignItemsFlexEnd, AppStyles.pRight25]}
+                onPress={Actions.poty}
+              >
+                <Text
+                  type="bold"
+                  size="xSmall"
+                  color={Colors.green}
+                >{`VIEW ALL >`}</Text>
+              </ButtonView>
+            )}
+          </View>
+
+
+          <View
+            style={[
+              styles.container,
+              { backgroundColor: "#00000000" }
+            ]}
+          >
+
+            <Text color={Colors.white}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+              size="large"
+              type="bold"
+              style={{ ...styles2.title, marginTop: 20, justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }}
+            >LCL Leaderboard</Text>
+            <View
+              style={[
+                styles.container,
+                AppStyles.cardView,
+              ]}
+            >
+
+
+              <FlatList
+                data={lcl_leaderboard}
+                renderItem={this._renderItem}
+                keyExtractor={Util.keyExtractor}
+                ListHeaderComponent={this._renderHeader}
+                stickyHeaderIndices={[0]}
+              />
+
+              {isFetchingData && potyData.length === 0 && <SimpleLoader />}
+              {!isFetchingData && potyData.length === 0 && (
+                <EmptyStateText containerStyle={AppStyles.justifyFlexStart} />
+              )}
+            </View>
+
+            {potyData.length > 0 && (
+              <ButtonView
+                style={[AppStyles.alignItemsFlexEnd, AppStyles.pRight25]}
+                onPress={Actions.lcl}
+              >
+                <Text
+                  type="bold"
+                  size="xSmall"
+                  color={Colors.green}
+                >{`VIEW ALL >`}</Text>
+              </ButtonView>
+            )}
+          </View>
+
+        </ViewPager>
       </View>
     );
   }
@@ -158,15 +195,18 @@ const styleViewPager = StyleSheet.create({
   viewPager: {
     flex: 1,
     backgroundColor: 'transparent',
-    minHeight: 300
+    minHeight: 380
   },
 });
 
 
-const mapStateToProps = ({ tournament }) => ({
-  potyData: Util.getTrimmedDataFromArray(tournament.poty.leaderboard, 7),
-  isFetchingData: tournament.poty.isFetchingLeaderboard
-});
+const mapStateToProps = ({ tournament, general }) => {
+  return ({
+    potyData: Util.getTrimmedDataFromArray(tournament.poty.leaderboard, 7),
+    lcl_leaderboard: general.leaderBoardData.lcl_leaderboard,
+    isFetchingData: tournament.poty.isFetchingLeaderboard
+  });
+}
 
 const actions = { getPotyLeaderboardRequest };
 

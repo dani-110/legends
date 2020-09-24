@@ -6,7 +6,7 @@ import {
   View,
   Image as RNImage,
   ScrollView,
-  ActivityIndicator
+  ActivityIndicator, FlatList
 } from "react-native";
 import { Actions } from "react-native-router-flux";
 import { setSelectedTab } from "../../actions/GeneralActions";
@@ -42,12 +42,14 @@ class Profile extends Component {
   };
 
   constructor(props) {
+
     super(props);
     this.state = {
       activeTabIndex: 0,
       imageUri: props.userData.user_info[0].picture,
       uploadingImage: false
     };
+    debugger;
   }
 
   componentWillMount() {
@@ -62,6 +64,7 @@ class Profile extends Component {
   };
 
   _onEditImagePress = () => {
+    debugger;
     const options = ["Camera", "Gallery"];
     if (!Util.isPlatformAndroid()) options.push("Cancel");
     const cancelIndex = Util.isPlatformAndroid() ? -1 : options.length - 1;
@@ -97,18 +100,29 @@ class Profile extends Component {
 
   TABS_DATA = [
     {
-      image: "trend_icon",
-      title: "Gross Scores Trend",
+      title: "HCP",
       onPress: () => Util.setSelectedTabIndex(this, 0)
     },
     {
-      image: "trend_icon",
-      title: "Trending Handicap",
+      title: "FIR",
       onPress: () => Util.setSelectedTabIndex(this, 1)
+    },
+    {
+      title: "GIR ",
+      onPress: () => Util.setSelectedTabIndex(this, 2)
+    },
+    {
+      title: "PPR",
+      onPress: () => Util.setSelectedTabIndex(this, 3)
+    },
+    {
+      title: "WIN%",
+      onPress: () => Util.setSelectedTabIndex(this, 4)
     }
   ];
 
   _uploadUserImage = uri => {
+    debugger;
     const imageFormData = new FormData();
     const photo = {
       uri,
@@ -130,17 +144,32 @@ class Profile extends Component {
     });
   };
   _renderHeader() {
+    const { userData } = this.props;
     return (
-      <View style={[AppStyles.flexRow, AppStyles.pBottom5, AppStyles.mTop5, AppStyles.mLeft20]}>
-        <Text style={AppStyles.flex} color={Colors.grey3}>
-          Course
+      <View style={{ ...styles.RectangleShapeView, flex: 1, alignSelf: 'center', alignContent: 'center' }}>
+        <View>
+          <Text style={styles.headerText}>MY ROUNDS</Text>
+        </View>
+        <View style={[AppStyles.flexRow, AppStyles.pBottom5, { justifyContent: 'space-around' }]}>
+          <Text style={{ ...AppStyles.flex, marginLeft: 15, }} color={Colors.grey3}>
+            Events
         </Text>
-        <Text style={AppStyles.flex} color={Colors.grey3}>
-          Score
+          <Text style={AppStyles.flex} color={Colors.grey3}>
+            Score
         </Text>
-        <Text style={{ width: 60 }} color={Colors.grey3}>
-          Date
+          <Text style={{ ...AppStyles.flex, marginLeft: 15, }} color={Colors.grey3}>
+            Date
         </Text>
+        </View>
+
+        <ScrollView>
+          <FlatList
+            data={userData.grossss_table}
+            renderItem={this._renderItem}
+            keyExtractor={Util.keyExtractor}
+            stickyHeaderIndices={[0]}
+          />
+        </ScrollView>
       </View>
     );
   }
@@ -183,6 +212,33 @@ class Profile extends Component {
     return <Scores showViewProfile={false} />;
   }
 
+  _renderItem({ item, index }) {
+    return (
+      <View style={[AppStyles.flexRow, AppStyles.pBottom5, AppStyles.mTop5, { justifyContent: 'space-around' }]}>
+        <Text type="bold" style={{ width: 50 }} color={Colors.text.secondary}>
+          {index + 1}
+        </Text>
+        {item.is_selected === true ? (
+          <View style={{ ...styles.innerCircle, borderColor: Colors.green }}>
+            <Text type="bold" color={Colors.text.secondary}>
+              {Math.trunc(item.adjusted_score)}
+            </Text>
+          </View>
+        ) : (
+            <View style={{ ...styles.innerCircle, borderColor: Colors.white }}>
+              <Text type="bold" color={Colors.text.secondary}>
+                {Math.trunc(item.adjusted_score)}
+              </Text>
+            </View>
+          )}
+
+        <Text type="bold" style={{ width: 90, }} color={Colors.text.secondary}>
+          {item.match_date}
+        </Text>
+
+      </View>
+    );
+  }
   _renderLatestScorecardButton() {
     return (
       <View style={AppStyles.paddingHorizontalBase}>
@@ -227,9 +283,10 @@ class Profile extends Component {
   }
 
   render() {
+    debugger
     const { activeTabIndex, imageUri, uploadingImage } = this.state;
     const { isFetchingProfile, userData } = this.props;
-
+    console.log(userData.grossss_table);
     return (
       <View style={[styles.container, AppStyles.flex]}>
         <CustomNavbar
@@ -238,7 +295,6 @@ class Profile extends Component {
           theme={NAVBAR_THEME.WHITE}
           titleAlign="center"
         />
-
         {isFetchingProfile && _.isEmpty(userData) && <SimpleLoader />}
 
         {!_.isEmpty(userData) && (
@@ -251,17 +307,26 @@ class Profile extends Component {
             {this._renderHeader()}
             {/* {this._renderScores()}
             {this._renderLatestScorecardButton()} */}
+
             {this._renderTabsHeader()}
 
             {activeTabIndex === 0 && (
-              <GrossScoresTrend activeGraph="grossScoreTrend" />
+              <GrossScoresTrend activeGraph="handicap" user={this.props.userData} />
             )}
             {activeTabIndex === 1 && (
-              <GrossScoresTrend activeGraph="trendingHandicap" />
+              <GrossScoresTrend activeGraph="fir" user={this.props.userData} />
+            )}
+            {activeTabIndex === 2 && (
+              <GrossScoresTrend activeGraph="gir" user={this.props.userData} />
+            )}
+            {activeTabIndex === 3 && (
+              <GrossScoresTrend activeGraph="putts" user={this.props.userData} />
             )}
           </ScrollView>
         )}
+
       </View>
+
     );
   }
 }

@@ -141,13 +141,13 @@ class Dashboard extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <CustomNavbar
+        {/* <CustomNavbar
           hasBack={false}
           title="POTY Leaderboard"
           hasBorder={false}
           theme={NAVBAR_THEME.GREEN}
           titleAlign="left"
-        />
+        /> */}
 
         <ScrollView>
           <GreenBgFlayer />
@@ -160,9 +160,12 @@ class Dashboard extends Component {
   }
 }
 
-const mapStateToProps = ({ user }) => ({
-  userData: user.userData.user ? JSON.parse(user.userData.user) : {}
-});
+const mapStateToProps = ({ user, general, }) => {
+  //debugger
+  return ({
+    userData: user.userData.user ? JSON.parse(user.userData.user) : {}
+  });
+}
 
 const actions = { getDashboardDataRequest, setSelectedTab };
 

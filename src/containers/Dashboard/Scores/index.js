@@ -76,63 +76,63 @@ class Scores extends React.Component {
         fir,
         gir,
         ppr,
-        white_tee_handicap
+        white_tee_handicap,
+        winPercentage = 0
       }
     } = this.props;
 
     return (
       <View style={[AppStyles.mediumMargin, AppStyles.mBottom10]}>
-        <ScrollView horizontal={true}>
-          <View>
-            <Text color={Colors.black}>
-             {/* // Handicap{" "} */}
-              {/* <Text color={Colors.blue}>
+        <View>
+          <Text color={Colors.black}>
+            {/* // Handicap{" "} */}
+            {/* <Text color={Colors.blue}>
                 {Math.round(current_handicap * 10) / 10 || 0}
               </Text> */}
-            </Text>
-            <View style={[AppStyles.flexRow, AppStyles.spaceBetween]}>
-              {this.getSingleScore(
-                "HCP",
-                true,
-                Math.round(blue_tee_handicap * 10) / 10,
-                Colors.blue
-              )}
-              {/* {this.getSingleScore(
+          </Text>
+          <View style={[AppStyles.flexRow, AppStyles.spaceBetween]}>
+            {this.getSingleScore(
+              "HCP",
+              true,
+              Math.round(blue_tee_handicap * 10) / 10,
+              Colors.blue
+            )}
+            {/* {this.getSingleScore(
                 "White",
                 false,
                 Math.round(white_tee_handicap * 10) / 10,
                 Colors.white
               )} */}
-              {this.getSingleScore(
-                "FIR",
-                true,
-                Math.round(fir * 10) / 10,
-                Colors.green,
-                "%"
-              )}
-              {this.getSingleScore(
-                "GIR",
-                true,
-                Math.round(gir * 10) / 10,
-                Colors.red5,
-                "%"
-              )}
-              {this.getSingleScore(
-                "PPR",
-                true,
-                Math.round(ppr * 10) / 10,
-                Colors.black2
-              )}
-              {this.getSingleScore(
-                "WIN",
-                true,
-                Math.round(ppr * 10) / 10,
-                Colors.red4
-              )}
+            {this.getSingleScore(
+              "FIR",
+              true,
+              Math.round(fir * 10) / 10,
+              Colors.green,
+              "%"
+            )}
+            {this.getSingleScore(
+              "GIR",
+              true,
+              Math.round(gir * 10) / 10,
+              Colors.red5,
+              "%"
+            )}
+            {this.getSingleScore(
+              "PPR",
+              true,
+              Math.round(ppr * 10) / 10,
+              Colors.black2
+            )}
+            {this.getSingleScore(
+              "WIN",
+              true,
+              winPercentage,
+              Colors.red4,
+              "%"
+            )}
 
-            </View>
           </View>
-        </ScrollView>
+        </View>
 
         {this.props.showViewProfile && (
           <ButtonView

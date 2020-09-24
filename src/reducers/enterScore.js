@@ -15,6 +15,8 @@ const initialState = Immutable({
 });
 
 export default (state = initialState, action) => {
+
+  //debugger;
   switch (action.type) {
     case GET_ENTER_SCORE_DATA.REQUEST: {
       const tempData = _.cloneDeep(state.data);
@@ -52,29 +54,32 @@ export default (state = initialState, action) => {
 
     case GET_ENTER_SCORE_DATA.SUCCESS: {
       const tempData = _.cloneDeep(state.data);
-      if (_.isEmpty(tempData.holeData)) {
-        tempData.holeData = action.data;
-      } else {
-        _.map(action.data.players, obj => {
-          const playerIndex = _.findIndex(
-            tempData.holeData.players,
-            player => player.id === obj.id
+      tempData.holeData = action.data;
+      //debugger;
+      // if (_.isEmpty(tempData.holeData)) {
+      //   tempData.holeData = action.data;
+      // } else {
+      _.map(action.data.players, obj => {
+        const playerIndex = _.findIndex(
+          tempData.holeData.players,
+          player => player.id === obj.id
+        );
+
+        _.map(obj.scorecard, objScore => {
+          const holeIndex = _.findIndex(
+            tempData.holeData.players[playerIndex].scorecard,
+            score => score.hole_number === objScore.hole_number
           );
 
-          _.map(obj.scorecard, objScore => {
-            const holeIndex = _.findIndex(
-              tempData.holeData.players[playerIndex].scorecard,
-              score => score.hole_number === objScore.hole_number
-            );
-
-            if (holeIndex >= 0) {
-              tempData.holeData.players[playerIndex].scorecard[
-                holeIndex
-              ] = objScore;
-            }
-          });
+          if (holeIndex >= 0) {
+            tempData.holeData.players[playerIndex].scorecard[
+              holeIndex
+            ] = objScore;
+          }
         });
-      }
+      });
+      // }
+      // debugger
       tempData.isFetchingData = false;
       return Immutable.merge(state, {
         data: tempData

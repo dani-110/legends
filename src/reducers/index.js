@@ -11,6 +11,7 @@ import scoreCard from "./scoreCard";
 import liveScore from "./liveScore";
 import enterScore from "./enterScore";
 import playersDirectory from "./playersDirectory";
+import sponsor from './sponsor';
 
 export default combineReducers({
   route: navigator,
@@ -23,5 +24,6 @@ export default combineReducers({
   scoreCard,
   liveScore,
   enterScore,
-  playersDirectory
+  playersDirectory,
+  sponsor
 });

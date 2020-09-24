@@ -132,7 +132,7 @@ function* getLclMonthlyMatches() {
         {},
         ApiSauce
       );
-      console.log("response", response);
+      // console.log("response", response);
       if (Util.isSuccessResponse(response)) {
         yield put(getLclMonthlyMatchesSuccess(response.data));
       } else {
@@ -158,7 +158,7 @@ function* getLmpResults() {
         {},
         ApiSauce
       );
-      console.log("response", response);
+      //  console.log("response", response);
       if (Util.isSuccessResponse(response)) {
         yield put(getLmpResultsSuccess(response.data));
       } else {

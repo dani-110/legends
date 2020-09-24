@@ -18,6 +18,8 @@ const arrow_circle_grey = require("../assets/icon/arrow_circle_grey/arrow_circle
 const arrow_circle_green = require("../assets/icon/arrow_circle_green/arrow_circle_green.png");
 const clock = require("../assets/icon/clock/clock.png");
 const clock_white = require("../assets/icon/clock_white/clock_white.png");
+const calendar_popUp = require("../assets/icon/calenderPopUp/interface.png");
+const clock_popUp = require("../assets/icon/clockPopUp/icon_time.png");
 const delete_white = require("../assets/icon/delete_white/delete_white.png");
 const arrow_right = require("../assets/icon/arrow_right/arrow_right.png");
 const arrow_left_white = require("../assets/icon/arrow_left_white/arrow_left_white.png");
@@ -33,8 +35,12 @@ const trend_icon_unselected = require("../assets/icon/trend_icon_unselected/tren
 const edit_icon = require("../assets/icon/edit_icon/edit_icon.png");
 const score_board_black = require("../assets/icon/score_board_black/score_board_black.png");
 const score_board_outline = require("../assets/icon/score_board_outline/score_board_outline.png");
+const phone_icon = require("../assets/icon/caller_Icon/Phone.png");
 const check = require("../assets/icon/check/check.png");
 const cross = require("../assets/icon/cross/cross.png");
+const arrow_left_circle = require("../assets/icon/arrow_circle_Left/icon_left_score.png");
+const arrow_right_circle = require("../assets/icon/arrow_circle_right/icon_right_score.png");
+const arrow_white = require("../assets/icon/arrow_white/icon_white.png");
 const tournament_selected = require("../assets/icon/tournament_selected/tournament_selected.png");
 const tournament_unselected = require("../assets/icon/tournament_unselected/tournament_unselected.png");
 const calendar_selected = require("../assets/icon/calendar_selected/calendar_selected.png");
@@ -44,15 +50,20 @@ const splash_background = require("../assets/images/splash_background/splash_bac
 const splash_logo = require("../assets/images/splash_logo/splash_logo.png");
 const no_image = require("../assets/images/noImage.png");
 const search_icon = require("../assets/icon/search_icon/search_icon.png");
+const icon_scorecard = require("../assets/icon/icon_match_highlights/icon_scorecard.png");
 
 const scoreCard = require("../assets/icon/ScoreCard/ScoreCard.png");
 export default {
   logo,
   splash_bg,
+  phone_icon,
+  arrow_left_circle,
+  arrow_right_circle,
   login_header_wrapper,
   forgot_lock,
   back_icon,
   drawer_black,
+  arrow_white,
   image_edit,
   home_black,
   home_outline,
@@ -65,6 +76,8 @@ export default {
   dummy_user,
   clock,
   clock_white,
+  calendar_popUp,
+  clock_popUp,
   delete_white,
   arrow_right,
   arrow_left_white,
@@ -91,5 +104,6 @@ export default {
   splash_logo,
   no_image,
   scoreCard,
-  search_icon
+  search_icon,
+  icon_scorecard
 };

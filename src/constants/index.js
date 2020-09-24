@@ -1,3 +1,5 @@
+import { Colors } from "../theme";
+
 // export const TIME_ZONE = (-1 * new Date().getTimezoneOffset()) / 60;
 export const APP_URL = "";
 export const APP_DOMAIN = "";
@@ -23,7 +25,7 @@ export const MESSAGE_TYPES = {
 export const FILE_TYPES = { VIDEO: "video", IMAGE: "image", AUDIO: "audi" };
 
 // Navbar theme
-export const NAVBAR_THEME = { GREEN: "green", WHITE: "white" };
+export const NAVBAR_THEME = { GREEN: Colors.green, WHITE: "white" };
 
 // Match types
 export const MATCH_TYPES = { POTY: "POTY", LCL: "LCL", LMP: "LMP", DMP: "DMP" };
@@ -43,7 +45,7 @@ export const ERROR_MESSAGES = {
   session_expired_error: "Session expired, Please login again"
 };
 
-export const POLLING_TIME = 5000;
+export const POLLING_TIME = 30000;
 
 export const LEGENDS_NOTIFICATION_CHANNEL = {
   id: "legends-channel",

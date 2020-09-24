@@ -3,12 +3,17 @@ import { connect } from "react-redux";
 import React from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
+import axios from "axios";
+import util from "../../util";
+import { BASE_URL } from '../../config/WebService';
+import Dialog, { SlideAnimation, DialogContent, DialogFooter, DialogButton } from 'react-native-popup-dialog';
 import {
   View,
   Image as RNImage,
   ScrollView,
   TouchableOpacity,
-  BackHandler
+  BackHandler, Dimensions, Alert, FlatList,
+  CheckBox
 } from "react-native";
 import Swiper from "react-native-swiper";
 import { Actions } from "react-native-router-flux";
@@ -26,13 +31,14 @@ import {
   ButtonView,
   CustomKeyboard,
   SimpleLoader,
-  EmptyStateText
+  EmptyStateText,
 } from "../../components";
 import { NAVBAR_THEME, POLLING_TIME } from "../../constants";
 import styles from "./styles";
 import Tabbar from "../../components/Tabbar";
 import { AppStyles, Colors, Images } from "../../theme";
 import { setTabbarType } from "../../actions/GeneralActions";
+import { ViewPropTypes } from "react-native";
 
 class EnterScore extends React.Component {
   static propTypes = {
@@ -47,21 +53,34 @@ class EnterScore extends React.Component {
     enterScoreData: PropTypes.object.isRequired
   };
 
+  //HOLD PAYLOAD DATA..
+  tmpData = [];
+  state = { visible: false, dataSource: [], checked: false, colorChanged: false, score_lock: 0 }
+
+  _showSubmitScore(toIndex) {
+
+
+
+  }
+
   static defaultProps = {};
 
   static onEnter() {
+    debugger
     if (EnterScore.instance) {
       EnterScore.instance._onEnter();
     }
   }
 
   static onExit() {
+    debugger
     if (EnterScore.instance) {
       EnterScore.instance._onExit();
     }
   }
 
   static getDerivedStateFromProps(props, state) {
+    //debugger
     if (!_.isEqual(props.enterScoreData, state.prevEnterScoreData)) {
       return {
         prevEnterScoreData: props.enterScoreData,
@@ -121,7 +140,20 @@ class EnterScore extends React.Component {
     let param = "";
     if (type === "poty") {
       param = `${type}/${id}`;
-    } else {
+    }
+    else if (type === "lmp") {
+      param = `${type}/${id}/${schedule_id && ` /${schedule_id}`}${match_id &&
+        `/${match_id}`}`;//${lastUpdatedOn ? `/${lastUpdatedOn}` : ``}
+    }
+    else if (type === "dmp") {
+      param = `${type}/${id}/${schedule_id && ` /${schedule_id}`}${match_id &&
+        `/${match_id}`}`;//${lastUpdatedOn ? `/${lastUpdatedOn}` : ``}
+    }
+    else if (type === "lcl") {
+      param = `${type}/${id}/${schedule_id && ` /${schedule_id}`}${match_id &&
+        `/${match_id}`}`;//${lastUpdatedOn ? `/${lastUpdatedOn}` : ``}
+    }
+    else {
       param = `${type}/${id}${schedule_id && `/${schedule_id}`}${match_id &&
         `/${match_id}`}${lastUpdatedOn ? `/${lastUpdatedOn}` : ``}`;
     }
@@ -154,6 +186,7 @@ class EnterScore extends React.Component {
 
     return false;
   }
+
 
   _isEditable(key) {
     const { current_match } = this.props;
@@ -199,7 +232,9 @@ class EnterScore extends React.Component {
     }
   }
 
+  //this.setState({ visible: true });
   _keyPress(text) {
+    console.log("keyboard data is:" + text)
     const { current_match } = this.props;
     const { type } = current_match[0];
     let swipe = false;
@@ -223,6 +258,7 @@ class EnterScore extends React.Component {
       tempData[holeIndex][current][index] = "-";
     }
 
+    console.log("current is:" + current);
     if (
       current === "FIR" ||
       current === "GIR" ||
@@ -300,6 +336,7 @@ class EnterScore extends React.Component {
         });
       });
     }
+
   }
 
   /**
@@ -333,15 +370,15 @@ class EnterScore extends React.Component {
           ? 0
           : tempData[i - 1].Gross[index] &&
             _.isInteger(tempData[i - 1].Gross[index])
-          ? tempData[i - 1].Gross[index]
-          : 0;
+            ? tempData[i - 1].Gross[index]
+            : 0;
       const previousNet =
         i < 1
           ? 0
           : tempData[i - 1].Net[index] &&
             _.isInteger(tempData[i - 1].Net[index])
-          ? tempData[i - 1].Net[index]
-          : 0;
+            ? tempData[i - 1].Net[index]
+            : 0;
 
       gross =
         Stroke[index] && _.isInteger(Stroke[index])
@@ -367,6 +404,7 @@ class EnterScore extends React.Component {
   }
 
   _postData(holeIndex, current, indexParam, scoreCardd, value) {
+    console.log("hole index is:" + holeIndex);
     const keyBindings = {
       Stroke: "strokes",
       FIR: "fir",
@@ -426,9 +464,8 @@ class EnterScore extends React.Component {
         value: _.isInteger(value) ? parseInt(value, 10) : value,
         match_id: parseInt(match_id, 10) || null,
         opponent_id: scoreCard[0].Name[playerIndex[indexParam + 1][2]].id,
-        player: `p${playerIndex[indexParam + 1][0]}${
-          playerIndex[indexParam + 1][1]
-        }`,
+        player: `p${playerIndex[indexParam + 1][0]}${playerIndex[indexParam + 1][1]
+          }`,
         player1_stroke: !(indexParam % 2) ? value : "",
         player2_stroke: indexParam % 2 ? value : "",
         player_id: scoreCard[0].Name[indexParam].id || null,
@@ -451,9 +488,8 @@ class EnterScore extends React.Component {
         net_score: scoreCard[holeIndex].Net[indexParam] || null,
         netscore_array,
         score_array,
-        player: `p${playerIndex[indexParam + 1][0]}${
-          playerIndex[indexParam + 1][1]
-        }`,
+        player: `p${playerIndex[indexParam + 1][0]}${playerIndex[indexParam + 1][1]
+          }`,
         player1_stroke: !(indexParam % 2) ? value : "",
         player2_stroke: indexParam % 2 ? value : "",
         season_id: parseInt(id, 10) || null,
@@ -533,10 +569,11 @@ class EnterScore extends React.Component {
       <CustomNavbar
         title={tournament_name}
         subtitle={course_name}
-        hasBorder={false}
-        theme={NAVBAR_THEME.WHITE}
+        hasBorder={true}
+        subt
+        theme={NAVBAR_THEME.GREEN}
         titleAlign="center"
-        rightBtnImage={Images.scoreCard}
+
         rightBtnPress={() => {
           Actions.scorecard({
             act: {
@@ -558,6 +595,7 @@ class EnterScore extends React.Component {
   }
 
   _renderSwiper(players, holes) {
+    // debugger
     let dataLength = 0;
     if (players) {
       players.map(player => {
@@ -607,8 +645,8 @@ class EnterScore extends React.Component {
 
     for (let i = 0; i <= 17; i += 1) {
       holeScreens.push(
-        <View>
-          <View>
+        <View style={{ backgroundColor: Colors.green, }}>
+          <View style={{ backgroundColor: Colors.white, marginTop: 20, borderRadius: 50 }}>
             {this._renderHoleInfo(holes[i])}
             {this._renderScoreTable(holes[i], i)}
           </View>
@@ -617,19 +655,56 @@ class EnterScore extends React.Component {
     }
 
     return (
-      <Swiper
-        style={{ height: 450 }}
-        // index={dataLength - 1}
-        ref={swiper => {
-          this._swiper = swiper;
-        }}
-        loop={false}
-        showsButtons={false}
-        showsPagination={false}
-        onIndexChanged={() => this._onSwipe()}
-      >
-        {holeScreens}
-      </Swiper>
+      <View>
+        <Swiper
+          style={{ height: 450 }}
+          // index={dataLength - 1}
+          ref={swiper => {
+            this._swiper = swiper;
+          }}
+          loop={false}
+          showsButtons={false}
+          showsPagination={false}
+          onIndexChanged={() => this._onSwipe()}
+        >
+          {holeScreens}
+        </Swiper>
+        <View style={{ flex: 1, justifyContent: 'space-around', alignItems: 'center', flexDirection: 'row', }}>
+          <ButtonView
+            style={[styles.buttonSubmit, { backgroundColor: (this.state.colorChanged) ? "#9A0000" : Colors.grey, width: 200 }]}
+            color={Colors.white}
+            onPress={() => {
+              //ADD SCORECARD CONDITION
+              if (this.state.colorChanged) {
+                this.getData()
+              }
+            }}
+          >
+            <Text size="xSmall" color={Colors.white}>
+              Submit
+            </Text>
+          </ButtonView>
+          <ButtonView onPress={() => {
+            if (this.state.colorChanged)
+              Actions.scorecard({
+                act: {
+                  action: "GetHoleDataForTournament",
+                  id: this.state.id,
+                  type: this.state.type,
+                  season_id: this.state.season_id,
+                  match_id: this.state.match_id,
+                  schedule_id: this.state.schedule_id,
+                  team1_p1: players && players[0] && players[0].id,
+                  team2_p1: players && players[1] && players[1].id,
+                  team1_p2: players && players[2] && players[2].id,
+                  team2_p2: players && players[3] && players[3].id
+                }
+              });
+          }}>
+            <RNImage source={Images.icon_scorecard} style={{ width: 100, height: 40, borderRadius: 50 }} />
+          </ButtonView>
+        </View>
+      </View >
     );
   }
 
@@ -642,9 +717,20 @@ class EnterScore extends React.Component {
           // AppStyles.marginVerticalBase,
           AppStyles.mBottomBase,
           AppStyles.alignItemsCenter,
-          AppStyles.spaceAround
+          AppStyles.spaceAround,
+          { marginTop: 10 }
         ]}
       >
+        <View>
+          <TouchableOpacity
+            onPress={() => this._onClickScroll(-1)}
+          >
+            <RNImage
+              style={{ width: 50, height: 50 }}
+              source={Images.arrow_left_circle}
+            />
+          </TouchableOpacity>
+        </View>
         <View>
           <Text textAlign="center" size="small" color={Colors.grey}>
             Hole
@@ -669,6 +755,18 @@ class EnterScore extends React.Component {
             {("0" + par).slice(-2)}
           </Text>
         </View>
+
+        <View>
+          <TouchableOpacity
+            onPress={() => this._onClickScroll(1)}
+          >
+            <RNImage
+              style={{ width: 50, height: 50 }}
+              source={Images.arrow_right_circle}
+            />
+          </TouchableOpacity>
+        </View>
+
       </View>
     );
   }
@@ -680,17 +778,21 @@ class EnterScore extends React.Component {
         <View>
           {Object.keys(manipulatedData).map((key, index) => (
             <View
-              // key={`row-${key}`}
-              style={[
-                (key === "Name" || key === "Net" || key === "Gross") &&
-                  styles.background,
-                styles.rowStyles
-              ]}
+            // key={`row-${key}`}
+            // style={[
+            //   (key === "Name" || key === "Net" || key === "Gross") &&
+            //   styles.background,
+            //   styles.rowStyles
+            // ]}
             >
-              {this._renderRowLabel(key)}
-              {key === "Name"
-                ? this._renderRowHeader()
-                : this._renderRowValues(manipulatedData, key)}
+              {/* {this._renderRowLabel(key)} */}
+              {key === "Name" ?
+                this._renderRowHeader()
+                : this._renderRowValues(manipulatedData, key)
+              }
+
+              {/* {this._renderRowValues(manipulatedData, key)} */}
+
             </View>
           ))}
         </View>
@@ -707,70 +809,87 @@ class EnterScore extends React.Component {
   }
 
   _onSwipe() {
-    // this.setState({
-    //   current: "Stroke",
-    //   index: 0,
-    //   showKeyBoard: true,
-    //   miniKeyBoard: false
-    // });
+    if (this._swiper != undefined && this._swiper.state != undefined) {
+      console.log("swiper index:" + this._swiper.state.index);
+      debugger
+      if (this._swiper.state.index === 16) {
+        this.setState({ colorChanged: true })
+      } else
+        this.setState({ colorChanged: false })
+    }
   }
 
   _renderRowHeader() {
-    const { scoreCard } = this.state;
-    const { Name } = scoreCard[0];
 
-    return Name.map(item => (
-      <View style={[AppStyles.centerInner, styles.rowItemStyles]}>
-        <Text textAlign="center" style={AppStyles.centerInner}>
-          {item.initials}
-        </Text>
+    return (
+      <View style={{ ...styles.background, paddingBottom: 5, paddingTop: 5 }}>
+        <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
+          <Text style={{ width: '40%' }}>Name</Text>
+          <Text>Strokes</Text>
+        </View>
       </View>
-    ));
+    )
   }
+
+
   _renderRowValues(data, key) {
     const { current, index, scoreCard } = this.state;
     const { Name } = scoreCard[0];
-
     return Name.map((nameItem, nameIndex) => {
       const rowItem = data[key][nameIndex];
       return (
-        <TouchableOpacity
-          style={[
-            AppStyles.centerInner,
-            styles.rowItemStyles,
-            nameIndex === index &&
-              key === current &&
-              styles.rowItemActiveStyles,
-            nameIndex === index && styles.activeColRowItemActiveStyles
-          ]}
-          onPress={() =>
-            this._isEditable(key) &&
-            this._showKeyBoard(key === "FIR" || key === "GIR", key, nameIndex)
-          }
-        >
-          {key === "FIR" || key === "GIR" ? (
-            rowItem === 1 ? (
-              <RNImage source={Images.check} />
-            ) : rowItem === 0 ? (
-              <RNImage source={Images.cross} />
-            ) : (
-              <RNImage
-                style={{ height: 18, width: 38 }}
-                source={Images.no_image}
-              />
-            )
-          ) : (
-            <Text textAlign="center" style={AppStyles.centerInner}>
-              {key === "Gross" || key === "Net"
-                ? rowItem === 0
-                  ? "E"
-                  : Math.sign(rowItem) === 1
-                  ? `+${rowItem}`
-                  : rowItem
-                : rowItem}
-            </Text>
+
+        <View style={{ paddingBottom: 3, paddingTop: 10 }}>
+          {key === "FIR" || key === "GIR" ? null : (
+            <View>
+              <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
+                <Text style={{ marginTop: 20, width: '40%' }}> {nameItem.name}</Text>
+                <TouchableOpacity
+                  style={[
+                    AppStyles.centerInner,
+                    styles.rowItemStyles,
+                    nameIndex === index &&
+                    key === current &&
+                    styles.rowItemActiveStyles,
+                    nameIndex === index && styles.activeColRowItemActiveStyles
+
+                  ]}
+
+                  onPress={() =>
+                    this._isEditable(key) &&
+                    this._showKeyBoard(key === "FIR" || key === "GIR", key, nameIndex)
+                  }
+                >
+                  {key === "FIR" || key === "GIR" ? (
+                    rowItem === 1 ? (
+                      <RNImage source={Images.check} />
+                    ) : rowItem === 0 ? (
+                      <RNImage source={Images.cross} />
+                    ) : (
+                          <RNImage
+                            style={{ height: 18, width: 38 }}
+                            source={Images.no_image}
+                          />
+                        )
+                  ) : (
+                      <Text textAlign="center" style={AppStyles.centerInner}>
+                        {key === "Gross" || key === "Net"
+                          ? rowItem === 0
+                            ? "E"
+                            : Math.sign(rowItem) === 1
+                              ? `+${rowItem + 123}`
+                              : rowItem
+                          : rowItem}
+                      </Text>
+                    )}
+                </TouchableOpacity>
+              </View>
+              <View style={{ height: 1, backgroundColor: Colors.greyTint }} />
+            </View>
           )}
-        </TouchableOpacity>
+
+
+        </View >
       );
     });
   }
@@ -782,8 +901,9 @@ class EnterScore extends React.Component {
           <ButtonView
             style={[styles.button, styles.buttonActive]}
             color={Colors.white}
+
             onPress={() => this._onClickScroll(-1)}
-            // isDisabled={this._isButtonDisabled("prev")}
+          // isDisabled={this._isButtonDisabled("prev")}
           >
             <RNImage
               style={[styles.buttonIcon, styles.buttonIconLeft]}
@@ -796,7 +916,7 @@ class EnterScore extends React.Component {
           <ButtonView
             style={[styles.button, styles.buttonInActive]}
             onPress={() => this._onClickScroll(1)}
-            // isDisabled={this._isButtonDisabled("next")}
+          // isDisabled={this._isButtonDisabled("next")}
           >
             <Text size="xSmall">Next</Text>
             <RNImage
@@ -819,23 +939,103 @@ class EnterScore extends React.Component {
     </View>
   );
 
-  _renderKeyboard = () => (
-    <CustomKeyboard
-      visible={this.state.showKeyBoard}
-      mini={this.state.miniKeyBoard}
-      onKeyPress={text => {
-        this._keyPress(text);
-      }}
-    />
+  _renderKeyboard = () => {
+    if (this.tmpData.length > 0 && this.tmpData.score_lock === 1)
+      return;
+    return (
+      <CustomKeyboard
+        visible={this.state.showKeyBoard}
+        mini={this.state.miniKeyBoard}
+        onKeyPress={text => {
+          this._keyPress(text);
+        }}
+      />
+    )
+  };
+
+  renderItem = ({ item }) => (
+    <View key={item.key} style={{ flexDirection: 'row', marginLeft: 15, marginBottom: 15 }}>
+      <Text style={{ width: '50%', marginRight: 20, fontSize: 10 }} color={Colors.grey}>{item.name}</Text>
+      <Text style={{ width: '20%', fontSize: 10 }} color={Colors.grey}>{item.adjusted_score}</Text>
+      <Text style={{ width: '20%', fontSize: 10 }} color={Colors.grey}>{item.net_score}</Text>
+    </View>
   );
 
+
+  // adjusted_score: "72.00"
+  // name: "AHSAN SIDDIQUI"
+  // net_score: "0.00"
+
+  _renderHeader() {
+    return (
+      <View style={{ flex: 1 }}>
+        <View style={{ justifyContent: "space-around", width: '100%', flexDirection: 'row', marginBottom: 15 }}>
+          <Text style={{ width: '50%' }} color={Colors.grey}>
+            Player Name
+           </Text>
+          <Text style={{ width: '20%' }} color={Colors.grey}>
+            Gross
+           </Text>
+          <Text style={{ width: '20%' }} color={Colors.grey}>
+            Net
+           </Text>
+        </View>
+        <View style={{ height: 1, backgroundColor: Colors.greyTint }} />
+      </View>
+    );
+  }
+
+  getData(data_) {
+
+    const { current_match } = this.props;
+    const { schedule_id, match_id } = current_match[0];
+
+    const AuthStr = util.getCurrentUserAccessToken();
+    console.log("get data authentication key = >" + AuthStr);
+    ///"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbGVnZW5kLmxpdmV3aXJlYXBwcy5pbmZvLy9hcGkvYXV0aC9zaWduaW4iLCJpYXQiOjE1OTk1NjU4MDEsImV4cCI6MTU5OTU2OTQwMSwibmJmIjoxNTk5NTY1ODAxLCJqdGkiOiJlZlNQTnRva3FDNDNMRU1uIiwic3ViIjozMSwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.-5ypC4cyvWvt1sA1n4OShnLgAFZexmkucCvtCdDzmMg";
+    URL = BASE_URL + `/getGrossScoreNetScore/${match_id}/${schedule_id}`;
+    debugger
+    axios.get(URL, { headers: { Authorization: AuthStr } }).then((response) => {
+
+      this.setState({ dataSource: response.data.data, visible: true });
+
+    })
+      .catch(function (error) {
+        Alert.alert(error);
+      });
+    this.setState({ visible: false })
+  }
+  sendData() {
+    const { current_match } = this.props;
+    const { schedule_id, match_id } = current_match[0];
+
+    const AuthStr = util.getCurrentUserAccessToken();
+    console.log("send Data authentication key = >" + AuthStr);
+    URL = BASE_URL + '/SubmitGrossScoreNetScore';
+
+    axios.post(URL, {
+      schedule_id: schedule_id,
+      match_id: match_id
+
+    },
+      { headers: { Authorization: AuthStr } }).then((response) => {
+        //debugger;
+        console.log(response)
+      })
+      .catch(function (error) {
+        Alert.alert(error);
+      });
+    this.setState({ visible: false })
+  }
   render() {
     const {
       enterScoreData: { isFetchingData, holeData }
     } = this.props;
 
-    const { holes, players } = holeData;
 
+    //debugger
+    const { holes, players } = holeData;
+    const data = [1, 2, 3, 4, 5];
     return (
       <View style={styles.container}>
         {this._renderTitle()}
@@ -850,8 +1050,8 @@ class EnterScore extends React.Component {
                 this.myScroll = ref;
               }}
               scrollEventThrottle={5}
-              onMomentumScrollBegin={(vale, text) => {}}
-              onMomentumScrollEnd={(vale, text) => {}}
+              onMomentumScrollBegin={(vale, text) => { }}
+              onMomentumScrollEnd={(vale, text) => { }}
               onScroll={(vale, text) => {
                 if (vale.nativeEvent.contentOffset.y < -30) {
                   this._hideKeyboard();
@@ -860,13 +1060,75 @@ class EnterScore extends React.Component {
             >
               {this._renderSwiper(players, holes)}
             </ScrollView>
-            {this._renderButton()}
+            {/* {this._renderButton()} */}
             {this._renderKeyboard()}
           </React.Fragment>
         ) : (
-          <EmptyStateText />
-        )}
-      </View>
+              <EmptyStateText />
+            )}
+
+
+        <Dialog
+          visible={this.state.visible}
+          onTouchOutside={() => {
+            this.setState({ visible: false });
+          }}
+          footer={
+            <View style={styles.dialogBoxStyle, { alignItems: 'center' }}>
+              <View style={[
+                styles.buttonStyle,
+                {
+                  backgroundColor: Colors.green,
+                  bottom: 15
+                }
+              ]}>
+
+                <DialogButton
+                  text="Confirm" textStyle={{ color: 'white', fontSize: 15 }}
+                  onPress={() => this.sendData()}
+                // onPress={() => this.setState({ visible: false })}
+                />
+              </View>
+
+            </View>
+          }
+        >
+
+          <DialogContent
+            style={{ justifyContent: 'center', alignItems: 'center', width: Dimensions.get('window').width * .7, height: Dimensions.get('window').height * .45 }}
+          >
+
+            <View style={{ flex: 1, width: Dimensions.get('window').width * .7, alignItems: 'center' }}>
+              <Text style={{ ...styles.titleHeader, paddingTop: 10, marginBottom: 10, }}>
+                Confirm Score
+              </Text>
+              <View style={{ marginLeft: 10, height: '10%', alignItems: 'center', justifyContent: 'center' }}>
+                {
+                  this._renderHeader()
+                }
+              </View>
+              <View style={{ width: '100%', height: '30%', marginTop: 10, }}>
+                <FlatList
+                  data={this.state.dataSource}
+                  renderItem={this.renderItem}
+                />
+              </View>
+              <View style={{ marginTop: 30, flexDirection: 'row', margin: 15 }}>
+                <CheckBox
+                  value={this.state.checked}
+                  onValueChange={() => this.setState({ checked: !this.state.checked })}
+                  style={{ ...styles.checkbox, alignSelf: 'flex-start', }}
+                />
+                {/* */}
+                <Text style={{ color: Colors.grey, fontSize: 12, }}>
+                  I have confirmed with each player their gross and net score and acknowledge once I submit, this scorecard cannot be amended.
+                </Text>
+              </View>
+            </View>
+          </DialogContent>
+        </Dialog>
+
+      </View >
     );
   }
 }
@@ -887,8 +1149,17 @@ const actions = {
   setTabbarType
 };
 
+//for dialog modal 
+
+
+
 function manipulateDataForScoreCard(data) {
+  //debugger
+  console.log("data status:" + data.score_lock);
+  this.tmpData = data;
+
   const { players } = data;
+  console.log("----------||-==players" + players)
 
   if (!players) return;
 
@@ -916,15 +1187,21 @@ function manipulateDataForScoreCard(data) {
     updatedData[0].Name[playerIndex] = {
       id: player.íd || player.id,
       initials: player.initials,
+      name: player.name,
       handicap: player.handicap
     };
-    player.scorecard.map(score => {
-      updatedData[score.hole_number - 1].Stroke[playerIndex] = score.strokes;
-      updatedData[score.hole_number - 1].FIR[playerIndex] = score.fir;
-      updatedData[score.hole_number - 1].GIR[playerIndex] = score.gir;
-      updatedData[score.hole_number - 1].Putts[playerIndex] = score.putts;
-      updatedData[score.hole_number - 1].Net[playerIndex] = score.net_score;
-      updatedData[score.hole_number - 1].Gross[playerIndex] = score.score;
+
+    player.scorecard.map((score, inn) => {
+      //debugger;
+      if (score) {
+        console.log("score is:" + score);
+        updatedData[score.hole_number - 1].Stroke[playerIndex] = score.strokes;
+        updatedData[score.hole_number - 1].FIR[playerIndex] = score.fir;
+        updatedData[score.hole_number - 1].GIR[playerIndex] = score.gir;
+        updatedData[score.hole_number - 1].Putts[playerIndex] = score.putts;
+        updatedData[score.hole_number - 1].Net[playerIndex] = score.net_score;
+        updatedData[score.hole_number - 1].Gross[playerIndex] = score.score;
+      }
     });
   });
 

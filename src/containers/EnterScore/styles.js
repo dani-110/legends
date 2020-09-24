@@ -1,5 +1,5 @@
 // @flow
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 import { Colors, AppStyles } from "../../theme";
 
 export default StyleSheet.create({
@@ -7,8 +7,51 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.background.primary
   },
+  Modal: {
+    width: '70%',
+    height: '50%',
+
+  }, dialogBoxStyle: {
+    flexDirection: 'row',
+    alignContent: 'center',
+    justifyContent: 'center',
+    width: Dimensions.get('window').width * .7,
+    height: Dimensions.get('window').width * .4,
+
+  },
+  checkboxContainer: {
+    flexDirection: "row",
+    marginBottom: 20,
+  },
+  checkbox: {
+    alignSelf: "center",
+  },
+  label: {
+    margin: 8,
+  },
+  tinyLogo: {
+    width: 50,
+    height: 50,
+  },
+  titleHeader: {
+    fontSize: 18,
+    fontWeight: 'bold',
+
+  },
+  buttonStyle: {
+    backgroundColor: Colors.green,
+    borderRadius: 15,
+    height: 40,
+    width: 200,
+  },
   column: {
     width: 40
+  },
+  buttonSubmit: {
+    padding: 12,
+    borderRadius: 20,
+    ...AppStyles.flexRow,
+    ...AppStyles.centerInner
   },
   background: {
     backgroundColor: Colors.background.secondary
@@ -36,6 +79,7 @@ export default StyleSheet.create({
     marginRight: -10,
     backgroundColor: Colors.green
   },
+
   buttonInActive: {
     backgroundColor: Colors.transparent
   },

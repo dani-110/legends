@@ -85,6 +85,7 @@ function* postPotyScore() {
         POST_POTY_SCORE_URL,
         payload,
         "",
+
         {},
         ApiSauce
       );

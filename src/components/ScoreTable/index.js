@@ -81,23 +81,26 @@ export default class ScoreTable extends React.Component {
             </Text>
           </View>
 
-          <View
-            style={[
-              styles.score,
-              {
-                backgroundColor:
-                  score[score.length - 1].scoredBy == 1
-                    ? playerOneColor
-                    : score[score.length - 1].scoredBy == 2
-                    ? playerTwoColor
-                    : Colors.darkBlue
-              }
-            ]}
-          >
-            <Text textAlign="center" color={Colors.white}>
-              {score[score.length - 1].score}
-            </Text>
-          </View>
+          {score.length > 1 ?
+            <View
+              style={[
+                styles.score,
+                {
+                  backgroundColor:
+                    score[score.length - 1].scoredBy == 1
+                      ? playerOneColor
+                      : score[score.length - 1].scoredBy == 2
+                        ? playerTwoColor
+                        : Colors.darkBlue
+                }
+              ]}
+            >
+              <Text textAlign="center" color={Colors.white}>
+                {score[score.length - 1].score}
+              </Text>
+            </View>
+            : <Text>score</Text>
+          }
 
           <View style={[AppStyles.flex2, AppStyles.pLeft5, AppStyles.pRight5]}>
             <Text style={[AppStyles.alignItemsCenter]} textAlign="center">
@@ -118,7 +121,7 @@ export default class ScoreTable extends React.Component {
         style={[
           AppStyles.flexRow,
           AppStyles.spaceBetween,
-          AppStyles.alignItemsCenter
+          AppStyles.alignItemsCenter,
         ]}
       >
         <Text style={[styles.wholeNumber]} textAlign="center">
@@ -166,8 +169,8 @@ export default class ScoreTable extends React.Component {
                       item.scoredBy == 1
                         ? playerOneColor
                         : item.scoredBy == 2
-                        ? playerTwoColor
-                        : Colors.darkBlue
+                          ? playerTwoColor
+                          : Colors.darkBlue
                   }
                 ]}
               >

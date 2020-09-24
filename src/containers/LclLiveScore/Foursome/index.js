@@ -4,12 +4,16 @@ import moment from "moment";
 import { connect } from "react-redux";
 import React from "react";
 import PropTypes from "prop-types";
-import { View } from "react-native";
+import { View, RefreshControl } from "react-native";
 import { getScoreLclFoursomeRequest } from "../../../actions/LiveMatchesActions";
 import styles from "./styles";
 import { ScoreTable, SimpleLoader, EmptyStateText } from "../../../components";
 import ProjectedScore from "../ProjectedScore";
 import { POLLING_TIME } from "../../../constants";
+import { Actions } from "react-native-router-flux";
+import { ScrollView } from "react-native-gesture-handler";
+
+
 
 class Foursome extends React.Component {
   static propTypes = {
@@ -27,6 +31,34 @@ class Foursome extends React.Component {
     dataLastUpdatedOn: ""
   };
 
+  //////////////////////////////  INTERVALS ///////////////////////////////
+
+  componentDidMount() {
+    this.dataPolling = setInterval(() => {
+      this._getScoreLclFoursomeRequest();
+    }, POLLING_TIME);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.dataPolling);
+  }
+
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      refreshing: false,
+    };
+  }
+
+  _onRefresh() {
+    this.setState({ refreshing: true });
+    this._getScoreLclFoursomeRequest()
+  }
+
+
+  ///////////////////////////////// INTERVALS /////////////////////////////
+
   componentWillMount() {
     this._getScoreLclFoursomeRequest();
     // this.dataPolling = setInterval(() => {
@@ -39,15 +71,17 @@ class Foursome extends React.Component {
   }
 
   _getScoreLclFoursomeRequest() {
+    debugger
     const { match_id, schedule_id, season_id, id } = this.props.data;
     const { dataLastUpdatedOn } = this.state;
-    const param = `${match_id}/${schedule_id}/${season_id || id}${
-      dataLastUpdatedOn ? `/${dataLastUpdatedOn}` : ``
-    }`;
+    // const param = `${match_id}/${schedule_id}/${season_id || id}${dataLastUpdatedOn ? `/${dataLastUpdatedOn}` : ``
+    //   }`;
+    const param = `${match_id}/${schedule_id}/${season_id || id}`;
 
     this.props.getScoreLclFoursomeRequest(param, data => {
       this.setState({
-        dataLastUpdatedOn: moment().unix()
+        dataLastUpdatedOn: moment().unix(),
+        refreshing: false
       });
     });
   }
@@ -66,15 +100,25 @@ class Foursome extends React.Component {
     const { isFetchingData, isLoadedOnce, liveScoreData } = this.props;
 
     return (
-      <View style={styles.container}>
-        {_.isEmpty(liveScoreData) && !isFetchingData && <EmptyStateText />}
 
-        {!isLoadedOnce && <SimpleLoader />}
-        {isLoadedOnce &&
-          !_.isEmpty(liveScoreData) &&
-          this._renderProjectedScore()}
-        {isLoadedOnce && !_.isEmpty(liveScoreData) && this._renderScoreTable()}
-      </View>
+      <ScrollView refreshControl={
+        <RefreshControl
+          refreshing={this.state.refreshing}
+          onRefresh={this._onRefresh.bind(this)}
+        />
+      }>
+        <View style={styles.container}>
+
+          {_.isEmpty(liveScoreData) && !isFetchingData && <EmptyStateText />}
+
+          {!isLoadedOnce && <SimpleLoader />}
+          {isLoadedOnce &&
+            !_.isEmpty(liveScoreData) &&
+            this._renderProjectedScore()}
+          {isLoadedOnce && !_.isEmpty(liveScoreData) && this._renderScoreTable()}
+
+        </View>
+      </ScrollView>
     );
   }
 }

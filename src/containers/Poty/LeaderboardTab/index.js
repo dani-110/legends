@@ -38,8 +38,8 @@ class LeaderboardTab extends Component {
           Player Name
         </Text>
 
-        <Text type="bold" style={{ width: 60 }}>
-          Events Header
+        <Text type="bold" style={{ width: 100 }} >
+          Events
         </Text>
         <Text type="bold" style={{ width: 60 }}>
           Points

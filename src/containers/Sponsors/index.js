@@ -9,6 +9,7 @@ import styles from "./styles";
 import Util from "../../util";
 import NewsItem from "./NewsItem";
 import { AppStyles } from "../../theme";
+import { getSponserRequest } from '../../actions/SponsorsAction';
 
 class Sponsors extends Component {
   static propTypes = {
@@ -17,7 +18,9 @@ class Sponsors extends Component {
   };
 
   static defaultProps = {};
-
+  componentDidMount() {
+    this.props.getSponserRequest();
+  }
   _renderNews = newsData => (
     <View style={[AppStyles.flex]}>
       <FlatList
@@ -50,15 +53,18 @@ class Sponsors extends Component {
     );
   }
 }
+const mapStateToProps = (e) => {
+  console.log(e);
+  return {
+    newsData: e.sponsor.data,
+    isFetchingNews: e.sponsor.isFetching
+  };
+}
 
-const mapStateToProps = ({ news }) => ({
-  newsData: news.data,
-  isFetchingNews: news.isFetching
-});
-
-const actions = {};
+const actions = { getSponserRequest };
 
 export default connect(
+
   mapStateToProps,
   actions
 )(Sponsors);

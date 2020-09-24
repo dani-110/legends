@@ -18,9 +18,11 @@ function alert(message, type = "error") {
   }, SAGA_ALERT_TIMEOUT);
 }
 
-function* getDashboardData() {
+function* getDashboardData2() {
+  //debugger
   while (true) {
     const { responseCallback } = yield take(GET_DASHBOARD_DATA.REQUEST);
+    console.log('called dashboard data request automatically after actions dashboard data 2');
     try {
       const response = yield call(
         callRequest,
@@ -30,7 +32,7 @@ function* getDashboardData() {
         {},
         ApiSauce
       );
-      console.log("response", response);
+      console.log("response/////", response);
       if (Util.isSuccessResponse(response)) {
         yield put(getDashboardDataSuccess(response.data));
       } else {
@@ -45,5 +47,5 @@ function* getDashboardData() {
 }
 
 export default function* root() {
-  yield fork(getDashboardData);
+  yield fork(getDashboardData2);
 }

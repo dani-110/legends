@@ -8,8 +8,10 @@ import { CustomNavbar, Text } from "../../components";
 import { NAVBAR_THEME } from "../../constants";
 import ListItem from "./ListItem";
 import styles from "./styles";
-import { AppStyles } from "../../theme";
+import { AppStyles, Colors } from "../../theme";
 
+let loop = 0;
+let arrPrevData = [];
 class LiveTab extends Component {
   static propTypes = {
     liveMatches: PropTypes.array.isRequired,
@@ -19,16 +21,24 @@ class LiveTab extends Component {
 
   static defaultProps = {};
 
+
   componentWillMount() {
     this._getLivedataRequest();
   }
 
-  _renderSectionHeader({ section: { title } }) {
+  _renderSectionHeader({ section: { title, data } }) {
+
     return (
       <View style={[AppStyles.mBottom10, AppStyles.mTop20]}>
         <Text type="bold" size="large">
-          {title}
+          {title + " MATCHES"}
         </Text>
+        {/* {(title !== "LIVE") ? (
+          <Text size="large" color={Colors.black2Tinted}>
+            {data[0].match_date_format}
+          </Text>
+        ) : null} */}
+
       </View>
     );
   }
@@ -37,12 +47,18 @@ class LiveTab extends Component {
     this.props.getLivedataRequest();
   };
 
+
   _renderItem({ item, index, section }) {
-    return <ListItem data={item} sectionTitle={section.title} />;
+    arrPrevData.push(item.match_date_format);
+    foo = loop > 0 ? arrPrevData[loop - 1] : "";
+    loop++;
+    return <ListItem data={item} matchDate={item.match_date} sectionTitle={section.title} matchFoo={foo} />;
   }
 
   renderMatchesList() {
     const { liveMatches, isFetchingData } = this.props;
+    loop = 0;
+    arrPrevData = [];
     return (
       <View style={[AppStyles.basePadding, AppStyles.flex]}>
         <SectionList
@@ -69,7 +85,7 @@ class LiveTab extends Component {
     return (
       <View style={styles.container}>
         <CustomNavbar
-          title="Live Matches"
+          title="Calendar"
           hasBorder={false}
           theme={NAVBAR_THEME.WHITE}
           hasBack={false}

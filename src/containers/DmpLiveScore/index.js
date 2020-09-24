@@ -3,7 +3,7 @@ import _ from "lodash";
 import { connect } from "react-redux";
 import React from "react";
 import PropTypes from "prop-types";
-import { View } from "react-native";
+import { View, RefreshControl } from "react-native";
 import styles from "./styles";
 import {
   ScoreTable,
@@ -15,6 +15,8 @@ import { getScoreDmpRequest } from "../../actions/LiveMatchesActions";
 
 import { NAVBAR_THEME } from "../../constants";
 import { setTabbarType, enableEnterScore } from "../../actions/GeneralActions";
+import { ScrollView } from "react-native-gesture-handler";
+import { POLLING_TIME } from "../../../src/constants/index";
 
 class DmpLiveScore extends React.Component {
   static propTypes = {
@@ -28,6 +30,31 @@ class DmpLiveScore extends React.Component {
   };
 
   static defaultProps = {};
+
+  //////////////////////////////  INTERVALS ///////////////////////////////
+
+  componentDidMount() {
+    this.dataPolling = setInterval(() => {
+      const { id, match_id, schedule_id, season_id } = this.props.data;
+      this.props.getScoreDmpRequest(`${match_id}/${schedule_id}/${season_id}`);
+      this.props.enableEnterScore(id === this.props.current_match[0].id);
+    }, POLLING_TIME);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.dataPolling);
+  }
+
+  _onRefresh() {
+    this.setState({ refreshing: false });
+    debugger
+    const { id, match_id, schedule_id, season_id } = this.props.data;
+    this.props.getScoreDmpRequest(`${match_id}/${schedule_id}/${season_id}`);
+    this.props.enableEnterScore(id === this.props.current_match[0].id);
+  }
+
+
+  ///////////////////////////////// INTERVALS /////////////////////////////
 
   static onEnter() {
     if (DmpLiveScore.instance) {
@@ -44,9 +71,13 @@ class DmpLiveScore extends React.Component {
   constructor(props) {
     super(props);
     DmpLiveScore.instance = this;
+    this.state = {
+      refreshing: false,
+    };
   }
 
   componentWillMount() {
+    debugger
     const { id, match_id, schedule_id, season_id } = this.props.data;
     this.props.getScoreDmpRequest(`${match_id}/${schedule_id}/${season_id}`);
     this.props.enableEnterScore(id === this.props.current_match[0].id);
@@ -80,13 +111,20 @@ class DmpLiveScore extends React.Component {
           theme={NAVBAR_THEME.WHITE}
           titleAlign="center"
         />
-        {_.isEmpty(liveScoreData) && !isFetchingData && <EmptyStateText />}
+        <ScrollView refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh.bind(this)}
+          />
+        }>
+          {_.isEmpty(liveScoreData) && !isFetchingData && <EmptyStateText />}
 
-        {isFetchingData && <SimpleLoader />}
+          {isFetchingData && <SimpleLoader />}
 
-        {!isFetchingData &&
-          !_.isEmpty(liveScoreData) &&
-          this._renderScoreTable()}
+          {!isFetchingData &&
+            !_.isEmpty(liveScoreData) &&
+            this._renderScoreTable()}
+        </ScrollView>
       </View>
     );
   }

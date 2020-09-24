@@ -51,10 +51,13 @@ class News extends Component {
   }
 }
 
-const mapStateToProps = ({ news }) => ({
-  newsData: news.data,
-  isFetchingNews: news.isFetching
-});
+const mapStateToProps = (data) => {
+  console.log(data);
+  return ({
+    newsData: data.news.data,
+    isFetchingNews: data.news.isFetching
+  });
+}
 
 const actions = {};
 

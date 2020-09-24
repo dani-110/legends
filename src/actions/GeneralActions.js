@@ -9,6 +9,7 @@ import {
 } from "./ActionTypes";
 
 export function setSelectedTab(selectedIndex) {
+  //debugger
   return {
     selectedIndex,
     type: SET_SELECTED_TABS
@@ -30,6 +31,7 @@ export function toggleTabbar(showTabbar) {
 }
 
 export function getDashboardDataRequest(data) {
+  console.log('In action data requested to fetch');
   return {
     data,
     type: GET_DASHBOARD_DATA.REQUEST

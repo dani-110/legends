@@ -20,6 +20,7 @@ function alert(message, type = "error") {
 }
 
 function* getplayersdirectory() {
+
   while (true) {
     const { responseCallback } = yield take(GET_PLAYERS_DIRECTORY.REQUEST);
     try {

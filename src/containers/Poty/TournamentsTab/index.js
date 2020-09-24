@@ -1,7 +1,7 @@
 // @flow
 import { connect } from "react-redux";
-import React, { Component } from "react";
-import { View, FlatList } from "react-native";
+import React from "react";
+import { View, FlatList, Alert } from "react-native";
 import PropTypes from "prop-types";
 import { Text, EmptyStateText, SimpleLoader } from "../../../components";
 import ListItem from "./ListItem";
@@ -10,7 +10,21 @@ import styles from "./styles";
 import { AppStyles } from "../../../theme";
 import Util from "../../../util";
 
-class TournamentsTab extends Component {
+class TournamentsTab extends React.Component {
+  constructor(props) {
+    super(props);
+    this._renderItem = this._renderItem.bind(this);
+  }
+
+  updateInputValue(id) {
+    debugger;
+    //this.props.tournamentsData = this.props.tournamentsData.map(e => ((e.tournament_id === id) ? { ...e, ...{ name: "20" } } : e));
+    Util.showLoader(this);
+    this.props.getPotyTournamentRequest("", data => {
+      Util.hideLoader(this);
+    });
+  }
+
   static propTypes = {
     tournamentsData: PropTypes.array.isRequired,
     getPotyTournamentRequest: PropTypes.func.isRequired
@@ -45,9 +59,12 @@ class TournamentsTab extends Component {
     );
   }
 
+
   _renderItem({ item }) {
-    return <ListItem data={item} />;
+    return <ListItem data={item} updateInputValue={(e) => this.updateInputValue(e)} />;
   }
+
+
 
   _renderListing(data) {
     return (

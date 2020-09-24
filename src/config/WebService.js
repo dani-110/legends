@@ -1,7 +1,7 @@
 import _ from "lodash";
 import Util from "../util";
 
-export const BASE_URL = "https://legendstourgolf.com/api/";
+export const BASE_URL = "http://legend.livewireapps.info/public/api";//"https://legendstourgolf.com/api/";
 
 export const API_TIMEOUT = 30000;
 
@@ -69,6 +69,12 @@ export const GET_NEWS = {
   type: REQUEST_TYPE.GET
 };
 
+export const GET_Sponsors = {
+  route: "getsponsors",
+  access_token_required: true,
+  type: REQUEST_TYPE.GET
+};
+
 export const GET_POTY_LEADERBOARD = {
   route: "GetPotyLeaderboard",
   access_token_required: true,
@@ -82,7 +88,8 @@ export const GET_LCL_POINTS_TABLE = {
 };
 
 export const GET_LCL_MONTHLY_MATCHES = {
-  route: "GetLCLMatches",
+  // route: "GetLCLMatches",
+  route: "GetLCLMatches_1",
   access_token_required: true,
   type: REQUEST_TYPE.GET
 };
@@ -100,7 +107,7 @@ export const GET_DMP_RESULTS = {
 };
 
 export const GET_USER_PROFILE = {
-  route: "GetProfile",
+  route: "GetProfile_1",
   access_token_required: true,
   type: REQUEST_TYPE.GET
 };
@@ -131,23 +138,23 @@ export const GET_ENTER_SCORE_DATA_POTY = {
   type: REQUEST_TYPE.GET
 };
 export const GET_ENTER_SCORE_DATA_LCL = {
-  route: "GetHoleDataForLclTournament",
+  route: "GetHoleDataForTournament",//"GetHoleDataForLclTournament"
   access_token_required: true,
   type: REQUEST_TYPE.GET
 };
 export const GET_ENTER_SCORE_DATA_LMP = {
-  route: "GetHoleDataForLmpTournament",
+  route: "GetHoleDataForTournament", //"GetHoleDataForLmpTournament",
   access_token_required: true,
   type: REQUEST_TYPE.GET
 };
 export const GET_ENTER_SCORE_DATA_DMP = {
-  route: "GetHoleDataForDmpTournament",
+  route: "GetHoleDataForTournament",// "GetHoleDataForDmpTournament",
   access_token_required: true,
   type: REQUEST_TYPE.GET
 };
 
 export const GET_LIVE_DATA = {
-  route: "LiveData",
+  route: "LiveData_1",
   access_token_required: true,
   type: REQUEST_TYPE.GET
 };
@@ -234,7 +241,7 @@ export const GET_LCL_GROUP_SCORCARD = {
 
 // PLAYERS DIRECTORY
 export const GET_PLAYERS_DIRECTORY = {
-  route: "GetAllPlayers",
+  route: "GetAllPlayers_1",
   access_token_required: true,
   type: REQUEST_TYPE.GET
 };
@@ -264,7 +271,8 @@ export const DELETE_NOTIFICATION = {
   type: REQUEST_TYPE.DELETE
 };
 
-export const callRequest = function(
+
+export const callRequest = function (
   url,
   data,
   parameter,

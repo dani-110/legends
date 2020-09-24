@@ -10,6 +10,7 @@ import MatchesTable from "./MatchesTable";
 import styles from "./styles";
 import { AppStyles } from "../../../theme";
 import Util from "../../../util";
+import ExpendableItems from './MatchesTable/ExpendableItems';
 
 class MonthlyMatches extends Component {
   static propTypes = {
@@ -25,17 +26,27 @@ class MonthlyMatches extends Component {
   }
 
   _renderItem({ item, index }) {
+
     return <MatchesTable data={{ item, index }} />;
   }
 
   _renderListing(data) {
+    debugger;
     const filteredData = _.chain(data)
       .groupBy("round")
-      .map((v, i) => ({
-        round: i,
-        playing_month: _.get(_.find(v, "playing_month"), "playing_month"),
-        teams: v.map(val => [val.team1_name, val.team2_name])
-      }))
+      .map((v, i) => {
+        return {
+          round: i,
+          playing_month: _.get(_.find(v, "playing_month"), "playing_month"),
+          teams: v.map(val => [val.team1_name, val.team2_name, { isExpanded: val.isExpanded }, { details: val.details }, val.team1_score, val.team2_score]),
+          isCollapsed: v.map(val => false),
+          // ex: v.map(val => val.ex),
+
+        }
+
+      }
+
+      )
       .value();
 
     return (
@@ -45,6 +56,7 @@ class MonthlyMatches extends Component {
           renderItem={this._renderItem}
           keyExtractor={Util.keyExtractor}
         />
+
       </View>
     );
   }

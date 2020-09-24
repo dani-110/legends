@@ -14,6 +14,7 @@ const reducers = require("./reducers").default;
 applyConfigSettings();
 
 export default class App extends Component {
+
   state = {
     isLoading: true,
     store: configureStore(reducers, () => {
@@ -30,7 +31,7 @@ export default class App extends Component {
     if (this.state.isLoading) {
       return null;
     }
-
+    console.disableYellowBox = true
     return (
       <View style={AppStyles.flex}>
         <Provider store={this.state.store}>

@@ -16,8 +16,9 @@ export default StyleSheet.create({
   },
   buttonStyle: {
     backgroundColor: Colors.green,
-    borderRadius: 50,
-    width: 150,
+    borderRadius: 15,
+    height: 40,
+    width: 200,
   },
 
   dialogBoxStyle: {
@@ -25,6 +26,7 @@ export default StyleSheet.create({
     alignContent: 'center',
     justifyContent: 'center',
     width: Dimensions.get('window').width * .7,
-    height: Dimensions.get('window').width * .15
+    height: Dimensions.get('window').width * .4,
+
   }
 });

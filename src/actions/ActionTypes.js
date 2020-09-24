@@ -29,6 +29,7 @@ export const LOGOUT = "LOGOUT";
 export const GET_DASHBOARD_DATA = createRequestTypes("GET_DASHBOARD_DATA");
 export const EMPTY = createRequestTypes("EMPTY");
 export const GET_NEWS = createRequestTypes("GET_NEWS");
+export const GET_SPONSORS = createRequestTypes("GET_SPONSORS");
 export const GET_POTY_LEADERBOARD = createRequestTypes("GET_POTY_LEADERBOARD");
 export const GET_LCL_POINTS_TABLE = createRequestTypes("GET_LCL_POINTS_TABLE");
 export const GET_LCL_MONTHLY_MATCHES = createRequestTypes(

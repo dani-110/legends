@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import { Text, Image } from "../../../components";
 import styles from "./styles";
 import { AppStyles, Colors, Images, Fonts } from "../../../theme";
+import { BASE_URL } from "../../../config/WebService";
 
 export default class NewsItem extends React.Component {
   static propTypes = {
@@ -13,6 +14,7 @@ export default class NewsItem extends React.Component {
   };
 
   render() {
+
     const { data } = this.props;
     return (
       <View style={[AppStyles.basePadding, AppStyles.flex]}>
@@ -31,17 +33,18 @@ export default class NewsItem extends React.Component {
         </View>
         <Text style={AppStyles.mTop10}>
           <Text type="bold" color={Colors.black2}>
-            {data.title}
+            {data.name}
           </Text>
           <Text
             size="small"
             color={Colors.grey}
-          >{`  ${data.description}`}</Text>
+          >{`  ${data.title}`}</Text>
         </Text>
         <View style={[styles.imageContainer, AppStyles.mTop15]}>
           {data.picture && (
             <Image
               source={{ uri: data.picture }}
+
               style={{ width: "100%", height: 220 }}
               resizeMode="cover"
             />

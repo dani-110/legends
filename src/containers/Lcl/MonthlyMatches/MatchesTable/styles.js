@@ -26,11 +26,43 @@ export default StyleSheet.create({
     borderRadius: 20,
     padding: 8
   },
+  circle:
+  {
+    borderWidth: 1,
+    borderColor: 'rgba(0,0,0,0.2)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 50,
+    height: 50,
+    backgroundColor: Colors.blue,
+    borderRadius: 50,
+  },
+  textStyle:
+  {
+    fontSize: 12,
+    textAlign: 'center',
+    color: Colors.grey5,
+    marginBottom: 15,
+  },
+  squir: {
+    width: 25,
+    height: 20,
+    backgroundColor: Colors.black,
+    marginLeft: 15,
+    justifyContent: 'flex-start',
+    marginRight: 10,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   playersSep: {
     backgroundColor: Colors.green,
     width: playersSepWidth,
     height: playersSepWidth,
     borderRadius: playersSepWidth / 2,
     ...AppStyles.centerInner
+  },
+  backgroundColorForWinner:
+  {
+
   }
 });

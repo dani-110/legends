@@ -3,7 +3,7 @@ import _ from "lodash";
 import { connect } from "react-redux";
 import React from "react";
 import PropTypes from "prop-types";
-import { View } from "react-native";
+import { View, RefreshControl } from "react-native";
 import styles from "./styles";
 import { getScoreLmpRequest } from "../../actions/LiveMatchesActions";
 import {
@@ -14,6 +14,8 @@ import {
 } from "../../components";
 import { NAVBAR_THEME } from "../../constants";
 import { setTabbarType, enableEnterScore } from "../../actions/GeneralActions";
+import { ScrollView } from "react-native-gesture-handler";
+import { POLLING_TIME } from "../../../src/constants/index";
 
 class LmpLiveScore extends React.Component {
   static propTypes = {
@@ -27,6 +29,34 @@ class LmpLiveScore extends React.Component {
   };
 
   static defaultProps = {};
+
+  //////////////////////////////  INTERVALS ///////////////////////////////
+
+  componentDidMount() {
+    this.dataPolling = setInterval(() => {
+      const { id, match_id, schedule_id, season_id } = this.props.data;
+      this.props.getScoreLmpRequest(
+        `${match_id}/${schedule_id}/${season_id || id}`
+      );
+      this.props.enableEnterScore(id === this.props.current_match[0].id);
+    }, POLLING_TIME);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.dataPolling);
+  }
+
+  _onRefresh() {
+    this.setState({ refreshing: false });
+    const { id, match_id, schedule_id, season_id } = this.props.data;
+    this.props.getScoreLmpRequest(
+      `${match_id}/${schedule_id}/${season_id || id}`
+    );
+    this.props.enableEnterScore(id === this.props.current_match[0].id);
+  }
+
+
+  ///////////////////////////////// INTERVALS /////////////////////////////
 
   static onEnter() {
     if (LmpLiveScore.instance) {
@@ -43,6 +73,9 @@ class LmpLiveScore extends React.Component {
   constructor(props) {
     super(props);
     LmpLiveScore.instance = this;
+    this.state = {
+      refreshing: false,
+    };
   }
 
   componentWillMount() {
@@ -81,12 +114,18 @@ class LmpLiveScore extends React.Component {
           theme={NAVBAR_THEME.WHITE}
           titleAlign="center"
         />
-
-        {isFetchingData && <SimpleLoader />}
-        {_.isEmpty(liveScoreData) && !isFetchingData && <EmptyStateText />}
-        {!isFetchingData &&
-          !_.isEmpty(liveScoreData) &&
-          this._renderScoreTable()}
+        <ScrollView refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh.bind(this)}
+          />
+        }>
+          {isFetchingData && <SimpleLoader />}
+          {_.isEmpty(liveScoreData) && !isFetchingData && <EmptyStateText />}
+          {!isFetchingData &&
+            !_.isEmpty(liveScoreData) &&
+            this._renderScoreTable()}
+        </ScrollView>
       </View>
     );
   }

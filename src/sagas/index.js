@@ -9,6 +9,7 @@ import enterScore from "./enterScore";
 import scoreCard from "./scoreCard";
 import playersDirectory from "./playersDirectory";
 import notifications from "./notifications";
+import sponsor from "./sponsor";
 
 export default function* root() {
   yield fork(general);
@@ -21,4 +22,5 @@ export default function* root() {
   yield fork(scoreCard);
   yield fork(playersDirectory);
   yield fork(notifications);
+  yield fork(sponsor)
 }

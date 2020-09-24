@@ -5,6 +5,7 @@ import moment from "moment";
 import { MessageBarManager } from "react-native-message-bar";
 import DataHandler from "../services/DataHandler";
 import { MESSAGE_TYPES, ERROR_MESSAGES, TIME_FORMAT2 } from "../constants";
+import { element } from "prop-types";
 
 class Util {
   keyExtractor = (item: Object, index: number) => index.toString();
@@ -189,14 +190,54 @@ class Util {
       players: playersArray
     };
   }
+  ///ORiginal 
+
+  // getManipulatedLiveMatchesData = data => {
+  //   const matchesType = ["poty", "lcl", "lmp", "dmp"];
+  //   const myData = [];
+
+  //   matchesType.forEach(element => {
+  //     const innerData = [];
+
+  //     data[element].forEach(innerElement => {
+  //       innerData.push({
+  //         ...innerElement,
+  //         time: innerElement.time
+  //           ? this.getDateObjectFromString(innerElement.time, TIME_FORMAT2)
+  //           : moment().toISOString(),
+  //         title:
+  //           element === "poty"
+  //             ? innerElement.name
+  //             : element === "lcl"
+  //               ? `${innerElement.team_1_initials} vs ${
+  //               innerElement.team_2_initials
+  //               }`
+  //               : `${innerElement.team1_name} vs ${innerElement.team2_name}`,
+  //         desc:
+  //           element === "lcl"
+  //             ? `${innerElement.team1_name} vs ${innerElement.team2_name}\n${
+  //             innerElement.venue
+  //             }`
+  //             : innerElement.venue
+  //       });
+  //     });
+  //     const itemData = {
+  //       title: element.toUpperCase(),
+  //       data: innerData
+  //     };
+  //     if (innerData.length) myData.push(itemData);
+  //   });
+
+  //   return myData;
+  // };
+
 
   getManipulatedLiveMatchesData = data => {
-    const matchesType = ["poty", "lcl", "lmp", "dmp"];
-    const myData = [];
 
+    const matchesType = ["upcoming", "live"];
+    const myData = [];
     matchesType.forEach(element => {
       const innerData = [];
-
       data[element].forEach(innerElement => {
         innerData.push({
           ...innerElement,
@@ -207,30 +248,25 @@ class Util {
             element === "poty"
               ? innerElement.name
               : element === "lcl"
-              ? `${innerElement.team_1_initials} vs ${
-                  innerElement.team_2_initials
+                ? `${innerElement.team_1_initials} vs ${innerElement.team_2_initials
                 }`
-              : `${innerElement.team1_name} vs ${innerElement.team2_name}`,
+                : `${innerElement.team1_name} vs ${innerElement.team2_name}`,
           desc:
             element === "lcl"
-              ? `${innerElement.team1_name} vs ${innerElement.team2_name}\n${
-                  innerElement.venue
-                }`
+              ? `${innerElement.team1_name} vs ${innerElement.team2_name}\n${innerElement.venue
+              }`
               : innerElement.venue
         });
       });
-
       const itemData = {
         title: element.toUpperCase(),
         data: innerData
       };
-
       if (innerData.length) myData.push(itemData);
     });
 
     return myData;
   };
-
   getDateObjectFromString = (date, format) => {
     if (date) return moment(date, format).toDate();
     return "";

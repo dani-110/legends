@@ -41,12 +41,14 @@ const initialState = Immutable({
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_NEWS.REQUEST: {
+      console.log('requesting to fetch news ==> ');
       return Immutable.merge(state, {
         isFetching: true
       });
     }
 
     case GET_NEWS.SUCCESS: {
+      console.log('News fetched successfully ==> ');
       return Immutable.merge(state, {
         data: action.data,
         isFetching: false

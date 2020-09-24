@@ -22,7 +22,8 @@ const initialState = Immutable({
     //   tee_off_time: "11:30:00"
     // }
   ],
-  enable_enter_score: false
+  enable_enter_score: false,
+  leaderBoardData: []
 });
 
 export default (state = initialState, action) => {
@@ -47,7 +48,9 @@ export default (state = initialState, action) => {
 
     case GET_DASHBOARD_DATA.SUCCESS: {
       return Immutable.merge(state, {
-        current_match: action.data && action.data.current_match
+        current_match: action.data && action.data.current_match,
+        leaderBoardData: action.data
+
       });
     }
 

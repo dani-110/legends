@@ -49,10 +49,10 @@ export default class ListItem extends React.PureComponent {
         <Text
           type="bold"
           size="small"
-          style={{ width: 60 }}
+          style={{ width: 90 }}
           color={Colors.text.secondary}
         >
-          Events_Data
+          {data.events}
         </Text>
         <Text
           type="bold"

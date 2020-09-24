@@ -84,7 +84,7 @@ class ForgotPassword extends Component {
         </Text>
 
         <TextInput
-          placeholder="Email"
+          placeholder="Emailsas"
           style={[AppStyles.inputStyle1, AppStyles.mTop40, AppStyles.mBottom10]}
           autoCapitalize="none"
           autoCorrect={false}

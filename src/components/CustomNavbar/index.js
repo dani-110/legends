@@ -40,12 +40,12 @@ export default class CustomNavbar extends React.Component {
     leftBtnPress: Actions.pop,
     leftBtnText: "",
     rightBtnImage: undefined,
-    rightBtnPress: () => {},
+    rightBtnPress: () => { },
     rightBtnText: "",
     hasBorder: true,
     style: {},
     hasSearch: false,
-    onSearchText: () => {},
+    onSearchText: () => { },
     isSearching: false,
     theme: NAVBAR_THEME.WHITE,
     titleAlign: "center",
@@ -67,7 +67,7 @@ export default class CustomNavbar extends React.Component {
           <Image source={leftBtnImage} size={styles.btnImage} />
         )}
         {renderBack && (
-          <Image source={Images.back_icon} size={styles.btnImage} />
+          <Image source={Images.arrow_white} />
         )}
       </ButtonView>
     );
@@ -127,7 +127,7 @@ export default class CustomNavbar extends React.Component {
         {!_.isEmpty(subtitle) && (
           <Text
             size="xSmall"
-            color={Colors.black2Tinted}
+            color={Colors.white}
             textAlign={titleAlign}
           >
             {subtitle || ""}
@@ -174,9 +174,9 @@ export default class CustomNavbar extends React.Component {
             : { backgroundColor: Colors.white },
           isLandscape
             ? {
-                // height: Metrics.navBarHeightLandscape,
-                paddingTop: Metrics.statusBarHeightLandscape
-              }
+              // height: Metrics.navBarHeightLandscape,
+              paddingTop: Metrics.statusBarHeightLandscape
+            }
             : {}
         ]}
       >
