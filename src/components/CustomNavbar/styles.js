@@ -13,7 +13,7 @@ export default StyleSheet.create({
   },
   borderBottom: {
     borderBottomWidth: 0.5,
-    borderBottomColor: Colors.grey3
+    borderBottomColor: Colors.green
   },
   btnImage: {
     width: 20,

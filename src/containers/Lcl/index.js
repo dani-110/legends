@@ -32,7 +32,7 @@ class Lcl extends Component {
     },
     {
       image: "calendar",
-      title: "Monthly Matches",
+      title: "Rounds",
       onPress: () => Util.setSelectedTabIndex(this, 1)
     }
   ];

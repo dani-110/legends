@@ -36,6 +36,9 @@ class PointsTableTab extends Component {
         <Text type="bold" style={AppStyles.flex} textAlign="left">
           Team
         </Text>
+        <Text type="bold" style={{ width: 85 }}>
+          Rounds
+        </Text>
         <Text type="bold" style={{ width: 68 }}>
           Points
         </Text>

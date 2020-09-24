@@ -9,9 +9,8 @@ export default StyleSheet.create({
     ...AppStyles.centerInner
   },
   points: {
-    backgroundColor: Colors.blue,
-    color: Colors.white,
-    borderRadius: 20,
+
+
     width: 68,
     height: 22,
     textAlign: "center"

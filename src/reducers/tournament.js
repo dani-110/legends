@@ -109,6 +109,7 @@ const initialState = Immutable({
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_POTY_TOURNAMENT.SUCCESS: {
+      debugger
       const tempPotyTournaments = _.cloneDeep(state.poty);
       tempPotyTournaments.tournaments = action.data;
       return Immutable.merge(state, {
@@ -175,6 +176,7 @@ export default (state = initialState, action) => {
     }
 
     case GET_LCL_MONTHLY_MATCHES.SUCCESS: {
+      console.log(state);
       const tempLcl = _.cloneDeep(state.lcl);
       tempLcl.monthlyMatches = action.data;
       tempLcl.isFetchingLeaderboard = false;

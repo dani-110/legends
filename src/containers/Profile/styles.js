@@ -62,5 +62,33 @@ export default StyleSheet.create({
     bottom: 0,
     top: 0,
     ...AppStyles.centerInner
+  },
+  RectangleShapeView: {
+
+    marginTop: 20,
+    width: 180 * 2,
+    height: 300,
+    backgroundColor: Colors.white,
+    borderWidth: 1,
+    borderRadius: 15,
+    borderColor: Colors.grey2,
+    paddingTop: 15,
+
+  },
+  innerCircle: {
+    width: 30,
+    height: 30,
+    borderRadius: 50,
+    borderWidth: 2,
+    backgroundColor: Colors.white,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  headerText: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 15
   }
+
 });

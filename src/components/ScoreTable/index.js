@@ -121,7 +121,7 @@ export default class ScoreTable extends React.Component {
         style={[
           AppStyles.flexRow,
           AppStyles.spaceBetween,
-          AppStyles.alignItemsCenter
+          AppStyles.alignItemsCenter,
         ]}
       >
         <Text style={[styles.wholeNumber]} textAlign="center">

@@ -44,11 +44,23 @@ export default class ListItem extends React.PureComponent {
             {data.team_name}
           </Text>
         </View>
+
         <View style={styles.points}>
           <Text
             type="bold"
             size="small"
-            color={Colors.white}
+            color={Colors.black}
+            textAlign="left"
+          >
+            {data.points}
+          </Text>
+        </View>
+
+        <View style={styles.points}>
+          <Text
+            type="bold"
+            size="small"
+            color={Colors.black}
             textAlign="center"
           >
             {data.points}

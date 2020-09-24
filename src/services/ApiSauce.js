@@ -16,6 +16,7 @@ const api = create({
 });
 
 class ApiSauce {
+
   async post(url, data, headers, baseUrl) {
     api.setBaseURL(baseUrl);
     const response = await api.post(url, data, {

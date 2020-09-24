@@ -7,7 +7,7 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.red,
     borderRadius: Metrics.borderRadius,
-    padding: 14,
+    // padding: 14,
     position: "relative",
     ...AppStyles.mBottom10
   },
@@ -17,5 +17,14 @@ export default StyleSheet.create({
     height: 10,
     top: "50%",
     transform: [{ translateY: 9 }]
+  },
+  RectangleShape: {
+    // marginTop: 20,
+    width: 25 * 2,
+    height: 25,
+    // backgroundColor: '#BABECD'
+    backgroundColor: 'rgba(255,255,255, 0.2)',
+    borderRadius: 50,
+
   }
 });
