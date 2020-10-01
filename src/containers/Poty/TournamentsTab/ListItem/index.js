@@ -32,9 +32,9 @@ export default class ListItem extends React.Component {
       case "TBA ":
         return Colors.red
       case "Registration":
-        return Colors.red
+        return Colors.redDark
       case "Registered":
-        return Colors.red4
+        return Colors.redDark
       case "Scheduled":
         return Colors.red5
       case "Completed":
@@ -218,8 +218,8 @@ export default class ListItem extends React.Component {
           >
 
             <Text
-              type="bold"
-              size="xSmall"
+              type="base"
+              size="small"
               color={Colors.white}
               textAlign="center"
             >

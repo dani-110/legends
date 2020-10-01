@@ -31,17 +31,17 @@ class LeaderboardTab extends Component {
   _renderHeader() {
     return (
       <View style={styles.listHeaderWrapper}>
-        <Text type="bold" style={{ width: 70 }}>
+        <Text style={{ width: 70, ...styles.Title }}>
           Rank
         </Text>
-        <Text type="bold" style={AppStyles.flex} textAlign="left">
+        <Text type="base" style={{ ...AppStyles.flex, ...styles.Title }} textAlign="left">
           Player Name
         </Text>
 
-        <Text type="bold" style={{ width: 100 }} >
+        <Text type="base" style={{ width: 100, ...styles.Title }} >
           Events
         </Text>
-        <Text type="bold" style={{ width: 60 }}>
+        <Text type="base" style={{ width: 60, ...styles.Title }}>
           Points
         </Text>
       </View>

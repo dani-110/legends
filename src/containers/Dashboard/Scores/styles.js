@@ -2,7 +2,7 @@
 import { StyleSheet } from "react-native";
 import { AppStyles, Colors } from "../../../theme";
 
-const circleSize = 57;
+const circleSize = 65;
 
 export default StyleSheet.create({
   circle: {

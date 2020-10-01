@@ -24,7 +24,7 @@ export default function MatchesTable(props) {
         item: { round }
       }
     } = props;
-    const colors = ["blue", "red3", "darkBlue"];
+    const colors = ["blue", "redDark", "darkBlue"];
 
     return (
       <View style={AppStyles.centerInner}>

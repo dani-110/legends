@@ -1,6 +1,8 @@
 // @flow
 import { StyleSheet } from "react-native";
 import { Colors, Metrics, AppStyles } from "../../theme";
+import Fonts from "../../theme/Fonts";
+
 
 export default StyleSheet.create({
   container: {
@@ -32,6 +34,6 @@ export default StyleSheet.create({
   },
   titleContainer: {
     paddingHorizontal: 20
-  }
-  // title: { width: "100%", paddingHorizontal: 15 }
+  },
+  title: { fontFamily: Fonts.type.base, fontSize: Fonts.size.xxLarge }
 });

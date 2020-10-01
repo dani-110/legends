@@ -38,14 +38,14 @@ export default class NewsItem extends React.Component {
             color={Colors.grey}
           >{`  ${data.description}`}</Text>
         </Text>
-        <View style={[styles.imageContainer, AppStyles.mTop15]}>
-          {data.picture && (
-            <Image
-              source={{ uri: data.picture }}
-              style={{ width: "100%", height: 220 }}
-              resizeMode="cover"
-            />
-          )}
+        <View style={[styles.imageContainer, AppStyles.mTop15, { height: 220, backgroundColor: Colors.white }]} >
+
+          {
+            data.picture && (
+
+              <RNImage source={{ uri: data.picture }} style={{ width: "100%", height: 220, }} resizeMode="contain" />
+            )
+          }
         </View>
       </View>
     );

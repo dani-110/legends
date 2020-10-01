@@ -97,7 +97,7 @@ class SideMenu extends React.PureComponent {
 
   renderOptionsList() {
     return (
-      <View style={[AppStyles.flex, AppStyles.padding10]}>
+      <View style={[AppStyles.flex, AppStyles.padding10,]}>
         {DRAWER_ITEMS.map((element, index) => (
           <ButtonView
             style={styles.listItem}
@@ -108,7 +108,7 @@ class SideMenu extends React.PureComponent {
               element.onPress();
             }}
           >
-            <Text type="bold" color={Colors.text.secondary}>
+            <Text type="base" color={Colors.text.secondary}>
               {element.text}
             </Text>
           </ButtonView>

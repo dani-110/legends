@@ -30,16 +30,16 @@ class PointsTableTab extends Component {
   _renderHeader() {
     return (
       <View style={styles.listHeaderWrapper}>
-        <Text type="bold" style={{ width: 80 }}>
+        <Text style={{ width: 70, ...styles.Title }}>
           Position
         </Text>
-        <Text type="bold" style={AppStyles.flex} textAlign="left">
+        <Text style={{ ...AppStyles.flex, ...styles.Title }} textAlign="center">
           Team
         </Text>
-        <Text type="bold" style={{ width: 85 }}>
+        <Text style={{ width: 85, ...styles.Title }}>
           Rounds
         </Text>
-        <Text type="bold" style={{ width: 68 }}>
+        <Text style={{ width: 68, ...styles.Title }}>
           Points
         </Text>
       </View>

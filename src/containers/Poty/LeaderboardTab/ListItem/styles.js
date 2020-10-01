@@ -1,6 +1,6 @@
 // @flow
 import { StyleSheet } from "react-native";
-import { Colors, AppStyles } from "../../../../theme";
+import { Colors, AppStyles, Fonts } from "../../../../theme";
 
 export default StyleSheet.create({
   container: {
@@ -14,5 +14,10 @@ export default StyleSheet.create({
     borderRadius: 20,
     overflow: "hidden",
     marginRight: 20
+  },
+  innerText: {
+    fontFamily: Fonts.type.base,
+    fontSize: Fonts.size.small,
+    color: Colors.black
   }
 });

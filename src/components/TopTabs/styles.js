@@ -20,7 +20,21 @@ export default StyleSheet.create({
     backgroundColor: Colors.green,
     bottom: -1
   },
+  selectedGraphBorder: {
+    position: "absolute",
 
+    width: 90,
+    height: 40,
+    borderRadius: 5,
+    borderTopRightRadius: 30,
+    borderColor: Colors.greyTint,
+    borderTopWidth: 2,
+    borderLeftWidth: 2,
+    borderRightWidth: 2,
+    borderBottomWidth: 7,
+    borderBottomColor: Colors.white,
+    top: 6
+  },
   icon: {
     marginRight: 5
   }

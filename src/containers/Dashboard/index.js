@@ -56,6 +56,7 @@ class Dashboard extends Component {
     this.props.getDashboardDataRequest();
   }
 
+
   _onEnter() {
     this.props.setSelectedTab(1);
   }

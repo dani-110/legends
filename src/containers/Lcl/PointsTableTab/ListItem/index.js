@@ -26,10 +26,8 @@ export default class ListItem extends React.PureComponent {
         ]}
       >
         <Text
-          type="bold"
-          style={{ width: 80 }}
-          size="small"
-          color={Colors.text.secondary}
+          style={{ width: 50, ...styles.innerText }}
+
         >
           {data.rank}
         </Text>
@@ -37,19 +35,17 @@ export default class ListItem extends React.PureComponent {
           style={[
             AppStyles.flex,
             AppStyles.flexRow,
-            AppStyles.alignItemsCenter
+            AppStyles.alignItemsCenter, { justifyContent: 'center' }
           ]}
         >
-          <Text type="bold" size="small" color={Colors.text.secondary}>
+          <Text style={{ ...styles.innerText, }} >
             {data.team_name}
           </Text>
         </View>
 
         <View style={styles.points}>
           <Text
-            type="bold"
-            size="small"
-            color={Colors.black}
+            style={{ ...styles.innerText }}
             textAlign="left"
           >
             {data.points}
@@ -58,9 +54,7 @@ export default class ListItem extends React.PureComponent {
 
         <View style={styles.points}>
           <Text
-            type="bold"
-            size="small"
-            color={Colors.black}
+            style={{ ...styles.innerText }}
             textAlign="center"
           >
             {data.points}

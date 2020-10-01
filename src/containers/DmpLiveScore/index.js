@@ -36,7 +36,7 @@ class DmpLiveScore extends React.Component {
   componentDidMount() {
     this.dataPolling = setInterval(() => {
       const { id, match_id, schedule_id, season_id } = this.props.data;
-      this.props.getScoreDmpRequest(`${match_id}/${schedule_id}/${season_id}`);
+      this.props.getScoreDmpRequest(`${match_id}/${schedule_id}/${id}`);
       this.props.enableEnterScore(id === this.props.current_match[0].id);
     }, POLLING_TIME);
   }
@@ -49,7 +49,7 @@ class DmpLiveScore extends React.Component {
     this.setState({ refreshing: false });
     debugger
     const { id, match_id, schedule_id, season_id } = this.props.data;
-    this.props.getScoreDmpRequest(`${match_id}/${schedule_id}/${season_id}`);
+    this.props.getScoreDmpRequest(`${match_id}/${schedule_id}/${id}`);
     this.props.enableEnterScore(id === this.props.current_match[0].id);
   }
 
@@ -79,7 +79,7 @@ class DmpLiveScore extends React.Component {
   componentWillMount() {
     debugger
     const { id, match_id, schedule_id, season_id } = this.props.data;
-    this.props.getScoreDmpRequest(`${match_id}/${schedule_id}/${season_id}`);
+    this.props.getScoreDmpRequest(`${match_id}/${schedule_id}/${id}`);
     this.props.enableEnterScore(id === this.props.current_match[0].id);
   }
 

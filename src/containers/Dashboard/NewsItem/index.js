@@ -96,7 +96,7 @@ class NewsItem extends React.Component {
     const { newsData, isFetchingNews } = this.props;
 
     return (
-      <View style={[AppStyles.basePadding, AppStyles.pTop0]}>
+      <View style={[AppStyles.basePadding, AppStyles.pTop0, { marginTop: -30, marginBottom: -90, }]}>
         <Text type="bold" size="xLarge">
           Latest News
         </Text>

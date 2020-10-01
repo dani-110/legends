@@ -26,6 +26,7 @@ const red2 = "#FF5733";
 const red3 = "#ff4c3e";
 const red4 = "#FE5200";
 const red5 = "#C60001";
+const redDark = "#9A0000";
 const blue = "#033FFF";
 const blue2 = "#2556db";
 const primary = white;
@@ -52,7 +53,7 @@ const navbar = {
   text: text.primary
 };
 
-const separator = "#f2f2f2";
+const separator = "#F0F0F0";
 
 const windowTint = "rgba(0, 0, 0, 0.4)";
 const windowTintWhite = "rgba(255, 255, 255, 0.7)";
@@ -77,6 +78,7 @@ export default {
   greyTint,
   yellow,
   yellow2,
+  redDark,
   transparent,
   red,
   blue,

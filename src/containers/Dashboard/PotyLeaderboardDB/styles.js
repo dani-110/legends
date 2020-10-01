@@ -6,5 +6,6 @@ export default StyleSheet.create({
   container: {
     backgroundColor: Colors.background.primary,
     minHeight: 270
-  }
+  },
+
 });

@@ -4,10 +4,12 @@ import _ from "lodash";
 import { connect } from "react-redux";
 import {
   View, FlatList, Picker, Image as RNImage, Linking, Alert, TouchableOpacity
-  , Platform
+  , Platform, StyleSheet
 } from "react-native";
 import PropTypes from "prop-types";
 import { setSelectedTab } from "../../actions/GeneralActions";
+
+
 import { getPlayersDirectoryRequest } from "../../actions/PlayersDirectoryActions";
 import {
   CustomNavbar,
@@ -20,7 +22,7 @@ import {
 import { NAVBAR_THEME } from "../../constants";
 import styles from "./styles";
 import Util from "../../util";
-import { AppStyles, Colors, Images } from "../../theme";
+import { AppStyles, Colors, Fonts, Images } from "../../theme";
 import AlphabetSectionList from 'react-native-alphabet-sectionlist';
 
 const dataAlphabet = {
@@ -34,6 +36,8 @@ const dataAlphabet = {
   'N': [{ name: 'N1' }, { name: 'N2' }, { name: 'N3' }, { name: 'N5' }],
   'Y': [{ name: 'Y1' }, { name: 'Y2' }, { name: 'Y3' }, { name: 'Y5' }, { name: 'Y6' }],
 };
+
+
 
 class playersDirectory extends Component {
 
@@ -56,6 +60,7 @@ class playersDirectory extends Component {
     });
   }
 
+
   _renderSearchBar() {
     const { playersDirectoryData } = this.state;
 
@@ -63,43 +68,58 @@ class playersDirectory extends Component {
       <View style={{
         flexDirection: 'row',
       }}>
-        <View style={[AppStyles.basePadding, styles.searchBarContainer], {
-          flex: 2,
-          marginTop: 10
-        }}>
-          <TextInput
-            onChangeText={text => {
-              this._onSearchPress(text);
-            }}
-            placeholder="Seach..."
-            style={styles.searchBar}
-          />
-          <RNImage
-            height={18.75}
-            width={18.75}
-            style={styles.searchIcon}
-            source={Images.search_icon}
-          />
-        </View>
+        <View style={{ flex: 2, ...styles.searchBox, marginLeft: 20 }}>
 
-        <View style={{ flex: 1 }}>
-          <Text style={{ height: 19, fontSize: 15, color: Colors.black2Tinted }}>
-            Sort by:
-            </Text>
-          <Picker mode="dropdown"
-            selectedValue={this.state.selectedValue}
-            onValueChange={(itemValue, itemIndex) => {
-              this.setState({ selectedValue: itemValue });
-            }}
-          >
-            <Picker.Item label="Name" value="name" />
-            <Picker.Item label="Index" value="index" />
-          </Picker>
+
+          <View style={{ ...styles.searchshadow }}>
+            <TextInput style={{ height: 100 }}
+              onChangeText={text => {
+                this._onSearchPress(text);
+              }}
+              placeholder="Seach..."
+              style={{ width: 180 }}
+            />
+            <RNImage
+              height={18.75}
+              width={18.75}
+              style={{
+                ...styles.searchIcon, elevation: 24, shadowOffset: {
+                  width: 0, height: 12,
+                }, shadowOpacity: 1, shadowRadius: 16.00, backgroundColor: 'white',
+              }}
+              source={Images.search_icon}
+            />
+
+
+          </View>
+
         </View>
-      </View>
+        <View style={{ flex: 1, marginTop: 10, }}>
+          <Text id style={{ height: 50, position: 'absolute', marginLeft: 10, fontSize: 12, color: Colors.grey, fontFamily: 'CircularStd-Book' }}>
+            Sort by:Name
+         </Text>
+          <View style={{}}>
+            <Picker mode="dialog"
+              style={stylesPicker.pickerStyle}
+              textStyle={{ color: "#5cb85c" }}
+              selectedValue={this.state.selectedValue}
+              onValueChange={(itemValue, itemIndex) => {
+                this.setState({ selectedValue: itemValue });
+              }}
+
+            >
+              <Picker.Item label="Name" value="name" />
+              <Picker.Item label="Index" value="index" />
+            </Picker>
+
+          </View>
+        </View>
+      </View >
 
     );
   }
+
+
 
   _renderPlayersList() {
     const { playersDirectoryData } = this.state;
@@ -247,6 +267,26 @@ class playersDirectory extends Component {
     );
   }
 }
+
+const stylesPicker = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textStyle: {
+    margin: 24,
+    fontSize: 25,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  pickerStyle: {
+    height: 50,
+    width: "100%",
+    color: '#344953',
+    justifyContent: 'flex-end',
+  }
+});
 //&& <SimpleLoader />
 const mapStateToProps = ({ playersDirectory }) => ({
   playersDirectory
@@ -269,18 +309,27 @@ export default connect(
 // white_tee_handicap: "4"
 
 //////////////////////////// ALPHABET LIST //////////////////////
-renderItem = ({ item }) => {
+let temp = 0;
+renderItem = ({ item }, index) => {
+  temp += 1;
+  const colors = ["blue", "redDark"];
+  debugger;
   return (
 
     <View>
-      <View style={{ flex: 1, flexDirection: 'row', padding: 15, justifyContent: 'space-between', }}>
+      <View style={{ flex: 1, flexDirection: 'row', padding: 5, marginLeft: 35, justifyContent: 'space-between', }}>
 
         {/* //image View */}
         <View style={{ flexDirection: 'row', }}>
-          <RNImage
-            source={{ uri: item.picture }}
-            style={{ width: 80, height: 80, borderRadius: 50 }}
-          />
+          <View style={{ ...styles.absoluteContainer, backgroundColor: Colors[colors[temp % 2]] }}>
+            <Text style={{ position: 'absolute', textAlign: 'center', color: Colors.white }}> {item.first_last_letter}</Text>
+            <RNImage
+              source={{ uri: item.picture }}
+              style={{ width: 50, height: 50, borderRadius: 50, }}
+              resizeMode='cover'
+            />
+
+          </View>
           <View>
             <View style={{
               marginLeft: 10,
@@ -320,11 +369,11 @@ renderItem = ({ item }) => {
         }}>
           <RNImage
             source={Images.phone_icon}
-            style={{ width: 20, height: 20, marginTop: 30, marginRight: 20 }}
+            style={{ width: 15, height: 15, marginTop: 30, marginRight: 50 }}
           />
         </TouchableOpacity>
       </View>
-    </View>
+    </View >
   )
 }
 

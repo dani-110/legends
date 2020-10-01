@@ -21,10 +21,7 @@ export default class ListItem extends React.PureComponent {
         style={[AppStyles.flexRow, AppStyles.padding15, AppStyles.centerInner]}
       >
         <Text
-          type="bold"
-          style={{ width: 70 }}
-          size="small"
-          color={Colors.text.secondary}
+          style={{ width: 70, ...styles.innerText }}
         >
           {data.rank}
         </Text>
@@ -37,28 +34,21 @@ export default class ListItem extends React.PureComponent {
         >
           {/* <Image source={{ uri: data.avatar }} style={styles.image} /> */}
           <Text
-            type="bold"
-            size="small"
-            color={Colors.text.secondary}
-            style={AppStyles.capitalize}
+
+            style={{ ...AppStyles.capitalize, ...styles.innerText }}
           >
             {data.name}
           </Text>
         </View>
 
         <Text
-          type="bold"
-          size="small"
-          style={{ width: 90 }}
-          color={Colors.text.secondary}
+
+          style={{ width: 90, ...styles.innerText }}
         >
           {data.events}
         </Text>
         <Text
-          type="bold"
-          size="small"
-          style={{ width: 60 }}
-          color={Colors.text.secondary}
+          style={{ width: 60, ...styles.innerText }}
         >
           {data.points}
         </Text>

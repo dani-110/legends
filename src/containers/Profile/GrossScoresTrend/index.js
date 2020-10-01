@@ -3,13 +3,23 @@ import _ from "lodash";
 import { connect } from "react-redux";
 import React from "react";
 import PropTypes from "prop-types";
-import { View } from "react-native";
+import { View, Dimensions } from "react-native";
+// import {
+//   StackedAreaChart,
+//   YAxis,
+//   Grid,
+//   LineChart
+// } from "react-native-svg-charts";
+
 import {
-  StackedAreaChart,
-  YAxis,
-  Grid,
-  LineChart
-} from "react-native-svg-charts";
+  LineChart,
+  BarChart,
+  PieChart,
+  ProgressChart,
+  ContributionGraph,
+  StackedBarChart
+} from "react-native-chart-kit";
+
 import * as shape from "d3-shape";
 import { Text } from "../../../components";
 import styles from "./styles";
@@ -22,85 +32,70 @@ class GrossScoresTrend extends React.PureComponent {
     user: PropTypes.object.isRequired,
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      titleData: ""
+    };
+  }
+
   static defaultProps = {
     activeGraph: "grossScoreTrend"
   };
+  chartConfig = {
+    backgroundGradientFrom: "#FFF",
+    backgroundGradientFromOpacity: 0,
+    backgroundGradientTo: "#FFF",
+    backgroundGradientToOpacity: 0.5,
+    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+    strokeWidth: 2, // optional, default 3
 
+    useShadowColorFromDataset: false // optional
+  };
   _renderGraph() {
     debugger
+    const screenWidth = Dimensions.get("window").width;
     const { graphData, activeGraph, user } = this.props;
-    const data = [50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80]
     let YAxisData = [];
     let XAxisData = [];
-    console.log("-------------------" + graphData);
-    debugger
-    if (activeGraph === "handicap") {
-      const uniqByData = _.uniqBy(user.Graph.handicap, "year");
-      YAxisData = uniqByData.map(element => parseInt(element.year));
-      XAxisData = user.Graph.handicap.map(element => parseInt(element.season_id));
-      debugger;
-      console.log(YAxisData);
-      console.log(XAxisData);
-    } else if (activeGraph === "putts") {
-      const uniqByData = _.uniqBy(user.Graph.putts, "year");
-      YAxisData = uniqByData.map(element => parseInt(element.year));
-      XAxisData = user.Graph.putts.map(element => parseInt(element.season_id));
-      console.log(YAxisData);
-      console.log(XAxisData);
-    }
-    else if (activeGraph === "fir") {
-      const uniqByData = _.uniqBy(user.Graph.fir, "year");
-      YAxisData = uniqByData.map(element => parseInt(element.year));
-      XAxisData = user.Graph.fir.map(element => parseInt(element.season_id));
-      console.log(YAxisData);
-      console.log(XAxisData);
-    }
-    else if (activeGraph === "gir") {
-      const uniqByData = _.uniqBy(user.Graph.gir, "year");
-      YAxisData = uniqByData.map(element => parseInt(element.year));
-      XAxisData = user.Graph.gir.map(element => parseInt(element.season_id));
-      console.log(YAxisData);
-      console.log(XAxisData);
-    }
 
-    const contentInset = { top: 20, bottom: 20 };
-    //debugger;
+
+    const uniqByData = _.uniqBy(user.Graph[activeGraph], "year");
+    YAxisData = uniqByData.map(element => parseInt(element.year));
+    XAxisData = user.Graph[activeGraph].map(element => parseInt(element.value));
+    titleData_ = user.Graph[activeGraph][0].titleData;//map(element => (element.titleData[0]));
+    this.setState({ titleData: titleData_ })
+    const data = {
+      labels: YAxisData,
+      datasets: [
+        {
+          data: XAxisData,
+          color: (opacity = 1) => Colors.red2, // optional
+          strokeWidth: 1 // optional
+        }
+      ],
+
+    };
     return (
-      <View>
+      <View style={{ ...styles.container }}>
+        <View style={{ flex: 1, flexDirection: 'row-reverse', height: 20, margin: 10, }}>
+          <Text>{this.state.titleData}</Text>
+          <View style={{ width: 10, marginRight: 10, height: 10, backgroundColor: Colors.red2, borderRadius: 20, marginTop: 5 }}>
 
-        {/* <LineChart
-          style={{ height: 200 }}
-          data={XAxisData}
-          svg={{ stroke: 'rgb(134, 65, 244)' }}
-          contentInset={{ top: 20, bottom: 20 }}
-        >
-          <Grid />
-        </LineChart> */}
-
-        <View style={AppStyles.flexRow}>
-          <YAxis
-            data={YAxisData}
-            contentInset={contentInset}
-            svg={{
-              fill: Colors.grey,
-              fontSize: 10
-            }}
-            numberOfTicks={8}
-            formatLabel={value => `${value}`}
-          />
-
-          <LineChart
-            style={[AppStyles.flex, AppStyles.mLeft15, { height: 200 }]}
-            data={XAxisData}
-            svg={{ stroke: Colors.red, strokeWidth: 3 }}
-            contentInset={{ top: 20, bottom: 20 }}
-          >
-            <Grid />
-          </LineChart>
+          </View>
         </View>
-        <Text textAlign="center" size="large" color={Colors.grey3}>
-          Seasons
-        </Text>
+        <LineChart
+          data={data}
+          width={screenWidth * .8}
+          height={256}
+          verticalLabelRotation={30}
+          chartConfig={this.chartConfig}
+          bezier
+          style={{
+            marginVertical: 8,
+            borderRadius: 16
+          }}
+        />
       </View>
     );
   }
@@ -108,8 +103,16 @@ class GrossScoresTrend extends React.PureComponent {
   render() {
     debugger
     return (
-      <View style={[styles.container, AppStyles.baseMargin]}>
+      <View>
+        {/* <View style={{ flex: 1, flexDirection: 'row-reverse', width: '88%', height: 20, margin: 10, }}>
+          <Text>{this.state.titleData}</Text>
+          <View style={{ width: 10, marginRight: 10, height: 10, backgroundColor: Colors.red2, borderRadius: 20, marginTop: 5 }}>
+
+          </View>
+
+        </View> */}
         {this._renderGraph()}
+
       </View>
     );
   }

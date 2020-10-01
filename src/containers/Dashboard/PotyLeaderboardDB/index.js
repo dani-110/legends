@@ -7,7 +7,6 @@ import { Actions } from "react-native-router-flux";
 import ViewPager from '@react-native-community/viewpager';
 import styles2 from "../../../components/CustomNavbar/styles";
 
-
 import {
   Text,
   ButtonView,
@@ -18,7 +17,9 @@ import { getPotyLeaderboardRequest } from "../../../actions/TournamentActions";
 
 import styles from "./styles";
 import Util from "../../../util";
-import { AppStyles, Colors } from "../../../theme";
+import { AppStyles, Colors, Fonts } from "../../../theme";
+import { from } from "seamless-immutable";
+import { size } from "lodash";
 
 class PotyLeaderboardDB extends PureComponent {
   static propTypes = {
@@ -26,14 +27,34 @@ class PotyLeaderboardDB extends PureComponent {
     isFetchingData: PropTypes.bool.isRequired,
     getPotyLeaderboardRequest: PropTypes.func.isRequired
   };
-
+  constructor(props) {
+    super(props);
+    this.state = { sliderIndex: 0, maxSlider: 1, pageNumber: 0 };
+  }
   static defaultProps = {};
 
   componentWillMount() {
     this.props.getPotyLeaderboardRequest();
   }
 
+  componentDidMount() {
+    var pageNumber = 0;
+    setInterval(() => {
+      debugger
+      if (this.state.pageNumber >= 1) {
+        pageNumber = 0;
+      } else {
+        pageNumber = this.state.pageNumber;
+        pageNumber++;
+      }
+      console.log(pageNumber)
+      this.setState({ pageNumber: pageNumber })
+      this.viewPager.setPage(pageNumber)
+    }, 5000);
+  }
+
   _renderItem({ item, index }) {
+
     return (
       <View style={[AppStyles.flexRow, AppStyles.pBottom5, AppStyles.mTop5]}>
         <Text type="bold" style={{ width: 50 }} color={Colors.text.secondary}>
@@ -79,14 +100,14 @@ class PotyLeaderboardDB extends PureComponent {
   }
 
   render() {
+    console.log("state is:-->" + this.state.sliderIndex)
     const { potyData, isFetchingData, lcl_leaderboard } = this.props;
     return (
-      <View style={[AppStyles.borderBottomGrey, AppStyles.pBottom10]}>
-        <ViewPager style={[styleViewPager.viewPager]}>
+      <View style={[{ height: '52.5%', ...AppStyles.borderBottomGrey, }]}>
+        <ViewPager style={[styleViewPager.viewPager]} ref={(viewPager) => { this.viewPager = viewPager }} scrollEnabled={true}>
 
           <View
             style={{
-              ...styles.container,
               backgroundColor: "#00000000",
             }
             }
@@ -96,7 +117,7 @@ class PotyLeaderboardDB extends PureComponent {
               numberOfLines={1}
               ellipsizeMode="tail"
               size="large"
-              type="bold"
+              type="base"
               style={{ ...styles2.title, marginTop: 20, justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }}
             >POTY Leaderboard</Text>
             <View
@@ -122,13 +143,14 @@ class PotyLeaderboardDB extends PureComponent {
             </View>
             {potyData.length > 0 && (
               <ButtonView
-                style={[AppStyles.alignItemsFlexEnd, AppStyles.pRight25]}
+                style={[AppStyles.alignItemsFlexEnd, AppStyles.pRight25, { marginTop: -15 }]}
                 onPress={Actions.poty}
               >
                 <Text
                   type="bold"
                   size="xSmall"
                   color={Colors.green}
+
                 >{`VIEW ALL >`}</Text>
               </ButtonView>
             )}
@@ -146,7 +168,7 @@ class PotyLeaderboardDB extends PureComponent {
               numberOfLines={1}
               ellipsizeMode="tail"
               size="large"
-              type="bold"
+              type="base"
               style={{ ...styles2.title, marginTop: 20, justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }}
             >LCL Leaderboard</Text>
             <View
@@ -173,7 +195,7 @@ class PotyLeaderboardDB extends PureComponent {
 
             {potyData.length > 0 && (
               <ButtonView
-                style={[AppStyles.alignItemsFlexEnd, AppStyles.pRight25]}
+                style={[AppStyles.alignItemsFlexEnd, AppStyles.pRight25, { marginTop: -15, marginBottom: 10 }]}
                 onPress={Actions.lcl}
               >
                 <Text
@@ -195,7 +217,7 @@ const styleViewPager = StyleSheet.create({
   viewPager: {
     flex: 1,
     backgroundColor: 'transparent',
-    minHeight: 380
+    minHeight: 450
   },
 });
 

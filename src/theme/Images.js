@@ -3,7 +3,7 @@ const splash_bg = require("../assets/images/splash_bg/splash_bg.png");
 const login_header_wrapper = require("../assets/images/login_header_wrapper/login_header_wrapper.png");
 const forgot_lock = require("../assets/images/forgot_lock/forgot_lock.png");
 const dummy_user = require("../assets/images/dummy_user/dummy_user.png");
-
+const header_image = require("../assets/images/header/bg_header_profile.png");
 const back_icon = require("../assets/icon/back_icon/back_icon.png");
 //E:\Projects\github\react_native\LegendsApp\src\assets\icon\image_edit
 const image_edit = require("../assets/icon/image_edit/Change_DP.png");
@@ -56,6 +56,7 @@ const scoreCard = require("../assets/icon/ScoreCard/ScoreCard.png");
 export default {
   logo,
   splash_bg,
+  header_image,
   phone_icon,
   arrow_left_circle,
   arrow_right_circle,

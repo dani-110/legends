@@ -10,7 +10,7 @@ import { Text, ButtonView, SimpleLoader } from "../../../components";
 import { getUserProfileRequest } from "../../../actions/UserActions";
 import styles from "./styles";
 // import Util from "../../../util";
-import { AppStyles, Colors } from "../../../theme";
+import { AppStyles, Colors, Fonts } from "../../../theme";
 import { ScrollView } from "react-native-gesture-handler";
 
 class Scores extends React.Component {
@@ -30,7 +30,7 @@ class Scores extends React.Component {
   }
 
   getSingleScore = (label, labelOnTop, score, bgColor, suffix: null) => (
-    <View style={labelOnTop && { marginTop: -20 }}>
+    <View style={labelOnTop && { marginTop: -30 }}>
       <View style={{ marginLeft: 10 }}>
         {labelOnTop && <Text textAlign="center">{label}</Text>}
       </View>
@@ -40,12 +40,15 @@ class Scores extends React.Component {
           AppStyles.centerInner,
           AppStyles.mTop10,
           AppStyles.mBottom10,
-          AppStyles.mLeft10,
-          { backgroundColor: bgColor }
+          { backgroundColor: bgColor, alignSelf: 'center' }
         ]}
       >
         <Text
-          size="small"
+          adjustsFontSizeToFit={true}
+          size={Fonts.size.large}
+          type={Fonts.type.base}
+          style={{ padding: 5, }}
+          numberOfLines={1}
           color={bgColor !== Colors.white ? Colors.white : Colors.black}
         >
           <AnimateNumber
@@ -60,12 +63,14 @@ class Scores extends React.Component {
           />
         </Text>
       </View>
-      {!labelOnTop && (
-        <Text textAlign="center" color={Colors.grey}>
-          {label}
-        </Text>
-      )}
-    </View>
+      {
+        !labelOnTop && (
+          <Text textAlign="center" color={Colors.grey}>
+            {label}
+          </Text>
+        )
+      }
+    </View >
   );
 
   _renderUserScore = () => {
@@ -82,7 +87,7 @@ class Scores extends React.Component {
     } = this.props;
 
     return (
-      <View style={[AppStyles.mediumMargin, AppStyles.mBottom10]}>
+      <View style={[AppStyles.mediumMargin, AppStyles.mTop20]}>
         <View>
           <Text color={Colors.black}>
             {/* // Handicap{" "} */}
@@ -90,7 +95,7 @@ class Scores extends React.Component {
                 {Math.round(current_handicap * 10) / 10 || 0}
               </Text> */}
           </Text>
-          <View style={[AppStyles.flexRow, AppStyles.spaceBetween]}>
+          <View style={[AppStyles.flexRow, AppStyles.spaceBetween,]}>
             {this.getSingleScore(
               "HCP",
               true,
@@ -134,19 +139,21 @@ class Scores extends React.Component {
           </View>
         </View>
 
-        {this.props.showViewProfile && (
-          <ButtonView
-            style={AppStyles.alignItemsFlexEnd}
-            onPress={Actions.profile}
-          >
-            <Text
-              type="bold"
-              size="xSmall"
-              color={Colors.green}
-            >{`VIEW PROFILE >`}</Text>
-          </ButtonView>
-        )}
-      </View>
+        {
+          this.props.showViewProfile && (
+            <ButtonView
+              style={AppStyles.alignItemsFlexEnd}
+              onPress={Actions.profile}
+            >
+              <Text
+                type="bold"
+                size="xSmall"
+                color={Colors.green}
+              >{`VIEW PROFILE >`}</Text>
+            </ButtonView>
+          )
+        }
+      </View >
     );
   };
 

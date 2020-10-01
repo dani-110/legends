@@ -6,7 +6,7 @@ import {
   View,
   Image as RNImage,
   ScrollView,
-  ActivityIndicator, FlatList
+  ActivityIndicator, FlatList, TouchableOpacity
 } from "react-native";
 import { Actions } from "react-native-router-flux";
 import { setSelectedTab } from "../../actions/GeneralActions";
@@ -114,10 +114,6 @@ class Profile extends Component {
     {
       title: "PPR",
       onPress: () => Util.setSelectedTabIndex(this, 3)
-    },
-    {
-      title: "WIN%",
-      onPress: () => Util.setSelectedTabIndex(this, 4)
     }
   ];
 
@@ -152,7 +148,7 @@ class Profile extends Component {
         </View>
         <View style={[AppStyles.flexRow, AppStyles.pBottom5, { justifyContent: 'space-around' }]}>
           <Text style={{ ...AppStyles.flex, marginLeft: 15, }} color={Colors.grey3}>
-            Events
+            Round #
         </Text>
           <Text style={AppStyles.flex} color={Colors.grey3}>
             Score
@@ -162,20 +158,36 @@ class Profile extends Component {
         </Text>
         </View>
 
-        <ScrollView>
-          <FlatList
-            data={userData.grossss_table}
-            renderItem={this._renderItem}
-            keyExtractor={Util.keyExtractor}
-            stickyHeaderIndices={[0]}
-          />
-        </ScrollView>
+
+        <FlatList
+          nestedScrollEnabled={true}
+          data={userData.grossss_table}
+          renderItem={this._renderItem}
+          keyExtractor={Util.keyExtractor}
+        />
+
       </View>
     );
   }
   _renderUserDetails({ name, picture }, imageUri, uploadingImage) {
     return (
-      <View style={styles.userDetailsWrapper}>
+      <View style={{ ...styles.userDetailsWrapper, borderBottomWidth: 0 }}>
+
+        <View style={{ position: "absolute", flex: 1, }}>
+          <RNImage
+            style={{ height: '100%', width: '100%', aspectRatio: 1, top: -200, }}
+            source={Images.header_image}
+          />
+
+        </View>
+        <View style={{ width: '100%', }}>
+
+          <CustomNavbar
+            hasBorder={false}
+            theme={NAVBAR_THEME.TRANSPERENT}
+            titleAlign="center"
+          />
+        </View>
         <View style={styles.imageContainer}>
           <View style={styles.imageWrapper}>
             <Image
@@ -197,7 +209,7 @@ class Profile extends Component {
           )}
         </View>
         <Text
-          style={[AppStyles.margin20]}
+          style={[AppStyles.margin20,]}
           size={20}
           type="bold"
           color={Colors.text.secondary}
@@ -207,15 +219,17 @@ class Profile extends Component {
       </View>
     );
   }
+  backtoMain() {
 
+  }
   _renderScores() {
     return <Scores showViewProfile={false} />;
   }
 
   _renderItem({ item, index }) {
     return (
-      <View style={[AppStyles.flexRow, AppStyles.pBottom5, AppStyles.mTop5, { justifyContent: 'space-around' }]}>
-        <Text type="bold" style={{ width: 50 }} color={Colors.text.secondary}>
+      <View style={[AppStyles.flexRow, { justifyContent: 'space-around' }]}>
+        <Text type="bold" color={Colors.text.secondary}>
           {index + 1}
         </Text>
         {item.is_selected === true ? (
@@ -272,11 +286,12 @@ class Profile extends Component {
 
   _renderTabsHeader() {
     return (
-      <View style={[AppStyles.marginVerticalBase]}>
+      <View style={{ marginTop: 10, width: "90%", alignSelf: 'center', zIndex: 1 }}>
         <TopTabs
           data={this.TABS_DATA}
           activeIndex={this.state.activeTabIndex}
           isRow={false}
+          isGraphData="graph"
         />
       </View>
     );
@@ -288,41 +303,38 @@ class Profile extends Component {
     const { isFetchingProfile, userData } = this.props;
     console.log(userData.grossss_table);
     return (
-      <View style={[styles.container, AppStyles.flex]}>
-        <CustomNavbar
-          title=""
-          hasBorder={false}
-          theme={NAVBAR_THEME.WHITE}
-          titleAlign="center"
-        />
+      <View style={[AppStyles.flex]}>
+
         {isFetchingProfile && _.isEmpty(userData) && <SimpleLoader />}
 
         {!_.isEmpty(userData) && (
-          <ScrollView>
-            {this._renderUserDetails(
-              userData.user_info[0],
-              imageUri,
-              uploadingImage
-            )}
-            {this._renderHeader()}
-            {/* {this._renderScores()}
+          <View style={{ ...styles.containergraph }}>
+            <ScrollView>
+              {this._renderUserDetails(
+                userData.user_info[0],
+                imageUri,
+                uploadingImage
+              )}
+              {this._renderHeader()}
+              {/* {this._renderScores()}
             {this._renderLatestScorecardButton()} */}
 
-            {this._renderTabsHeader()}
+              {this._renderTabsHeader()}
 
-            {activeTabIndex === 0 && (
-              <GrossScoresTrend activeGraph="handicap" user={this.props.userData} />
-            )}
-            {activeTabIndex === 1 && (
-              <GrossScoresTrend activeGraph="fir" user={this.props.userData} />
-            )}
-            {activeTabIndex === 2 && (
-              <GrossScoresTrend activeGraph="gir" user={this.props.userData} />
-            )}
-            {activeTabIndex === 3 && (
-              <GrossScoresTrend activeGraph="putts" user={this.props.userData} />
-            )}
-          </ScrollView>
+              {activeTabIndex === 0 && (
+                <GrossScoresTrend activeGraph="handicap" user={this.props.userData} />
+              )}
+              {activeTabIndex === 1 && (
+                <GrossScoresTrend activeGraph="fir" user={this.props.userData} />
+              )}
+              {activeTabIndex === 2 && (
+                <GrossScoresTrend activeGraph="gir" user={this.props.userData} />
+              )}
+              {activeTabIndex === 3 && (
+                <GrossScoresTrend activeGraph="putts" user={this.props.userData} />
+              )}
+            </ScrollView>
+          </View>
         )}
 
       </View>

@@ -12,8 +12,7 @@ export default StyleSheet.create({
     height: Metrics.screenWidth * 0.77
   },
   imageBackground: {
-    width: "100%",
-    height: "100%",
-    justifyContent: "flex-end"
+    width: '100%',
+    height: '100%',
   }
 });

@@ -18,6 +18,7 @@ export default class TopTabs extends React.PureComponent {
   };
 
   _renderButton(data, isActive, index) {
+    const { isGraphData } = this.props;
     return (
       <ButtonView
         onPress={data.onPress}
@@ -35,7 +36,7 @@ export default class TopTabs extends React.PureComponent {
           }
         />
         <Text>{data.title}</Text>
-        {isActive && <View style={styles.selectedBorder} />}
+        {isActive && <View style={(isGraphData !== "graph") ? styles.selectedBorder : styles.selectedGraphBorder} />}
       </ButtonView>
     );
   }
@@ -54,7 +55,7 @@ export default class TopTabs extends React.PureComponent {
 
 /* (
 
-    
+
     <TopTabs
       data={element}
       isActive={this.state.activeTabIndex === index}

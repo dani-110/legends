@@ -26,9 +26,17 @@ export default StyleSheet.create({
     fontWeight: "bold"
   },
   innerText: {
-    fontSize: 17,
+    fontSize: 13,
     fontWeight: "bold",
     color: '#555'
+  },
+  searchBox: {
+    width: 100,
+    height: 100,
+    marginTop: 10,
+    borderRadius: 50,
+    backgroundColor: Colors.white,
+
   },
   square: {
     width: 100,
@@ -38,7 +46,14 @@ export default StyleSheet.create({
     backgroundColor: Colors.greenTint,
 
   },
-
+  absoluteContainer: {
+    width: 50,
+    height: 50,
+    borderRadius: 50,
+    backgroundColor: Colors.yellow,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   searchBar: {
     backgroundColor: Colors.white,
     paddingRight: 40,
@@ -52,9 +67,28 @@ export default StyleSheet.create({
     shadowRadius: 1.0,
     ...AppStyles.basePadding
   },
+  searchshadow: {
+    position: 'absolute',
+    width: 220,
+    height: 40,
+    backgroundColor: 'white',
+    borderRadius: 15,
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: .01,
+    shadowRadius: 16.00,
+    zIndex: -1,
+    elevation: 24,
+  },
   searchIcon: {
-    position: "absolute",
-    top: 30,
-    right: 30
-  }
+    position: 'absolute',
+    top: 10,
+    backgroundColor: 'yellow',
+    right: 15,
+    alignSelf: 'flex-end',
+    zIndex: 15,
+  },
+
 });

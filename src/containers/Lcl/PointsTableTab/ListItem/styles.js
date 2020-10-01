@@ -1,12 +1,17 @@
 // @flow
 import { StyleSheet } from "react-native";
-import { Colors, AppStyles } from "../../../../theme";
+import { Colors, AppStyles, Fonts } from "../../../../theme";
 
 export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.background.primary,
     ...AppStyles.centerInner
+  },
+  innerText: {
+    fontFamily: Fonts.type.base,
+    fontSize: Fonts.size.small,
+    color: Colors.black,
   },
   points: {
 

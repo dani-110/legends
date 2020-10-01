@@ -47,12 +47,12 @@ export default class CustomNavbar extends React.Component {
     hasSearch: false,
     onSearchText: () => { },
     isSearching: false,
-    theme: NAVBAR_THEME.WHITE,
+    theme: NAVBAR_THEME.TRANSPERENT,
     titleAlign: "center",
     isLandscape: false
   };
 
-  renderLeft(leftBtnImage, leftBtnPress, leftBtnText, hasBack) {
+  renderLeft(leftBtnImage, leftBtnPress, leftBtnText, hasBack, theme) {
     const renderBack =
       hasBack && _.isEmpty(leftBtnText) && _.isEmpty(leftBtnImage);
 
@@ -67,7 +67,7 @@ export default class CustomNavbar extends React.Component {
           <Image source={leftBtnImage} size={styles.btnImage} />
         )}
         {renderBack && (
-          <Image source={Images.arrow_white} />
+          <Image source={theme === NAVBAR_THEME.GREEN ? Images.arrow_white : Images.back_icon} />
         )}
       </ButtonView>
     );
@@ -117,23 +117,25 @@ export default class CustomNavbar extends React.Component {
           color={theme === NAVBAR_THEME.GREEN ? Colors.white : Colors.black2}
           numberOfLines={1}
           ellipsizeMode="tail"
-          size="large"
-          type="bold"
+          // size="large"
+          // type="bold"
           style={[styles.title]}
           textAlign={titleAlign}
         >
           {title || ""}
         </Text>
-        {!_.isEmpty(subtitle) && (
-          <Text
-            size="xSmall"
-            color={Colors.white}
-            textAlign={titleAlign}
-          >
-            {subtitle || ""}
-          </Text>
-        )}
-      </View>
+        {
+          !_.isEmpty(subtitle) && (
+            <Text
+              size="xSmall"
+              color={theme === NAVBAR_THEME.GREEN ? Colors.white : Colors.black2}
+              textAlign={titleAlign}
+            >
+              {subtitle || "subtitle"}
+            </Text>
+          )
+        }
+      </View >
     );
   }
 
@@ -169,9 +171,10 @@ export default class CustomNavbar extends React.Component {
           style,
           hasBorder ? styles.borderBottom : {},
           hasSearch ? styles.searchHeader : {},
+
           theme === NAVBAR_THEME.GREEN
             ? { backgroundColor: Colors.green }
-            : { backgroundColor: Colors.white },
+            : theme === NAVBAR_THEME.WHITE ? { backgroundColor: Colors.white } : { backgroundColor: "rgba(0,0,0,0)" },
           isLandscape
             ? {
               // height: Metrics.navBarHeightLandscape,
@@ -187,7 +190,7 @@ export default class CustomNavbar extends React.Component {
             AppStyles.alignItemsCenter
           ]}
         >
-          {this.renderLeft(leftBtnImage, leftBtnPress, leftBtnText, hasBack)}
+          {this.renderLeft(leftBtnImage, leftBtnPress, leftBtnText, hasBack, theme)}
           {this.renderTitle(title, subtitle, titleColor, theme, titleAlign)}
           {this.renderRight(rightBtnImage, rightBtnPress, rightBtnText)}
         </View>

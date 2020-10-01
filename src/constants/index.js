@@ -25,7 +25,7 @@ export const MESSAGE_TYPES = {
 export const FILE_TYPES = { VIDEO: "video", IMAGE: "image", AUDIO: "audi" };
 
 // Navbar theme
-export const NAVBAR_THEME = { GREEN: Colors.green, WHITE: "white" };
+export const NAVBAR_THEME = { GREEN: Colors.green, WHITE: "white", TRANSPERENT: "rgba(0,0,0,0)" };
 
 // Match types
 export const MATCH_TYPES = { POTY: "POTY", LCL: "LCL", LMP: "LMP", DMP: "DMP" };

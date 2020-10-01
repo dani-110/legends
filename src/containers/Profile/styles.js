@@ -11,6 +11,10 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.background.primary
   },
+  containergraph: {
+    flex: 1,
+    backgroundColor: Colors.background.primary
+  },
   userDetailsWrapper: {
     // paddingBottom: 25,
     paddingHorizontal: 10,
@@ -65,9 +69,9 @@ export default StyleSheet.create({
   },
   RectangleShapeView: {
 
-    marginTop: 20,
+    marginTop: 0,
     width: 180 * 2,
-    height: 300,
+    height: 200,
     backgroundColor: Colors.white,
     borderWidth: 1,
     borderRadius: 15,
@@ -80,6 +84,7 @@ export default StyleSheet.create({
     height: 30,
     borderRadius: 50,
     borderWidth: 2,
+    marginLeft: 15,
     backgroundColor: Colors.white,
     justifyContent: 'center',
     alignItems: 'center'
