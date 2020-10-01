@@ -44,6 +44,7 @@ class LclLiveScore extends Component {
   };
 
   componentWillMount() {
+    // 
     this.props.enableEnterScore(
       this.props.data.id === this.props.current_match[0].id
     );
@@ -79,6 +80,7 @@ class LclLiveScore extends Component {
   }
 
   render() {
+    debugger
     const { activeTabIndex } = this.state;
     const {
       data: { title, name, venue }
@@ -86,7 +88,7 @@ class LclLiveScore extends Component {
     return (
       <View style={[styles.container]}>
         <CustomNavbar
-          title={title || name}
+          title={title || this.props.current_match[0].team1_name+" vs "+this.props.current_match[0].team2_name}
           subtitle={venue}
           hasBorder={false}
           theme={NAVBAR_THEME.WHITE}

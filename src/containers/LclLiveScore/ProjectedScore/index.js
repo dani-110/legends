@@ -32,7 +32,7 @@ export default class ProjectedScore extends React.Component {
           ]}
         >
           <View style={[AppStyles.flex2]}>
-            <Text textAlign="right"> {team[0].name} </Text>
+            <Text textAlign="right"> {team[0].name || team[0].names} </Text>
           </View>
           <View
             style={[
@@ -55,7 +55,7 @@ export default class ProjectedScore extends React.Component {
             <Text color={Colors.white}>{team[1].score}</Text>
           </View>
           <View style={[AppStyles.flex2]}>
-            <Text textAlign="left"> {team[1].name} </Text>
+            <Text textAlign="left"> {team[1].name || team[1].names} </Text>
           </View>
         </View>
         <Text textAlign="center" color={Colors.grey}>

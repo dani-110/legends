@@ -10,7 +10,8 @@ export default StyleSheet.create({
     paddingTop: 40,
     ...AppStyles.pBottom10,
     ...AppStyles.mBottom30,
-    ...AppStyles.shadow2
+    ...AppStyles.shadow2,
+    elevation:40
   },
   score: {
     width: scoreSize,

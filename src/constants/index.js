@@ -47,6 +47,10 @@ export const ERROR_MESSAGES = {
 
 export const POLLING_TIME = 30000;
 
+export const NOT_SHOW_MSG = "not_show";
+export const ERROR_API = "error";
+export const REFRESH_DATA = "refresh";
+
 export const LEGENDS_NOTIFICATION_CHANNEL = {
   id: "legends-channel",
   name: "Legends Notifications"

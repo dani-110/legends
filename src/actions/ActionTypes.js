@@ -48,6 +48,7 @@ export const GET_ENTER_SCORE_POLLING_DATA = createRequestTypes(
   "GET_ENTER_SCORE_POLLING_DATA"
 );
 export const GET_ENTER_SCORE_DATA = createRequestTypes("GET_ENTER_SCORE_DATA");
+export const UPDATE_REFRESH = "UPDATE_REFRESH"
 
 export const POST_POTY_SCORE = createRequestTypes("POST_POTY_SCORE");
 export const POST_LCL_SCORE = createRequestTypes("POST_LCL_SCORE");

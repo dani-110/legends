@@ -79,6 +79,7 @@ class LmpLiveScore extends React.Component {
   }
 
   componentWillMount() {
+    debugger 
     const { id, match_id, schedule_id, season_id } = this.props.data;
     this.props.getScoreLmpRequest(
       `${match_id}/${schedule_id}/${season_id || id}`
@@ -96,6 +97,7 @@ class LmpLiveScore extends React.Component {
 
   _renderScoreTable() {
     const { liveScoreData } = this.props;
+    debugger
     return <ScoreTable liveScoreData={liveScoreData} />;
   }
 
@@ -105,10 +107,12 @@ class LmpLiveScore extends React.Component {
       isFetchingData,
       liveScoreData
     } = this.props;
+
+    console.log("title is:" + title + "\n venue is:" + venue);
     return (
       <View style={styles.container}>
         <CustomNavbar
-          title={title}
+          title={title || this.props.current_match[0].team1_name+" vs "+this.props.current_match[0].team2_name}
           subtitle={venue}
           hasBorder={false}
           theme={NAVBAR_THEME.WHITE}

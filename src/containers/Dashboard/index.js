@@ -110,6 +110,7 @@ class Dashboard extends Component {
         // when app is in foreground
         // console.log({ foreground: notification });
 
+         ;
         if (notification) {
           showLocalNotification(notification._data);
         }
@@ -118,6 +119,7 @@ class Dashboard extends Component {
     const notificationOpen = await firebase
       .notifications()
       .getInitialNotification();
+       ;
     if (notificationOpen) {
       // when app is in closed, and opened by clicking notification
       // console.log("getInitialNotification", notificationOpen);

@@ -6,8 +6,14 @@ import {
   POST_POTY_SCORE,
   POST_LCL_SCORE,
   POST_LMP_SCORE,
-  POST_DMP_SCORE
+  POST_DMP_SCORE,
+  UPDATE_REFRESH
 } from "./ActionTypes";
+import Util from "../../src/util/index";
+
+function alert(message, type = "error") {
+ Util.topAlert(message, type);
+  }
 
 export function getEnterScorePollingDataSuccess(payload, responseCallback) {
   return {
@@ -23,6 +29,12 @@ export function getEnterScoreDataRequest(payload, matchType, responseCallback) {
     matchType,
     responseCallback,
     type: GET_ENTER_SCORE_DATA.REQUEST
+  };
+}
+
+export function updateRefresh() {
+  return {
+    type: UPDATE_REFRESH
   };
 }
 
@@ -75,8 +87,9 @@ export function postLclScoreSuccess(data) {
   };
 }
 
-export function postLclScoreFailure() {
+export function postLclScoreFailure(data) {
   return {
+    data,
     type: POST_LCL_SCORE.FAILURE
   };
 }
@@ -96,8 +109,9 @@ export function postLmpScoreSuccess(data) {
   };
 }
 
-export function postLmpScoreFailure() {
+export function postLmpScoreFailure(data) {
   return {
+    data,
     type: POST_LMP_SCORE.FAILURE
   };
 }
@@ -117,8 +131,9 @@ export function postDmpScoreSuccess(data) {
   };
 }
 
-export function postDmpScoreFailure() {
+export function postDmpScoreFailure(data) {
   return {
+    data,
     type: POST_DMP_SCORE.FAILURE
   };
 }

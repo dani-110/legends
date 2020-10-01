@@ -34,6 +34,7 @@ class DmpLiveScore extends React.Component {
   //////////////////////////////  INTERVALS ///////////////////////////////
 
   componentDidMount() {
+    debugger
     this.dataPolling = setInterval(() => {
       const { id, match_id, schedule_id, season_id } = this.props.data;
       this.props.getScoreDmpRequest(`${match_id}/${schedule_id}/${id}`);
@@ -93,7 +94,7 @@ class DmpLiveScore extends React.Component {
 
   _renderScoreTable() {
     const { liveScoreData } = this.props;
-    return <ScoreTable liveScoreData={liveScoreData} />;
+    return <ScoreTable liveScoreData={liveScoreData} typeMatch={this.props.data.type} />;
   }
 
   render() {
@@ -105,7 +106,7 @@ class DmpLiveScore extends React.Component {
     return (
       <View style={styles.container}>
         <CustomNavbar
-          title={title}
+          title={title || this.props.current_match[0].team1_name+" vs "+this.props.current_match[0].team2_name}
           subtitle={venue}
           hasBorder={false}
           theme={NAVBAR_THEME.WHITE}
