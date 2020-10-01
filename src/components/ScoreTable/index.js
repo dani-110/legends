@@ -18,7 +18,7 @@ export default class ScoreTable extends React.Component {
   _renderTable() {
     const {
       liveScoreData: { score }
-    } = this.props;
+    ,typeMatch} = this.props;
 
     return (
       <View style={[AppStyles.flex, styles.overflowHidden, AppStyles.mTop10]}>
@@ -36,6 +36,8 @@ export default class ScoreTable extends React.Component {
   }
 
   _renderHeader = () => {
+
+    debugger
     const {
       liveScoreData: { score }
     } = this.props;
@@ -77,7 +79,7 @@ export default class ScoreTable extends React.Component {
         >
           <View style={[AppStyles.flex2, AppStyles.pRight5]}>
             <Text style={[AppStyles.alignItemsCenter]} textAlign="center">
-              {players[0].team_1_players || players[0].team_1_player}
+              {(this.props.typeMatch === "dmp" || this.props.typeMatch ==="foursome") ? players[0].team_1_players_initials : players[0].team_1_players || players[0].team_1_player}
             </Text>
           </View>
 
@@ -99,12 +101,12 @@ export default class ScoreTable extends React.Component {
                 {score[score.length - 1].score}
               </Text>
             </View>
-            : <Text>score</Text>
+            : <Text></Text>
           }
 
           <View style={[AppStyles.flex2, AppStyles.pLeft5, AppStyles.pRight5]}>
             <Text style={[AppStyles.alignItemsCenter]} textAlign="center">
-              {players[0].team_2_players || players[0].team_2_player}
+              {(this.props.typeMatch === "dmp" || this.props.typeMatch ==="foursome") ? players[0].team_2_players_initials : players[0].team_2_players || players[0].team_2_player}
             </Text>
           </View>
         </View>
@@ -115,7 +117,6 @@ export default class ScoreTable extends React.Component {
   _renderRow({ item, index }) {
     const playerOneColor = Colors.red3;
     const playerTwoColor = Colors.blue2;
-
     return (
       <View
         style={[
@@ -130,6 +131,7 @@ export default class ScoreTable extends React.Component {
         <View style={[styles.par, AppStyles.paddingVerticalBase]}>
           <Text textAlign="center">{item.par}</Text>
         </View>
+
         <LinearGradient
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
@@ -138,8 +140,7 @@ export default class ScoreTable extends React.Component {
             item.scoredBy == 1 ? `${playerOneColor}1a` : Colors.transparent,
             Colors.transparent,
             item.scoredBy == 2 ? `${playerTwoColor}1a` : Colors.transparent
-          ]}
-        >
+          ]}>
           <View
             style={[
               styles.row,
@@ -160,7 +161,7 @@ export default class ScoreTable extends React.Component {
                 {item.playerOne}
               </Text>
             </View>
-            {item.score && (
+            {item.score !== "" ? (
               <View
                 style={[
                   styles.score,
@@ -178,7 +179,7 @@ export default class ScoreTable extends React.Component {
                   {item.score}
                 </Text>
               </View>
-            )}
+            ) : <Text></Text>}
             <View style={AppStyles.flex2}>
               <Text style={[AppStyles.alignItemsCenter]} textAlign="center">
                 {item.playerTwo}

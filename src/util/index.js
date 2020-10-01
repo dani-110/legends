@@ -119,7 +119,9 @@ class Util {
 
   getErrorText = err => ERROR_MESSAGES[err];
 
-  isSuccessResponse = response => _.isNull(response.error);
+  isSuccessResponse = response => {
+    console.log("the response is:"+response.error);
+    return(_.isNull(response.error))        };
 
   generateScoreCardData(data, singlePlayerName = null) {
     if (singlePlayerName) {

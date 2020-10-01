@@ -13,7 +13,7 @@ import {
   ScrollView,
   TouchableOpacity,
   BackHandler, Dimensions, Alert, FlatList,
-  CheckBox
+  CheckBox, StyleSheet, ActivityIndicator
 } from "react-native";
 import Swiper from "react-native-swiper";
 import { Actions } from "react-native-router-flux";
@@ -23,7 +23,8 @@ import {
   postPotyScoreRequest,
   postLclScoreRequest,
   postLmpScoreRequest,
-  postDmpScoreRequest
+  postDmpScoreRequest,
+  updateRefresh
 } from "../../actions/EnterScoreActions";
 import {
   Text,
@@ -33,12 +34,13 @@ import {
   SimpleLoader,
   EmptyStateText,
 } from "../../components";
-import { NAVBAR_THEME, POLLING_TIME } from "../../constants";
+import { NAVBAR_THEME, POLLING_TIME, NOT_SHOW_MSG, ERROR_API, REFRESH_DATA } from "../../constants";
 import styles from "./styles";
 import Tabbar from "../../components/Tabbar";
 import { AppStyles, Colors, Images } from "../../theme";
 import { setTabbarType } from "../../actions/GeneralActions";
 import { ViewPropTypes } from "react-native";
+import Util from "../../util";
 
 class EnterScore extends React.Component {
   static propTypes = {
@@ -81,6 +83,17 @@ class EnterScore extends React.Component {
 
   static getDerivedStateFromProps(props, state) {
     //debugger
+    if (props.enterScoreData.named === NOT_SHOW_MSG || props.enterScoreData.named === ERROR_API || props.enterScoreData.named === REFRESH_DATA) {
+
+      if (props.enterScoreData.named === ERROR_API)
+        Util.topAlertError("not update", ERROR_API);
+
+      if (state.isLoading) {
+        props.updateRefresh()
+        return { isLoading: false }
+      }
+    }
+
     if (!_.isEqual(props.enterScoreData, state.prevEnterScoreData)) {
       return {
         prevEnterScoreData: props.enterScoreData,
@@ -99,7 +112,8 @@ class EnterScore extends React.Component {
       miniKeyBoard: false,
       current: -1,
       index: -1,
-      scoreCard: []
+      scoreCard: [],
+      isLoading: false
     };
     EnterScore.instance = this;
   }
@@ -497,6 +511,7 @@ class EnterScore extends React.Component {
       };
     }
     this._postDataByType[type](payload);
+    this.setState({ isLoading: true });
   }
 
   _postDataByType = {
@@ -775,7 +790,7 @@ class EnterScore extends React.Component {
     const manipulatedData = this.state.scoreCard[index];
     return (
       manipulatedData && (
-        <View>
+        <View style={{ height: '100%' }}>
           {Object.keys(manipulatedData).map((key, index) => (
             <View
             // key={`row-${key}`}
@@ -788,7 +803,8 @@ class EnterScore extends React.Component {
               {/* {this._renderRowLabel(key)} */}
               {key === "Name" ?
                 this._renderRowHeader()
-                : this._renderRowValues(manipulatedData, key)
+                //:this._renderRowValues(manipulatedData, key)
+                : key === "Stroke" ? this._renderRowValues(manipulatedData, key) : null
               }
 
               {/* {this._renderRowValues(manipulatedData, key)} */}
@@ -831,7 +847,6 @@ class EnterScore extends React.Component {
     )
   }
 
-
   _renderRowValues(data, key) {
     const { current, index, scoreCard } = this.state;
     const { Name } = scoreCard[0];
@@ -840,7 +855,8 @@ class EnterScore extends React.Component {
       return (
 
         <View style={{ paddingBottom: 3, paddingTop: 10 }}>
-          {key === "FIR" || key === "GIR" ? null : (
+          {/* {key === "FIR" || key === "GIR" */}
+          {nameItem.name.length === 0 ? null : (
             <View>
               <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
                 <Text style={{ marginTop: 20, width: '40%' }}> {nameItem.name}</Text>
@@ -940,7 +956,8 @@ class EnterScore extends React.Component {
   );
 
   _renderKeyboard = () => {
-    if (this.tmpData.length > 0 && this.tmpData.score_lock === 1)
+    //if (this.tmpData.length > 0 && this.tmpData.score_lock === 1)
+    if (this.state.isLoading || (this.tmpData.length > 0 && this.tmpData.score_lock === 1))
       return;
     return (
       <CustomKeyboard
@@ -961,10 +978,6 @@ class EnterScore extends React.Component {
     </View>
   );
 
-
-  // adjusted_score: "72.00"
-  // name: "AHSAN SIDDIQUI"
-  // net_score: "0.00"
 
   _renderHeader() {
     return (
@@ -1063,6 +1076,8 @@ class EnterScore extends React.Component {
             {/* {this._renderButton()} */}
             {this._renderKeyboard()}
           </React.Fragment>
+
+
         ) : (
               <EmptyStateText />
             )}
@@ -1128,9 +1143,33 @@ class EnterScore extends React.Component {
           </DialogContent>
         </Dialog>
 
+
+        {
+          this.state.isLoading && (
+            <View style={{ ...this.styleLoader.loading, width: '100%', height: '100%' }}>
+              <ActivityIndicator size='large' color={Colors.green} />
+            </View>
+          )
+        }
       </View >
     );
   }
+
+  styleLoader = StyleSheet.create(
+    {
+      loading: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 1
+      }
+    });
+
+
 }
 
 const mapStateToProps = ({ general, liveScore, enterScore, user }) => ({
@@ -1146,7 +1185,8 @@ const actions = {
   postLclScoreRequest,
   postLmpScoreRequest,
   postDmpScoreRequest,
-  setTabbarType
+  setTabbarType,
+  updateRefresh
 };
 
 //for dialog modal 
@@ -1154,7 +1194,7 @@ const actions = {
 
 
 function manipulateDataForScoreCard(data) {
-  //debugger
+  debugger
   console.log("data status:" + data.score_lock);
   this.tmpData = data;
 
@@ -1192,7 +1232,6 @@ function manipulateDataForScoreCard(data) {
     };
 
     player.scorecard.map((score, inn) => {
-      //debugger;
       if (score) {
         console.log("score is:" + score);
         updatedData[score.hole_number - 1].Stroke[playerIndex] = score.strokes;

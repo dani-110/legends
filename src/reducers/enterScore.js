@@ -4,8 +4,10 @@ import _ from "lodash";
 import {
   GET_ENTER_SCORE_POLLING_DATA,
   GET_ENTER_SCORE_DATA,
-  POST_POTY_SCORE
+  POST_POTY_SCORE, POST_LCL_SCORE,
+  UPDATE_REFRESH, POST_LMP_SCORE, POST_DMP_SCORE
 } from "../actions/ActionTypes";
+import { NOT_SHOW_MSG, ERROR_API,REFRESH_DATA } from "../constants/index";
 
 const initialState = Immutable({
   data: {
@@ -16,7 +18,7 @@ const initialState = Immutable({
 
 export default (state = initialState, action) => {
 
-  //debugger;
+  debugger;
   switch (action.type) {
     case GET_ENTER_SCORE_DATA.REQUEST: {
       const tempData = _.cloneDeep(state.data);
@@ -109,6 +111,36 @@ export default (state = initialState, action) => {
     //     data: tempData
     //   });
     // }
+
+    case POST_DMP_SCORE.SUCCESS:
+    case POST_LMP_SCORE.SUCCESS:
+    case POST_LCL_SCORE.SUCCESS: {
+      debugger
+      const tempData = _.cloneDeep(state.data);
+      tempData.named = REFRESH_DATA
+      return Immutable.merge(state, {
+        data: tempData
+      });
+    }
+
+    case POST_DMP_SCORE.FAILURE:
+    case POST_LMP_SCORE.FAILURE:
+    case POST_LCL_SCORE.FAILURE: {
+      debugger;
+      const tempData = _.cloneDeep(state.data);
+      tempData.named = action.data.length>1?action.data:ERROR_API
+      return Immutable.merge(state, {
+        data: tempData
+      });
+    }
+
+    case UPDATE_REFRESH: {
+      const tempData = _.cloneDeep(state.data);
+      tempData.named = ""
+      return Immutable.merge(state, {
+        data: tempData
+      })
+    }
 
     // case POST_POTY_SCORE.FAILURE: {
     //   const tempData = _.cloneDeep(state.data);

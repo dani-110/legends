@@ -52,7 +52,7 @@ export default class CustomNavbar extends React.Component {
     isLandscape: false
   };
 
-  renderLeft(leftBtnImage, leftBtnPress, leftBtnText, hasBack) {
+  renderLeft(leftBtnImage, leftBtnPress, leftBtnText, hasBack,theme) {
     const renderBack =
       hasBack && _.isEmpty(leftBtnText) && _.isEmpty(leftBtnImage);
 
@@ -67,7 +67,7 @@ export default class CustomNavbar extends React.Component {
           <Image source={leftBtnImage} size={styles.btnImage} />
         )}
         {renderBack && (
-          <Image source={Images.arrow_white} />
+          <Image source={theme === NAVBAR_THEME.GREEN ? Images.arrow_white : Images.back_icon} />
         )}
       </ButtonView>
     );
@@ -127,10 +127,10 @@ export default class CustomNavbar extends React.Component {
         {!_.isEmpty(subtitle) && (
           <Text
             size="xSmall"
-            color={Colors.white}
+            color={theme === NAVBAR_THEME.GREEN ? Colors.white : Colors.black2}
             textAlign={titleAlign}
           >
-            {subtitle || ""}
+            {subtitle || "subtitle"}
           </Text>
         )}
       </View>
@@ -187,7 +187,7 @@ export default class CustomNavbar extends React.Component {
             AppStyles.alignItemsCenter
           ]}
         >
-          {this.renderLeft(leftBtnImage, leftBtnPress, leftBtnText, hasBack)}
+          {this.renderLeft(leftBtnImage, leftBtnPress, leftBtnText, hasBack,theme)}
           {this.renderTitle(title, subtitle, titleColor, theme, titleAlign)}
           {this.renderRight(rightBtnImage, rightBtnPress, rightBtnText)}
         </View>

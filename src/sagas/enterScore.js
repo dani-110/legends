@@ -6,7 +6,7 @@ import {
   POST_LMP_SCORE,
   POST_DMP_SCORE
 } from "../actions/ActionTypes";
-import { SAGA_ALERT_TIMEOUT } from "../constants";
+import { NOT_SHOW_MSG, SAGA_ALERT_TIMEOUT } from "../constants";
 import {
   getEnterScoreDataSuccess,
   getEnterScoreDataFailure,
@@ -42,8 +42,8 @@ const GET_ENTER_SCORE_DATA_URL = {
 
 function alert(message, type = "error") {
   setTimeout(() => {
-    Util.topAlert(message, type);
-  }, SAGA_ALERT_TIMEOUT);
+    Util.topAlertError(message, type);
+  }, 3000);
 }
 
 function* getEnterScoreData() {
@@ -96,7 +96,7 @@ function* postPotyScore() {
         yield put(postPotyScoreSuccess(response.data));
       } else {
         yield put(postPotyScoreFailure());
-        alert(response.error);
+        //alert(response.error);
       }
     } catch (err) {
       yield put(postPotyScoreFailure());
@@ -119,20 +119,25 @@ function* postLclScore() {
       );
       console.log("response", response);
       if (Util.isSuccessResponse(response)) {
+        console.log("success=========>", "lcl_score");
         responseCallback && responseCallback(response.data);
         yield put(postLclScoreSuccess(response.data));
       } else {
         yield put(postLclScoreFailure());
-        alert(response.error);
+        console.log("error=========>", "lcl_score");
+        //alert("Not update. Please enter again")
       }
     } catch (err) {
-      yield put(postLclScoreFailure());
-      alert(err.message);
+      yield put(postLclScoreFailure(NOT_SHOW_MSG));
+      alert(err.message)
+      console.log("error=========>", "catch_lcl_score");
     }
   }
 }
 
 function* postLmpScore() {
+  debugger
+  
   while (true) {
     const { payload, responseCallback } = yield take(POST_LMP_SCORE.REQUEST);
     try {
@@ -145,15 +150,16 @@ function* postLmpScore() {
         ApiSauce
       );
       console.log("response", response);
+      debugger
       if (Util.isSuccessResponse(response)) {
         responseCallback && responseCallback(response.data);
         yield put(postLmpScoreSuccess(response.data));
       } else {
         yield put(postLmpScoreFailure());
-        alert(response.error);
+        //alert(response.error);
       }
     } catch (err) {
-      yield put(postLmpScoreFailure());
+      yield put(postLmpScoreFailure(NOT_SHOW_MSG));
       alert(err.message);
     }
   }
@@ -177,10 +183,10 @@ function* postDmpScore() {
         yield put(postDmpScoreSuccess(response.data));
       } else {
         yield put(postDmpScoreFailure());
-        alert(response.error);
+        //alert(response.error);
       }
     } catch (err) {
-      yield put(postDmpScoreFailure());
+      yield put(postDmpScoreFailure(NOT_SHOW_MSG));
       alert(err.message);
     }
   }

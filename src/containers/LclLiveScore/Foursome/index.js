@@ -92,8 +92,9 @@ class Foursome extends React.Component {
   }
 
   _renderScoreTable() {
+    debugger
     const { liveScoreData } = this.props;
-    return <ScoreTable liveScoreData={liveScoreData} />;
+    return <ScoreTable liveScoreData={liveScoreData} typeMatch={"foursome"} />;
   }
 
   render() {
