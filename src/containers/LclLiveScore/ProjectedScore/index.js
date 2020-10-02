@@ -14,7 +14,7 @@ export default class ProjectedScore extends React.Component {
   static defaultProps = {};
 
   _renderScores() {
-    const playerOneColor = Colors.red3;
+    const playerOneColor = Colors.redDark;
     const playerTwoColor = Colors.blue2;
 
     const {

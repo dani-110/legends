@@ -7,7 +7,7 @@ import { Actions } from "react-native-router-flux";
 import { Text, ButtonView, SearchBar } from "../";
 import styles from "./styles";
 import { NAVBAR_THEME } from "../../constants";
-import { Images, AppStyles, Colors, Metrics } from "../../theme";
+import { Images, AppStyles, Colors, Metrics, Fonts } from "../../theme";
 
 export default class CustomNavbar extends React.Component {
   static propTypes = {
@@ -49,7 +49,8 @@ export default class CustomNavbar extends React.Component {
     isSearching: false,
     theme: NAVBAR_THEME.TRANSPERENT,
     titleAlign: "center",
-    isLandscape: false
+    isLandscape: false,
+    fontType: ""
   };
 
   renderLeft(leftBtnImage, leftBtnPress, leftBtnText, hasBack, theme) {
@@ -100,7 +101,7 @@ export default class CustomNavbar extends React.Component {
       </ButtonView>
     );
   }
-  renderTitle(title, subtitle, titleColor, theme, titleAlign) {
+  renderTitle(title, subtitle, titleColor, theme, titleAlign, fontType) {
     return (
       <View
         style={[
@@ -118,8 +119,8 @@ export default class CustomNavbar extends React.Component {
           numberOfLines={1}
           ellipsizeMode="tail"
           // size="large"
-          // type="bold"
-          style={[styles.title]}
+          // type="bold"..
+          style={{ ...styles.title, fontSize: fontType === "large" ? Fonts.size.large : Fonts.size.xxLarge }}
           textAlign={titleAlign}
         >
           {title || ""}
@@ -191,7 +192,7 @@ export default class CustomNavbar extends React.Component {
           ]}
         >
           {this.renderLeft(leftBtnImage, leftBtnPress, leftBtnText, hasBack, theme)}
-          {this.renderTitle(title, subtitle, titleColor, theme, titleAlign)}
+          {this.renderTitle(title, subtitle, titleColor, theme, titleAlign, this.props.fontType)}
           {this.renderRight(rightBtnImage, rightBtnPress, rightBtnText)}
         </View>
 

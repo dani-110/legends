@@ -88,11 +88,12 @@ class LclLiveScore extends Component {
     return (
       <View style={[styles.container]}>
         <CustomNavbar
-          title={title || this.props.current_match[0].team1_name+" vs "+this.props.current_match[0].team2_name}
+          title={title || this.props.current_match[0].team1_name + " vs " + this.props.current_match[0].team2_name}
           subtitle={venue}
           hasBorder={false}
           theme={NAVBAR_THEME.WHITE}
           titleAlign="center"
+          fontType="large"
         />
         {this._renderTabsHeader()}
         {activeTabIndex === 0 && <SinglesOne data={this.props.data} />}

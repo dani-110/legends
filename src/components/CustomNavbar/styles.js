@@ -35,5 +35,5 @@ export default StyleSheet.create({
   titleContainer: {
     paddingHorizontal: 20
   },
-  title: { fontFamily: Fonts.type.base, fontSize: Fonts.size.xxLarge }
+  title: { fontFamily: Fonts.type.base, fontSize: Fonts.size.xLarge }
 });

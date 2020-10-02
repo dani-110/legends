@@ -39,7 +39,7 @@ class PotyLeaderboardDB extends PureComponent {
 
   componentDidMount() {
     var pageNumber = 0;
-    setInterval(() => {
+    this.dataPolling = setInterval(() => {
       debugger
       if (this.state.pageNumber >= 1) {
         pageNumber = 0;
@@ -51,6 +51,10 @@ class PotyLeaderboardDB extends PureComponent {
       this.setState({ pageNumber: pageNumber })
       this.viewPager.setPage(pageNumber)
     }, 5000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.dataPolling);
   }
 
   _renderItem({ item, index }) {

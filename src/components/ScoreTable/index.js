@@ -18,7 +18,7 @@ export default class ScoreTable extends React.Component {
   _renderTable() {
     const {
       liveScoreData: { score }
-    ,typeMatch} = this.props;
+      , typeMatch } = this.props;
 
     return (
       <View style={[AppStyles.flex, styles.overflowHidden, AppStyles.mTop10]}>
@@ -79,7 +79,7 @@ export default class ScoreTable extends React.Component {
         >
           <View style={[AppStyles.flex2, AppStyles.pRight5]}>
             <Text style={[AppStyles.alignItemsCenter]} textAlign="center">
-              {(this.props.typeMatch === "dmp" || this.props.typeMatch ==="foursome") ? players[0].team_1_players_initials : players[0].team_1_players || players[0].team_1_player}
+              {(this.props.typeMatch === "dmp" || this.props.typeMatch === "foursome") ? players[0].team_1_players_initials : players[0].team_1_players || players[0].team_1_player}
             </Text>
           </View>
 
@@ -106,7 +106,7 @@ export default class ScoreTable extends React.Component {
 
           <View style={[AppStyles.flex2, AppStyles.pLeft5, AppStyles.pRight5]}>
             <Text style={[AppStyles.alignItemsCenter]} textAlign="center">
-              {(this.props.typeMatch === "dmp" || this.props.typeMatch ==="foursome") ? players[0].team_2_players_initials : players[0].team_2_players || players[0].team_2_player}
+              {(this.props.typeMatch === "dmp" || this.props.typeMatch === "foursome") ? players[0].team_2_players_initials : players[0].team_2_players || players[0].team_2_player}
             </Text>
           </View>
         </View>
@@ -115,7 +115,7 @@ export default class ScoreTable extends React.Component {
   };
 
   _renderRow({ item, index }) {
-    const playerOneColor = Colors.red3;
+    const playerOneColor = Colors.redDark;
     const playerTwoColor = Colors.blue2;
     return (
       <View
