@@ -971,29 +971,26 @@ class EnterScore extends React.Component {
   };
 
   renderItem = ({ item }) => (
-    <View key={item.key} style={{ flexDirection: 'row', marginLeft: 15, marginBottom: 15 }}>
-      <Text style={{ width: '50%', marginRight: 20, fontSize: 10 }} color={Colors.grey}>{item.name}</Text>
-      <Text style={{ width: '20%', fontSize: 10 }} color={Colors.grey}>{item.adjusted_score}</Text>
-      <Text style={{ width: '20%', fontSize: 10 }} color={Colors.grey}>{item.net_score}</Text>
+
+    <View key={item.key} style={{ flexDirection: 'row', marginBottom: 15 }}>
+      <Text style={{ width: '70%', fontSize: 10, marginRight: -15 }} color={Colors.grey}>{item.name}</Text>
+      <Text style={{ width: '15%', fontSize: 10, marginRight: 9 }} color={Colors.grey}>{item.adjusted_score}</Text>
+      <Text style={{ width: '15%', fontSize: 10, textAlign: 'center' }} color={Colors.grey}>{item.net_score}</Text>
     </View>
+
   );
 
 
   _renderHeader() {
     return (
-      <View style={{ flex: 1 }}>
-        <View style={{ justifyContent: "space-around", width: '100%', flexDirection: 'row', marginBottom: 15 }}>
-          <Text style={{ width: '50%' }} color={Colors.grey}>
-            Player Name
-           </Text>
-          <Text style={{ width: '20%' }} color={Colors.grey}>
-            Gross
-           </Text>
-          <Text style={{ width: '20%' }} color={Colors.grey}>
-            Net
-           </Text>
+
+      <View>
+        <View style={{ flexDirection: 'row', marginLeft: 15, }}>
+          <Text style={{ width: '50%', marginRight: 16, fontSize: 14 }} color={Colors.grey}>Player Name</Text>
+          <Text style={{ width: '20%', fontSize: 14 }} color={Colors.grey}>Gross</Text>
+          <Text style={{ width: '20%', fontSize: 14, marginLeft: 3, }} color={Colors.grey}>Net</Text>
         </View>
-        <View style={{ height: 1, backgroundColor: Colors.greyTint }} />
+        <View style={{ height: 1, width: 300, backgroundColor: Colors.greyTint }} />
       </View>
     );
   }
@@ -1088,59 +1085,69 @@ class EnterScore extends React.Component {
           onTouchOutside={() => {
             this.setState({ visible: false });
           }}
-          footer={
-            <View style={styles.dialogBoxStyle, { alignItems: 'center' }}>
-              <View style={[
-                styles.buttonStyle,
-                {
-                  backgroundColor: Colors.green,
-                  bottom: 15
-                }
-              ]}>
-
-                <DialogButton
-                  text="Confirm" textStyle={{ color: 'white', fontSize: 15 }}
-                  onPress={() => this.sendData()}
-                // onPress={() => this.setState({ visible: false })}
-                />
-              </View>
-
-            </View>
-          }
         >
-
+          {/* DialogContent start */}
           <DialogContent
-            style={{ justifyContent: 'center', alignItems: 'center', width: Dimensions.get('window').width * .7, height: Dimensions.get('window').height * .45 }}
+            style={{ justifyContent: 'center', alignItems: 'center', width: Dimensions.get('window').width * .7, marginBottom: -55, }}
           >
-
-            <View style={{ flex: 1, width: Dimensions.get('window').width * .7, alignItems: 'center' }}>
-              <Text style={{ ...styles.titleHeader, paddingTop: 10, marginBottom: 10, }}>
-                Confirm Score
+            {/* Title start */}
+            <Text style={{ ...styles.titleHeader, marginBottom: 10, marginTop: 10 }}>
+              Confirm Score
               </Text>
-              <View style={{ marginLeft: 10, height: '10%', alignItems: 'center', justifyContent: 'center' }}>
-                {
-                  this._renderHeader()
-                }
-              </View>
-              <View style={{ width: '100%', height: '30%', marginTop: 10, }}>
-                <FlatList
-                  data={this.state.dataSource}
-                  renderItem={this.renderItem}
-                />
-              </View>
-              <View style={{ marginTop: 30, flexDirection: 'row', margin: 15 }}>
+            {/* Title End */}
+
+            {/* header start */}
+            <View style={{ marginLeft: 10, height: '10%', alignItems: 'center', justifyContent: 'center' }}>
+              {
+                this._renderHeader()
+              }
+            </View>
+            {/* header start */}
+
+            {/* Main Content to send start */}
+            <View style={{ width: '100%', marginTop: 20, }}>
+              <FlatList
+                data={this.state.dataSource}
+                renderItem={this.renderItem}
+              />
+
+              {/* Main Content to send End */}
+
+              {/* check Box Part */}
+              <View style={{ flexDirection: 'row', marginBottom: 20 }}>
                 <CheckBox
                   value={this.state.checked}
                   onValueChange={() => this.setState({ checked: !this.state.checked })}
                   style={{ ...styles.checkbox, alignSelf: 'flex-start', }}
                 />
                 {/* */}
-                <Text style={{ color: Colors.grey, fontSize: 12, }}>
-                  I have confirmed with each player their gross and net score and acknowledge once I submit, this scorecard cannot be amended.
+                <View style={{ marginRight: 30 }}>
+                  <Text style={{ color: Colors.grey, fontSize: 12, }}>
+                    I have confirmed with each player their gross and net score and acknowledge once I submit, this scorecard cannot be amended.
                 </Text>
+                </View>
               </View>
+              {/* End CheckBox */}
+
+              {/* bootom button Start */}
+              <View style={{ alignItems: 'center' }}>
+                <View style={[
+                  styles.buttonStyle,
+
+                ]}>
+
+                  <DialogButton
+                    text="Confirm" textStyle={{ color: 'white', fontSize: 15 }}
+                    onPress={() => this.sendData()}
+                  />
+                </View>
+
+              </View>
+              {/* Bottom Bconfirm button end  */}
             </View>
           </DialogContent>
+          {/* DialogContent Bconfirm button end  */}
+
         </Dialog>
 
 

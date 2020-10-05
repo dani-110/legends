@@ -7,5 +7,9 @@ export default StyleSheet.create({
     backgroundColor: Colors.background.primary,
     minHeight: 270
   },
-
+  headerContant: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
 });

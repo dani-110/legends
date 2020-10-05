@@ -2,7 +2,7 @@
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { View, FlatList, StyleSheet } from "react-native";
+import { View, FlatList, StyleSheet, Alert } from "react-native";
 import { Actions } from "react-native-router-flux";
 import ViewPager from '@react-native-community/viewpager';
 import styles2 from "../../../components/CustomNavbar/styles";
@@ -20,6 +20,8 @@ import Util from "../../../util";
 import { AppStyles, Colors, Fonts } from "../../../theme";
 import { from } from "seamless-immutable";
 import { size } from "lodash";
+let isCalled = "";
+var intervalId;
 
 class PotyLeaderboardDB extends PureComponent {
   static propTypes = {
@@ -29,7 +31,7 @@ class PotyLeaderboardDB extends PureComponent {
   };
   constructor(props) {
     super(props);
-    this.state = { sliderIndex: 0, maxSlider: 1, pageNumber: 0 };
+    this.state = { sliderIndex: 0, maxSlider: 1, pageNumber: 0, };
   }
   static defaultProps = {};
 
@@ -38,9 +40,10 @@ class PotyLeaderboardDB extends PureComponent {
   }
 
   componentDidMount() {
+    console.log("did mount")
     var pageNumber = 0;
-    this.dataPolling = setInterval(() => {
-      debugger
+    isCalled = "sdas";
+    intervalId = setInterval(() => {
       if (this.state.pageNumber >= 1) {
         pageNumber = 0;
       } else {
@@ -53,6 +56,33 @@ class PotyLeaderboardDB extends PureComponent {
     }, 5000);
   }
 
+  componentDidUpdate() {
+    console.log("did update-->" + isCalled)
+    if (isCalled === "") {
+      var pageNumber = 0;
+      isCalled = "already Called"
+      intervalId = setInterval(() => {
+        if (this.state.pageNumber >= 1) {
+          pageNumber = 0;
+        } else {
+          pageNumber = this.state.pageNumber;
+          pageNumber++;
+        }
+        console.log(pageNumber)
+        this.setState({ pageNumber: pageNumber })
+        this.viewPager.setPage(pageNumber)
+      }, 5000);
+    }
+  }
+  static pauseInterval() {
+    isCalled = "already Called";
+    clearInterval(intervalId);
+
+  }
+  static playInterval() {
+    isCalled = "";
+    Alert.alert("iscalled")
+  }
   componentWillUnmount() {
     clearInterval(this.dataPolling);
   }
@@ -60,46 +90,52 @@ class PotyLeaderboardDB extends PureComponent {
   _renderItem({ item, index }) {
 
     return (
-      <View style={[AppStyles.flexRow, AppStyles.pBottom5, AppStyles.mTop5]}>
-        <Text type="bold" style={{ width: 50 }} color={Colors.text.secondary}>
+      <View style={[AppStyles.flexRow, AppStyles.pBottom5, AppStyles.mTop5, { flex: 1 }]}>
+        <Text type="bold" style={{ flex: .5, marginLeft: 10, }} color={Colors.text.secondary}>
           {item.rank}
         </Text>
-        <Text
-          style={[AppStyles.flex, AppStyles.capitalize]}
-          color={Colors.text.secondary}
-        >
-          {item.name}
-        </Text>
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{ flex: 1.5, justifyContent: 'center', alignItems: 'center' }}>
+          <Text
+            style={[AppStyles.capitalize,]}
+            color={Colors.text.secondary}
+          >
+            {item.name}
+          </Text>
+        </View>
+        <View style={styles.headerContant}>
           <Text type="bold" color={Colors.text.secondary}>
             {item.rank}
           </Text>
         </View>
-        <Text type="bold" style={{ width: 60 }} color={Colors.text.secondary}>
-          {item.points}
-        </Text>
-      </View>
+        <View style={styles.headerContant}>
+          <Text type="bold" style={{ flex: 1 }} color={Colors.text.secondary}>
+            {item.points}
+          </Text>
+        </View>
+      </View >
     );
   }
 
   _renderHeader() {
     return (
-      <View style={[AppStyles.flexRow, AppStyles.pBottom5, AppStyles.mTop5]}>
-        <Text style={{ width: 50 }} color={Colors.grey3}>
+      <View style={[AppStyles.flexRow, AppStyles.pBottom5, AppStyles.mTop5, { flex: 1 }]}>
+        <Text style={{ flex: 1 }} color={Colors.grey3}>
           Rank
         </Text>
-        <Text style={AppStyles.flex} color={Colors.grey3}>
-          Player
+        <Text style={{ flex: 1, }} color={Colors.grey3}>
+          Players
         </Text>
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={styles.headerContant}>
           <Text color={Colors.grey3}>
             Events
         </Text>
         </View>
-        <Text style={{ width: 60 }} color={Colors.grey3}>
-          Points
-        </Text>
-      </View>
+        <View style={styles.headerContant}>
+          <Text color={Colors.grey3}>
+            Points
+          </Text>
+        </View>
+      </View >
     );
   }
 

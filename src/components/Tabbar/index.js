@@ -8,6 +8,8 @@ import { setSelectedTab } from "../../actions/GeneralActions";
 import { Text, ButtonView } from "../";
 import styles from "./styles";
 import { Images, Colors } from "../../theme";
+import PotyLeaderboardDB from "../../containers/Dashboard/PotyLeaderboardDB";
+
 
 const BUTTON_TYPES = {
   icon: "icon",
@@ -27,14 +29,16 @@ const tabsData = [
     image: Images.home_outline,
     selectedImage: Images.home_black,
     type: BUTTON_TYPES.icon,
-    // onPress: tabIsActive => {
-    //   if (tabIsActive) {
-    //     Actions.jump("dashboard_tab_main");
-    //   } else {
-    //     Actions.jump("dashboard_tab");
-    //   }
-    // }
-    onPress: () => Actions.jump("dashboard_tab_main")
+    onPress: tabIsActive => {
+      PotyLeaderboardDB.playInterval();
+      if (tabIsActive) {
+        Actions.jump("dashboard_tab_main");
+
+      } else {
+        Actions.jump("dashboard_tab");
+      }
+    }
+    // onPress: () => Actions.jump("dashboard_tab_main")
   },
   {
     name: "live",
@@ -42,6 +46,7 @@ const tabsData = [
     selectedImage: Images.live_black,
     type: BUTTON_TYPES.icon,
     onPress: tabIsActive => {
+      PotyLeaderboardDB.pauseInterval();
       if (tabIsActive) {
         Actions.jump("live_tab_main");
       } else {
@@ -54,7 +59,10 @@ const tabsData = [
     image: Images.notification_outline,
     selectedImage: Images.notification_black,
     type: BUTTON_TYPES.icon,
-    onPress: () => Actions.notification_tab()
+    onPress: () => {
+      PotyLeaderboardDB.pauseInterval();
+      Actions.notification_tab()
+    }
   },
   {
     name: "Join Game",
@@ -66,6 +74,7 @@ const tabsData = [
     dependency: "current_match",
     onPress: (tabIsActive, props) => {
       const data = props.current_match[0];
+      PotyLeaderboardDB.pauseInterval();
       return Actions.jump(`${props.current_match[0].type}livescore`, { data });
     }
   }
@@ -94,6 +103,7 @@ const livematchtabsData = [
     selectedImage: Images.score_board_black,
     type: BUTTON_TYPES.icon,
     onPress: tabIsActive => {
+      PotyLeaderboardDB.pauseInterval();
       if (tabIsActive) {
         Actions.jump("live_tab_main");
       } else {
@@ -109,6 +119,7 @@ const livematchtabsData = [
     type: BUTTON_TYPES.textIcon,
     selectedTab: 3,
     onPress: () => {
+      PotyLeaderboardDB.pauseInterval();
       Actions.jump("enterscore_tab");
     }
   }

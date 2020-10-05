@@ -38,6 +38,7 @@ import {
 } from "../containers";
 
 function onBackPress() {
+  console.log("state is------>" + Actions.state.index);
   if (Actions.state.index === 0) {
     return false;
   }
