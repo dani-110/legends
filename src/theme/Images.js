@@ -51,10 +51,11 @@ const splash_logo = require("../assets/images/splash_logo/splash_logo.png");
 const no_image = require("../assets/images/noImage.png");
 const search_icon = require("../assets/icon/search_icon/search_icon.png");
 const icon_scorecard = require("../assets/icon/icon_match_highlights/icon_scorecard.png");
-
+const splash_new = require("../assets/images/splash_logo/splash_logo.png");
 const scoreCard = require("../assets/icon/ScoreCard/ScoreCard.png");
 export default {
   logo,
+  splash_new,
   splash_bg,
   header_image,
   phone_icon,

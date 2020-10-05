@@ -6,7 +6,7 @@ import {
   View,
   Image as RNImage,
   ScrollView,
-  ActivityIndicator, FlatList, TouchableOpacity
+  ActivityIndicator, FlatList, TouchableOpacity, Alert
 } from "react-native";
 import { Actions } from "react-native-router-flux";
 import { setSelectedTab } from "../../actions/GeneralActions";
@@ -31,6 +31,7 @@ import { Images, AppStyles, Colors } from "../../theme";
 import Scores from "../Dashboard/Scores";
 import Util from "../../util";
 import GrossScoresTrend from "./GrossScoresTrend";
+import PotyLeaderboardDB from "../Dashboard/PotyLeaderboardDB";
 
 class Profile extends Component {
   static propTypes = {
@@ -56,7 +57,9 @@ class Profile extends Component {
     this.props.getUserProfileRequest();
     this.props.setSelectedTab(-1);
   }
-
+  componentDidMount() {
+    PotyLeaderboardDB.pauseInterval();
+  }
   setImage = uri => {
     this.setState({
       imageUri: uri

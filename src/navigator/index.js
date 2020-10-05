@@ -36,10 +36,13 @@ import {
   Dmp,
   PlayersDirectory
 } from "../containers";
+import PotyLeaderboardDB from "../containers/Dashboard/PotyLeaderboardDB";
+import { Alert } from "react-native";
 
 function onBackPress() {
   console.log("state is------>" + Actions.state.index);
   if (Actions.state.index === 0) {
+    PotyLeaderboardDB.playInterval()
     return false;
   }
   Actions.pop();

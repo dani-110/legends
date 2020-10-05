@@ -60,7 +60,7 @@ class EnterScore extends React.Component {
   //HOLD PAYLOAD DATA..
   tmpData = [];
   state = { visible: false, dataSource: [], checked: false, colorChanged: false, score_lock: 0 }
-  
+
 
   _showSubmitScore(toIndex) {
 
@@ -93,8 +93,8 @@ class EnterScore extends React.Component {
 
       if (state.isLoading) {
         props.updateRefresh()
-        console.log("next index is:"+newIndex);
-        return { isLoading: false ,index: newIndex}
+        console.log("next index is:" + newIndex);
+        return { isLoading: false, index: newIndex }
       }
     }
 
@@ -595,7 +595,7 @@ class EnterScore extends React.Component {
         subt
         theme={NAVBAR_THEME.GREEN}
         titleAlign="center"
-
+        fontType="large"
         rightBtnPress={() => {
           Actions.scorecard({
             act: {

@@ -57,7 +57,7 @@ class PotyLeaderboardDB extends PureComponent {
   }
 
   componentDidUpdate() {
-    console.log("did update-->" + isCalled)
+
     if (isCalled === "") {
       var pageNumber = 0;
       isCalled = "already Called"
@@ -81,7 +81,6 @@ class PotyLeaderboardDB extends PureComponent {
   }
   static playInterval() {
     isCalled = "";
-    Alert.alert("iscalled")
   }
   componentWillUnmount() {
     clearInterval(this.dataPolling);
@@ -98,6 +97,7 @@ class PotyLeaderboardDB extends PureComponent {
           <Text
             style={[AppStyles.capitalize,]}
             color={Colors.text.secondary}
+            numberOfLines={1}
           >
             {item.name}
           </Text>

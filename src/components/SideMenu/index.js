@@ -1,7 +1,7 @@
 // @flow
 import _ from "lodash";
 import React from "react";
-import { View, Image, Linking } from "react-native";
+import { View, Image, Linking, Alert } from "react-native";
 import { connect } from "react-redux";
 import { Actions } from "react-native-router-flux";
 import PropTypes from "prop-types";
@@ -11,24 +11,41 @@ import DataHandler from "../../services/DataHandler";
 import { userSignOutRequest } from "../../actions/UserActions";
 import { Colors, AppStyles, Images } from "../../theme";
 import styles from "./styles";
+import PotyLeaderboardDB from "../../containers/Dashboard/PotyLeaderboardDB";
+import { Poty } from "../../containers";
 
 const DRAWER_ITEMS = [
+
   {
     text: "POTY",
-    onPress: () => Actions.poty(),
+    onPress: () => {
+      pauseInterval();
+      Actions.poty()
+    },
     activeTab: 1
   },
   {
     text: "LCL",
-    onPress: () => Actions.lcl(),
+    onPress: () => {
+      pauseInterval();
+      Actions.lcl()
+    },
     activeTab: 1
   },
-  { text: "LMP", onPress: () => Actions.lmp(), activeTab: 1 },
+  {
+    text: "LMP", onPress: () => {
+      pauseInterval();
+      Actions.lmp()
+    }, activeTab: 1
+  },
   { text: "DMP", onPress: () => Actions.dmp(), activeTab: 1 },
 
   {
     text: "Players Directory",
-    onPress: () => Actions.playersdirectory()
+    onPress: () => {
+      pauseInterval();
+      Actions.playersdirectory()
+    }
   },
   {
     text: "Rules",
@@ -38,24 +55,39 @@ const DRAWER_ITEMS = [
   },
   {
     text: "News",
-    onPress: () => Actions.news(),
+    onPress: () => {
+      pauseInterval();
+      Actions.news()
+    },
     activeTab: 1
   },
   {
     text: "Sponsors",
-    onPress: () => Actions.sponsors(),
+    onPress: () => {
+      pauseInterval();
+      Actions.sponsors()
+    },
     activeTab: 1
   },
   //
   {
     text: "Settings",
     onPress: () => {
+      pauseInterval();
       Actions.settings();
     }
   },
-  { text: "Logout", onPress: () => getLoggedOut() }
+  {
+    text: "Logout", onPress: () => {
+      pauseInterval();
+      getLoggedOut()
+    }
+  }
 ];
 
+function pauseInterval() {
+  PotyLeaderboardDB.pauseInterval();
+}
 function getLoggedOut() {
   DataHandler.getStore().dispatch(
     userSignOutRequest(() => {
@@ -73,9 +105,14 @@ class SideMenu extends React.PureComponent {
   static defaultProps = {};
 
   renderUserDetails({ name, picture }) {
+
     return (
       <View style={styles.userDetailsWrapper}>
-        <ButtonView onPress={Actions.profile}>
+        <ButtonView onPress={
+          //pauseInterval()
+          Actions.profile
+          //Alert.alert("hi")
+        }>
           <View style={styles.imageWrapper} >
             <Image
               source={{ uri: picture }}
