@@ -42,6 +42,8 @@ import { setTabbarType } from "../../actions/GeneralActions";
 import { ViewPropTypes } from "react-native";
 import Util from "../../util";
 
+let newIndex = 0;
+
 class EnterScore extends React.Component {
   static propTypes = {
     setTabbarType: PropTypes.func.isRequired,
@@ -58,6 +60,7 @@ class EnterScore extends React.Component {
   //HOLD PAYLOAD DATA..
   tmpData = [];
   state = { visible: false, dataSource: [], checked: false, colorChanged: false, score_lock: 0 }
+  
 
   _showSubmitScore(toIndex) {
 
@@ -90,7 +93,8 @@ class EnterScore extends React.Component {
 
       if (state.isLoading) {
         props.updateRefresh()
-        return { isLoading: false }
+        console.log("next index is:"+newIndex);
+        return { isLoading: false ,index: newIndex}
       }
     }
 
@@ -115,6 +119,7 @@ class EnterScore extends React.Component {
       scoreCard: [],
       isLoading: false
     };
+    newIndex = 0;
     EnterScore.instance = this;
   }
 
@@ -279,7 +284,8 @@ class EnterScore extends React.Component {
       current === "Putts" ||
       (text !== "DEL" && text !== 1)
     ) {
-      let newIndex = index;
+      //let newIndex = index;
+      newIndex = index;
       let newCurrent = current;
 
       // if (type === "poty") {
@@ -321,6 +327,7 @@ class EnterScore extends React.Component {
       }
 
       if (swipe) {
+        newIndex = 0
         this._swiper.scrollBy(1, true);
       }
       this.setState(
@@ -334,7 +341,7 @@ class EnterScore extends React.Component {
             this.setState(
               {
                 current: newCurrent,
-                index: newIndex
+                //index: newIndex
               },
               () => {
                 this._postData(holeIndex, current, index, tempData, text);
@@ -957,8 +964,10 @@ class EnterScore extends React.Component {
 
   _renderKeyboard = () => {
     //if (this.tmpData.length > 0 && this.tmpData.score_lock === 1)
-    if (this.state.isLoading || (this.tmpData.length > 0 && this.tmpData.score_lock === 1))
+    if (this.state.isLoading)
       return;
+    if (this.tmpData.length > 0 && this.tmpData.score_lock === 1)
+      return
     return (
       <CustomKeyboard
         visible={this.state.showKeyBoard}
