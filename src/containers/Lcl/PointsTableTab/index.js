@@ -31,7 +31,7 @@ class PointsTableTab extends Component {
     return (
       <View style={styles.listHeaderWrapper}>
         <Text style={{ width: 70, ...styles.Title }}>
-          Position
+          Rank
         </Text>
         <Text style={{ ...AppStyles.flex, ...styles.Title }} textAlign="center">
           Team

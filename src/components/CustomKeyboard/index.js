@@ -68,7 +68,7 @@ export default class CustomKeyboard extends React.PureComponent {
           {
             marginBottom: this.state.animation.interpolate({
               inputRange: [0, 1],
-              outputRange: [mini ? -80 : -135, 0]
+              outputRange: [mini ? -80 : -180, 0]
             })
           }
         ]}
@@ -86,32 +86,32 @@ export default class CustomKeyboard extends React.PureComponent {
                   {React.isValidElement(item) ? (
                     <View>{item}</View>
                   ) : (
-                    <Text size={Fonts.size.xxLarge} type="bold">
-                      {item}
-                    </Text>
-                  )}
+                      <Text size={Fonts.size.xxLarge} type="bold">
+                        {item}
+                      </Text>
+                    )}
                 </TouchableOpacity>
               );
             })}
           </View>
         ) : (
-          <View style={styles.numericWraper}>
-            {numericKeys.map((row, current) => (
-              <View key={`numeric-keys-${current}`} style={styles.rowView}>
-                {row.map((item, index) => (
-                  // console.log({ rowss: row, currentsss: current });
-                  <TouchableOpacity
-                    key={`numeric-row--${index}`}
-                    onPress={() => onKeyPress(item)}
-                    style={styles.numericButton}
-                  >
-                    <Text type="bold">{item}</Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            ))}
-          </View>
-        )}
+            <View style={styles.numericWraper}>
+              {numericKeys.map((row, current) => (
+                <View key={`numeric-keys-${current}`} style={styles.rowView}>
+                  {row.map((item, index) => (
+                    // console.log({ rowss: row, currentsss: current });
+                    <TouchableOpacity
+                      key={`numeric-row--${index}`}
+                      onPress={() => onKeyPress(item)}
+                      style={styles.numericButton}
+                    >
+                      <Text size={Fonts.size.xxLarge} type={Fonts.type.base}>{item}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              ))}
+            </View>
+          )}
       </Animated.View>
     );
   }

@@ -19,5 +19,10 @@ export default StyleSheet.create({
     fontFamily: Fonts.type.base,
     fontSize: Fonts.size.small,
     color: Colors.black
+  },
+  listHeaderWrapper: {
+    ...AppStyles.flexRow,
+    paddingHorizontal: 15,
+    paddingVertical: 10
   }
 });

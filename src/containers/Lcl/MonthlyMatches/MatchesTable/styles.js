@@ -12,7 +12,7 @@ export default StyleSheet.create({
   },
   matchCard: {
     backgroundColor: Colors.white,
-    ...AppStyles.shadow2
+    ...AppStyles.shadowNew
   },
   roundNumber: {
     width: 130,

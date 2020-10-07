@@ -46,13 +46,13 @@ class TournamentsTab extends React.Component {
   _renderHeader() {
     return (
       <View style={AppStyles.listHeaderWrapper}>
-        <Text type="bold" style={AppStyles.flex}>
-          Name
+        <Text type="bold" style={{ ...AppStyles.flex, }}>
+          Event Name
         </Text>
-        <Text type="bold" style={{ width: 110 }} textAlign="center">
+        <Text type="bold" style={{ width: 120 }} textAlign="center">
           Date
         </Text>
-        <Text type="bold" style={{ width: 80 }} textAlign="center">
+        <Text type="bold" style={{ width: 85 }} textAlign="center">
           State
         </Text>
       </View>

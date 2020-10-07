@@ -17,50 +17,64 @@ export default class ListItem extends React.PureComponent {
     const { data } = this.props;
 
     return (
-      <View
-        style={[
-          AppStyles.flexRow,
-          AppStyles.padding15,
-          AppStyles.centerInner,
-          AppStyles.borderBottomGrey
-        ]}
-      >
-        <Text
-          style={{ width: 50, ...styles.innerText }}
-
-        >
+      <View style={styles.listHeaderWrapper}>
+        <Text style={{ width: 70, paddingLeft: 16, }}>
           {data.rank}
         </Text>
-        <View
-          style={[
-            AppStyles.flex,
-            AppStyles.flexRow,
-            AppStyles.alignItemsCenter, { justifyContent: 'center' }
-          ]}
-        >
-          <Text style={{ ...styles.innerText, }} >
-            {data.team_name}
-          </Text>
-        </View>
+        <Text style={{ ...AppStyles.flex, ...styles.Title }} textAlign="center">
+          {data.team_name}
+        </Text>
+        <Text style={{ width: 85, paddingRight: 25, }} textAlign='center'>
+          {data.points}
+        </Text>
+        <Text style={{ width: 68, paddingRight: 19 }} textAlign='center'>
+          {data.points}
+        </Text>
+      </View >
+      // <View
+      //   style={[
+      //     AppStyles.flexRow,
+      //     AppStyles.padding15,
+      //     AppStyles.centerInner,
+      //     AppStyles.borderBottomGrey
+      //   ]}
+      // >
+      //   <Text
+      //     style={{ width: 50, ...styles.innerText }}
 
-        <View style={styles.points}>
-          <Text
-            style={{ ...styles.innerText }}
-            textAlign="left"
-          >
-            {data.points}
-          </Text>
-        </View>
+      //   >
+      //     {data.rank}
+      //   </Text>
+      //   <View
+      //     style={[
+      //       AppStyles.flex,
+      //       AppStyles.flexRow,
+      //       AppStyles.alignItemsCenter, { justifyContent: 'center' }
+      //     ]}
+      //   >
+      //     <Text style={{ ...styles.innerText, }} >
+      //       {data.team_name}
+      //     </Text>
+      //   </View>
 
-        <View style={styles.points}>
-          <Text
-            style={{ ...styles.innerText }}
-            textAlign="center"
-          >
-            {data.points}
-          </Text>
-        </View>
-      </View>
+      //   <View style={styles.points}>
+      //     <Text
+      //       style={{ ...styles.innerText }}
+      //       textAlign="left"
+      //     >
+      //       {data.points}
+      //     </Text>
+      //   </View>
+
+      //   <View style={styles.points}>
+      //     <Text
+      //       style={{ ...styles.innerText }}
+      //       textAlign="center"
+      //     >
+      //       {data.points}
+      //     </Text>
+      //   </View>
+      // </View>
     );
   }
 }

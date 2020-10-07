@@ -34,11 +34,11 @@ class LeaderboardTab extends Component {
         <Text style={{ width: 70, ...styles.Title }}>
           Rank
         </Text>
-        <Text type="base" style={{ ...AppStyles.flex, ...styles.Title }} textAlign="left">
+        <Text type="base" style={{ ...AppStyles.flex, ...styles.Title, ...AppStyles.mLeft15 }} textAlign="left">
           Player Name
         </Text>
 
-        <Text type="base" style={{ width: 100, ...styles.Title }} >
+        <Text type="base" style={{ width: 90, ...styles.Title }} >
           Events
         </Text>
         <Text type="base" style={{ width: 60, ...styles.Title }}>

@@ -40,39 +40,39 @@ class PotyLeaderboardDB extends PureComponent {
   }
 
   componentDidMount() {
-    console.log("did mount")
-    var pageNumber = 0;
-    isCalled = "sdas";
-    intervalId = setInterval(() => {
-      if (this.state.pageNumber >= 1) {
-        pageNumber = 0;
-      } else {
-        pageNumber = this.state.pageNumber;
-        pageNumber++;
-      }
-      console.log(pageNumber)
-      this.setState({ pageNumber: pageNumber })
-      this.viewPager.setPage(pageNumber)
-    }, 5000);
+    // console.log("did mount")
+    // var pageNumber = 0;
+    // isCalled = "sdas";
+    // intervalId = setInterval(() => {
+    //   if (this.state.pageNumber >= 1) {
+    //     pageNumber = 0;
+    //   } else {
+    //     pageNumber = this.state.pageNumber;
+    //     pageNumber++;
+    //   }
+    //   console.log(pageNumber)
+    //   this.setState({ pageNumber: pageNumber })
+    //   this.viewPager.setPage(pageNumber)
+    // }, 5000);
   }
 
   componentDidUpdate() {
 
-    if (isCalled === "") {
-      var pageNumber = 0;
-      isCalled = "already Called"
-      intervalId = setInterval(() => {
-        if (this.state.pageNumber >= 1) {
-          pageNumber = 0;
-        } else {
-          pageNumber = this.state.pageNumber;
-          pageNumber++;
-        }
-        console.log(pageNumber)
-        this.setState({ pageNumber: pageNumber })
-        this.viewPager.setPage(pageNumber)
-      }, 5000);
-    }
+    // if (isCalled === "") {
+    //   var pageNumber = 0;
+    //   isCalled = "already Called"
+    //   intervalId = setInterval(() => {
+    //     if (this.state.pageNumber >= 1) {
+    //       pageNumber = 0;
+    //     } else {
+    //       pageNumber = this.state.pageNumber;
+    //       pageNumber++;
+    //     }
+    //     console.log(pageNumber)
+    //     this.setState({ pageNumber: pageNumber })
+    //     this.viewPager.setPage(pageNumber)
+    //   }, 5000);
+    // }
   }
   static pauseInterval() {
     isCalled = "already Called";
@@ -87,13 +87,14 @@ class PotyLeaderboardDB extends PureComponent {
   }
 
   _renderItem({ item, index }) {
-
     return (
       <View style={[AppStyles.flexRow, AppStyles.pBottom5, AppStyles.mTop5, { flex: 1 }]}>
-        <Text type="bold" style={{ flex: .5, marginLeft: 10, }} color={Colors.text.secondary}>
-          {item.rank}
-        </Text>
-        <View style={{ flex: 1.5, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{ flex: .4, marginRight: 25, justifyContent: 'center', alignItems: 'center', }} >
+          <Text type="bold" color={Colors.text.secondary}>
+            {item.rank}
+          </Text>
+        </View>
+        <View style={{ flex: 1.4, justifyContent: 'center', alignItems: 'center' }}>
           <Text
             style={[AppStyles.capitalize,]}
             color={Colors.text.secondary}
@@ -119,7 +120,7 @@ class PotyLeaderboardDB extends PureComponent {
   _renderHeader() {
     return (
       <View style={[AppStyles.flexRow, AppStyles.pBottom5, AppStyles.mTop5, { flex: 1 }]}>
-        <Text style={{ flex: 1 }} color={Colors.grey3}>
+        <Text style={{ flex: 1, }} color={Colors.grey3}>
           Rank
         </Text>
         <Text style={{ flex: 1, }} color={Colors.grey3}>

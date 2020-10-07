@@ -15,15 +15,16 @@ export default StyleSheet.create({
     elevation: 5
   },
   numericWraper: {
-    height: 135,
+    height: 180,
     width: "100%",
     backgroundColor: "white"
   },
   numericButton: {
     justifyContent: "center",
     alignItems: "center",
-    height: 45,
+    height: 60,
     width: "25%",
+    margin: 1,
     borderBottomWidth: 0.5,
     borderBottomColor: Colors.greyTint,
     borderEndWidth: 0.5,

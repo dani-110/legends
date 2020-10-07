@@ -26,16 +26,16 @@ const spaceAround = {
   justifyContent: "space-around"
 };
 
-/* const shadow1 = {
-  shadowColor: "rgba(76, 76, 76, 0.26)",
+const shadowNew = {
+  shadowColor: Colors.grey5,
   shadowOffset: {
     width: 0,
     height: 8
   },
-  shadowOpacity: 0.44,
-  shadowRadius: 10.32,
-  elevation: 16
-}; */
+  shadowOpacity: .4,
+  shadowRadius: 3.32,
+  elevation: 5
+};
 
 const shadow1 = {
   shadowColor: Colors.grey5,
@@ -484,6 +484,7 @@ export default {
   spaceBetween,
   spaceAround,
   shadow1,
+  shadowNew,
   shadow2,
   emptyListContainerStyle,
 

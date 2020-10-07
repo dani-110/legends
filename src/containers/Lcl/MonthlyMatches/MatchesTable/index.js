@@ -187,14 +187,19 @@ export default function MatchesTable(props) {
           </View>
 
           {/* text vs */}
-          <View style={styles.playersSep}>
-            <Text color={Colors.white} size={13}>
-              vs
+          {item[1] === "Bye" ? (
+            <View style={styles.playersSep}>
+              <Text color={Colors.white} size={13}>
+                vs
             </Text>
-            <View>
-
             </View>
-          </View>
+          ) : (
+              <View >
+                <Text color={Colors.grey} size={13}>
+                  vs
+            </Text>
+              </View>
+            )}
 
           {/* left Item */}
           <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', }}>
@@ -217,8 +222,6 @@ export default function MatchesTable(props) {
         </TouchableOpacity>
         <View>
           {(index === detailIndex) ? items : null}
-          {/* {this.state.isExpended[index] ? items : null} */}
-
         </View>
       </View>
     );
@@ -243,8 +246,6 @@ export default function MatchesTable(props) {
           keyExtractor={Util.keyExtractor}
         /> */}
         {teams.map((team, i) => {
-          console.log('list getting --- ')
-          console.log(team);
           return _renderPlayerItem(team, i, index)
         })
         }
@@ -281,7 +282,7 @@ export default function MatchesTable(props) {
 
 
   return (
-    <View style={[AppStyles.mBottom30, styles.matchCard]}>
+    <View style={[AppStyles.mBottom15, styles.matchCard]}>
       {_renderRoundNumber()}
       {_renderDate()}
       {_renderPlayers()}

@@ -34,13 +34,12 @@ class Welcome extends Component {
         <ImageBackground
           source={Images.splash_background}
           style={styles.imageBackground}
-          resizeMode='stretch'
+          resizeMode="stretch"
         >
-          {/* <Image
+          <Image
             source={Images.splash_logo}
-            style={styles.image}
-            resizeMode="cover"
-          /> */}
+            style={{ position: 'absolute', height: 340 / 2.5, width: 246 / 2.5, justifyContent: 'flex-end', bottom: 40, left: 30, }}
+          />
         </ImageBackground>
       </View>
     );

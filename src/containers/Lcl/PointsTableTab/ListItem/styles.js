@@ -19,5 +19,10 @@ export default StyleSheet.create({
     width: 68,
     height: 22,
     textAlign: "center"
+  },
+  listHeaderWrapper: {
+    ...AppStyles.flexRow,
+    paddingHorizontal: 15,
+    paddingVertical: 10
   }
 });

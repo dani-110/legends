@@ -37,7 +37,7 @@ import {
 import { NAVBAR_THEME, POLLING_TIME, NOT_SHOW_MSG, ERROR_API, REFRESH_DATA } from "../../constants";
 import styles from "./styles";
 import Tabbar from "../../components/Tabbar";
-import { AppStyles, Colors, Images } from "../../theme";
+import { AppStyles, Colors, Fonts, Images } from "../../theme";
 import { setTabbarType } from "../../actions/GeneralActions";
 import { ViewPropTypes } from "react-native";
 import Util from "../../util";
@@ -588,31 +588,33 @@ class EnterScore extends React.Component {
     const { type, id, schedule_id, match_id } = current_match[0];
 
     return (
-      <CustomNavbar
-        title={tournament_name}
-        subtitle={course_name}
-        hasBorder={true}
-        subt
-        theme={NAVBAR_THEME.GREEN}
-        titleAlign="center"
-        fontType="large"
-        rightBtnPress={() => {
-          Actions.scorecard({
-            act: {
-              action: "GetHoleDataForTournament",
-              id,
-              type,
-              season_id: parseInt(id, 10),
-              match_id,
-              schedule_id,
-              team1_p1: players && players[0] && players[0].id,
-              team2_p1: players && players[1] && players[1].id,
-              team1_p2: players && players[2] && players[2].id,
-              team2_p2: players && players[3] && players[3].id
-            }
-          });
-        }}
-      />
+      <View style={{ marginTop: 30 }}>
+        <CustomNavbar
+          title={tournament_name}
+          subtitle={course_name}
+          hasBorder={true}
+          subt
+          theme={NAVBAR_THEME.GREEN}
+          titleAlign="center"
+          rightBtnPress={() => {
+            Actions.scorecard({
+              act: {
+                action: "GetHoleDataForTournament",
+                id,
+                type,
+                season_id: parseInt(id, 10),
+                match_id,
+                schedule_id,
+                team1_p1: players && players[0] && players[0].id,
+                team2_p1: players && players[1] && players[1].id,
+                team1_p2: players && players[2] && players[2].id,
+                team2_p2: players && players[3] && players[3].id
+              }
+            });
+          }}
+        />
+
+      </View>
     );
   }
 
@@ -668,10 +670,12 @@ class EnterScore extends React.Component {
     for (let i = 0; i <= 17; i += 1) {
       holeScreens.push(
         <View style={{ backgroundColor: Colors.green, }}>
-          <View style={{ backgroundColor: Colors.white, marginTop: 20, borderRadius: 50 }}>
+          {this._renderTitle()}
+          <View style={{ backgroundColor: Colors.white, marginTop: 40, borderRadius: 50 }}>
             {this._renderHoleInfo(holes[i])}
             {this._renderScoreTable(holes[i], i)}
           </View>
+
         </View>
       );
     }
@@ -691,12 +695,11 @@ class EnterScore extends React.Component {
         >
           {holeScreens}
         </Swiper>
-        <View style={{ flex: 1, justifyContent: 'space-around', alignItems: 'center', flexDirection: 'row', }}>
+        <View style={{ flex: 1, marginTop: 25, justifyContent: 'space-around', alignItems: 'center', flexDirection: 'row', }}>
           <ButtonView
             style={[styles.buttonSubmit, { backgroundColor: (this.state.colorChanged) ? "#9A0000" : Colors.grey, width: 200 }]}
             color={Colors.white}
             onPress={() => {
-              //ADD SCORECARD CONDITION
               if (this.state.colorChanged) {
                 this.getData()
               }
@@ -748,7 +751,7 @@ class EnterScore extends React.Component {
             onPress={() => this._onClickScroll(-1)}
           >
             <RNImage
-              style={{ width: 50, height: 50 }}
+              style={{ width: 35, height: 35 }}
               source={Images.arrow_left_circle}
             />
           </TouchableOpacity>
@@ -783,7 +786,7 @@ class EnterScore extends React.Component {
             onPress={() => this._onClickScroll(1)}
           >
             <RNImage
-              style={{ width: 50, height: 50 }}
+              style={{ width: 35, height: 35 }}
               source={Images.arrow_right_circle}
             />
           </TouchableOpacity>
@@ -861,12 +864,12 @@ class EnterScore extends React.Component {
       const rowItem = data[key][nameIndex];
       return (
 
-        <View style={{ paddingBottom: 3, paddingTop: 10 }}>
+        <View style={{}}>
           {/* {key === "FIR" || key === "GIR" */}
           {nameItem.name.length === 0 ? null : (
             <View>
-              <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
-                <Text style={{ marginTop: 20, width: '40%' }}> {nameItem.name}</Text>
+              <View style={{ flexDirection: "row", justifyContent: "space-around", }}>
+                <Text style={{ marginTop: 20, width: '40%', fontType: Fonts.type.base, fontSize: Fonts.size.large }}> {nameItem.name}</Text>
                 <TouchableOpacity
                   style={[
                     AppStyles.centerInner,
@@ -895,7 +898,7 @@ class EnterScore extends React.Component {
                           />
                         )
                   ) : (
-                      <Text textAlign="center" style={AppStyles.centerInner}>
+                      <Text textAlign="center" style={{ ...AppStyles.centerInner, fontType: Fonts.type.base, fontSize: Fonts.size.xxLarge }}>
                         {key === "Gross" || key === "Net"
                           ? rowItem === 0
                             ? "E"
@@ -1056,8 +1059,8 @@ class EnterScore extends React.Component {
     const { holes, players } = holeData;
     const data = [1, 2, 3, 4, 5];
     return (
-      <View style={styles.container}>
-        {this._renderTitle()}
+      <View style={{ ...styles.container }}>
+
         {isFetchingData ? (
           <View style={[AppStyles.flex, AppStyles.doubleBaseMargin]}>
             <SimpleLoader />

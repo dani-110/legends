@@ -9,7 +9,7 @@ export default StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: Metrics.screenWidth * 0.77
+    height: Metrics.screenWidth * 1
   },
   imageBackground: {
     width: '100%',

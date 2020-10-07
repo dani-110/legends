@@ -30,9 +30,9 @@ class Scores extends React.Component {
   }
 
   getSingleScore = (label, labelOnTop, score, bgColor, suffix: null) => (
-    <View style={labelOnTop && { marginTop: -30 }}>
-      <View style={{ marginLeft: 10 }}>
-        {labelOnTop && <Text textAlign="center">{label}</Text>}
+    <View style={labelOnTop && { marginTop: -30, }}>
+      <View>
+        {labelOnTop && <Text textAlign="center" style={{ fontSize: Fonts.size.small, }}>{label}</Text>}
       </View>
       <View
         style={[
@@ -65,7 +65,7 @@ class Scores extends React.Component {
       </View>
       {
         !labelOnTop && (
-          <Text textAlign="center" color={Colors.grey}>
+          <Text textAlign="center" color={Colors.grey} size={Fonts.size.small}>
             {label}
           </Text>
         )
@@ -129,7 +129,7 @@ class Scores extends React.Component {
               Colors.black2
             )}
             {this.getSingleScore(
-              "WIN",
+              "WIN%",
               true,
               winPercentage,
               Colors.red4,
