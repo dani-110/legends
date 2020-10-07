@@ -28,7 +28,7 @@ export default StyleSheet.create({
     ...AppStyles.centerInner
   },
   negativePar: {
-    backgroundColor: Colors.red2
+    backgroundColor: Colors.redDark
   },
   negativeParText: {
     color: Colors.white

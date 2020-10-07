@@ -78,9 +78,12 @@ class PotyScoreTable extends React.Component {
       <View style={[AppStyles.flex2]}>
         <Text>Name</Text>
       </View>
-      {/* <View width={65}>
-        <Text textAlign="center">Score</Text>
-      </View> */}
+      {
+        this.props.type === "gross" ? (<View width={65}>
+          <Text textAlign="center">Score</Text>
+        </View>) : null
+      }
+
       <View width={45}>
         <Text textAlign="center">To Par</Text>
       </View>
@@ -124,9 +127,11 @@ class PotyScoreTable extends React.Component {
             {Util.titleCase(item.name.replace(/\s+/g, " ").trim()) || " "}
           </Text>
         </View>
-        {/* <View width={65}>
+        {
+        this.props.type === "gross" ? (<View width={65}>
           <Text textAlign="center">{item.score || " "}</Text>
-        </View> */}
+        </View>) : null
+      }
         <View
           width={45}
           style={[styles.score, item.net_score < 0 && styles.negativePar]}
@@ -149,7 +154,6 @@ class PotyScoreTable extends React.Component {
 
   render() {
     const { liveScoreData, isFetchingData } = this.props;
-    debugger
     return (
       <View style={styles.container}>
         {isFetchingData && liveScoreData.length === 0 && <SimpleLoader />}

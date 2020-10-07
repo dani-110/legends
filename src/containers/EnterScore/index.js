@@ -42,7 +42,7 @@ import { setTabbarType } from "../../actions/GeneralActions";
 import { ViewPropTypes } from "react-native";
 import Util from "../../util";
 
-let newIndex = 0;
+let newIndex = 1;
 
 class EnterScore extends React.Component {
   static propTypes = {
@@ -325,7 +325,9 @@ class EnterScore extends React.Component {
       if (holeIndex === 17 && index === 3 && current === "Putts") {
         (newShowKeyboard = false), (newMini = false);
       }
-
+      
+      console.log("next index increment:-->"+newIndex);
+      
       if (swipe) {
         newIndex = 0
         this._swiper.scrollBy(1, true);
@@ -341,7 +343,7 @@ class EnterScore extends React.Component {
             this.setState(
               {
                 current: newCurrent,
-                //index: newIndex
+                index: swipe?newIndex:index
               },
               () => {
                 this._postData(holeIndex, current, index, tempData, text);
@@ -700,6 +702,8 @@ class EnterScore extends React.Component {
             style={[styles.buttonSubmit, { backgroundColor: (this.state.colorChanged) ? "#9A0000" : Colors.grey, width: 200 }]}
             color={Colors.white}
             onPress={() => {
+
+              //ADD SCORECARD CONDITION
               if (this.state.colorChanged) {
                 this.getData()
               }
@@ -710,21 +714,20 @@ class EnterScore extends React.Component {
             </Text>
           </ButtonView>
           <ButtonView onPress={() => {
-            if (this.state.colorChanged)
-              Actions.scorecard({
-                act: {
-                  action: "GetHoleDataForTournament",
-                  id: this.state.id,
-                  type: this.state.type,
-                  season_id: this.state.season_id,
-                  match_id: this.state.match_id,
-                  schedule_id: this.state.schedule_id,
-                  team1_p1: players && players[0] && players[0].id,
-                  team2_p1: players && players[1] && players[1].id,
-                  team1_p2: players && players[2] && players[2].id,
-                  team2_p2: players && players[3] && players[3].id
-                }
-              });
+            Actions.scorecard({
+              act: {
+                action: "GetHoleDataForTournament",
+                id: this.props.current_match[0].id,
+                type: this.props.current_match[0].type,
+                season_id: parseInt(this.props.current_match[0].id, 10),
+                match_id: this.props.current_match[0].match_id,
+                schedule_id: this.props.current_match[0].schedule_id,
+                team1_p1: players && players[0] && players[0].id,
+                team2_p1: players && players[1] && players[1].id,
+                team1_p2: players && players[2] && players[2].id,
+                team2_p2: players && players[3] && players[3].id
+              }
+            });
           }}>
             <RNImage source={Images.icon_scorecard} style={{ width: 100, height: 40, borderRadius: 50 }} />
           </ButtonView>
@@ -967,6 +970,7 @@ class EnterScore extends React.Component {
 
   _renderKeyboard = () => {
     //if (this.tmpData.length > 0 && this.tmpData.score_lock === 1)
+    console.log("keyboard:")
     if (this.state.isLoading)
       return;
     if (this.tmpData.length > 0 && this.tmpData.score_lock === 1)
@@ -1014,7 +1018,6 @@ class EnterScore extends React.Component {
 
     const AuthStr = util.getCurrentUserAccessToken();
     console.log("get data authentication key = >" + AuthStr);
-    ///"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbGVnZW5kLmxpdmV3aXJlYXBwcy5pbmZvLy9hcGkvYXV0aC9zaWduaW4iLCJpYXQiOjE1OTk1NjU4MDEsImV4cCI6MTU5OTU2OTQwMSwibmJmIjoxNTk5NTY1ODAxLCJqdGkiOiJlZlNQTnRva3FDNDNMRU1uIiwic3ViIjozMSwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.-5ypC4cyvWvt1sA1n4OShnLgAFZexmkucCvtCdDzmMg";
     URL = BASE_URL + `/getGrossScoreNetScore/${match_id}/${schedule_id}`;
     debugger
     axios.get(URL, { headers: { Authorization: AuthStr } }).then((response) => {

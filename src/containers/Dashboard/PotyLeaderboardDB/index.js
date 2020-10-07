@@ -40,6 +40,7 @@ class PotyLeaderboardDB extends PureComponent {
   }
 
   componentDidMount() {
+
     // console.log("did mount")
     // var pageNumber = 0;
     // isCalled = "sdas";
@@ -54,6 +55,22 @@ class PotyLeaderboardDB extends PureComponent {
     //   this.setState({ pageNumber: pageNumber })
     //   this.viewPager.setPage(pageNumber)
     // }, 5000);
+
+    console.log("did mount")
+    var pageNumber = 0;
+    isCalled = "sdas";
+    intervalId = setInterval(() => {
+      // if (this.state.pageNumber >= 1) {
+      //   pageNumber = 0;
+      // } else {
+      //   pageNumber = this.state.pageNumber;
+      //   pageNumber++;
+      // }
+      // console.log(pageNumber)
+      // this.setState({ pageNumber: pageNumber })
+      // this.viewPager.setPage(pageNumber)
+    }, 5000);
+
   }
 
   componentDidUpdate() {
