@@ -136,8 +136,6 @@ function* postLclScore() {
 }
 
 function* postLmpScore() {
-  debugger
-  
   while (true) {
     const { payload, responseCallback } = yield take(POST_LMP_SCORE.REQUEST);
     try {

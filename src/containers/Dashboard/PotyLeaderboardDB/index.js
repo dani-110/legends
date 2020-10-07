@@ -44,35 +44,35 @@ class PotyLeaderboardDB extends PureComponent {
     var pageNumber = 0;
     isCalled = "sdas";
     intervalId = setInterval(() => {
-      if (this.state.pageNumber >= 1) {
-        pageNumber = 0;
-      } else {
-        pageNumber = this.state.pageNumber;
-        pageNumber++;
-      }
-      console.log(pageNumber)
-      this.setState({ pageNumber: pageNumber })
-      this.viewPager.setPage(pageNumber)
+      // if (this.state.pageNumber >= 1) {
+      //   pageNumber = 0;
+      // } else {
+      //   pageNumber = this.state.pageNumber;
+      //   pageNumber++;
+      // }
+      // console.log(pageNumber)
+      // this.setState({ pageNumber: pageNumber })
+      // this.viewPager.setPage(pageNumber)
     }, 5000);
   }
 
   componentDidUpdate() {
 
-    if (isCalled === "") {
-      var pageNumber = 0;
-      isCalled = "already Called"
-      intervalId = setInterval(() => {
-        if (this.state.pageNumber >= 1) {
-          pageNumber = 0;
-        } else {
-          pageNumber = this.state.pageNumber;
-          pageNumber++;
-        }
-        console.log(pageNumber)
-        this.setState({ pageNumber: pageNumber })
-        this.viewPager.setPage(pageNumber)
-      }, 5000);
-    }
+    // if (isCalled === "") {
+    //   var pageNumber = 0;
+    //   isCalled = "already Called"
+    //   intervalId = setInterval(() => {
+    //     if (this.state.pageNumber >= 1) {
+    //       pageNumber = 0;
+    //     } else {
+    //       pageNumber = this.state.pageNumber;
+    //       pageNumber++;
+    //     }
+    //     console.log(pageNumber)
+    //     this.setState({ pageNumber: pageNumber })
+    //     this.viewPager.setPage(pageNumber)
+    //   }, 5000);
+    // }
   }
   static pauseInterval() {
     isCalled = "already Called";

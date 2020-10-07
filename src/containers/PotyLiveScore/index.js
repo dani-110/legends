@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import React from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
-import { View } from "react-native";
+import { View, ScrollView, RefreshControl } from "react-native";
 import styles from "./styles";
 import {
   getPotyScoreNetRequest,
@@ -31,6 +31,32 @@ class PotyLiveScore extends React.Component {
   };
 
   static defaultProps = {};
+
+  //////////////////////////////  INTERVALS ///////////////////////////////
+
+  componentDidMount() {
+    this.dataPolling = setInterval(() => {
+      if (this.state.activeTabIndex === 0)
+        this._getPotyScoreNetRequest();
+      else
+      this.props.getPotyScoreGrossRequest();
+    }, POLLING_TIME);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.dataPolling);
+  }
+
+  _onRefresh() {
+    this.setState({ refreshing: false });
+    if (this.state.activeTabIndex === 0)
+      this._getPotyScoreNetRequest();
+    else
+    this.props.getPotyScoreGrossRequest();
+  }
+
+
+  ///////////////////////////////// INTERVALS /////////////////////////////
 
   static onEnter() {
     if (PotyLiveScore.instance) {
@@ -137,19 +163,27 @@ class PotyLiveScore extends React.Component {
           titleAlign="center"
         />
         {this._renderTabsHeader()}
-
-        {activeTabIndex === 0 && (
-          <PotyScoreTable
-            liveScoreData={liveScoreDataNet}
-            isFetchingData={isFetchingNet}
+        <ScrollView refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh.bind(this)}
           />
-        )}
-        {activeTabIndex === 1 && (
-          <PotyScoreTable
-            liveScoreData={liveScoreDataGross}
-            isFetchingData={isFetchingGross}
-          />
-        )}
+        }>
+          {activeTabIndex === 0 && (
+            <PotyScoreTable
+              liveScoreData={liveScoreDataNet}
+              isFetchingData={isFetchingNet}
+              type={"net"}
+            />
+          )}
+          {activeTabIndex === 1 && (
+            <PotyScoreTable
+              liveScoreData={liveScoreDataGross}
+              isFetchingData={isFetchingGross}
+              type={"gross"}
+            />
+          )}
+        </ScrollView>
 
         {/* <Tabbar defaultTabbar={false} /> */}
       </View>

@@ -68,6 +68,7 @@ export function postPotyScoreSuccess(data) {
 
 export function postPotyScoreFailure() {
   return {
+    data,
     type: POST_POTY_SCORE.FAILURE
   };
 }
