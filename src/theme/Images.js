@@ -41,6 +41,7 @@ const cross = require("../assets/icon/cross/cross.png");
 const arrow_left_circle = require("../assets/icon/arrow_circle_Left/icon_left_score.png");
 const arrow_right_circle = require("../assets/icon/arrow_circle_right/icon_right_score.png");
 const arrow_white = require("../assets/icon/arrow_white/icon_white.png");
+const icon_player = require("../assets/icon/Player/user.png");
 const tournament_selected = require("../assets/icon/tournament_selected/tournament_selected.png");
 const tournament_unselected = require("../assets/icon/tournament_unselected/tournament_unselected.png");
 const calendar_selected = require("../assets/icon/calendar_selected/calendar_selected.png");
@@ -64,6 +65,7 @@ export default {
   login_header_wrapper,
   forgot_lock,
   back_icon,
+  icon_player,
   drawer_black,
   arrow_white,
   image_edit,

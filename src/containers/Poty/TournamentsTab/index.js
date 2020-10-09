@@ -49,7 +49,7 @@ class TournamentsTab extends React.Component {
         <Text type="bold" style={{ ...AppStyles.flex, }}>
           Event Name
         </Text>
-        <Text type="bold" style={{ width: 120 }} textAlign="center">
+        <Text type="bold" style={{ width: 170 }} textAlign="center">
           Date
         </Text>
         <Text type="bold" style={{ width: 85 }} textAlign="center">

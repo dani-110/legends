@@ -82,6 +82,21 @@ export default StyleSheet.create({
     zIndex: -1,
     elevation: 24,
   },
+  dropdownShadow: {
+    width: 220,
+    height: 40,
+    right: 30,
+    backgroundColor: 'white',
+    borderRadius: 15,
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: .01,
+    shadowRadius: 16.00,
+    zIndex: -1,
+    elevation: 24,
+  },
   searchIcon: {
     position: 'absolute',
     top: 10,

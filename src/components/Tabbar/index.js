@@ -30,7 +30,6 @@ const tabsData = [
     selectedImage: Images.home_black,
     type: BUTTON_TYPES.icon,
     onPress: tabIsActive => {
-      PotyLeaderboardDB.playInterval();
       if (tabIsActive) {
         Actions.jump("dashboard_tab_main");
 
@@ -208,7 +207,7 @@ class Tabbar extends React.PureComponent {
                           : element.image
                         : element.disableImage
                     }
-                    style={styles.btn2Image}
+                    style={{ ...styles.btn2Image, width: 25, height: 25 }}
                   />
                   <Text
                     size="xSmall"

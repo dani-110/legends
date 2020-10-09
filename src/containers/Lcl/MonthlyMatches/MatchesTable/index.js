@@ -61,7 +61,7 @@ export default function MatchesTable(props) {
         ]}
       >
         <RNImage source={Images.calendar_grey} style={AppStyles.mRight10} />
-        <Text textAlign="center">
+        <Text textAlign="center" style={{ color: Colors.grey }}>
           {/* {Util.getFormattedDateTime(item.startTime, "DD MMM YYYY")}
           {" - "}
           {Util.getFormattedDateTime(item.endTime, "DD MMM YYYY")} */}

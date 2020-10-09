@@ -39,7 +39,7 @@ class PotyLiveScore extends React.Component {
       if (this.state.activeTabIndex === 0)
         this._getPotyScoreNetRequest();
       else
-      this.props.getPotyScoreGrossRequest();
+        this.props.getPotyScoreGrossRequest();
     }, POLLING_TIME);
   }
 
@@ -52,7 +52,7 @@ class PotyLiveScore extends React.Component {
     if (this.state.activeTabIndex === 0)
       this._getPotyScoreNetRequest();
     else
-    this.props.getPotyScoreGrossRequest();
+      this.props.getPotyScoreGrossRequest();
   }
 
 
@@ -119,7 +119,7 @@ class PotyLiveScore extends React.Component {
 
   _getPotyScoreNetRequest() {
     const { netLastUpdatedOn } = this.state;
-    const param = netLastUpdatedOn ? `${netLastUpdatedOn}` : "";
+    const param = "";//netLastUpdatedOn ? `${netLastUpdatedOn}` : "";
     this.props.getPotyScoreNetRequest(param, data => {
       this.setState({
         netLastUpdatedOn: moment().unix()

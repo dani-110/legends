@@ -1,7 +1,7 @@
 // @flow
 import { connect } from "react-redux";
 import React, { Component } from "react";
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, Alert } from "react-native";
 import firebase from "react-native-firebase";
 import PropTypes from "prop-types";
 import {
@@ -38,6 +38,7 @@ class Dashboard extends Component {
   static onEnter() {
     if (Dashboard.instance) {
       Dashboard.instance._onEnter();
+      PotyLeaderboardDB.playInterval();
     }
   }
 
@@ -59,6 +60,7 @@ class Dashboard extends Component {
 
   _onEnter() {
     this.props.setSelectedTab(1);
+
   }
 
   // _onExit() {
@@ -110,7 +112,7 @@ class Dashboard extends Component {
         // when app is in foreground
         // console.log({ foreground: notification });
 
-         ;
+        ;
         if (notification) {
           showLocalNotification(notification._data);
         }
@@ -119,7 +121,7 @@ class Dashboard extends Component {
     const notificationOpen = await firebase
       .notifications()
       .getInitialNotification();
-       ;
+    ;
     if (notificationOpen) {
       // when app is in closed, and opened by clicking notification
       // console.log("getInitialNotification", notificationOpen);

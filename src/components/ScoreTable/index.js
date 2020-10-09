@@ -14,7 +14,7 @@ export default class ScoreTable extends React.Component {
     liveScoreData: PropTypes.object.isRequired
   };
 
-  constructor(props){
+  constructor(props) {
     super(props);
     debugger
     typeMatch = this.props.typeMatch;
@@ -105,7 +105,7 @@ export default class ScoreTable extends React.Component {
               ]}
             >
               <Text textAlign="center" color={Colors.white}>
-                {score[score.length - 1].score}
+                {score[score.length - 1].score.length === 0 ? 'AS' : score[score.length - 1].score}
               </Text>
             </View>
             : <Text></Text>
@@ -164,11 +164,11 @@ export default class ScoreTable extends React.Component {
             ]}
           >
             {typeMatch === "foursome" ?
-              <View style={{...AppStyles.flex2,flexDirection:'row'}}>
-                <Text style={[AppStyles.alignItemsCenter,{width:'50%'},{marginLeft:'5%'}]} textAlign="center">
+              <View style={{ ...AppStyles.flex2, flexDirection: 'row' }}>
+                <Text style={[AppStyles.alignItemsCenter, { width: '50%' }, { marginLeft: '5%' }]} textAlign="center">
                   {item.team1_p1}
                 </Text>
-                <Text style={[AppStyles.alignItemsCenter,{width:'50%'},{marginLeft:'-18%'}]} textAlign="center">
+                <Text style={[AppStyles.alignItemsCenter, { width: '50%' }, { marginLeft: '-18%' }]} textAlign="center">
                   {item.team1_p2}
                 </Text>
               </View> :
@@ -198,21 +198,21 @@ export default class ScoreTable extends React.Component {
               </View>
             ) : <Text></Text>}
             {typeMatch === "foursome" ?
-              <View style={{...AppStyles.flex2,flexDirection:'row'}}>
-                <Text style={[AppStyles.alignItemsCenter,{width:'50%'},{marginLeft:'10%'}]} textAlign="center">
+              <View style={{ ...AppStyles.flex2, flexDirection: 'row' }}>
+                <Text style={[AppStyles.alignItemsCenter, { width: '50%' }, { marginLeft: '10%' }]} textAlign="center">
                   {item.team2_p1}
                 </Text>
-                <Text style={[AppStyles.alignItemsCenter,{width:'50%'},{marginLeft:'-18%'}]} textAlign="center">
+                <Text style={[AppStyles.alignItemsCenter, { width: '50%' }, { marginLeft: '-18%' }]} textAlign="center">
                   {item.team2_p2}
                 </Text>
               </View> :
               <View style={AppStyles.flex2}>
-              <Text style={[AppStyles.alignItemsCenter]} textAlign="center">
-                {item.playerTwo}
-              </Text>
-            </View>
+                <Text style={[AppStyles.alignItemsCenter]} textAlign="center">
+                  {item.playerTwo}
+                </Text>
+              </View>
             }
-            </View>
+          </View>
         </LinearGradient>
       </View>
     );

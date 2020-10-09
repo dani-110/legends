@@ -59,7 +59,7 @@ class EnterScore extends React.Component {
 
   //HOLD PAYLOAD DATA..
   tmpData = [];
-  state = { visible: false, dataSource: [], checked: false, colorChanged: false, score_lock: 0 }
+  state = { visible: false, showConformPopUp: false, dataSource: [], checked: false, colorChanged: false, score_lock: 0 }
 
 
   _showSubmitScore(toIndex) {
@@ -84,6 +84,9 @@ class EnterScore extends React.Component {
     }
   }
 
+  /***
+   *-----------------------  condition changed -----------------------
+   */
   static getDerivedStateFromProps(props, state) {
     //debugger
     if (props.enterScoreData.named === NOT_SHOW_MSG || props.enterScoreData.named === ERROR_API || props.enterScoreData.named === REFRESH_DATA) {
@@ -325,9 +328,9 @@ class EnterScore extends React.Component {
       if (holeIndex === 17 && index === 3 && current === "Putts") {
         (newShowKeyboard = false), (newMini = false);
       }
-      
-      console.log("next index increment:-->"+newIndex);
-      
+
+      console.log("next index increment:-->" + newIndex);
+
       if (swipe) {
         newIndex = 0
         this._swiper.scrollBy(1, true);
@@ -343,7 +346,7 @@ class EnterScore extends React.Component {
             this.setState(
               {
                 current: newCurrent,
-                index: swipe?newIndex:index
+                index: swipe ? newIndex : index
               },
               () => {
                 this._postData(holeIndex, current, index, tempData, text);
@@ -590,7 +593,7 @@ class EnterScore extends React.Component {
     const { type, id, schedule_id, match_id } = current_match[0];
 
     return (
-      <View style={{ marginTop: 30 }}>
+      <View style={{ paddingBottom: 10, paddingTop: 10, backgroundColor: Colors.green }}>
         <CustomNavbar
           title={tournament_name}
           subtitle={course_name}
@@ -598,6 +601,7 @@ class EnterScore extends React.Component {
           subt
           theme={NAVBAR_THEME.GREEN}
           titleAlign="center"
+          fontType="medium"
           rightBtnPress={() => {
             Actions.scorecard({
               act: {
@@ -672,8 +676,7 @@ class EnterScore extends React.Component {
     for (let i = 0; i <= 17; i += 1) {
       holeScreens.push(
         <View style={{ backgroundColor: Colors.green, }}>
-          {this._renderTitle()}
-          <View style={{ backgroundColor: Colors.white, marginTop: 40, borderRadius: 50 }}>
+          <View style={{ backgroundColor: Colors.white, marginTop: 10, borderRadius: 50 }}>
             {this._renderHoleInfo(holes[i])}
             {this._renderScoreTable(holes[i], i)}
           </View>
@@ -685,7 +688,7 @@ class EnterScore extends React.Component {
     return (
       <View>
         <Swiper
-          style={{ height: 450 }}
+          style={{ height: 400 }}
           // index={dataLength - 1}
           ref={swiper => {
             this._swiper = swiper;
@@ -697,9 +700,9 @@ class EnterScore extends React.Component {
         >
           {holeScreens}
         </Swiper>
-        <View style={{ flex: 1, marginTop: 25, justifyContent: 'space-around', alignItems: 'center', flexDirection: 'row', }}>
+        <View style={{ height: '100%', flex: 1, justifyContent: 'space-around', alignItems: 'center', flexDirection: 'row' }}>
           <ButtonView
-            style={[styles.buttonSubmit, { backgroundColor: (this.state.colorChanged) ? "#9A0000" : Colors.grey, width: 200 }]}
+            style={[styles.buttonSubmit, { backgroundColor: (this.state.colorChanged) ? "#9A0000" : Colors.grey, width: 250 }]}
             color={Colors.white}
             onPress={() => {
 
@@ -729,7 +732,7 @@ class EnterScore extends React.Component {
               }
             });
           }}>
-            <RNImage source={Images.icon_scorecard} style={{ width: 100, height: 40, borderRadius: 50 }} />
+            <RNImage source={Images.icon_scorecard} style={{ width: 100, height: 40, marginLeft: -40, borderRadius: 50 }} />
           </ButtonView>
         </View>
       </View >
@@ -746,7 +749,7 @@ class EnterScore extends React.Component {
           AppStyles.mBottomBase,
           AppStyles.alignItemsCenter,
           AppStyles.spaceAround,
-          { marginTop: 10 }
+          { marginTop: 25 }
         ]}
       >
         <View>
@@ -803,7 +806,7 @@ class EnterScore extends React.Component {
     const manipulatedData = this.state.scoreCard[index];
     return (
       manipulatedData && (
-        <View style={{ height: '100%' }}>
+        <View style={{ height: '100%', }}>
           {Object.keys(manipulatedData).map((key, index) => (
             <View
             // key={`row-${key}`}
@@ -837,6 +840,9 @@ class EnterScore extends React.Component {
     );
   }
 
+  /***
+   *-----------------------  condition changed -----------------------
+   */
   _onSwipe() {
     if (this._swiper != undefined && this._swiper.state != undefined) {
       console.log("swiper index:" + this._swiper.state.index);
@@ -872,7 +878,9 @@ class EnterScore extends React.Component {
           {nameItem.name.length === 0 ? null : (
             <View>
               <View style={{ flexDirection: "row", justifyContent: "space-around", }}>
-                <Text style={{ marginTop: 20, width: '40%', fontType: Fonts.type.base, fontSize: Fonts.size.large }}> {nameItem.name}</Text>
+                <View style={{ width: '45%', justifyContent: 'center', alignItems: 'flex-start', }}>
+                  <Text style={{ fontType: Fonts.type.base, fontSize: Fonts.size.large }}> {nameItem.name}</Text>
+                </View>
                 <TouchableOpacity
                   style={[
                     AppStyles.centerInner,
@@ -1022,8 +1030,8 @@ class EnterScore extends React.Component {
     debugger
     axios.get(URL, { headers: { Authorization: AuthStr } }).then((response) => {
 
-      this.setState({ dataSource: response.data.data, visible: true });
-
+      // this.setState({ dataSource: response.data.data, visible: true });
+      this.setState({ showConformPopUp: true });
     })
       .catch(function (error) {
         Alert.alert(error);
@@ -1063,7 +1071,7 @@ class EnterScore extends React.Component {
     const data = [1, 2, 3, 4, 5];
     return (
       <View style={{ ...styles.container }}>
-
+        {this._renderTitle()}
         {isFetchingData ? (
           <View style={[AppStyles.flex, AppStyles.doubleBaseMargin]}>
             <SimpleLoader />
@@ -1093,8 +1101,59 @@ class EnterScore extends React.Component {
         ) : (
               <EmptyStateText />
             )}
+        {/* Confirmation popup */}
+        <Dialog
+          showConformPopUp={this.state.showConformPopUp}
+          onTouchOutside={() => {
+            this.setState({ showConformPopUp: false });
+          }}
+        >
+          {/* DialogContent start */}
+          <DialogContent
+            style={{ justifyContent: 'center', alignItems: 'center', width: Dimensions.get('window').width * .7, marginBottom: -55, }}
+          >
+            {/* Title start */}
+            <Text style={{ ...styles.titleHeader, marginBottom: 10, marginTop: 10 }}>
+              Congratulations on finishing
+              your round!
+              </Text>
+            {/* Title End */}
 
 
+            {/* Main Content to send start */}
+            <View style={{ width: '100%', marginTop: 20, }}>
+
+
+              {/* check Box Part */}
+              <View style={{ flexDirection: 'row', marginBottom: 20 }}>
+
+                <Text style={{ color: Colors.grey, fontSize: 12, }}>
+                  Press the ‘SUBMIT’ button to complete
+                  your round once you have checked all your scores </Text>
+              </View>
+              {/* End CheckBox */}
+
+              {/* bootom button Start */}
+              <View style={{ alignItems: 'center' }}>
+                <View style={[
+                  styles.buttonStyle,
+
+                ]}>
+
+                  <DialogButton
+                    text="Confirm" textStyle={{ color: 'white', fontSize: 15 }}
+                    onPress={() => this.sendData()}
+                  />
+                </View>
+
+              </View>
+              {/* Bottom Bconfirm button end  */}
+            </View>
+          </DialogContent>
+          {/* DialogContent Bconfirm button end  */}
+
+        </Dialog>
+        {/* confirmation popup end  */}
         <Dialog
           visible={this.state.visible}
           onTouchOutside={() => {
@@ -1213,7 +1272,9 @@ const actions = {
 
 //for dialog modal 
 
-
+/***
+   *-----------------------  condition changed -----------------------
+   */
 
 function manipulateDataForScoreCard(data) {
   debugger

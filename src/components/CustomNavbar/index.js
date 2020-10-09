@@ -68,7 +68,7 @@ export default class CustomNavbar extends React.Component {
           <Image source={leftBtnImage} size={styles.btnImage} />
         )}
         {renderBack && (
-          <Image source={theme === NAVBAR_THEME.GREEN ? Images.arrow_white : Images.back_icon} />
+          <Image style={{ width: 20, height: 15 }} source={theme === NAVBAR_THEME.GREEN ? Images.arrow_white : Images.back_icon} />
         )}
       </ButtonView>
     );
@@ -120,7 +120,7 @@ export default class CustomNavbar extends React.Component {
           ellipsizeMode="tail"
           // size="large"
           // type="bold"..
-          style={{ ...styles.title, fontSize: fontType === "large" ? Fonts.size.large : Fonts.size.xxLarge }}
+          style={{ ...styles.title, fontSize: fontType === "large" ? Fonts.size.large : fontType === "medium" ? Fonts.size.xLarge : Fonts.size.xxLarge }}
           textAlign={titleAlign}
         >
           {title || ""}
@@ -174,14 +174,15 @@ export default class CustomNavbar extends React.Component {
           hasSearch ? styles.searchHeader : {},
 
           theme === NAVBAR_THEME.GREEN
-            ? { backgroundColor: Colors.green }
-            : theme === NAVBAR_THEME.WHITE ? { backgroundColor: Colors.white } : { backgroundColor: "rgba(0,0,0,0)" },
+            ? { backgroundColor: Colors.green, marginTop: 0, marginBottom: 0 }
+            : theme === NAVBAR_THEME.WHITE ? { backgroundColor: Colors.white, marginTop: 10, marginBottom: 10 } : { backgroundColor: "rgba(0,0,0,0)" },
           isLandscape
             ? {
               // height: Metrics.navBarHeightLandscape,
               paddingTop: Metrics.statusBarHeightLandscape
             }
             : {}
+          ,
         ]}
       >
         <View

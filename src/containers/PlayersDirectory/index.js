@@ -25,20 +25,6 @@ import Util from "../../util";
 import { AppStyles, Colors, Fonts, Images } from "../../theme";
 import AlphabetSectionList from 'react-native-alphabet-sectionlist';
 
-const dataAlphabet = {
-  'A': [{ name: 'A1' }, { name: 'A2' }, { name: 'A3' }],
-  'B': [{ name: 'A1' }, { name: 'A2' }, { name: 'A3' }],
-  "E": [{ name: 'E1' }, { name: 'E2' }, { name: 'E3' }, { name: 'E4' }],
-  'F': [{ name: 'F1' }, { name: 'F2' }, { name: 'F3' }],
-  'H': [{ name: 'H1' }, { name: 'H2' }, { name: 'H3' }, { name: 'H5' }],
-  'J': [{ name: 'J1' }, { name: 'J2' }, { name: 'J3' }, { name: 'J5' }],
-  'K': [{ name: 'K1' }, { name: 'K2' }, { name: 'K3' }, { name: 'K5' }],
-  'N': [{ name: 'N1' }, { name: 'N2' }, { name: 'N3' }, { name: 'N5' }],
-  'Y': [{ name: 'Y1' }, { name: 'Y2' }, { name: 'Y3' }, { name: 'Y5' }, { name: 'Y6' }],
-};
-
-
-
 class playersDirectory extends Component {
 
   static propTypes = {
@@ -94,14 +80,14 @@ class playersDirectory extends Component {
           </View>
 
         </View>
-        <View style={{ flex: 1, marginTop: 10, }}>
+        <View style={{ flex: 1, marginTop: 10, ...styles.dropdownShadow }}>
           <Text id style={{ height: 50, position: 'absolute', marginLeft: 10, fontSize: 12, color: Colors.grey, fontFamily: 'CircularStd-Book' }}>
-            Sort by:Name
+            Sort by:
          </Text>
-          <View style={{}}>
-            <Picker mode="dialog"
+          <View>
+            <Picker mode="dropdown"
               style={stylesPicker.pickerStyle}
-              textStyle={{ color: "#5cb85c" }}
+
               selectedValue={this.state.selectedValue}
               onValueChange={(itemValue, itemIndex) => {
                 this.setState({ selectedValue: itemValue });
@@ -146,16 +132,6 @@ class playersDirectory extends Component {
           // custom section header
           renderSectionHeader={renderSectionHeader}
           sectionHeaderTextStyle={{ fontSize: 60, color: 'red' }} />
-
-        {/* <FlatList
-          style={[AppStyles.flex]}
-          data={playersDirectoryData}
-          renderItem={this._renderRow}
-          keyExtractor={Util.keyExtractor}
-          ListHeaderComponent={this._renderHeader}
-          stickyHeaderIndices={[0]}
-          ListEmptyComponent={() => <EmptyStateText />}
-        /> */}
       </View>
     );
   }
@@ -231,15 +207,15 @@ class playersDirectory extends Component {
     let consonant = data;
 
     if (alphabet.length > 0) {
-      for (var i of Object.keys(consonant)) {
-        consonant[i] = consonant[i].filter(e => (e.name.startsWith(alphabet)))
-        if (!consonant[i][0]) delete consonant[i]
-      }
-
       // for (var i of Object.keys(consonant)) {
-      //   consonant[i] = consonant[i].filter(e => (e.name.toUpperCase().includes(searchText.toUpperCase())))
+      //   consonant[i] = consonant[i].filter(e => (e.name.startsWith(alphabet)))
       //   if (!consonant[i][0]) delete consonant[i]
       // }
+
+      for (var i of Object.keys(consonant)) {
+        consonant[i] = consonant[i].filter(e => (e.name.toUpperCase().includes(searchText.toUpperCase())))
+        if (!consonant[i][0]) delete consonant[i]
+      }
     }
     return consonant;
   }

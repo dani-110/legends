@@ -33,6 +33,7 @@ class PotyLeaderboardDB extends PureComponent {
     super(props);
     this.state = { sliderIndex: 0, maxSlider: 1, pageNumber: 0, };
   }
+
   static defaultProps = {};
 
   componentWillMount() {
@@ -41,67 +42,47 @@ class PotyLeaderboardDB extends PureComponent {
 
   componentDidMount() {
 
-    // console.log("did mount")
-    // var pageNumber = 0;
-    // isCalled = "sdas";
-    // intervalId = setInterval(() => {
-    //   if (this.state.pageNumber >= 1) {
-    //     pageNumber = 0;
-    //   } else {
-    //     pageNumber = this.state.pageNumber;
-    //     pageNumber++;
-    //   }
-    //   console.log(pageNumber)
-    //   this.setState({ pageNumber: pageNumber })
-    //   this.viewPager.setPage(pageNumber)
-    // }, 5000);
-
-    console.log("did mount")
-    var pageNumber = 0;
-    isCalled = "sdas";
-    intervalId = setInterval(() => {
-      // if (this.state.pageNumber >= 1) {
-      //   pageNumber = 0;
-      // } else {
-      //   pageNumber = this.state.pageNumber;
-      //   pageNumber++;
-      // }
-      // console.log(pageNumber)
-      // this.setState({ pageNumber: pageNumber })
-      // this.viewPager.setPage(pageNumber)
-    }, 5000);
-
+    this.createInterVal();
   }
-
   componentDidUpdate() {
-
-    // if (isCalled === "") {
-    //   var pageNumber = 0;
-    //   isCalled = "already Called"
-    //   intervalId = setInterval(() => {
-    //     if (this.state.pageNumber >= 1) {
-    //       pageNumber = 0;
-    //     } else {
-    //       pageNumber = this.state.pageNumber;
-    //       pageNumber++;
-    //     }
-    //     console.log(pageNumber)
-    //     this.setState({ pageNumber: pageNumber })
-    //     this.viewPager.setPage(pageNumber)
-    //   }, 5000);
-    // }
+    this.createInterVal();
   }
+
+  createInterVal() {
+    if (isCalled === "") {
+      clearInterval(intervalId);
+      intervalId = false;
+      var pageNumber = 0;
+      isCalled = "already Called"
+      intervalId = setInterval(() => {
+
+        if (this.state.pageNumber >= 1) {
+          pageNumber = 0;
+        } else {
+          pageNumber = this.state.pageNumber;
+          pageNumber++;
+        }
+        console.log(pageNumber)
+        this.setState({ pageNumber: pageNumber })
+        this.viewPager.setPage(pageNumber)
+      }, 5000);
+    }
+
+  }
+
   static pauseInterval() {
     isCalled = "already Called";
     clearInterval(intervalId);
-
+    intervalId = false;
   }
   static playInterval() {
     isCalled = "";
   }
-  componentWillUnmount() {
-    clearInterval(this.dataPolling);
-  }
+  // componentWillUnmount() {
+  //   clearInterval(intervalId);
+  //   intervalId = false;
+
+  // }
 
   _renderItem({ item, index }) {
     return (
@@ -137,7 +118,7 @@ class PotyLeaderboardDB extends PureComponent {
   _renderHeader() {
     return (
       <View style={[AppStyles.flexRow, AppStyles.pBottom5, AppStyles.mTop5, { flex: 1 }]}>
-        <Text style={{ flex: 1, }} color={Colors.grey3}>
+        <Text style={{ flex: 1.1, }} color={Colors.grey3}>
           Rank
         </Text>
         <Text style={{ flex: 1, }} color={Colors.grey3}>

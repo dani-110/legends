@@ -37,11 +37,12 @@ class PotyScoreTable extends React.Component {
     this.props.getPotyUserScoreCardRequest(subroute, data => { });
   }
   _formatPar(value) {
+    console.log("value is:" + value);
     if (value > 0) return `+${value}`;
 
-    if (value === 0) return "E";
+    else if (value === 0 || value === null) return "E";
+    else if (value < 0 || value === 'F') return value;
 
-    return value;
   }
   _renderTable() {
     const { liveScoreData } = this.props;
@@ -98,7 +99,7 @@ class PotyScoreTable extends React.Component {
 
     if (
       index > 0 &&
-      (liveScoreData[index - 1].net_score !== item.net_score ||
+      (liveScoreData[index - 1].netSpecial !== item.netSpecial ||
         liveScoreData[index - 1].par !== item.par)
     ) {
       this.state.rank++;
@@ -128,21 +129,22 @@ class PotyScoreTable extends React.Component {
           </Text>
         </View>
         {
-        this.props.type === "gross" ? (<View width={65}>
-          <Text textAlign="center">{item.score || " "}</Text>
-        </View>) : null
-      }
+          this.props.type === "gross" ? (<View width={65}>
+            <Text textAlign="center">{item.score || " "}</Text>
+          </View>) : null
+        }
         <View
           width={45}
-          style={[styles.score, item.net_score < 0 && styles.negativePar]}
+          style={[styles.score, item.netSpecial < 0 && styles.negativePar]}
         >
           <Text
             size="xLarge"
-            style={[item.net_score < 0 && styles.negativeParText]}
+            style={[item.netSpecial < 0 && styles.negativeParText]}
           >
-            {this._formatPar(item.net_score) ||
+            {this._formatPar(item.netSpecial) ||
               this._formatPar(item.par) ||
               "E"}
+
           </Text>
         </View>
         <View width={70}>
