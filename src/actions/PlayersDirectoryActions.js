@@ -10,7 +10,6 @@ export function getPlayersDirectoryRequest(responseCallback) {
 }
 
 export function getPlayersDirectorySuccess(data) {
-  debugger;
   return {
     data,
     type: GET_PLAYERS_DIRECTORY.SUCCESS

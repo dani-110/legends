@@ -54,10 +54,15 @@ const search_icon = require("../assets/icon/search_icon/search_icon.png");
 const icon_scorecard = require("../assets/icon/icon_match_highlights/icon_scorecard.png");
 const splash_new = require("../assets/images/splash_logo/splash_logo.png");
 const scoreCard = require("../assets/icon/ScoreCard/ScoreCard.png");
+const scoreCardWhite = require("../assets/icon/scoreCardWhite/score.png");
+const scoreCardBlackWithBg = require("../assets/icon/scoreCardBlackScreen/scoreWhite.png");
+//scoreCardBlackScreen
 export default {
   logo,
   splash_new,
+  scoreCardBlackWithBg,
   splash_bg,
+  scoreCardWhite,
   header_image,
   phone_icon,
   arrow_left_circle,

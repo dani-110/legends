@@ -1,12 +1,12 @@
 // @flow
 import { StyleSheet } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
-import { Colors, AppStyles } from "../../theme";
+import { Colors, AppStyles, Fonts } from "../../theme";
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.background.primary
+    backgroundColor: Colors.white
   },
   headerWrapper1: {
     backgroundColor: Colors.background.secondary,
@@ -23,12 +23,16 @@ export default StyleSheet.create({
   },
   scoreRowWrapper: {
     borderLeftWidth: 3,
-    borderLeftColor: Colors.purple,
+    borderLeftColor: Colors.green,
     flex: 1
   },
   width3: {
     width: 50,
     ...AppStyles.centerInner
+  },
+  scoreText: {
+    fontSize: Fonts.size.small,
+    fontWeight: 'normal'
   },
   innerWrapper: {
     paddingLeft: isIphoneX() ? 40 : 0,

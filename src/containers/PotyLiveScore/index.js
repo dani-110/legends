@@ -10,11 +10,13 @@ import {
   getPotyScoreGrossRequest
 } from "../../actions/LiveMatchesActions";
 import { CustomNavbar, TopTabs } from "../../components";
+import { Actions } from "react-native-router-flux";
 import { NAVBAR_THEME, POLLING_TIME } from "../../constants";
 import Tabbar from "../../components/Tabbar";
 import PotyScoreTable from "./PotyScoreTable";
 import Util from "../../util";
 import { setTabbarType, enableEnterScore } from "../../actions/GeneralActions";
+import { AppStyles, Colors, Fonts, Images } from "../../theme";
 
 class PotyLiveScore extends React.Component {
   static propTypes = {
@@ -149,8 +151,9 @@ class PotyLiveScore extends React.Component {
       liveScoreDataGross,
       isFetchingNet,
       isFetchingGross,
-      data: { name, venue }
+      data: { name, venue, id, type, match_id, schedule_id }
     } = this.props;
+    debugger
     const { activeTabIndex } = this.state;
 
     return (
@@ -159,8 +162,25 @@ class PotyLiveScore extends React.Component {
           title={name}
           subtitle={venue}
           hasBorder={false}
+          //rightBtnImage={Images.scoreCardBlackWithBg}
           theme={NAVBAR_THEME.WHITE}
           titleAlign="center"
+          rightBtnPress={() => {
+            Actions.scorecard({
+              act: {
+                action: "GetHoleDataForTournament",
+                id,
+                type,
+                season_id: parseInt(id, 10),
+                match_id,
+                schedule_id,
+                team1_p1: players && players[0] && players[0].id,
+                team2_p1: players && players[1] && players[1].id,
+                team1_p2: players && players[2] && players[2].id,
+                team2_p2: players && players[3] && players[3].id
+              }
+            });
+          }}
         />
         {this._renderTabsHeader()}
         <ScrollView refreshControl={

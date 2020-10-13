@@ -2,7 +2,7 @@
 import _ from "lodash";
 import { connect } from "react-redux";
 import React, { Component } from "react";
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, Alert, Image, TouchableOpacity } from "react-native";
 import Orientation from "react-native-orientation";
 import PropTypes from "prop-types";
 import { CustomNavbar, Text, ScoreValue, Loader } from "../../components";
@@ -14,9 +14,11 @@ import {
   getLclGroupScoreCardRequest
 } from "../../actions/ScoreCardActions";
 import styles from "./styles";
-import { AppStyles, Colors } from "../../theme";
+import { AppStyles, Colors, Fonts, Images } from "../../theme";
 import { toggleTabbar } from "../../actions/GeneralActions";
 import util from "../../util";
+import { Actions } from "react-native-router-flux";
+
 
 class ScoreCard extends Component {
   static propTypes = {
@@ -119,11 +121,32 @@ class ScoreCard extends Component {
     this.props.toggleTabbar(true);
   }
 
+
   _sumValues(array, startFrom = null, endTo = null) {
+
     if (_.isInteger(startFrom) && _.isInteger(endTo)) {
       return _.sum(array.slice(startFrom, endTo));
     }
     return _.sum(array);
+
+  }
+
+  _showSumOfArray(array, startFrom = null, endTo = null) {
+
+
+    var total = 0;
+    var arrayLength = array.length;
+    if (endTo !== null) {
+      var arrayLength = endTo;
+    }
+
+    for (var i = startFrom; i < arrayLength; i++) {
+      if (isNaN(array[i])) {
+        continue;
+      }
+      total += Number(array[i]);
+    }
+    return total;
   }
 
   _renderHeader({ holeNumber, index, par, players }, startFrom, endTo, type) {
@@ -137,44 +160,44 @@ class ScoreCard extends Component {
           <Text style={styles.width1}>{` `}</Text>
           {mapData.map((holeItem, holeIndex) => (
             <View key={holeIndex}>
-              <View style={styles.width2}>
-                <Text type="bold" size="xxSmall">
+              <View style={{ ...styles.width2, margin: 2 }}>
+                <Text style={styles.scoreText} type="normal" >
                   {holeItem}
                 </Text>
               </View>
             </View>
           ))}
           <View style={styles.width3}>
-            <Text type="bold" size="xxSmall">
+            <Text style={styles.scoreText}>
               {type}
             </Text>
           </View>
           <View style={styles.width3}>
-            <Text type="bold" size="xxSmall">
+            <Text type="normal" size="small">
               Total
             </Text>
           </View>
         </View>
         <View style={[AppStyles.flexRow, AppStyles.flex]}>
-          <Text style={styles.width1} size="xSmall">
+          <Text style={styles.width1} size="small" type="normal">
             Index
           </Text>
           {mapData.map((holeItem, holeIndex) => (
             <View key={holeIndex}>
-              <View style={styles.width2}>
-                <Text color={Colors.text.secondary} size="xxSmall">
+              <View style={{ ...styles.width2, margin: 2 }}>
+                <Text type="normal" color={Colors.text.secondary} size="small">
                   {index[holeItem - 1]}
                 </Text>
               </View>
             </View>
           ))}
           <View style={styles.width3}>
-            <Text color={Colors.text.secondary} size="xxSmall">
+            <Text type="normal" color={Colors.text.secondary} size="small">
               {``}
             </Text>
           </View>
           <View style={styles.width3}>
-            <Text color={Colors.text.secondary} size="xxSmall">
+            <Text type="normal" color={Colors.text.secondary} size="small">
               {""}
             </Text>
           </View>
@@ -186,31 +209,31 @@ class ScoreCard extends Component {
             AppStyles.borderBottomGrey
           ]}
         >
-          <Text style={styles.width1} size="xSmall">
+          <Text style={styles.width1} size="small" type="normal">
             Par
           </Text>
           {mapData.map((holeItem, holeIndex) => (
             <View key={holeIndex}>
-              <View style={styles.width2}>
-                <Text color={Colors.text.secondary} size="xxSmall">
+              <View style={{ ...styles.width2, margin: 2 }}>
+                <Text color={Colors.text.secondary} size="small" type="normal">
                   {par[holeItem - 1]}
                 </Text>
               </View>
             </View>
           ))}
           <View style={styles.width3}>
-            <Text color={Colors.text.secondary} size="xxSmall">
-              {this._sumValues(par, startFrom, endTo)}
+            <Text color={Colors.text.secondary} size="small" type="normal">
+              {this._showSumOfArray(par, startFrom, endTo)}
             </Text>
           </View>
 
           <View style={styles.width3}>
-            <Text color={Colors.text.secondary} size="xxSmall">
-              {this._sumValues(par)}
+            <Text color={Colors.text.secondary} size="small" type="normal">
+              {this._showSumOfArray(par, 0)}
             </Text>
           </View>
         </View>
-      </View>
+      </View >
     );
   }
 
@@ -227,10 +250,11 @@ class ScoreCard extends Component {
                 style={[AppStyles.flexRow, AppStyles.borderBottomGrey]}
                 key={playerIndex}
               >
-                <View style={AppStyles.flex}>
+                <View style={{ ...AppStyles.flex, justifyContent: 'center', alignItems: 'flex-start' }}>
                   <Text
-                    style={[styles.width1, styles.playerName]}
-                    size="xSmall"
+                    style={[styles.playerName, { left: 15 }]}
+                    size="small"
+                    type="normal"
                   >
                     {playerItem.name}
                   </Text>
@@ -239,9 +263,10 @@ class ScoreCard extends Component {
                 <View style={AppStyles.flexRow}>
                   {mapData.map((scoreItem, itemIndex) => {
                     return (
-                      <View style={styles.width2} key={itemIndex}>
+                      <View style={{ ...styles.width2, margin: 2 }} key={itemIndex}>
                         <ScoreValue
-                          size="xxSmall"
+                          size="small"
+                          type="normal"
                           score={scoreItem}
                           par={par[mappedHoleNumber[itemIndex] - 1]}
                         />
@@ -250,26 +275,26 @@ class ScoreCard extends Component {
                   })}
                 </View>
                 <View style={styles.width3}>
-                  <Text color={Colors.text.secondary} size="xxSmall">
-                    {this._sumValues(mapData)}
+                  <Text color={Colors.text.secondary} size="small" type="normal">
+                    {this._showSumOfArray(mapData, 0)}
                   </Text>
                 </View>
                 <View style={styles.width3}>
-                  <Text color={Colors.text.secondary} size="xxSmall">
-                    {this._sumValues(playerItem.score)}
+                  <Text color={Colors.text.secondary} size="small" type="normal">
+                    {this._showSumOfArray(playerItem.score, 0)}
                   </Text>
                 </View>
               </View>
             );
           })}
         </View>
-      </View>
+      </View >
     );
   }
 
   _renderView(data, startFrom, endTo, type) {
     return (
-      <View>
+      <View style={{ borderBottomWidth: 1, borderRightWidth: 1, borderLeftWidth: 1, borderColor: Colors.greyTint }}>
         {this._renderHeader(data, startFrom, endTo, type)}
         {this._renderPlayersScore(data, startFrom, endTo)}
       </View>
@@ -280,15 +305,22 @@ class ScoreCard extends Component {
     const { loading, scoreCardData } = this.state;
     return (
       <View style={styles.container}>
-        <CustomNavbar
-          title={scoreCardData.course_name}
-          hasBorder={false}
-          theme={NAVBAR_THEME.WHITE}
-          isLandscape
-          titleAlign="left"
-        />
+        <View style={{ flexDirection: 'row', height: 30 }}>
+          <TouchableOpacity onPress={() => { Actions.pop() }} style={{
+            width: 40,
+            height: '100%',
+            alignItems: 'center',
+            justifyContent: 'center',
+            left: 10
+          }}>
+            <Image source={Images.back_icon} />
+          </TouchableOpacity>
+          <Text style={{ left: 40, }} size={Fonts.size.xLarge} type={Fonts.type.base}>
+            {scoreCardData.course_name}
+          </Text>
+        </View>
         {!_.isEmpty(scoreCardData) && (
-          <View style={styles.innerWrapper}>
+          <View style={{ ...styles.innerWrapper, marginHorizontal: 50, right: 5, marginBottom: 10 }}>
             <ScrollView contentContainerStyle={{ minWidth: 660 }}>
               {this._renderView(scoreCardData, 0, 9, "Out")}
               <View style={AppStyles.mBottom20} />

@@ -1,28 +1,35 @@
 // @flow
 import React from "react";
-import _ from "lodash";
+import _, { toInteger } from "lodash";
 import PropTypes from "prop-types";
 import { View } from "react-native";
 import { Text } from "../";
 import styles from "./styles";
-import { Colors } from "../../theme";
+import { Colors, Fonts } from "../../theme";
 
 function getScoreColor(score, par) {
-  if (_.isInteger(score) && score === par + 1) {
-    // blue
-    return { bg: Colors.blue, text: Colors.white };
-  } else if (_.isInteger(score) && score === par - 1) {
-    // red
-    return { bg: Colors.red, text: Colors.white };
-  } else if (_.isInteger(score) && score > par + 1) {
-    // black
-    return { bg: Colors.black, text: Colors.white };
-  } else if (_.isInteger(score) && score < par - 1) {
-    // yellow
-    return { bg: Colors.yellow, text: Colors.black };
-  }
 
+  var tempScore = toInteger(score);
+  var tempPar = toInteger(par);
+
+  if (score === null || score === "WD") {
+    return { bg: Colors.white, text: Colors.text.primary, border: 0 };
+  }
+  else if (tempScore === tempPar + 1) {
+    // blue
+    return { bg: Colors.blue, text: Colors.white, border: 0 };
+  } else if (tempScore === tempPar - 1) {
+    // red
+    return { bg: Colors.redDark, text: Colors.white, border: 100 };
+  } else if (tempScore > tempPar + 1) {
+    // black
+    return { bg: Colors.black, text: Colors.white, border: 0 };
+  } else if (tempScore < tempPar - 1) {
+    // yellow
+    return { bg: Colors.red4, text: Colors.white, border: 100 };
+  }
   return { bg: Colors.white, text: Colors.text.primary };
+
 }
 
 export default class ScoreValue extends React.Component {
@@ -38,16 +45,18 @@ export default class ScoreValue extends React.Component {
     const getColor = getScoreColor(props.score, props.par);
     this.textColor = getColor.text;
     this.bgColor = getColor.bg;
+    this.borderRediousVal = getColor.border;
   }
 
   textColor = "";
   bgColor = "";
+  borderRediousVal = 0;
 
   render() {
     const { score, ...rest } = this.props;
     return (
-      <View style={[styles.container, { backgroundColor: this.bgColor }]}>
-        <Text color={this.textColor} {...rest}>
+      <View style={[styles.container, { backgroundColor: this.bgColor, borderRadius: this.borderRediousVal, }]}>
+        <Text color={this.textColor} {...rest} style={{ fontSize: Fonts.size.small, fontWeight: 'normal', }}>
           {score}
         </Text>
       </View>

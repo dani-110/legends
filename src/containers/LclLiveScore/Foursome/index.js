@@ -71,7 +71,7 @@ class Foursome extends React.Component {
   }
 
   _getScoreLclFoursomeRequest() {
-    debugger
+
     const { match_id, schedule_id, season_id, id } = this.props.data;
     const { dataLastUpdatedOn } = this.state;
     // const param = `${match_id}/${schedule_id}/${season_id || id}${dataLastUpdatedOn ? `/${dataLastUpdatedOn}` : ``
@@ -92,7 +92,7 @@ class Foursome extends React.Component {
   }
 
   _renderScoreTable() {
-    debugger
+
     const { liveScoreData } = this.props;
     return <ScoreTable liveScoreData={liveScoreData} typeMatch={"foursome"} />;
   }

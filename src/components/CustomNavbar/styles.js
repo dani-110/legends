@@ -18,8 +18,8 @@ export default StyleSheet.create({
     borderBottomColor: Colors.green
   },
   btnImage: {
-    width: 20,
-    height: 20
+    width: 35,
+    height: 35
   },
   btnWrapper: {
     padding: Metrics.smallMargin,

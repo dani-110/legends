@@ -68,7 +68,6 @@ export default class ListItem extends React.Component {
   render() {
     const { data, updateInputValue } = this.props;
 
-    debugger;
     return (
       <View
         style={[

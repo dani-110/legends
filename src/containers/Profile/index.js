@@ -50,7 +50,6 @@ class Profile extends Component {
       imageUri: props.userData.user_info[0].picture,
       uploadingImage: false
     };
-    debugger;
   }
 
   componentWillMount() {
@@ -67,7 +66,7 @@ class Profile extends Component {
   };
 
   _onEditImagePress = () => {
-    debugger;
+
     const options = ["Camera", "Gallery"];
     if (!Util.isPlatformAndroid()) options.push("Cancel");
     const cancelIndex = Util.isPlatformAndroid() ? -1 : options.length - 1;
@@ -121,7 +120,7 @@ class Profile extends Component {
   ];
 
   _uploadUserImage = uri => {
-    debugger;
+
     const imageFormData = new FormData();
     const photo = {
       uri,

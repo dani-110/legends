@@ -31,7 +31,7 @@ class MonthlyMatches extends Component {
   }
 
   _renderListing(data) {
-    debugger;
+
     const filteredData = _.chain(data)
       .groupBy("round")
       .map((v, i) => {

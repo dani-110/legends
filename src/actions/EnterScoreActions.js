@@ -12,8 +12,8 @@ import {
 import Util from "../../src/util/index";
 
 function alert(message, type = "error") {
- Util.topAlert(message, type);
-  }
+  Util.topAlert(message, type);
+}
 
 export function getEnterScorePollingDataSuccess(payload, responseCallback) {
   return {

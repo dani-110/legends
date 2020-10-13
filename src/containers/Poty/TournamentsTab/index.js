@@ -17,7 +17,6 @@ class TournamentsTab extends React.Component {
   }
 
   updateInputValue(id) {
-    debugger;
     //this.props.tournamentsData = this.props.tournamentsData.map(e => ((e.tournament_id === id) ? { ...e, ...{ name: "20" } } : e));
     Util.showLoader(this);
     this.props.getPotyTournamentRequest("", data => {

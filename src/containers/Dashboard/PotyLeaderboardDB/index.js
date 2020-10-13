@@ -50,22 +50,22 @@ class PotyLeaderboardDB extends PureComponent {
 
   createInterVal() {
     if (isCalled === "") {
-      clearInterval(intervalId);
-      intervalId = false;
-      var pageNumber = 0;
-      isCalled = "already Called"
-      intervalId = setInterval(() => {
+      // clearInterval(intervalId);
+      // intervalId = false;
+      // var pageNumber = 0;
+      // isCalled = "already Called"
+      // intervalId = setInterval(() => {
 
-        if (this.state.pageNumber >= 1) {
-          pageNumber = 0;
-        } else {
-          pageNumber = this.state.pageNumber;
-          pageNumber++;
-        }
-        console.log(pageNumber)
-        this.setState({ pageNumber: pageNumber })
-        this.viewPager.setPage(pageNumber)
-      }, 5000);
+      //   if (this.state.pageNumber >= 1) {
+      //     pageNumber = 0;
+      //   } else {
+      //     pageNumber = this.state.pageNumber;
+      //     pageNumber++;
+      //   }
+      //   console.log(pageNumber)
+      //   this.setState({ pageNumber: pageNumber })
+      //   this.viewPager.setPage(pageNumber)
+      // }, 5000);
     }
 
   }

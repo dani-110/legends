@@ -1,7 +1,7 @@
 // @flow
 import React from "react";
 import PropTypes from "prop-types";
-import { View, FlatList } from "react-native";
+import { View, FlatList, Alert } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { Text, EmptyStateText } from "../../components";
 import styles from "./styles";
@@ -9,6 +9,13 @@ import Util from "../../util";
 import { AppStyles, Colors } from "../../theme";
 
 let typeMatch = "";
+const _borderColor = (playerStrok) => {
+  if (playerStrok !== 0) {
+    return Colors.green;
+  } else {
+    return "rgba(0,0,0,0)";
+  }
+}
 export default class ScoreTable extends React.Component {
   static propTypes = {
     liveScoreData: PropTypes.object.isRequired
@@ -16,7 +23,6 @@ export default class ScoreTable extends React.Component {
 
   constructor(props) {
     super(props);
-    debugger
     typeMatch = this.props.typeMatch;
   }
 
@@ -41,14 +47,22 @@ export default class ScoreTable extends React.Component {
       </View>
     );
   }
-
+  _splitString(str, index_) {
+    var res = str.split("&");
+    return res[index_];
+  }
+  _selectColor(playerStrok) {
+    if (parseInt(playerStrok) > 0) {
+      return Colors.green;
+    } else {
+      return Colors.white;
+    }
+  }
   _renderHeader = () => {
 
-    debugger
     const {
       liveScoreData: { score }
     } = this.props;
-
     const playerOneColor = Colors.red3;
     const playerTwoColor = Colors.blue2;
 
@@ -86,7 +100,8 @@ export default class ScoreTable extends React.Component {
         >
           <View style={[AppStyles.flex2, AppStyles.pRight5]}>
             <Text style={[AppStyles.alignItemsCenter]} textAlign="center">
-              {(this.props.typeMatch === "dmp" || this.props.typeMatch === "foursome") ? players[0].team_1_players_initials : players[0].team_1_players || players[0].team_1_player}
+              {/* {(this.props.typeMatch === "dmp" || this.props.typeMatch === "foursome") ? players[0].team_1_players_initials : players[0].team_1_players || players[0].team_1_player} */}
+              {(this.props.typeMatch === "dmp" || this.props.typeMatch === "foursome") ? (this._splitString(players[0].team_1_players_initials, 0) + " & " + this._splitString(players[0].team_1_players_initials, 1)) : players[0].team_1_players || players[0].team_1_player}
             </Text>
           </View>
 
@@ -113,7 +128,7 @@ export default class ScoreTable extends React.Component {
 
           <View style={[AppStyles.flex2, AppStyles.pLeft5, AppStyles.pRight5]}>
             <Text style={[AppStyles.alignItemsCenter]} textAlign="center">
-              {(this.props.typeMatch === "dmp" || this.props.typeMatch === "foursome") ? players[0].team_2_players_initials : players[0].team_2_players || players[0].team_2_player}
+              {(this.props.typeMatch === "dmp" || this.props.typeMatch === "foursome") ? (this._splitString(players[0].team_2_players_initials, 0) + " & " + this._splitString(players[0].team_2_players_initials, 1)) : players[0].team_2_players || players[0].team_2_player}
             </Text>
           </View>
         </View>
@@ -124,6 +139,7 @@ export default class ScoreTable extends React.Component {
   _renderRow({ item, index }) {
     const playerOneColor = Colors.redDark;
     const playerTwoColor = Colors.blue2;
+    debugger
     return (
       <View
         style={[
@@ -163,20 +179,27 @@ export default class ScoreTable extends React.Component {
               }
             ]}
           >
-            {typeMatch === "foursome" ?
-              <View style={{ ...AppStyles.flex2, flexDirection: 'row' }}>
-                <Text style={[AppStyles.alignItemsCenter, { width: '50%' }, { marginLeft: '5%' }]} textAlign="center">
-                  {item.team1_p1}
-                </Text>
-                <Text style={[AppStyles.alignItemsCenter, { width: '50%' }, { marginLeft: '-18%' }]} textAlign="center">
-                  {item.team1_p2}
-                </Text>
+            {typeMatch === "foursome" || typeMatch === "dmp" ?
+              <View style={{ width: 100, right: 8, flexDirection: 'row', justifyContent: 'space-around' }}>
+                <View style={[styles.OuterCircle, { borderColor: _borderColor(item.team1_p1_stroke) }]} >
+                  <Text>
+                    {item.team1_p1}
+                  </Text>
+                </View>
+                <View style={[styles.OuterCircle, { borderColor: _borderColor(item.team1_p2_stroke) }]} >
+                  <Text>
+                    {item.team1_p2}
+                  </Text>
+                </View>
               </View> :
               <View style={AppStyles.flex2}>
-                <Text style={[AppStyles.alignItemsCenter]} textAlign="center">
-                  {item.playerOne}
-                </Text>
+                <View style={[styles.OuterCircle, { borderColor: _borderColor(item.team1_strokes) }]} >
+                  <Text style={[AppStyles.alignItemsCenter]} textAlign="center">
+                    {item.playerOne}
+                  </Text>
+                </View>
               </View>
+
             }
             {item.score !== "" ? (
               <View
@@ -197,19 +220,25 @@ export default class ScoreTable extends React.Component {
                 </Text>
               </View>
             ) : <Text></Text>}
-            {typeMatch === "foursome" ?
-              <View style={{ ...AppStyles.flex2, flexDirection: 'row' }}>
-                <Text style={[AppStyles.alignItemsCenter, { width: '50%' }, { marginLeft: '10%' }]} textAlign="center">
-                  {item.team2_p1}
-                </Text>
-                <Text style={[AppStyles.alignItemsCenter, { width: '50%' }, { marginLeft: '-18%' }]} textAlign="center">
-                  {item.team2_p2}
-                </Text>
+            {typeMatch === "foursome" || typeMatch === "dmp" ?
+              <View style={{ width: 100, left: 5, flexDirection: 'row', justifyContent: 'space-around' }}>
+                <View style={[styles.OuterCircle, { borderColor: _borderColor(item.team2_p1_stroke) }]} >
+                  <Text>
+                    {item.team2_p1}
+                  </Text>
+                </View>
+                <View style={[styles.OuterCircle, { borderColor: _borderColor(item.team2_p2_stroke) }]} >
+                  <Text>
+                    {item.team2_p2}
+                  </Text>
+                </View>
               </View> :
               <View style={AppStyles.flex2}>
-                <Text style={[AppStyles.alignItemsCenter]} textAlign="center">
-                  {item.playerTwo}
-                </Text>
+                <View style={[styles.OuterCircle, { borderColor: _borderColor(item.team2_strokes) }]} >
+                  <Text style={[AppStyles.alignItemsCenter]} textAlign="center">
+                    {item.playerTwo}
+                  </Text>
+                </View>
               </View>
             }
           </View>

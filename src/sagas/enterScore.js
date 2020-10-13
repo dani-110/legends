@@ -92,6 +92,7 @@ function* postPotyScore() {
       );
       console.log("response", response);
       if (Util.isSuccessResponse(response)) {
+        debugger
         responseCallback && responseCallback(response.data);
         yield put(postPotyScoreSuccess(response.data));
       } else {

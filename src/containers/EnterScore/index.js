@@ -43,7 +43,7 @@ import { ViewPropTypes } from "react-native";
 import Util from "../../util";
 
 let newIndex = 1;
-
+isAlreadyCalled = false;
 class EnterScore extends React.Component {
   static propTypes = {
     setTabbarType: PropTypes.func.isRequired,
@@ -59,26 +59,40 @@ class EnterScore extends React.Component {
 
   //HOLD PAYLOAD DATA..
   tmpData = [];
-  state = { visible: false, showConformPopUp: false, dataSource: [], checked: false, colorChanged: false, score_lock: 0 }
+  state = {
+    currntEntryPoint: 0,
+    userName: "",
+    userID: 0,
+    isAlreadyUpdated: false,
+    currentWithdrawStatus: false,
+    showLongPressPopUp: false,
+    visible: false,
+    showSubmitButton: false,
+    showConformPopUp: false,
+    dataSource: [],
+    checked: false,
+    colorChanged: false,
+    score_lock: 0
+  }
+
+  //
+  /***
+    check current hole of team and update to that position  */
 
 
   _showSubmitScore(toIndex) {
-
-
 
   }
 
   static defaultProps = {};
 
   static onEnter() {
-    debugger
     if (EnterScore.instance) {
       EnterScore.instance._onEnter();
     }
   }
 
   static onExit() {
-    debugger
     if (EnterScore.instance) {
       EnterScore.instance._onExit();
     }
@@ -88,7 +102,6 @@ class EnterScore extends React.Component {
    *-----------------------  condition changed -----------------------
    */
   static getDerivedStateFromProps(props, state) {
-    //debugger
     if (props.enterScoreData.named === NOT_SHOW_MSG || props.enterScoreData.named === ERROR_API || props.enterScoreData.named === REFRESH_DATA) {
 
       if (props.enterScoreData.named === ERROR_API)
@@ -97,14 +110,17 @@ class EnterScore extends React.Component {
       if (state.isLoading) {
         props.updateRefresh()
         console.log("next index is:" + newIndex);
-        return { isLoading: false, index: newIndex }
+        return { isLoading: false, index: newIndex, colorChanged: props.enterScoreData.poty_complete === "not-complete" ? false : true }
       }
     }
 
     if (!_.isEqual(props.enterScoreData, state.prevEnterScoreData)) {
+
       return {
         prevEnterScoreData: props.enterScoreData,
-        scoreCard: manipulateDataForScoreCard(props.enterScoreData.holeData)
+        scoreCard: manipulateDataForScoreCard(props.enterScoreData.holeData),
+        colorChanged: props.enterScoreData.holeData.AllPotyHole === "not-complete" ? false : true,
+        isLoading: false
       };
     }
 
@@ -157,11 +173,12 @@ class EnterScore extends React.Component {
     const { current_match } = this.props;
     const { type, id, schedule_id, match_id, tee_off_time } = current_match[0];
     const { showKeyBoard, lastUpdatedOn } = this.state;
-
+    this.setState({ showSubmitButton: false })
     // if (showKeyBoard) return;
     let param = "";
     if (type === "poty") {
       param = `${type}/${id}`;
+      this.setState({ showSubmitButton: true })
     }
     else if (type === "lmp") {
       param = `${type}/${id}/${schedule_id && ` /${schedule_id}`}${match_id &&
@@ -189,8 +206,10 @@ class EnterScore extends React.Component {
   };
 
   _onEnter() {
+
     this.props.setTabbarType(false);
     this.dataPolling = setInterval(() => {
+
       this.getLatestScores();
     }, POLLING_TIME);
   }
@@ -229,9 +248,26 @@ class EnterScore extends React.Component {
     }, 400);
   }
 
-  _onClickScroll = toIndex => {
-    this._swiper.scrollBy(toIndex, true);
-  };
+  _onClickScroll(toIndex_, hole_number) {
+    //Alert.alert(("0" + hole_number).slice(-2))
+    if ((hole_number).slice(-2) == 18 && toIndex_ == 1) {
+      this._swiper.scrollTo(0, true);
+    } else if ((hole_number).slice(-2) == 1 && toIndex_ == -1) {
+      this._swiper.scrollTo(18, true);
+    }
+    else {
+      this._swiper.scrollBy(toIndex_, true);
+    }
+
+  }
+
+  _CheckEntryPoint(entryPoint) {
+    //  if (!isAlreadyCalled) {
+    // isAlreadyCalled = true;
+    //  this._swiper.scrollTo(entryPoint, true)
+
+    //  }
+  }
 
   _isButtonDisabled = buttonType => {
     // If swiper has not initiated yet.
@@ -260,9 +296,12 @@ class EnterScore extends React.Component {
     const { current_match } = this.props;
     const { type } = current_match[0];
     let swipe = false;
+    debugger
     const { current, index, scoreCard, miniKeyBoard } = this.state;
+    let withdrawPos = this.state.scoreCard[0].Name[(index === (scoreCard[0].Name.length - 1)) ? 0 : index + 1].withdraw;;
     const tempData = _.cloneDeep(scoreCard);
     const holeIndex = this._swiper.state.index;
+
 
     if (miniKeyBoard) {
       tempData[holeIndex][current][index] = text;
@@ -314,7 +353,12 @@ class EnterScore extends React.Component {
       //   }
       // }
 
-      newIndex = index + 1;
+      if (withdrawPos === "0") {
+        newIndex = index + 1;
+      } else {
+        newIndex = index + 2;
+      }
+
       if (index === scoreCard[0].Name.length - 1 && holeIndex < 17) {
         newIndex = 0;
         swipe = true;
@@ -332,7 +376,19 @@ class EnterScore extends React.Component {
       console.log("next index increment:-->" + newIndex);
 
       if (swipe) {
-        newIndex = 0
+
+        debugger;
+        newIndex = 0;
+        for (let i = 0; i <= scoreCard[0].Name.length - 1; i++) {
+          withdrawPos = this.state.scoreCard[0].Name[i].withdraw;
+          if (withdrawPos === "0") {
+            newIndex = newIndex;
+            break;
+          } else {
+            newIndex += 1;
+          }
+        }
+
         this._swiper.scrollBy(1, true);
       }
       this.setState(
@@ -602,7 +658,9 @@ class EnterScore extends React.Component {
           theme={NAVBAR_THEME.GREEN}
           titleAlign="center"
           fontType="medium"
+          rightBtnImage={Images.scoreCardBlackWithBg}
           rightBtnPress={() => {
+            debugger
             Actions.scorecard({
               act: {
                 action: "GetHoleDataForTournament",
@@ -623,9 +681,20 @@ class EnterScore extends React.Component {
       </View>
     );
   }
+  _updateIndex(hole_starting, index_) {
+    debugger
+    if (!this.state.isAlreadyUpdated) {
+      this.setState({ isAlreadyUpdated: true })
+      if (hole_starting === null) {
+        return 0;
+      }
+      return (parseInt(hole_starting) - 1);
+    } else {
+      return index_
+    }
 
-  _renderSwiper(players, holes) {
-    // debugger
+  }
+  _renderSwiper(players, holes, hole_starting) {
     let dataLength = 0;
     if (players) {
       players.map(player => {
@@ -689,7 +758,7 @@ class EnterScore extends React.Component {
       <View>
         <Swiper
           style={{ height: 400 }}
-          // index={dataLength - 1}
+          index={this._updateIndex(hole_starting, 0)}
           ref={swiper => {
             this._swiper = swiper;
           }}
@@ -699,24 +768,31 @@ class EnterScore extends React.Component {
           onIndexChanged={() => this._onSwipe()}
         >
           {holeScreens}
-        </Swiper>
-        <View style={{ height: '100%', flex: 1, justifyContent: 'space-around', alignItems: 'center', flexDirection: 'row' }}>
-          <ButtonView
-            style={[styles.buttonSubmit, { backgroundColor: (this.state.colorChanged) ? "#9A0000" : Colors.grey, width: 250 }]}
-            color={Colors.white}
-            onPress={() => {
 
-              //ADD SCORECARD CONDITION
-              if (this.state.colorChanged) {
-                this.getData()
-              }
-            }}
-          >
-            <Text size="xSmall" color={Colors.white}>
-              Submit
-            </Text>
-          </ButtonView>
-          <ButtonView onPress={() => {
+        </Swiper>
+
+        <View style={{ height: '100%', flex: 1, justifyContent: 'space-around', alignItems: 'center', flexDirection: 'row' }}>
+          {(this.state.showSubmitButton) ? (
+
+            <ButtonView
+              style={[styles.buttonSubmit, { backgroundColor: (this.state.colorChanged) ? "#9A0000" : Colors.grey, width: 250 }]}
+              color={Colors.white}
+              onPress={() => {
+
+                //ADD SCORECARD CONDITION
+                if (this.state.colorChanged) {
+                  this.getData()
+                }
+              }}
+            >
+              <Text size="xSmall" color={Colors.white}>
+                Submit
+              </Text>
+            </ButtonView>
+          ) : (null)}
+
+
+          {/* <ButtonView onPress={() => {
             Actions.scorecard({
               act: {
                 action: "GetHoleDataForTournament",
@@ -733,8 +809,10 @@ class EnterScore extends React.Component {
             });
           }}>
             <RNImage source={Images.icon_scorecard} style={{ width: 100, height: 40, marginLeft: -40, borderRadius: 50 }} />
-          </ButtonView>
+          </ButtonView> */}
         </View>
+
+
       </View >
     );
   }
@@ -754,7 +832,8 @@ class EnterScore extends React.Component {
       >
         <View>
           <TouchableOpacity
-            onPress={() => this._onClickScroll(-1)}
+            onPress={() => this._onClickScroll(-1, hole_number)}
+          //onPress={() => this._swiper.scrollBy(-1, true)}
           >
             <RNImage
               style={{ width: 35, height: 35 }}
@@ -789,7 +868,7 @@ class EnterScore extends React.Component {
 
         <View>
           <TouchableOpacity
-            onPress={() => this._onClickScroll(1)}
+            onPress={() => this._onClickScroll(1, hole_number)}
           >
             <RNImage
               style={{ width: 35, height: 35 }}
@@ -846,11 +925,6 @@ class EnterScore extends React.Component {
   _onSwipe() {
     if (this._swiper != undefined && this._swiper.state != undefined) {
       console.log("swiper index:" + this._swiper.state.index);
-      debugger
-      if (this._swiper.state.index === 16) {
-        this.setState({ colorChanged: true })
-      } else
-        this.setState({ colorChanged: false })
     }
   }
 
@@ -865,7 +939,20 @@ class EnterScore extends React.Component {
       </View>
     )
   }
+  _withdrowPlayer(userID, userName, withdraw) {
+    if (withdraw !== "0") {
+      return
+    }
+    this.setState({ userID: userID })
+    this.setState({ userName: userName });
+    this.setState({ showLongPressPopUp: true })
 
+  }
+
+  _changeActiveStatus(withdrow) {
+    return (withdrow > 0) ? Colors.grey2 : Colors.transparent
+
+  }
   _renderRowValues(data, key) {
     const { current, index, scoreCard } = this.state;
     const { Name } = scoreCard[0];
@@ -876,10 +963,17 @@ class EnterScore extends React.Component {
         <View style={{}}>
           {/* {key === "FIR" || key === "GIR" */}
           {nameItem.name.length === 0 ? null : (
-            <View>
+            <View style={{ backgroundColor: this._changeActiveStatus(nameItem.withdraw) }}>
               <View style={{ flexDirection: "row", justifyContent: "space-around", }}>
                 <View style={{ width: '45%', justifyContent: 'center', alignItems: 'flex-start', }}>
-                  <Text style={{ fontType: Fonts.type.base, fontSize: Fonts.size.large }}> {nameItem.name}</Text>
+                  <TouchableOpacity onLongPress={() =>
+                    this._withdrowPlayer(nameItem.id, nameItem.name, nameItem.withdraw)
+                  }>
+                    <Text style={{
+                      fontType: Fonts.type.base, fontSize: Fonts.size.large,
+                      color: (nameItem.withdraw > 0) ? Colors.grey1 : Colors.black
+                    }}> {nameItem.name}</Text>
+                  </TouchableOpacity>
                 </View>
                 <TouchableOpacity
                   style={[
@@ -892,9 +986,13 @@ class EnterScore extends React.Component {
 
                   ]}
 
-                  onPress={() =>
+                  onPress={() => {
+                    if (nameItem.withdraw !== "0") {
+                      return
+                    }
                     this._isEditable(key) &&
-                    this._showKeyBoard(key === "FIR" || key === "GIR", key, nameIndex)
+                      this._showKeyBoard(key === "FIR" || key === "GIR", key, nameIndex)
+                  }
                   }
                 >
                   {key === "FIR" || key === "GIR" ? (
@@ -1027,7 +1125,7 @@ class EnterScore extends React.Component {
     const AuthStr = util.getCurrentUserAccessToken();
     console.log("get data authentication key = >" + AuthStr);
     URL = BASE_URL + `/getGrossScoreNetScore/${match_id}/${schedule_id}`;
-    debugger
+
     axios.get(URL, { headers: { Authorization: AuthStr } }).then((response) => {
 
       // this.setState({ dataSource: response.data.data, visible: true });
@@ -1060,14 +1158,37 @@ class EnterScore extends React.Component {
       });
     this.setState({ visible: false })
   }
+
+  sendUserData() {
+    const { current_match } = this.props;
+    const { id } = current_match[0];
+    const AuthStr = util.getCurrentUserAccessToken();
+    console.log("send Data authentication key = >" + AuthStr);
+    URL = BASE_URL + '/WithdrawGroupUser';
+
+    axios.post(URL, {
+      tournament_id: id,
+      user_id: this.state.userID
+
+    },
+      { headers: { Authorization: AuthStr } }).then((response) => {
+        console.log(response);
+        this._hideKeyboard()
+        this.setState({ isLoading: true });
+        this.getLatestScores();
+      })
+      .catch(function (error) {
+        Alert.alert(error);
+      });
+    this.setState({ showLongPressPopUp: false })
+  }
   render() {
     const {
       enterScoreData: { isFetchingData, holeData }
     } = this.props;
 
 
-    //debugger
-    const { holes, players } = holeData;
+    const { holes, players, hole_starting } = holeData;
     const data = [1, 2, 3, 4, 5];
     return (
       <View style={{ ...styles.container }}>
@@ -1091,7 +1212,10 @@ class EnterScore extends React.Component {
                 }
               }}
             >
-              {this._renderSwiper(players, holes)}
+
+              {this._renderSwiper(players, holes, hole_starting)}
+
+
             </ScrollView>
             {/* {this._renderButton()} */}
             {this._renderKeyboard()}
@@ -1224,6 +1348,62 @@ class EnterScore extends React.Component {
 
         </Dialog>
 
+        {/* Long press dialog for withdrow   */}
+        <Dialog
+          visible={this.state.showLongPressPopUp}
+          onTouchOutside={() => {
+            this.setState({ showLongPressPopUp: false });
+          }}
+        >
+          {/* DialogContent start */}
+          <DialogContent
+            style={{ justifyContent: 'center', alignItems: 'center', width: Dimensions.get('window').width * .7, marginBottom: -10, }}
+          >
+            {/* Title start */}
+            <Text style={{ ...styles.titleHeader, marginBottom: 10, marginTop: 10 }}>
+              {this.state.userName}
+            </Text>
+            {/* Title End */}
+
+
+            {/* Main Content to send start */}
+            <View style={{ width: '100%', marginTop: 0, }}>
+
+              {/* check Box Part */}
+              <View style={{ flexDirection: 'row', marginBottom: 20 }}>
+                <CheckBox
+                  value={this.state.checked}
+                  onValueChange={() => this.setState({ checked: !this.state.checked })}
+                  style={{ ...styles.checkbox, alignSelf: 'flex-start', }}
+                />
+                {/* */}
+                <View style={{ marginRight: 30, }}>
+                  <Text style={{ color: Colors.grey, fontSize: 15, }}>
+                    Are you sure to withdraw this player</Text>
+                </View>
+              </View>
+              {/* End CheckBox */}
+
+              {/* bootom button Start */}
+              <View style={{ alignItems: 'center' }}>
+                <View style={[
+                  styles.buttonStyle,
+
+                ]}>
+
+                  <DialogButton
+                    text="Confirm" textStyle={{ color: 'white', fontSize: 15 }}
+                    onPress={() => this.sendUserData()}
+                  />
+                </View>
+
+              </View>
+              {/* Bottom Bconfirm button end  */}
+            </View>
+          </DialogContent>
+          {/* DialogContent Bconfirm button end  */}
+
+        </Dialog>
 
         {
           this.state.isLoading && (
@@ -1277,7 +1457,8 @@ const actions = {
    */
 
 function manipulateDataForScoreCard(data) {
-  debugger
+
+
   console.log("data status:" + data.score_lock);
   this.tmpData = data;
 
@@ -1311,7 +1492,8 @@ function manipulateDataForScoreCard(data) {
       id: player.íd || player.id,
       initials: player.initials,
       name: player.name,
-      handicap: player.handicap
+      handicap: player.handicap,
+      withdraw: player.withdraw
     };
 
     player.scorecard.map((score, inn) => {

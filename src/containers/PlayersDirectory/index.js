@@ -289,7 +289,6 @@ let temp = 0;
 renderItem = ({ item }, index) => {
   temp += 1;
   const colors = ["blue", "redDark"];
-  debugger;
   return (
 
     <View>
