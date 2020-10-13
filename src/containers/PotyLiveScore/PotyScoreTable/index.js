@@ -94,15 +94,18 @@ class PotyScoreTable extends React.Component {
     </View>
   );
 
+  label = "T";
   _renderRow({ item, index }) {
     const { liveScoreData } = this.props;
-
+    this.label=index>0?"T":"";
+    
     if (
       index > 0 &&
       (liveScoreData[index - 1].netSpecial !== item.netSpecial ||
         liveScoreData[index - 1].par !== item.par)
     ) {
       this.state.rank++;
+      this.label=""
     }
     const rowID = _.clone(this.state.rank);
 
@@ -121,7 +124,7 @@ class PotyScoreTable extends React.Component {
         }
       >
         <View width={60}>
-          <Text textAlign="center">{rowID}</Text>
+      <Text textAlign="center">{this.label}{rowID}</Text>
         </View>
         <View style={[AppStyles.flex2]}>
           <Text>

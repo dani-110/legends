@@ -1,7 +1,7 @@
 // @flow
 import { connect } from "react-redux";
 import React, { Component } from "react";
-import { View, ScrollView, Alert } from "react-native";
+import { Dimensions, Text, View, ScrollView, Alert, StyleSheet } from "react-native";
 import firebase from "react-native-firebase";
 import PropTypes from "prop-types";
 import {
@@ -13,7 +13,7 @@ import {
   setChannelForAndroid,
   getPermissions,
   showLocalNotification,
-  navigateOnNotificationTap
+
 } from "../../services/firebaseHelper";
 import { CustomNavbar, GreenBgFlayer } from "../../components";
 import PotyLeaderboardDB from "./PotyLeaderboardDB";
@@ -25,6 +25,7 @@ import {
   NOTIFICATIONS_TOPICS_TO_SUBSCRIBE
 } from "../../constants";
 import Util from "../../util";
+import { Actions } from "react-native-router-flux";
 
 class Dashboard extends Component {
   static propTypes = {
@@ -34,6 +35,7 @@ class Dashboard extends Component {
   };
 
   static defaultProps = {};
+  state = { showConformPopUp: false }
 
   static onEnter() {
     if (Dashboard.instance) {
@@ -55,6 +57,11 @@ class Dashboard extends Component {
 
   componentWillMount() {
     this.props.getDashboardDataRequest();
+  }
+
+  componentWillUnmount() {
+    this.notificationListener();
+    this.notificationOpenedListener();
   }
 
 
@@ -98,24 +105,31 @@ class Dashboard extends Component {
     this.notificationOpenedListener = firebase
       .notifications()
       .onNotificationOpened(notificationOpen => {
+
         // when app is in background
         // console.log({ background: notificationOpen });
 
+        showLocalNotification(notification._data);
+        debugger
         if (notificationOpen && notificationOpen.notification) {
-          navigateOnNotificationTap(notificationOpen.notification._data);
+          this.navigateOnNotificationTap(notificationOpen.notification._data);
         }
       });
 
     this.notificationListener = firebase
       .notifications()
       .onNotification(notification => {
+
         // when app is in foreground
         // console.log({ foreground: notification });
 
-        ;
-        if (notification) {
-          showLocalNotification(notification._data);
-        }
+        const { title, deliveryId, body, type } = notification._data
+        Alert.alert(title, body, [
+          {
+            text: "OK",
+            onPress: () => { this.navigateOnNotificationTap(notification._data) }
+          }]);
+
       });
 
     const notificationOpen = await firebase
@@ -123,12 +137,55 @@ class Dashboard extends Component {
       .getInitialNotification();
     ;
     if (notificationOpen) {
+
       // when app is in closed, and opened by clicking notification
       // console.log("getInitialNotification", notificationOpen);
+
       if (notificationOpen && notificationOpen.notification) {
-        navigateOnNotificationTap(notificationOpen.notification._data, true);
+        this.navigateOnNotificationTap(notificationOpen.notification._data, true);
       }
     }
+  };
+
+  navigateOnNotificationTap = (data, isFreshLaunch = false) => {
+
+    firebase.notifications().removeAllDeliveredNotifications();
+    switch (data.type) {
+
+      case "Tournament_Registration":
+        Actions.poty();
+        break;
+      case "Last_Day_to_Register":
+        Actions.poty();
+        break
+
+      case "Tournament_Live_Scoring":
+        Actions.poty();
+        break
+
+      case "Event_Scheduled":
+        this.props.setSelectedTab(2)
+        Actions.jump("live_tab_main");
+        break
+
+      case "Evening_Before_Match":
+        this.props.setSelectedTab(2)
+        Actions.jump("live_tab_main");
+        break
+
+      case "Winner_LMP":
+      case "Winner_LCL":
+      case "Winner_DMP":
+      case "Winner_POTY":
+        Actions.news();
+        break
+
+      case "Match_Started":
+        this.props.setSelectedTab(2)
+        Actions.jump("live_tab_main");
+        break
+    }
+
   };
 
   renderLeaderboard() {
@@ -165,6 +222,7 @@ class Dashboard extends Component {
   }
 }
 
+
 const mapStateToProps = ({ user, general, }) => {
   //debugger
   return ({
@@ -174,7 +232,11 @@ const mapStateToProps = ({ user, general, }) => {
 
 const actions = { getDashboardDataRequest, setSelectedTab };
 
+
+
 export default connect(
   mapStateToProps,
   actions
 )(Dashboard);
+
+

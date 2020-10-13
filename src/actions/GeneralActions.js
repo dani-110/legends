@@ -9,7 +9,6 @@ import {
 } from "./ActionTypes";
 
 export function setSelectedTab(selectedIndex) {
-  //debugger
   return {
     selectedIndex,
     type: SET_SELECTED_TABS
