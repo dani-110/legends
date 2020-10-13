@@ -2,7 +2,7 @@
 import { connect } from "react-redux";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Text, View, Image as RNImage, FlatList } from "react-native";
+import { Text, View, Image as RNImage, FlatList, ScrollView, RefreshControl } from "react-native";
 import Swipeout from "react-native-swipeout";
 import { CustomNavbar, Button, SimpleLoader } from "../../components";
 import styles from "./styles";
@@ -28,6 +28,8 @@ class Notification extends Component {
 
   static defaultProps = {};
 
+  state = { refreshing: false }
+
   componentWillMount() {
     this._getNotifications();
   }
@@ -39,7 +41,12 @@ class Notification extends Component {
       keyExtractor={Util.keyExtractor}
       ListEmptyComponent={() => this._renderEmptyScreen()}
       contentContainerStyle={{ flexGrow: 1 }}
-      onRefresh={this._getNotifications}
+      refreshControl={
+        <RefreshControl
+          refreshing={this.state.refreshing}
+          onRefresh={this._onRefresh.bind(this)}
+        />
+      }
       refreshing={this.props.notificationsFetching}
     />
   );
@@ -48,6 +55,7 @@ class Notification extends Component {
     return this.props.getNotificationsRequest(() => {
       setTimeout(() => {
         this.props.markNotificationsReadRequest();
+        this.setState({ refreshing: false })
       }, 1500);
     });
   }
@@ -121,6 +129,7 @@ class Notification extends Component {
   render() {
     const { notificationsFetching, notificationsData } = this.props;
     return (
+
       <View style={styles.container}>
         <CustomNavbar
           hasBack={false}
@@ -129,16 +138,25 @@ class Notification extends Component {
           theme={NAVBAR_THEME.WHITE}
           titleAlign="center"
         />
+
         <View style={[AppStyles.paddingVerticalBase, AppStyles.flex]}>
           {notificationsFetching && <SimpleLoader />}
           {!notificationsFetching &&
             this._renderNotifications(notificationsData)}
           {notificationsData.length > 0 && this._renderClearButton()}
         </View>
+
       </View>
+
     );
   }
+
+  _onRefresh() {
+    this._getNotifications()
+  }
 }
+
+
 
 const mapStateToProps = ({ notification }) => ({
   notificationsData: notification.data,

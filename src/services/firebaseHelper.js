@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { Platform } from "react-native";
+import { Platform, Dimensions, Text, StyleSheet, View, Alert } from "react-native";
 import firebase from "react-native-firebase";
 import { Actions } from "react-native-router-flux";
 import { updateDeviceTokenRequest } from "../actions/GeneralActions";
@@ -9,13 +9,19 @@ import {
   NOTIFICATION_PERMISSION_DENIED_ERROR,
   LEGENDS_NOTIFICATION_CHANNEL
 } from "../constants";
+import util from "../../src/util";
+import axios from "axios";
+import { BASE_URL } from '../config/WebService';
+
+
 
 const updateDeviceToken = async token => {
   let fcmToken = "";
   if (_.isUndefined(token)) {
     fcmToken = await firebase.messaging().getToken();
+    sendDeviceToken(fcmToken)
   }
-  console.log("fcmToken", fcmToken || token);
+
   if (fcmToken || token)
     DataHandler.getStore().dispatch(
       updateDeviceTokenRequest({
@@ -26,6 +32,23 @@ const updateDeviceToken = async token => {
 
   return fcmToken || token;
 };
+
+const sendDeviceToken = (fcmToken) => {
+
+  const AuthStr = util.getCurrentUserAccessToken();
+  console.log("authentication key =-----------------------234 >" + AuthStr);
+  URL = BASE_URL + '/DeviceTokenUpdate';
+  axios.post(URL, {
+    device_token: fcmToken
+  },
+    { headers: { Authorization: AuthStr } }).then((response) => {
+      console.log("response is:--<>------"+response)
+    })
+    .catch(function (error) {
+      console.log("error is:--<>------"+error);
+    });
+
+}
 
 const setChannelForAndroid = () => {
   // Driver Channel
@@ -49,12 +72,15 @@ const getPermissions = async () => {
   }
 };
 
-const showLocalNotification = data => {
-   ;
+const showLocalNotification = (data) => {
+  debugger
   const { title, deliveryId, body, type } = data;
-  // console.log({ data });
+
+
+  const notificationOpen = firebase.notifications().getInitialNotification();
+
   const notification = new firebase.notifications.Notification()
-    .setNotificationId(Util.generateGuid())
+    .setNotificationId(1)//Util.generateGuid()
     .setTitle(title)
     .setBody(body)
     .setData({
@@ -66,34 +92,8 @@ const showLocalNotification = data => {
   notification.android.setChannelId(LEGENDS_NOTIFICATION_CHANNEL.id);
   notification.android.setSmallIcon("ic_launcher_push");
   notification.android.setLargeIcon("ic_launcher_push");
-  firebase.notifications().displayNotification(notification);
-};
-
-const navigateOnNotificationTap = (data, isFreshLaunch = false) => {
-   ;
-  firebase.notifications().removeAllDeliveredNotifications();
-
-  /* switch (data.type) {
-    case NOTIFICATION_TYPES.JOB_STARTING_SOON:
-      Actions.jump("my_job_detail", {
-        jobId: parseInt(data.deliveryId)
-      });
-      break;
-    case NOTIFICATION_TYPES.NEW_JOB:
-      Actions.jump("available_job_detail", {
-        deliveryId: parseInt(data.deliveryId)
-      });
-      break;
-
-    case NOTIFICATION_TYPES.REMOVED_FROM_JOB: {
-      if (!isFreshLaunch) {
-        Actions.reset("dashboard");
-      }
-      break;
-    }
-
-    default:
-  } */
+  notification.android.setPriority(firebase.notifications.Android.Priority.High)
+  firebase.notifications().displayNotification(notification).catch(err => console.error(err));
 };
 
 const clearBadgeNumber = () => {
@@ -105,6 +105,7 @@ export {
   setChannelForAndroid,
   getPermissions,
   showLocalNotification,
-  navigateOnNotificationTap,
   clearBadgeNumber
 };
+
+
