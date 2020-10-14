@@ -1,12 +1,13 @@
 // @flow
 import React from "react";
 import PropTypes from "prop-types";
-import { View, FlatList, Alert } from "react-native";
+import { View, FlatList, Alert, TouchableHighlight, TouchableOpacity } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { Text, EmptyStateText } from "../../components";
 import styles from "./styles";
 import Util from "../../util";
 import { AppStyles, Colors } from "../../theme";
+import Tooltip from 'react-native-walkthrough-tooltip';
 
 let typeMatch = "";
 const _borderColor = (playerStrok) => {
@@ -25,7 +26,10 @@ export default class ScoreTable extends React.Component {
     super(props);
     typeMatch = this.props.typeMatch;
   }
-
+  state = {
+    toolTipVisible: false,
+    toolTipVisiblePlayer2: false
+  }
   static defaultProps = {};
 
   _renderTable() {
@@ -56,6 +60,13 @@ export default class ScoreTable extends React.Component {
       return Colors.green;
     } else {
       return Colors.white;
+    }
+  }
+  _tooltipSelection(name_) {
+    if ((this.props.typeMatch === "dmp" || this.props.typeMatch === "foursome")) {
+      this.setState({ toolTipVisible: true })
+    } else {
+
     }
   }
   _renderHeader = () => {
@@ -99,10 +110,20 @@ export default class ScoreTable extends React.Component {
           ]}
         >
           <View style={[AppStyles.flex2, AppStyles.pRight5]}>
-            <Text style={[AppStyles.alignItemsCenter]} textAlign="center">
-              {/* {(this.props.typeMatch === "dmp" || this.props.typeMatch === "foursome") ? players[0].team_1_players_initials : players[0].team_1_players || players[0].team_1_player} */}
-              {(this.props.typeMatch === "dmp" || this.props.typeMatch === "foursome") ? (this._splitString(players[0].team_1_players_initials, 0) + " & " + this._splitString(players[0].team_1_players_initials, 1)) : players[0].team_1_players || players[0].team_1_player}
-            </Text>
+            <Tooltip
+              isVisible={this.state.toolTipVisible}
+              content={<Text>{players[0].team_1_players}</Text>}
+              placement="top"
+              onClose={() => this.setState({ toolTipVisible: false })}
+            ><TouchableOpacity
+              onPress={() => { this._tooltipSelection(players[0].team_1_players) }}
+            >
+                <Text style={[AppStyles.alignItemsCenter]} textAlign="center">
+                  {/* {(this.props.typeMatch === "dmp" || this.props.typeMatch === "foursome") ? players[0].team_1_players_initials : players[0].team_1_players || players[0].team_1_player} */}
+                  {(this.props.typeMatch === "dmp" || this.props.typeMatch === "foursome") ? (this._splitString(players[0].team_1_players_initials, 0) + " & " + this._splitString(players[0].team_1_players_initials, 1)) : players[0].team_1_players || players[0].team_1_player}
+                </Text>
+              </TouchableOpacity>
+            </Tooltip>
           </View>
 
           {score.length > 1 ?
@@ -115,7 +136,8 @@ export default class ScoreTable extends React.Component {
                       ? playerOneColor
                       : score[score.length - 1].scoredBy == 2
                         ? playerTwoColor
-                        : Colors.darkBlue
+                        : Colors.darkBlue,
+                  marginLeft: 10,
                 }
               ]}
             >
@@ -127,12 +149,22 @@ export default class ScoreTable extends React.Component {
           }
 
           <View style={[AppStyles.flex2, AppStyles.pLeft5, AppStyles.pRight5]}>
-            <Text style={[AppStyles.alignItemsCenter]} textAlign="center">
-              {(this.props.typeMatch === "dmp" || this.props.typeMatch === "foursome") ? (this._splitString(players[0].team_2_players_initials, 0) + " & " + this._splitString(players[0].team_2_players_initials, 1)) : players[0].team_2_players || players[0].team_2_player}
-            </Text>
+            <Tooltip
+              isVisible={this.state.toolTipVisiblePlayer2}
+              content={<Text>{players[0].team_2_players}</Text>}
+              placement="top"
+              onClose={() => this.setState({ toolTipVisiblePlayer2: false })}
+            ><TouchableOpacity
+              onPress={() => { this._tooltipSelection(players[0].team_2_players) }}
+            >
+                <Text style={[AppStyles.alignItemsCenter]} textAlign="center">
+                  {(this.props.typeMatch === "dmp" || this.props.typeMatch === "foursome") ? (this._splitString(players[0].team_2_players_initials, 0) + " & " + this._splitString(players[0].team_2_players_initials, 1)) : players[0].team_2_players || players[0].team_2_player}
+                </Text>
+              </TouchableOpacity>
+            </Tooltip>
           </View>
         </View>
-      </View>
+      </View >
     );
   };
 
@@ -180,7 +212,7 @@ export default class ScoreTable extends React.Component {
             ]}
           >
             {typeMatch === "foursome" || typeMatch === "dmp" ?
-              <View style={{ width: 100, right: 8, flexDirection: 'row', justifyContent: 'space-around' }}>
+              <View style={{ width: 100, flexDirection: 'row', justifyContent: 'space-around' }}>
                 <View style={[styles.OuterCircle, { borderColor: _borderColor(item.team1_p1_stroke) }]} >
                   <Text>
                     {item.team1_p1}
@@ -193,7 +225,7 @@ export default class ScoreTable extends React.Component {
                 </View>
               </View> :
               <View style={AppStyles.flex2}>
-                <View style={[styles.OuterCircle, { borderColor: _borderColor(item.team1_strokes) }]} >
+                <View style={[styles.OuterCirclefortwoPlayer, { borderColor: _borderColor(item.team1_stroke) }]} >
                   <Text style={[AppStyles.alignItemsCenter]} textAlign="center">
                     {item.playerOne}
                   </Text>
@@ -201,27 +233,42 @@ export default class ScoreTable extends React.Component {
               </View>
 
             }
-            {item.score !== "" ? (
-              <View
+            <View style={{ marginHorizontal: 10, }}>
+              {item.score !== "" ? (
+                <View
+                  style={[
+                    styles.score,
+                    {
+                      backgroundColor:
+                        item.scoredBy == 1
+                          ? playerOneColor
+                          : item.scoredBy == 2
+                            ? playerTwoColor
+                            : Colors.darkBlue
+                    }
+                  ]}
+                >
+                  <Text textAlign="center" color={Colors.white}>
+                    {item.score}
+                  </Text>
+                </View>
+              ) : <View
                 style={[
                   styles.score,
                   {
-                    backgroundColor:
-                      item.scoredBy == 1
-                        ? playerOneColor
-                        : item.scoredBy == 2
-                          ? playerTwoColor
-                          : Colors.darkBlue
+                    backgroundColor: Colors.white
+
                   }
                 ]}
               >
-                <Text textAlign="center" color={Colors.white}>
-                  {item.score}
-                </Text>
-              </View>
-            ) : <Text></Text>}
+                  <Text textAlign="center" color={Colors.white}>
+                    {item.score}
+                  </Text>
+                </View>
+              }
+            </View>
             {typeMatch === "foursome" || typeMatch === "dmp" ?
-              <View style={{ width: 100, left: 5, flexDirection: 'row', justifyContent: 'space-around' }}>
+              <View style={{ width: 100, right: 5, flexDirection: 'row', justifyContent: 'space-around' }}>
                 <View style={[styles.OuterCircle, { borderColor: _borderColor(item.team2_p1_stroke) }]} >
                   <Text>
                     {item.team2_p1}
@@ -234,7 +281,7 @@ export default class ScoreTable extends React.Component {
                 </View>
               </View> :
               <View style={AppStyles.flex2}>
-                <View style={[styles.OuterCircle, { borderColor: _borderColor(item.team2_strokes) }]} >
+                <View style={[styles.OuterCirclefortwoPlayer, { borderColor: _borderColor(item.team2_stroke) }]} >
                   <Text style={[AppStyles.alignItemsCenter]} textAlign="center">
                     {item.playerTwo}
                   </Text>
