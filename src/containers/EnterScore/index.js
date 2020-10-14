@@ -682,7 +682,7 @@ class EnterScore extends React.Component {
     );
   }
   _updateIndex(hole_starting, index_) {
-    debugger
+    console.log("hole starting is:"+parseInt(hole_starting)+"_"+this.state.isAlreadyUpdated);
     if (!this.state.isAlreadyUpdated) {
       this.setState({ isAlreadyUpdated: true })
       if (hole_starting === null) {

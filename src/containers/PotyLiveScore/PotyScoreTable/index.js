@@ -44,6 +44,14 @@ class PotyScoreTable extends React.Component {
     else if (value < 0 || value === 'F') return value;
 
   }
+
+  _formatThru(value) {
+    console.log("value is:" + value);
+    if (value > 0) return `${value}`;
+    else if (value !== null && value !== undefined && (value !== "0"))
+      return `${value}`;
+    else return "";
+  }
   _renderTable() {
     const { liveScoreData } = this.props;
     this.state.rank = 1;
@@ -97,14 +105,14 @@ class PotyScoreTable extends React.Component {
   label = "T";
   _renderRow({ item, index }) {
     const { liveScoreData } = this.props;
-    this.label=index>0?"T":"";
+    this.label = index > 0 ? "T" : "";
     if (
       index > 0 &&
       (liveScoreData[index - 1].netSpecial !== item.netSpecial ||
         liveScoreData[index - 1].par !== item.par)
     ) {
       this.state.rank++;
-      this.label=""
+      this.label = ""
     }
     const rowID = _.clone(this.state.rank);
 
@@ -123,8 +131,8 @@ class PotyScoreTable extends React.Component {
         }
       >
         <View width={60}>
-        {/* {this.label}{rowID} */}
-      <Text textAlign="center">{liveScoreData[index].rank!== undefined?liveScoreData[index].rank:this.state.rank}</Text>
+          {/* {this.label}{rowID} */}
+          <Text textAlign="center">{liveScoreData[index].rank !== undefined ? liveScoreData[index].rank : this.state.rank}</Text>
         </View>
         <View style={[AppStyles.flex2]}>
           <Text>
@@ -151,7 +159,9 @@ class PotyScoreTable extends React.Component {
           </Text>
         </View>
         <View width={70}>
-          <Text textAlign="center">{item.topar || item.thru || " "}</Text>
+          {this.props.type === "gross" ? <Text textAlign="center">{this._formatThru(item.thru)}</Text> :
+            <Text textAlign="center">{this._formatThru(item.topar)}</Text>
+          }
         </View>
       </ButtonView>
     );

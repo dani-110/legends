@@ -24,7 +24,7 @@ export default StyleSheet.create({
   score: {
     height: scoreCircleSize,
     width: scoreCircleSize,
-    borderRadius: scoreCircleSize / 2,
+    borderRadius: 23,//scoreCircleSize / 2,
     ...AppStyles.centerInner
   },
   negativePar: {
