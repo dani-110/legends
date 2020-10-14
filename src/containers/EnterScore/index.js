@@ -44,6 +44,7 @@ import Util from "../../util";
 
 let newIndex = 1;
 isAlreadyCalled = false;
+let indexer = 0;
 class EnterScore extends React.Component {
   static propTypes = {
     setTabbarType: PropTypes.func.isRequired,
@@ -216,6 +217,7 @@ class EnterScore extends React.Component {
 
   _onExit() {
     this.props.setTabbarType(true);
+    this.setState({ isAlreadyUpdated: false })
     clearInterval(this.dataPolling);
   }
 
@@ -681,18 +683,14 @@ class EnterScore extends React.Component {
       </View>
     );
   }
+
   _updateIndex(hole_starting, index_) {
     console.log("hole starting is:"+parseInt(hole_starting)+"_"+this.state.isAlreadyUpdated);
     if (!this.state.isAlreadyUpdated) {
       this.setState({ isAlreadyUpdated: true })
-      if (hole_starting === null) {
-        return 0;
-      }
-      return (parseInt(hole_starting) - 1);
-    } else {
-      return index_
+      indexer = parseInt(hole_starting) - 1;
     }
-
+    return indexer;
   }
   _renderSwiper(players, holes, hole_starting) {
     let dataLength = 0;
@@ -1191,6 +1189,7 @@ class EnterScore extends React.Component {
 
 
     const { holes, players, hole_starting } = holeData;
+    debugger
     const data = [1, 2, 3, 4, 5];
     return (
       <View style={{ ...styles.container }}>

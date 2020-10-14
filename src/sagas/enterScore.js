@@ -100,7 +100,7 @@ function* postPotyScore() {
         //alert(response.error);
       }
     } catch (err) {
-      yield put(postPotyScoreFailure());
+      yield put(postPotyScoreFailure(NOT_SHOW_MSG));
       alert(err.message);
     }
   }
