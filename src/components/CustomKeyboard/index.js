@@ -5,7 +5,8 @@ import {
   TouchableNativeFeedback,
   View,
   Image,
-  Animated
+  Animated,
+  Alert
 } from "react-native";
 import Util from "../../util";
 import styles from "./styles";
@@ -80,7 +81,10 @@ export default class CustomKeyboard extends React.PureComponent {
               return (
                 <TouchableOpacity
                   key={`minikeys${index}`}
-                  onPress={() => onKeyPress(per)}
+                  onPress={() => {
+                    console.log("per is------>" + per)
+                    onKeyPress(per)
+                  }}
                   style={styles.miniKeyBoardButton}
                 >
                   {React.isValidElement(item) ? (
@@ -102,7 +106,10 @@ export default class CustomKeyboard extends React.PureComponent {
                     // console.log({ rowss: row, currentsss: current });
                     <TouchableOpacity
                       key={`numeric-row--${index}`}
-                      onPress={() => onKeyPress(item)}
+                      onPress={() => {
+                        console.log("item is---------->" + item)
+                        onKeyPress(item)
+                      }}
                       style={styles.numericButton}
                     >
                       <Text size={Fonts.size.xxLarge} type={Fonts.type.base}>{item}</Text>
