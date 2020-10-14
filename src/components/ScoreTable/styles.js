@@ -21,6 +21,17 @@ export default StyleSheet.create({
     borderWidth: 1,
 
   },
+  OuterCirclefortwoPlayer: {
+    alignSelf: 'center',
+
+    width: 30,
+    height: 30,
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+
+  },
   header: {
     backgroundColor: Colors.background.secondary,
     paddingTop: 12,
