@@ -1076,7 +1076,8 @@ class EnterScore extends React.Component {
 
   _renderKeyboard = () => {
     //if (this.tmpData.length > 0 && this.tmpData.score_lock === 1)
-    console.log("keyboard:")
+    debugger
+    console.log("keyboard:"+this.state.isLoading+"_"+this.tmpData.length)
     if (this.state.isLoading)
       return;
     if (this.tmpData.length > 0 && this.tmpData.score_lock === 1)

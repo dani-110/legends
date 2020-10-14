@@ -139,7 +139,6 @@ export default class ScoreTable extends React.Component {
   _renderRow({ item, index }) {
     const playerOneColor = Colors.redDark;
     const playerTwoColor = Colors.blue2;
-    debugger
     return (
       <View
         style={[
@@ -192,10 +191,10 @@ export default class ScoreTable extends React.Component {
                   </Text>
                 </View>
               </View> :
-              <View style={AppStyles.flex2}>
-                <View style={[styles.OuterCircle, { borderColor: _borderColor(item.team1_strokes) }]} >
+              <View style={{...AppStyles.flex2,justifyContent:'center',alignItems:'center'}}>
+                <View style={[styles.OuterCircle, { borderColor: _borderColor(item.team1_stroke) }]} >
                   <Text style={[AppStyles.alignItemsCenter]} textAlign="center">
-                    {item.playerOne}
+                    {item.playerOne}1
                   </Text>
                 </View>
               </View>
@@ -233,10 +232,10 @@ export default class ScoreTable extends React.Component {
                   </Text>
                 </View>
               </View> :
-              <View style={AppStyles.flex2}>
-                <View style={[styles.OuterCircle, { borderColor: _borderColor(item.team2_strokes) }]} >
+              <View style={{...AppStyles.flex2,justifyContent:'center',alignItems:'center'}}>
+                <View style={[styles.OuterCircle, { borderColor: _borderColor(item.team2_stroke) }]} >
                   <Text style={[AppStyles.alignItemsCenter]} textAlign="center">
-                    {item.playerTwo}
+                    {item.playerTwo}2
                   </Text>
                 </View>
               </View>

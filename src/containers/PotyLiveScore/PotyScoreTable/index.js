@@ -39,7 +39,7 @@ class PotyScoreTable extends React.Component {
   _formatPar(value) {
     console.log("value is:" + value);
     if (value > 0) return `+${value}`;
-
+    else if (value === "WD") return "WD";
     else if (value === 0 || value === null) return "E";
     else if (value < 0 || value === 'F') return value;
 
@@ -98,7 +98,6 @@ class PotyScoreTable extends React.Component {
   _renderRow({ item, index }) {
     const { liveScoreData } = this.props;
     this.label=index>0?"T":"";
-    
     if (
       index > 0 &&
       (liveScoreData[index - 1].netSpecial !== item.netSpecial ||
@@ -124,7 +123,8 @@ class PotyScoreTable extends React.Component {
         }
       >
         <View width={60}>
-      <Text textAlign="center">{this.label}{rowID}</Text>
+        {/* {this.label}{rowID} */}
+      <Text textAlign="center">{liveScoreData[index].rank!== undefined?liveScoreData[index].rank:this.state.rank}</Text>
         </View>
         <View style={[AppStyles.flex2]}>
           <Text>

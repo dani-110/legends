@@ -62,7 +62,7 @@ class playersDirectory extends Component {
               onChangeText={text => {
                 this._onSearchPress(text);
               }}
-              placeholder="Seach..."
+              placeholder="Search..."
               style={{ width: 180 }}
             />
             <RNImage
