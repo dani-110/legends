@@ -178,13 +178,16 @@ function* postDmpScore() {
       );
       console.log("response", response);
       if (Util.isSuccessResponse(response)) {
+        console.log("response----->success", response);
         responseCallback && responseCallback(response.data);
         yield put(postDmpScoreSuccess(response.data));
       } else {
+        console.log("response----->fail", response);
         yield put(postDmpScoreFailure());
         //alert(response.error);
       }
     } catch (err) {
+      console.log("response----->catch", response);
       yield put(postDmpScoreFailure(NOT_SHOW_MSG));
       alert(err.message);
     }

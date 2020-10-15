@@ -81,7 +81,7 @@ export default (state = initialState, action) => {
         });
       });
       // }
-      // debugger
+       debugger
       tempData.isFetchingData = false;
       return Immutable.merge(state, {
         data: tempData
@@ -118,6 +118,7 @@ export default (state = initialState, action) => {
     case POST_LCL_SCORE.SUCCESS: {
       const tempData = _.cloneDeep(state.data);
       tempData.named = REFRESH_DATA;
+      debugger
       tempData.poty_complete = action.data;
       return Immutable.merge(state, {
         data: tempData

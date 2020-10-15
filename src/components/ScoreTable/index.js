@@ -171,7 +171,6 @@ export default class ScoreTable extends React.Component {
   _renderRow({ item, index }) {
     const playerOneColor = Colors.redDark;
     const playerTwoColor = Colors.blue2;
-    debugger
     return (
       <View
         style={[

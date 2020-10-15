@@ -103,11 +103,13 @@ class EnterScore extends React.Component {
    *-----------------------  condition changed -----------------------
    */
   static getDerivedStateFromProps(props, state) {
+    //console.log("case1-->" + props.enterScoreData.named)
     if (props.enterScoreData.named === NOT_SHOW_MSG || props.enterScoreData.named === ERROR_API || props.enterScoreData.named === REFRESH_DATA) {
 
       if (props.enterScoreData.named === ERROR_API)
         Util.topAlertError("not update", ERROR_API);
 
+      //console.log("case2-->" + state.isLoading)
       if (state.isLoading) {
         props.updateRefresh()
         console.log("next index is:" + newIndex);
@@ -116,10 +118,10 @@ class EnterScore extends React.Component {
     }
 
     if (!_.isEqual(props.enterScoreData, state.prevEnterScoreData)) {
-
+      debugger
       return {
         prevEnterScoreData: props.enterScoreData,
-        scoreCard: manipulateDataForScoreCard(props.enterScoreData.holeData),
+        scoreCard: manipulateDataForScoreCard(props.enterScoreData.holeData, state),
         colorChanged: props.enterScoreData.holeData.AllPotyHole === "not-complete" ? false : true,
         isLoading: false
       };
@@ -137,7 +139,10 @@ class EnterScore extends React.Component {
       current: -1,
       index: -1,
       scoreCard: [],
-      isLoading: false
+      isLoading: false,
+      cardIndex: -1,
+      rowIndex: 0,
+      keyBoardText: ""
     };
     newIndex = 0;
     EnterScore.instance = this;
@@ -200,8 +205,8 @@ class EnterScore extends React.Component {
 
     this.props.getEnterScoreDataRequest(param, type, data => {
       this.setState({
-        lastUpdatedOn: moment().unix()
-        // scoreCard: this._manipulateDataForScoreCard(data)
+        lastUpdatedOn: moment().unix(),
+        //scoreCard: this.manipulateDataForScoreCard(data)
       });
     });
   };
@@ -298,12 +303,10 @@ class EnterScore extends React.Component {
     const { current_match } = this.props;
     const { type } = current_match[0];
     let swipe = false;
-    debugger
     const { current, index, scoreCard, miniKeyBoard } = this.state;
     let withdrawPos = this.state.scoreCard[0].Name[(index === (scoreCard[0].Name.length - 1)) ? 0 : index + 1].withdraw;;
     const tempData = _.cloneDeep(scoreCard);
     const holeIndex = this._swiper.state.index;
-
 
     if (miniKeyBoard) {
       tempData[holeIndex][current][index] = text;
@@ -321,7 +324,7 @@ class EnterScore extends React.Component {
       tempData[holeIndex][current][index] = "-";
     }
 
-    console.log("current is:" + current);
+    console.log("current is:" + holeIndex + "---" + index);
     if (
       current === "FIR" ||
       current === "GIR" ||
@@ -360,6 +363,7 @@ class EnterScore extends React.Component {
       } else {
         newIndex = index + 2;
       }
+      console.log("next index increment1:-->" + newIndex + "_" + withdrawPos);
 
       if (index === scoreCard[0].Name.length - 1 && holeIndex < 17) {
         newIndex = 0;
@@ -379,7 +383,7 @@ class EnterScore extends React.Component {
 
       if (swipe) {
 
-        debugger;
+        ;
         newIndex = 0;
         for (let i = 0; i <= scoreCard[0].Name.length - 1; i++) {
           withdrawPos = this.state.scoreCard[0].Name[i].withdraw;
@@ -397,7 +401,10 @@ class EnterScore extends React.Component {
         {
           scoreCard: tempData,
           miniKeyBoard: newMini,
-          showKeyBoard: newShowKeyboard
+          showKeyBoard: newShowKeyboard,
+          cardIndex: holeIndex,
+          rowIndex: index,
+          keyBoardText: text,
         },
         () => {
           this._updateGrossNetScores().then(() => {
@@ -662,7 +669,7 @@ class EnterScore extends React.Component {
           fontType="medium"
           rightBtnImage={Images.scoreCardBlackWithBg}
           rightBtnPress={() => {
-            debugger
+
             Actions.scorecard({
               act: {
                 action: "GetHoleDataForTournament",
@@ -685,7 +692,7 @@ class EnterScore extends React.Component {
   }
 
   _updateIndex(hole_starting, index_) {
-    console.log("hole starting is:"+parseInt(hole_starting)+"_"+this.state.isAlreadyUpdated);
+    console.log("hole starting is:" + parseInt(hole_starting) + "_" + this.state.isAlreadyUpdated);
     if (!this.state.isAlreadyUpdated) {
       this.setState({ isAlreadyUpdated: true })
       indexer = parseInt(hole_starting) - 1;
@@ -756,7 +763,7 @@ class EnterScore extends React.Component {
       <View>
         <Swiper
           style={{ height: 400 }}
-          index={this._updateIndex(hole_starting, 0)}
+          //index={this._updateIndex(hole_starting, 0)}
           ref={swiper => {
             this._swiper = swiper;
           }}
@@ -985,7 +992,7 @@ class EnterScore extends React.Component {
                   ]}
 
                   onPress={() => {
-                    debugger;
+                    ;
                     if (nameItem.withdraw !== "0") {
                       return
                     }
@@ -1076,7 +1083,7 @@ class EnterScore extends React.Component {
   _renderKeyboard = () => {
     //if (this.tmpData.length > 0 && this.tmpData.score_lock === 1)
     console.log("keyboard:")
-    debugger
+
     if (this.state.isLoading)
       return;
     if (this.tmpData.length > 0 && this.tmpData.score_lock === 1)
@@ -1189,7 +1196,7 @@ class EnterScore extends React.Component {
 
 
     const { holes, players, hole_starting } = holeData;
-    debugger
+
     const data = [1, 2, 3, 4, 5];
     return (
       <View style={{ ...styles.container }}>
@@ -1457,10 +1464,15 @@ const actions = {
    *-----------------------  condition changed -----------------------
    */
 
-function manipulateDataForScoreCard(data) {
+function manipulateDataForScoreCard(data, state) {
 
+  debugger
 
-  console.log("data status:" + data.score_lock);
+  const rowValue = state.cardIndex !== -1 ? state.keyBoardText : "";
+  const rowIndex = state.cardIndex !== -1 ? state.rowIndex : "";
+  const cardIndex = state.cardIndex !== -1 ? parseInt(state.cardIndex) + 1 : "";
+
+  console.log("rowIndex:" + rowIndex + "cardIndex:" + cardIndex);
   this.tmpData = data;
 
   const { players } = data;
@@ -1498,9 +1510,17 @@ function manipulateDataForScoreCard(data) {
     };
 
     player.scorecard.map((score, inn) => {
-      if (score) {
-        console.log("score is:" + score);
-        updatedData[score.hole_number - 1].Stroke[playerIndex] = score.strokes;
+
+      if (score || rowValue) {
+        // if (playerIndex === rowIndex) {
+        //   console.log("----------condition1 is true");
+        //   if (parseInt(cardIndex) === parseInt(score.hole_number)) {
+        //     updatedData[score.hole_number - 1].Stroke[playerIndex] = rowValue
+        //   }
+        // }
+        // else
+          updatedData[score.hole_number - 1].Stroke[playerIndex] = score.strokes;
+
         updatedData[score.hole_number - 1].FIR[playerIndex] = score.fir;
         updatedData[score.hole_number - 1].GIR[playerIndex] = score.gir;
         updatedData[score.hole_number - 1].Putts[playerIndex] = score.putts;
@@ -1510,6 +1530,8 @@ function manipulateDataForScoreCard(data) {
     });
   });
 
+  if (rowValue !== "" && updatedData.length > cardIndex)
+    updatedData[cardIndex - 1].Stroke[rowIndex] = rowValue;
   return updatedData;
 }
 
