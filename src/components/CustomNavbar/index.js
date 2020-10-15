@@ -68,7 +68,7 @@ export default class CustomNavbar extends React.Component {
           <Image source={leftBtnImage} size={styles.btnImage} />
         )}
         {renderBack && (
-          <Image style={{ width: 20, height: 15 }} source={theme === NAVBAR_THEME.GREEN ? Images.arrow_white : Images.back_icon} />
+          <Image style={{ width: 20, height: 15 }} source={(theme === NAVBAR_THEME.GREEN || theme === NAVBAR_THEME.TRANSPERENT) ? Images.arrow_white : Images.back_icon} />
         )}
       </ButtonView>
     );

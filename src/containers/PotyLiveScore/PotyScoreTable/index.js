@@ -62,11 +62,12 @@ class PotyScoreTable extends React.Component {
           data={liveScoreData}
           renderItem={(item, index) => this._renderRow(item, index)}
           keyExtractor={Util.keyExtractor}
-          ListHeaderComponent={this._renderHeader}
-          stickyHeaderIndices={[0]}
           ItemSeparatorComponent={() => (
             <View style={[AppStyles.borderBottomGrey]} />
           )}
+          // ListHeaderComponent={this._renderHeader}
+          stickyHeaderIndices={[1]}
+
         />
       </View>
     );
@@ -78,7 +79,7 @@ class PotyScoreTable extends React.Component {
         styles.header,
         AppStyles.flexRow,
         AppStyles.spaceBetween,
-        AppStyles.alignItemsCenter
+        AppStyles.alignItemsCenter,
       ]}
     >
       <View width={60}>

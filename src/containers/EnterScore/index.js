@@ -685,7 +685,7 @@ class EnterScore extends React.Component {
   }
 
   _updateIndex(hole_starting, index_) {
-    console.log("hole starting is:"+parseInt(hole_starting)+"_"+this.state.isAlreadyUpdated);
+    console.log("hole starting is:" + parseInt(hole_starting) + "_" + this.state.isAlreadyUpdated);
     if (!this.state.isAlreadyUpdated) {
       this.setState({ isAlreadyUpdated: true })
       indexer = parseInt(hole_starting) - 1;
@@ -756,7 +756,7 @@ class EnterScore extends React.Component {
       <View>
         <Swiper
           style={{ height: 400 }}
-          index={this._updateIndex(hole_starting, 0)}
+          //index={this._updateIndex(hole_starting, 0)}
           ref={swiper => {
             this._swiper = swiper;
           }}

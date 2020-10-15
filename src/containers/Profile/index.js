@@ -177,8 +177,8 @@ class Profile extends Component {
 
         <View style={{ position: "absolute", flex: 1, }}>
           <RNImage
-            style={{ height: '100%', width: '100%', aspectRatio: 1, top: -200, }}
-            source={Images.header_image}
+            style={{ height: '100%', width: '105%', aspectRatio: 1, top: -200, }}
+            source={Images.login_header_wrapper}
           />
 
         </View>

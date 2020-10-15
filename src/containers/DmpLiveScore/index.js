@@ -1,9 +1,12 @@
 // @flow
+
+import { AppStyles, Colors } from "../../theme";
+import Tooltip from 'react-native-walkthrough-tooltip';
 import _ from "lodash";
 import { connect } from "react-redux";
 import React from "react";
 import PropTypes from "prop-types";
-import { View, RefreshControl } from "react-native";
+import { View, RefreshControl, Text, TouchableOpacity, Alert } from "react-native";
 import styles from "./styles";
 import {
   ScoreTable,
@@ -96,6 +99,102 @@ class DmpLiveScore extends React.Component {
     const { liveScoreData } = this.props;
     return <ScoreTable liveScoreData={liveScoreData} typeMatch={this.props.data.type} />;
   }
+  _checkCurrentData(data) {
+    if (data !== undefined || data !== this.null) {
+      return true
+    }
+    else {
+      return false
+    }
+  }
+
+  // header Contant Start
+  _splitString(str, index_) {
+    var res = str.split("&");
+    return res[index_];
+  }
+  _getNameWithToolTip(playerName, playerInitials, indexer) {
+    return (
+      <View>
+        <Tooltip
+          isVisible={(indexer == 1) ? this.state.toolTipVisiblePlayer1 : this.state.toolTipVisiblePlayer2}
+          content={<Text>{playerName}</Text>}
+          placement="top"
+          onClose={() => (indexer == 1) ? this.setState({ toolTipVisiblePlayer1: false }) : this.setState({ toolTipVisiblePlayer2: false })}
+        ><TouchableOpacity
+          onPress={() => { (indexer == 1) ? this.setState({ toolTipVisiblePlayer1: true }) : this.setState({ toolTipVisiblePlayer2: true }) }}
+        >
+            <Text style={[AppStyles.alignItemsCenter, styles.textStyle]} textAlign="center">
+              {playerInitials}
+            </Text>
+          </TouchableOpacity>
+        </Tooltip>
+      </View>
+    )
+  }
+  _headerController(playersData, score, type) {
+    if (playersData !== undefined) {
+
+      player1Name = playersData[0].team_1_players
+      player2Name = playersData[0].team_2_players
+      player1Initials = this._splitString(playersData[0].team_1_players_initials, 0) + " & " + this._splitString(playersData[0].team_1_players_initials, 1)
+      player2Initials = this._splitString(playersData[0].team_2_players_initials, 0) + " & " + this._splitString(playersData[0].team_2_players_initials, 1)
+    }
+    return (
+      <View  >
+        {playersData &&
+          <View
+            style={[
+              styles.header,
+              AppStyles.flexRow,
+              AppStyles.spaceAround,
+              AppStyles.alignItemsCenter
+            ]}>
+            <View
+              style={[styles.wholeNumber, { left: 8 }]}
+            >
+              <Text textAlign="center" style={styles.textStyle}>#</Text>
+            </View>
+            <View
+              style={[styles.wholeNumber]}
+            >
+              <Text textAlign="center" style={styles.textStyle}>Par</Text>
+            </View>
+            <View style={{ flex: 2, justifyContent: 'center', alignItems: 'center', right: 3 }} >
+              {this._getNameWithToolTip(player1Name, player1Initials, 1)}
+            </View>
+            {score.length > 1 ?
+              <View
+                style={[
+                  styles.score,
+                  {
+                    backgroundColor:
+                      score[score.length - 1].scoredBy == 1
+                        ? playerOneColor
+                        : score[score.length - 1].scoredBy == 2
+                          ? playerTwoColor
+                          : Colors.darkBlue,
+                    marginLeft: 10, right: 6
+                  }
+                ]}
+              >
+                <Text textAlign="center" style={{ color: Colors.white, }}>
+                  {score[score.length - 1].score.length === 0 ? 'AS' : score[score.length - 1].score}
+                </Text>
+              </View>
+              : <Text></Text>
+            }
+            <View style={{ flex: 2, justifyContent: 'center', alignItems: 'center' }} >
+              {this._getNameWithToolTip(player2Name, player2Initials, 2)}
+            </View>
+          </View>
+        }
+
+      </View>
+    );
+
+  }
+  // header Contant end
 
   render() {
     const {
@@ -103,15 +202,19 @@ class DmpLiveScore extends React.Component {
       isFetchingData,
       liveScoreData
     } = this.props;
+
+    debugger
     return (
+
       <View style={styles.container}>
         <CustomNavbar
-          title={title || this.props.current_match[0].team1_name+" vs "+this.props.current_match[0].team2_name}
+          title={title || this.props.current_match[0].team1_name + " vs " + this.props.current_match[0].team2_name}
           subtitle={venue}
           hasBorder={false}
           theme={NAVBAR_THEME.WHITE}
           titleAlign="center"
         />
+        {this._headerController(liveScoreData.players, liveScoreData.score, this.props.data.type)}
         <ScrollView refreshControl={
           <RefreshControl
             refreshing={this.state.refreshing}

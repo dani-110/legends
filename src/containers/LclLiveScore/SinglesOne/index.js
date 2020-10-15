@@ -4,7 +4,7 @@ import moment from "moment";
 import { connect } from "react-redux";
 import React from "react";
 import PropTypes from "prop-types";
-import { View, RefreshControl, ScrollView } from "react-native";
+import { View, RefreshControl, ScrollView, Text } from "react-native";
 import styles from "./styles";
 import { getScoreLclSingles1Request } from "../../../actions/LiveMatchesActions";
 import { ScoreTable, SimpleLoader, EmptyStateText } from "../../../components";
@@ -97,7 +97,7 @@ class SinglesOne extends React.Component {
 
   _renderProjectedScore() {
     const { liveScoreData } = this.props;
-    return <ProjectedScore liveScoreData={liveScoreData} />;
+    return <ProjectedScore liveScoreData={liveScoreData} type={this.props.data.type} />;
   }
 
   _renderScoreTable() {
@@ -109,22 +109,27 @@ class SinglesOne extends React.Component {
     const { isFetchingData, isLoadedOnce, liveScoreData } = this.props;
 
     return (
-      <ScrollView refreshControl={
-        <RefreshControl
-          refreshing={this.state.refreshing}
-          onRefresh={this._onRefresh.bind(this)}
-        />
-      }>
-        <View style={styles.container}>
-          {_.isEmpty(liveScoreData) && !isFetchingData && <EmptyStateText />}
+      <View>
+        {isLoadedOnce &&
+          !_.isEmpty(liveScoreData) && this._renderProjectedScore()
+        }
+        <ScrollView refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh.bind(this)}
+          />
+        }>
+          <View style={styles.container}>
+            {_.isEmpty(liveScoreData) && !isFetchingData && <EmptyStateText />}
 
-          {!isLoadedOnce && <SimpleLoader />}
-          {isLoadedOnce &&
-            !_.isEmpty(liveScoreData) &&
-            this._renderProjectedScore()}
-          {isLoadedOnce && !_.isEmpty(liveScoreData) && this._renderScoreTable()}
-        </View>
-      </ScrollView>
+            {!isLoadedOnce && <SimpleLoader />}
+            {/* {isLoadedOnce &&
+              !_.isEmpty(liveScoreData) &&
+              this._renderProjectedScore()} */}
+            {isLoadedOnce && !_.isEmpty(liveScoreData) && this._renderScoreTable()}
+          </View>
+        </ScrollView>
+      </View>
     );
   }
 }

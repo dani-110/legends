@@ -88,7 +88,8 @@ class Foursome extends React.Component {
 
   _renderProjectedScore() {
     const { liveScoreData } = this.props;
-    return <ProjectedScore liveScoreData={liveScoreData} />;
+    debugger
+    return <ProjectedScore liveScoreData={liveScoreData} type={"foursome"} />;
   }
 
   _renderScoreTable() {
@@ -101,25 +102,29 @@ class Foursome extends React.Component {
     const { isFetchingData, isLoadedOnce, liveScoreData } = this.props;
 
     return (
+      <View>
+        {isLoadedOnce &&
+          !_.isEmpty(liveScoreData) &&
+          this._renderProjectedScore()}
+        <ScrollView refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh.bind(this)}
+          />
+        }>
+          <View style={styles.container}>
 
-      <ScrollView refreshControl={
-        <RefreshControl
-          refreshing={this.state.refreshing}
-          onRefresh={this._onRefresh.bind(this)}
-        />
-      }>
-        <View style={styles.container}>
+            {_.isEmpty(liveScoreData) && !isFetchingData && <EmptyStateText />}
 
-          {_.isEmpty(liveScoreData) && !isFetchingData && <EmptyStateText />}
-
-          {!isLoadedOnce && <SimpleLoader />}
-          {isLoadedOnce &&
+            {!isLoadedOnce && <SimpleLoader />}
+            {/* {isLoadedOnce &&
             !_.isEmpty(liveScoreData) &&
-            this._renderProjectedScore()}
-          {isLoadedOnce && !_.isEmpty(liveScoreData) && this._renderScoreTable()}
+            this._renderProjectedScore()} */}
+            {isLoadedOnce && !_.isEmpty(liveScoreData) && this._renderScoreTable()}
 
-        </View>
-      </ScrollView>
+          </View>
+        </ScrollView>
+      </View>
     );
   }
 }
