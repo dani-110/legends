@@ -1,16 +1,20 @@
 // @flow
 import React from "react";
 import PropTypes from "prop-types";
-import { View } from "react-native";
+import { View, TouchableOpacity, Alert } from "react-native";
 import { Text } from "../../../components";
 import styles from "./styles";
 import { AppStyles, Colors } from "../../../theme";
+import Tooltip from 'react-native-walkthrough-tooltip';
 
 export default class ProjectedScore extends React.Component {
   static propTypes = {
     liveScoreData: PropTypes.object.isRequired
   };
-
+  state = {
+    toolTipVisible: false,
+    toolTipVisiblePlayer2: false
+  }
   static defaultProps = {};
 
   _renderScores() {
@@ -64,8 +68,115 @@ export default class ProjectedScore extends React.Component {
       </View>
     );
   }
+  // header Contant Start
+  _splitString(str, index_) {
+    var res = str.split("&");
+    return res[index_];
+  }
+  _getNameWithToolTip(playerName, playerInitials, indexer, type) {
+    return (
+      <View>
+        <Tooltip
+          isVisible={(indexer == 1) ? this.state.toolTipVisiblePlayer1 : this.state.toolTipVisiblePlayer2}
+          content={<Text>{playerName}</Text>}
+          placement="top"
+          onClose={() => (type === "foursome") ? (indexer == 1) ? this.setState({ toolTipVisiblePlayer1: false }) : this.setState({ toolTipVisiblePlayer2: false }) : null}
+        ><TouchableOpacity
+          onPress={() => { (type === "foursome") ? (indexer == 1) ? this.setState({ toolTipVisiblePlayer1: true }) : this.setState({ toolTipVisiblePlayer2: true }) : null }}
+        >
+            <Text style={[AppStyles.alignItemsCenter, styles.textStyle]} textAlign="center">
+              {/* {playerInitials} */}
 
+              {(type === "foursome") ? playerInitials : playerName}
+
+            </Text>
+          </TouchableOpacity>
+
+
+        </Tooltip>
+      </View>
+    )
+  }
+  _headerController(playersData, score, type) {
+    debugger
+    if (playersData !== undefined) {
+
+      player1Name = playersData[0].team_1_players
+      player2Name = playersData[0].team_2_players
+      player1Initials = this._splitString(playersData[0].team_1_players_initials, 0) + " & " + this._splitString(playersData[0].team_1_players_initials, 1)
+      player2Initials = this._splitString(playersData[0].team_2_players_initials, 0) + " & " + this._splitString(playersData[0].team_2_players_initials, 1)
+    }
+    return (
+      <View  >
+        {playersData &&
+          <View
+            style={[
+              styles.header,
+              AppStyles.flexRow,
+              AppStyles.spaceAround,
+              AppStyles.alignItemsCenter
+            ]}>
+            <View
+              style={[styles.wholeNumber, { left: 8 }]}
+            >
+              <Text textAlign="center" style={styles.textStyle}>#</Text>
+            </View>
+            <View
+              style={[styles.wholeNumber]}
+            >
+              <Text textAlign="center" style={styles.textStyle}>Par</Text>
+            </View>
+            <View style={{ flex: 2, justifyContent: 'center', alignItems: 'center', right: 3 }} >
+              {this._getNameWithToolTip(player1Name, player1Initials, 1, type)}
+            </View>
+            {score.length > 1 ?
+              <View
+                style={[
+                  styles.score,
+                  {
+                    backgroundColor:
+                      score[score.length - 1].scoredBy == 1
+                        ? playerOneColor
+                        : score[score.length - 1].scoredBy == 2
+                          ? playerTwoColor
+                          : Colors.darkBlue,
+                    marginLeft: 10, right: 6
+                  }
+                ]}
+              >
+                <Text textAlign="center" style={{ color: Colors.white, }}>
+                  {score[score.length - 1].score.length === 0 ? 'AS' : score[score.length - 1].score}
+                </Text>
+              </View>
+              : <Text></Text>
+            }
+            <View style={{ flex: 2, justifyContent: 'center', alignItems: 'center' }} >
+              {this._getNameWithToolTip(player2Name, player2Initials, 2, type)}
+            </View>
+          </View>
+        }
+
+      </View>
+    );
+
+  }
+  // header Contant end
   render() {
-    return <View>{this._renderScores()}</View>;
+    const {
+      liveScoreData: { score }
+      , type } = this.props;
+
+    const playerOneColor = Colors.red3;
+    const playerTwoColor = Colors.blue2;
+
+    const {
+      liveScoreData: { players }
+    } = this.props;
+
+    debugger
+    return <View>
+      {this._renderScores()}
+      {this._headerController(players, score, type)}
+    </View>;
   }
 }

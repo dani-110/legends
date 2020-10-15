@@ -9,7 +9,7 @@ export default StyleSheet.create({
     backgroundColor: Colors.white
   },
   headerWrapper1: {
-    backgroundColor: Colors.background.secondary,
+    backgroundColor: Colors.green,
     paddingVertical: 5
   },
   width1: {

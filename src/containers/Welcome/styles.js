@@ -12,7 +12,7 @@ export default StyleSheet.create({
     height: Metrics.screenWidth * 1
   },
   imageBackground: {
-    width: '100%',
+    width: '105%',
     height: '100%',
   }
 });

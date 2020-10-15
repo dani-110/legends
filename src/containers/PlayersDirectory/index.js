@@ -322,7 +322,7 @@ renderItem = ({ item }, index) => {
                   textAlign: 'center', paddingTop: 3, fontSize: 15, color: '#555'
                 }}>
                   {/* index:9.6 */}
-                index:{parseFloat(item.current_handicap).toFixed(2)}
+                INDEX {parseFloat(item.current_handicap).toFixed(2)}
                 </Text>
               </View>
 

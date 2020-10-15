@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import React from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
-import { View, ScrollView, RefreshControl } from "react-native";
+import { View, ScrollView, RefreshControl, Text, Alert } from "react-native";
 import styles from "./styles";
 import {
   getPotyScoreNetRequest,
@@ -118,7 +118,39 @@ class PotyLiveScore extends React.Component {
       }
     }
   ];
+  _renderChildHeader(type_) {
+    let typeofData = (type_ === 0) ? "net" : "gross"
+    return (
+      <View
+        style={[
+          styles.header,
+          AppStyles.flexRow,
+          AppStyles.spaceBetween,
+          AppStyles.alignItemsCenter,
+        ]}
+      >
+        <View width={60} style={{ alignItems: 'center', justifyContent: 'center' }}>
+          <Text textAlign="center" style={{ color: Colors.black }}>#</Text>
+        </View>
+        <View style={[AppStyles.flex2]}>
+          <Text style={{ color: Colors.black }}>Name</Text>
+        </View>
+        {
+          typeofData === "gross" ? (<View width={65}>
+            <Text textAlign="center" style={{ color: Colors.black }} >Score</Text>
+          </View>) : null
+        }
 
+        <View width={45}>
+          <Text textAlign="center" style={styles.headerText}>To Par</Text>
+        </View>
+        <View width={70} style={{ paddingLeft: 20 }}>
+          <Text textAlign="center" style={{ color: Colors.black }} >Thru</Text>
+        </View>
+      </View>
+    );
+
+  }
   _getPotyScoreNetRequest() {
     const { netLastUpdatedOn } = this.state;
     const param = "";//netLastUpdatedOn ? `${netLastUpdatedOn}` : "";
@@ -183,6 +215,7 @@ class PotyLiveScore extends React.Component {
           }}
         />
         {this._renderTabsHeader()}
+        {this._renderChildHeader(activeTabIndex)}
         <ScrollView refreshControl={
           <RefreshControl
             refreshing={this.state.refreshing}

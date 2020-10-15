@@ -108,22 +108,26 @@ class SinglesTwo extends React.Component {
     const { isLoadedOnce, isFetchingData, liveScoreData } = this.props;
 
     return (
-      <ScrollView refreshControl={
-        <RefreshControl
-          refreshing={this.state.refreshing}
-          onRefresh={this._onRefresh.bind(this)}
-        />
-      }>
-        <View style={styles.container}>
-          {_.isEmpty(liveScoreData) && !isFetchingData && <EmptyStateText />}
+      <View>
+        {isLoadedOnce &&
+          !_.isEmpty(liveScoreData) && this._renderProjectedScore()}
+        <ScrollView refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh.bind(this)}
+          />
+        }>
+          <View style={styles.container}>
+            {_.isEmpty(liveScoreData) && !isFetchingData && <EmptyStateText />}
 
-          {!isLoadedOnce && <SimpleLoader />}
-          {isLoadedOnce &&
+            {!isLoadedOnce && <SimpleLoader />}
+            {/* {isLoadedOnce &&
             !_.isEmpty(liveScoreData) &&
-            this._renderProjectedScore()}
-          {isLoadedOnce && !_.isEmpty(liveScoreData) && this._renderScoreTable()}
-        </View>
-      </ScrollView>
+            this._renderProjectedScore()} */}
+            {isLoadedOnce && !_.isEmpty(liveScoreData) && this._renderScoreTable()}
+          </View>
+        </ScrollView>
+      </View>
     );
   }
 }

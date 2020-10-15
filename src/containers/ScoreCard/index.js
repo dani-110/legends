@@ -161,19 +161,19 @@ class ScoreCard extends Component {
           {mapData.map((holeItem, holeIndex) => (
             <View key={holeIndex}>
               <View style={{ ...styles.width2, margin: 2 }}>
-                <Text style={styles.scoreText} type="normal" >
+                <Text style={{ ...styles.scoreText, color: Colors.white }} type="normal" >
                   {holeItem}
                 </Text>
               </View>
             </View>
           ))}
           <View style={styles.width3}>
-            <Text style={styles.scoreText}>
+            <Text style={{ ...styles.scoreText, color: Colors.white }}>
               {type}
             </Text>
           </View>
           <View style={styles.width3}>
-            <Text type="normal" size="small">
+            <Text type="normal" size="small" style={{ color: Colors.white }}>
               Total
             </Text>
           </View>

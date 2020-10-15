@@ -17,12 +17,13 @@ const _borderColor = (playerStrok) => {
     return "rgba(0,0,0,0)";
   }
 }
-export default class ScoreTable extends React.Component {
+class ScoreTable extends React.Component {
   static propTypes = {
     liveScoreData: PropTypes.object.isRequired
   };
 
   constructor(props) {
+    debugger
     super(props);
     typeMatch = this.props.typeMatch;
   }
@@ -39,12 +40,13 @@ export default class ScoreTable extends React.Component {
 
     return (
       <View style={[AppStyles.flex, styles.overflowHidden, AppStyles.mTop10]}>
+
         <FlatList
           // style={[AppStyles.flex]}
           data={score}
           renderItem={this._renderRow}
           keyExtractor={Util.keyExtractor}
-          ListHeaderComponent={this._renderHeader}
+          // ListHeaderComponent={this._renderHeader}
           stickyHeaderIndices={[0]}
           ListEmptyComponent={<EmptyStateText />}
         />
@@ -62,9 +64,14 @@ export default class ScoreTable extends React.Component {
       return Colors.white;
     }
   }
-  _tooltipSelection(name_) {
+  _tooltipSelection(name_, indexer) {
     if ((this.props.typeMatch === "dmp" || this.props.typeMatch === "foursome")) {
-      this.setState({ toolTipVisible: true })
+      if (indexer == 1) {
+        this.setState({ toolTipVisible: true })
+      } else {
+        this.setState({ toolTipVisiblePlayer2: true })
+      }
+
     } else {
 
     }
@@ -116,7 +123,7 @@ export default class ScoreTable extends React.Component {
               placement="top"
               onClose={() => this.setState({ toolTipVisible: false })}
             ><TouchableOpacity
-              onPress={() => { this._tooltipSelection(players[0].team_1_players) }}
+              onPress={() => { this._tooltipSelection(players[0].team_1_players, 1) }}
             >
                 <Text style={[AppStyles.alignItemsCenter]} textAlign="center">
                   {/* {(this.props.typeMatch === "dmp" || this.props.typeMatch === "foursome") ? players[0].team_1_players_initials : players[0].team_1_players || players[0].team_1_player} */}
@@ -155,7 +162,7 @@ export default class ScoreTable extends React.Component {
               placement="top"
               onClose={() => this.setState({ toolTipVisiblePlayer2: false })}
             ><TouchableOpacity
-              onPress={() => { this._tooltipSelection(players[0].team_2_players) }}
+              onPress={() => { this._tooltipSelection(players[0].team_2_players, 2) }}
             >
                 <Text style={[AppStyles.alignItemsCenter]} textAlign="center">
                   {(this.props.typeMatch === "dmp" || this.props.typeMatch === "foursome") ? (this._splitString(players[0].team_2_players_initials, 0) + " & " + this._splitString(players[0].team_2_players_initials, 1)) : players[0].team_2_players || players[0].team_2_player}
@@ -297,3 +304,22 @@ export default class ScoreTable extends React.Component {
     return <View style={styles.container}>{this._renderTable()}</View>;
   }
 }
+
+class HeaderSection extends ScoreTable {
+
+  constructor(props) {
+    super(props)
+
+  }
+  _renderTest() {
+
+    new ScoreTable(this.props)._renderHeader();
+  }
+  render() {
+    return (
+      this._renderTest()
+    )
+  }
+}
+
+export { ScoreTable, HeaderSection }

@@ -16,7 +16,7 @@ import TopTabs from "./TopTabs";
 import ScoreValue from "./ScoreValue";
 import CustomKeyboard from "./CustomKeyboard";
 import SimpleLoader from "./SimpleLoader";
-import ScoreTable from "./ScoreTable";
+import { ScoreTable, HeaderSection } from "./ScoreTable";
 
 export {
   Button,
@@ -36,5 +36,6 @@ export {
   ScoreValue,
   CustomKeyboard,
   SimpleLoader,
-  ScoreTable
+  ScoreTable,
+  HeaderSection
 };
