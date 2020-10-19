@@ -10,7 +10,7 @@ export default StyleSheet.create({
   userDetailsWrapper: {
     backgroundColor: Colors.grey4,
     paddingTop: Metrics.statusBarHeight + 20,
-    paddingBottom: 30,
+    paddingBottom:15 ,
     paddingHorizontal: 10,
     borderBottomWidth: 1,
     borderColor: Colors.separator,
@@ -21,7 +21,7 @@ export default StyleSheet.create({
     height: 100,
     borderRadius: 100,
     overflow: "hidden",
-    ...AppStyles.mBottom20
+    ...AppStyles.mBottom15
   },
   userImage: { width: 100, height: 100, backgroundColor: Colors.grey2 },
   listItem: {

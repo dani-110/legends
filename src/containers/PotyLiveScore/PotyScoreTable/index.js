@@ -39,7 +39,7 @@ class PotyScoreTable extends React.Component {
   _formatPar(value) {
     console.log("value is:" + value);
     if (value > 0) return `+${value}`;
-    else if (value === "WD") return "WD";
+    else if (value === "wd") return "WD";
     else if (value === 0 || value === null) return "E";
     else if (value < 0 || value === 'F') return value;
 
@@ -153,9 +153,9 @@ class PotyScoreTable extends React.Component {
             size="xLarge"
             style={[item.netSpecial < 0 && styles.negativeParText]}
           >
-            {this._formatPar(item.netSpecial) ||
-              this._formatPar(item.par) ||
-              "E"}
+            {this.props.type === "gross" ?
+              this._formatPar(item.par) : this._formatPar(item.netSpecial)
+            }
 
           </Text>
         </View>

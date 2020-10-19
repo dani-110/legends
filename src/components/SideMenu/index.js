@@ -120,7 +120,7 @@ class SideMenu extends React.PureComponent {
               style={styles.userImage}
             />
           </View>
-          <Image source={Images.image_edit} style={{ position: "absolute", bottom: 30, right: 0 }} />
+          <Image source={Images.image_edit} style={{ position: "absolute", bottom: 20, right: 0 }} />
         </ButtonView>
 
         <Text size="large" type="bold" color={Colors.text.secondary}>
