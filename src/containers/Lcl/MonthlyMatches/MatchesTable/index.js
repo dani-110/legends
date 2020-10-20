@@ -94,7 +94,7 @@ export default function MatchesTable(props) {
                 <Text style={{ textAlign: 'center' }} color={Colors.white} size={12}>{exItems.home_team_score_1}</Text>
               </View>
               <View>
-                <Text style={styles.textStyle} >
+                <Text style={{ ...styles.textStyle, textAlign: 'right' }} >
                   {exItems.home_team_1}
                 </Text>
               </View>
@@ -107,7 +107,7 @@ export default function MatchesTable(props) {
                 <Text style={{ textAlign: 'center' }} color={Colors.white} size={12}>{exItems.home_team_score_2}</Text>
               </View>
               <View>
-                <Text style={styles.textStyle} >
+                <Text style={{ ...styles.textStyle, textAlign: 'right' }} >
                   {exItems.home_team_2}
                 </Text>
               </View>

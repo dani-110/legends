@@ -13,7 +13,7 @@ export default StyleSheet.create({
     paddingVertical: 5
   },
   width1: {
-    paddingLeft: 20,
+    paddingLeft: 8,
     flex: 1
   },
   width2: {
@@ -41,6 +41,6 @@ export default StyleSheet.create({
     paddingBottom: isIphoneX() ? 30 : 0
   },
   playerName: {
-    lineHeight: 24
+    lineHeight: 24,
   }
 });

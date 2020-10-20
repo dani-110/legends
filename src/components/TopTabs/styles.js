@@ -23,16 +23,15 @@ export default StyleSheet.create({
   selectedGraphBorder: {
     position: "absolute",
 
-    width: 90,
+    width: 85,
     height: 36,
-    borderRadius: 5,
     borderColor: Colors.greyTint,
-    borderTopWidth: 2,
+    borderTopWidth: 1,
     borderLeftWidth: 1,
     borderRightWidth: 1,
-    borderBottomWidth: 7,
+    borderBottomWidth: 5,
     borderBottomColor: Colors.white,
-    top: 6
+    top: 5
   },
   icon: {
     marginRight: 5

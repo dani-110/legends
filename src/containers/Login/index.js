@@ -165,7 +165,7 @@ class Login extends Component {
           onPress={this._onSubmit}
           isLoading={loading}
         >
-          LOG IN
+          LOGIN
         </Button>
       </View>
     );

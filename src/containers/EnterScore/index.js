@@ -776,7 +776,7 @@ class EnterScore extends React.Component {
 
         </Swiper>
 
-        <View style={{ height: '100%', flex: 1, justifyContent: 'space-around', alignItems: 'center', flexDirection: 'row' }}>
+        <View style={{ height: '100%', flex: 1, justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
           {(this.state.showSubmitButton) ? (
 
             <ButtonView
@@ -1102,9 +1102,9 @@ class EnterScore extends React.Component {
   renderItem = ({ item }) => (
 
     <View key={item.key} style={{ flexDirection: 'row', marginBottom: 15 }}>
-      <Text style={{ width: '70%', fontSize: 10, marginRight: -15 }} color={Colors.grey}>{item.name}</Text>
-      <Text style={{ width: '15%', fontSize: 10, marginRight: 9 }} color={Colors.grey}>{item.adjusted_score}</Text>
-      <Text style={{ width: '15%', fontSize: 10, textAlign: 'center' }} color={Colors.grey}>{item.net_score}</Text>
+      <Text style={{ width: '60%', fontSize: 10, textAlign: 'left' }} color={Colors.grey}>{item.name}</Text>
+      <Text style={{ width: '20%', fontSize: 10, textAlign: 'center' }} color={Colors.grey}>{item.adjusted_score}</Text>
+      <Text style={{ width: '20%', fontSize: 10, textAlign: 'center' }} color={Colors.grey}>{item.net_score}</Text>
     </View>
 
   );
@@ -1114,12 +1114,12 @@ class EnterScore extends React.Component {
     return (
 
       <View>
-        <View style={{ flexDirection: 'row', marginLeft: 15, }}>
-          <Text style={{ width: '50%', marginRight: 16, fontSize: 14 }} color={Colors.grey}>Player Name</Text>
-          <Text style={{ width: '20%', fontSize: 14 }} color={Colors.grey}>Gross</Text>
-          <Text style={{ width: '20%', fontSize: 14, marginLeft: 3, }} color={Colors.grey}>Net</Text>
+        <View style={{ flexDirection: 'row', marginRight: 30, marginLeft: 30 }}>
+          <Text style={{ width: '60%', fontSize: 12 }} color={Colors.grey}>Player</Text>
+          <Text style={{ width: '20%', fontSize: 12, marginLeft: 0, textAlign: 'center' }} color={Colors.grey}>Gross</Text>
+          <Text style={{ width: '20%', fontSize: 12, marginLeft: 0, textAlign: 'center' }} color={Colors.grey}>Net</Text>
         </View>
-        <View style={{ height: 1, width: 300, backgroundColor: Colors.greyTint }} />
+        <View style={{ height: 1, width: 300, backgroundColor: Colors.greyTint, marginTop: 10 }} />
       </View>
     );
   }
@@ -1127,16 +1127,17 @@ class EnterScore extends React.Component {
   getData(data_) {
 
     const { current_match } = this.props;
-    const { schedule_id, match_id } = current_match[0];
+    const { id, group_id, schedule_id, match_id } = current_match[0];
 
     const AuthStr = util.getCurrentUserAccessToken();
     console.log("get data authentication key = >" + AuthStr);
-    URL = BASE_URL + `/getGrossScoreNetScore/${match_id}/${schedule_id}`;
+    URL = BASE_URL + `/getGrossScoreNetScore/${group_id}`;
 
+    debugger
     axios.get(URL, { headers: { Authorization: AuthStr } }).then((response) => {
 
-      // this.setState({ dataSource: response.data.data, visible: true });
-      this.setState({ showConformPopUp: true });
+      this.setState({ dataSource: response.data.data, visible: true });
+      //this.setState({ showConformPopUp: true });
     })
       .catch(function (error) {
         Alert.alert(error);
@@ -1145,16 +1146,14 @@ class EnterScore extends React.Component {
   }
   sendData() {
     const { current_match } = this.props;
-    const { schedule_id, match_id } = current_match[0];
+    const { id, group_id, schedule_id, match_id } = current_match[0];
 
     const AuthStr = util.getCurrentUserAccessToken();
     console.log("send Data authentication key = >" + AuthStr);
     URL = BASE_URL + '/SubmitGrossScoreNetScore';
 
     axios.post(URL, {
-      schedule_id: schedule_id,
-      match_id: match_id
-
+      group_id: group_id,
     },
       { headers: { Authorization: AuthStr } }).then((response) => {
         //debugger;
@@ -1297,13 +1296,13 @@ class EnterScore extends React.Component {
             style={{ justifyContent: 'center', alignItems: 'center', width: Dimensions.get('window').width * .7, marginBottom: -55, }}
           >
             {/* Title start */}
-            <Text style={{ ...styles.titleHeader, marginBottom: 10, marginTop: 10 }}>
-              Confirm Score
+            <Text style={{ ...styles.titleHeader, marginBottom: 10, marginTop: 10, fontWeight: 'base' }}>
+              Confirm Scores
               </Text>
             {/* Title End */}
 
             {/* header start */}
-            <View style={{ marginLeft: 10, height: '10%', alignItems: 'center', justifyContent: 'center' }}>
+            <View style={{ height: '10%', alignItems: 'center', justifyContent: 'center' }}>
               {
                 this._renderHeader()
               }
@@ -1311,7 +1310,7 @@ class EnterScore extends React.Component {
             {/* header start */}
 
             {/* Main Content to send start */}
-            <View style={{ width: '100%', marginTop: 20, }}>
+            <View style={{ width: '100%', marginTop: 10 }}>
               <FlatList
                 data={this.state.dataSource}
                 renderItem={this.renderItem}
@@ -1519,7 +1518,7 @@ function manipulateDataForScoreCard(data, state) {
         //   }
         // }
         // else
-          updatedData[score.hole_number - 1].Stroke[playerIndex] = score.strokes;
+        updatedData[score.hole_number - 1].Stroke[playerIndex] = score.strokes;
 
         updatedData[score.hole_number - 1].FIR[playerIndex] = score.fir;
         updatedData[score.hole_number - 1].GIR[playerIndex] = score.gir;
@@ -1530,8 +1529,13 @@ function manipulateDataForScoreCard(data, state) {
     });
   });
 
+  ///////////////////////   NEED TO WORK ON IT ////////////////////////////////
+
   if (rowValue !== "" && updatedData.length > cardIndex)
     updatedData[cardIndex - 1].Stroke[rowIndex] = rowValue;
+
+  ///////////////////////   NEED TO WORK ON IT ////////////////////////////////
+
   return updatedData;
 }
 

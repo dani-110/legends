@@ -67,7 +67,7 @@ export default class ListItem extends React.Component {
 
   render() {
     const { data, updateInputValue } = this.props;
-
+    console.log("render")
     return (
       <View
         style={[
@@ -79,6 +79,7 @@ export default class ListItem extends React.Component {
       >
         <Dialog
           visible={this.state.visible}
+          onHardwareBackPress={()=>{this.setState({ visible: false })}}
           onTouchOutside={() => {
             this.setState({ visible: false });
           }}
@@ -166,23 +167,24 @@ export default class ListItem extends React.Component {
 
               <Text style={{ flex: 2, fontSize: 15, paddingTop: 5, marginLeft: 15, textAlign: 'left' }}>{data.date_format}</Text>
             </View>
-
             <View style={{
               flex: 1,
               flexDirection: 'row'
             }}>
               <Image
                 style={{
-                  width: 21.85,
-                  height: 21.85,
-                  marginRight: 20,
-                  marginLeft: -20,
+                  width: 22.8,
+                  height: 22.8,
+                  marginLeft: 60,
+                  alignSelf: 'flex-start',
                 }}
                 source={Images.clock_popUp}
                 resizeMode="cover"
               />
-              <Text style={{ flexDirection: 'row', fontSize: 15, paddingTop: 5 }}>{data.tee_off_time}</Text>
+
+              <Text style={{ flex: 2, fontSize: 15, paddingTop: 5, marginLeft: 15, textAlign: 'left' }}>{data.tee_off_time}</Text>
             </View>
+
           </DialogContent>
         </Dialog>
         <Text
@@ -235,5 +237,10 @@ export default class ListItem extends React.Component {
         </View>
       </View >
     );
+  }
+
+  componentWillUnmount(){
+    console.log("unmount")
+    this.setState({visible:false})
   }
 }

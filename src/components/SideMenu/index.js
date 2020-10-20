@@ -120,7 +120,7 @@ class SideMenu extends React.PureComponent {
               style={styles.userImage}
             />
           </View>
-          <Image source={Images.image_edit} style={{ position: "absolute", bottom: 30, right: 0 }} />
+          <Image source={Images.image_edit} style={{ position: "absolute", bottom: 20, right: 0 }} />
         </ButtonView>
 
         <Text size="large" type="bold" color={Colors.text.secondary}>
@@ -134,29 +134,32 @@ class SideMenu extends React.PureComponent {
 
   renderOptionsList() {
     return (
-      <View style={[AppStyles.flex, AppStyles.padding10,]}>
-        {DRAWER_ITEMS.map((element, index) => (
-          <ButtonView
-            style={styles.listItem}
-            key={index}
-            onPress={() => {
-              Actions.drawerClose();
-              element.activeTab && this.props.setSelectedTab(element.activeTab);
-              element.onPress();
-            }}
-          >
-            <Text type="base" color={Colors.text.secondary}>
-              {element.text}
-            </Text>
-          </ButtonView>
-        ))}
+      <View style={[AppStyles.flex, { paddingLeft: 20 }]}>
+        <View>
+          {DRAWER_ITEMS.map((element, index) => (
+            <ButtonView
+              style={styles.listItem}
+              key={index}
+              onPress={() => {
+                Actions.drawerClose();
+                element.activeTab && this.props.setSelectedTab(element.activeTab);
+                element.onPress();
+              }}
+            >
+              <Text type="base" color={Colors.text.secondary}>
+                {element.text}
+              </Text>
+            </ButtonView>
+          ))}
+        </View>
+
       </View>
     );
   }
 
   renderVersionNumber() {
     return (
-      <View style={[AppStyles.mBottom30]}>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end' }}>
         <Text textAlign="center" color={Colors.grey} size="small">
           Version 1.2
         </Text>
@@ -170,7 +173,7 @@ class SideMenu extends React.PureComponent {
       <View style={styles.container}>
         {!_.isEmpty(userData) && this.renderUserDetails(userData.user_info[0])}
         {this.renderOptionsList()}
-        {this.renderVersionNumber()}
+        { this.renderVersionNumber()}
       </View>
     );
   }

@@ -177,7 +177,7 @@ class Profile extends Component {
 
         <View style={{ position: "absolute", flex: 1, }}>
           <RNImage
-            style={{ height: '100%', width: '105%', aspectRatio: 1, top: -200, }}
+            style={{ height: '100%', width: '106%', aspectRatio: 1, top: -200, }}
             source={Images.login_header_wrapper}
           />
 
@@ -198,17 +198,19 @@ class Profile extends Component {
               style={styles.userImage}
             />
           </View>
+
+          {uploadingImage && (
+            <View style={{ ...styles.imageLoadingWrapper, borderRadius: 200 }}>
+              <ActivityIndicator color={Colors.kgDarkGreen} />
+            </View>
+          )}
           <ButtonView
             style={styles.editProfileWrapper}
             onPress={this._onEditImagePress}
           >
             <RNImage source={Images.edit_icon} style={styles.editProfile} />
           </ButtonView>
-          {uploadingImage && (
-            <View style={styles.imageLoadingWrapper}>
-              <ActivityIndicator color={Colors.kgDarkGreen} />
-            </View>
-          )}
+
         </View>
         <Text
           style={[AppStyles.margin20,]}

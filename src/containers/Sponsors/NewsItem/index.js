@@ -18,7 +18,9 @@ export default class NewsItem extends React.Component {
     const { data } = this.props;
     return (
       <View style={[AppStyles.basePadding, AppStyles.flex]}>
-        <View style={[AppStyles.flexRow, AppStyles.alignItemsCenter]}>
+        
+        {/******************  HIDE DATES *******************  */}
+        {/* <View style={[AppStyles.flexRow, AppStyles.alignItemsCenter]}>
           <RNImage source={Images.clock} />
           <Text
             type="bold"
@@ -30,7 +32,8 @@ export default class NewsItem extends React.Component {
           >
             {` ${moment(data.date).fromNow()}`}
           </Text>
-        </View>
+        </View> */}
+
         <Text style={AppStyles.mTop10}>
           <Text type="bold" color={Colors.black2}>
             {data.name}
