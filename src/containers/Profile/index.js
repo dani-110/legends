@@ -198,17 +198,19 @@ class Profile extends Component {
               style={styles.userImage}
             />
           </View>
+
+          {uploadingImage && (
+            <View style={{ ...styles.imageLoadingWrapper, borderRadius: 200 }}>
+              <ActivityIndicator color={Colors.kgDarkGreen} />
+            </View>
+          )}
           <ButtonView
             style={styles.editProfileWrapper}
             onPress={this._onEditImagePress}
           >
             <RNImage source={Images.edit_icon} style={styles.editProfile} />
           </ButtonView>
-          {uploadingImage && (
-            <View style={styles.imageLoadingWrapper}>
-              <ActivityIndicator color={Colors.kgDarkGreen} />
-            </View>
-          )}
+
         </View>
         <Text
           style={[AppStyles.margin20,]}

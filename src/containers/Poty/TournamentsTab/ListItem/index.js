@@ -67,7 +67,7 @@ export default class ListItem extends React.Component {
 
   render() {
     const { data, updateInputValue } = this.props;
-
+    console.log("render")
     return (
       <View
         style={[
@@ -79,6 +79,7 @@ export default class ListItem extends React.Component {
       >
         <Dialog
           visible={this.state.visible}
+          onHardwareBackPress={()=>{this.setState({ visible: false })}}
           onTouchOutside={() => {
             this.setState({ visible: false });
           }}
@@ -235,5 +236,10 @@ export default class ListItem extends React.Component {
         </View>
       </View >
     );
+  }
+
+  componentWillUnmount(){
+    console.log("unmount")
+    this.setState({visible:false})
   }
 }
