@@ -38,7 +38,7 @@ class Welcome extends Component {
         >
           <Image
             source={Images.splash_logo}
-            style={{ position: 'absolute', height: 340 / 2.5, width: 246 / 2.5, justifyContent: 'flex-end', bottom: 40, left: 30, }}
+            style={{ position: 'absolute', height: 340 / 2.5, width: 246 / 2.5, justifyContent: 'flex-end', bottom: 30, left: 30, }}
           />
         </ImageBackground>
       </View>

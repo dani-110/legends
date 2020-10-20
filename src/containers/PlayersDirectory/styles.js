@@ -86,8 +86,8 @@ export default StyleSheet.create({
     width: 220,
     height: 40,
     right: 0,
-    backgroundColor: 'white',
-    borderRadius: 0,
+    backgroundColor: Colors.transparent,
+    borderRadius: 50,
     shadowOffset: {
       width: 0,
       height: 0,

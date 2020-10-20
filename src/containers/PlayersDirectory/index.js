@@ -260,6 +260,7 @@ const stylesPicker = StyleSheet.create({
     height: 50,
     width: "100%",
     color: '#344953',
+
     justifyContent: 'flex-end',
   }
 });
@@ -288,7 +289,7 @@ export default connect(
 let temp = 0;
 renderItem = ({ item }, index) => {
   temp += 1;
-  const colors = ["blue", "redDark"];
+  const colors = ["yellow", "redDark"];
   return (
 
     <View>

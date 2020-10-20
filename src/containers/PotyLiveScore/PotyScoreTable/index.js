@@ -141,8 +141,8 @@ class PotyScoreTable extends React.Component {
           </Text>
         </View>
         {
-          this.props.type === "gross" ? (<View width={65}>
-            <Text textAlign="center">{item.score || " "}</Text>
+          this.props.type === "gross" ? (<View width={55}>
+            <Text textAlign="left">{item.score || " "}</Text>
           </View>) : null
         }
         <View

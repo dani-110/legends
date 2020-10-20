@@ -10,7 +10,7 @@ export default StyleSheet.create({
   userDetailsWrapper: {
     backgroundColor: Colors.grey4,
     paddingTop: Metrics.statusBarHeight + 20,
-    paddingBottom:15 ,
+    paddingBottom: 15,
     paddingHorizontal: 10,
     borderBottomWidth: 1,
     borderColor: Colors.separator,

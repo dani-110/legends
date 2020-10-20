@@ -40,9 +40,11 @@ export default StyleSheet.create({
   textStyle:
   {
     fontSize: 12,
-    textAlign: 'center',
+    textAlign: 'left',
     color: Colors.grey5,
     marginBottom: 15,
+    width: 90,
+    height: 25
   },
   squir: {
     width: 25,

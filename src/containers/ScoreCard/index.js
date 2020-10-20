@@ -160,14 +160,14 @@ class ScoreCard extends Component {
           <Text style={styles.width1}>{` `}</Text>
           {mapData.map((holeItem, holeIndex) => (
             <View key={holeIndex}>
-              <View style={{ ...styles.width2, margin: 2 }}>
+              <View style={{ ...styles.width2, }}>
                 <Text style={{ ...styles.scoreText, color: Colors.white }} type="normal" >
                   {holeItem}
                 </Text>
               </View>
             </View>
           ))}
-          <View style={styles.width3}>
+          <View style={styles.width2}>
             <Text style={{ ...styles.scoreText, color: Colors.white }}>
               {type}
             </Text>
@@ -179,19 +179,19 @@ class ScoreCard extends Component {
           </View>
         </View>
         <View style={[AppStyles.flexRow, AppStyles.flex]}>
-          <Text style={styles.width1} size="small" type="normal">
+          <Text style={{ ...styles.width1, }} size="small" type="normal">
             Index
           </Text>
           {mapData.map((holeItem, holeIndex) => (
             <View key={holeIndex}>
-              <View style={{ ...styles.width2, margin: 2 }}>
+              <View style={{ ...styles.width2, }}>
                 <Text type="normal" color={Colors.text.secondary} size="small">
                   {index[holeItem - 1]}
                 </Text>
               </View>
             </View>
           ))}
-          <View style={styles.width3}>
+          <View style={styles.width2}>
             <Text type="normal" color={Colors.text.secondary} size="small">
               {``}
             </Text>
@@ -206,7 +206,8 @@ class ScoreCard extends Component {
           style={[
             AppStyles.flexRow,
             AppStyles.flex,
-            AppStyles.borderBottomGrey
+            AppStyles.borderBottomGrey,
+
           ]}
         >
           <Text style={styles.width1} size="small" type="normal">
@@ -214,14 +215,14 @@ class ScoreCard extends Component {
           </Text>
           {mapData.map((holeItem, holeIndex) => (
             <View key={holeIndex}>
-              <View style={{ ...styles.width2, margin: 2 }}>
+              <View style={{ ...styles.width2, }}>
                 <Text color={Colors.text.secondary} size="small" type="normal">
                   {par[holeItem - 1]}
                 </Text>
               </View>
             </View>
           ))}
-          <View style={styles.width3}>
+          <View style={styles.width2}>
             <Text color={Colors.text.secondary} size="small" type="normal">
               {this._showSumOfArray(par, startFrom, endTo)}
             </Text>
@@ -240,7 +241,7 @@ class ScoreCard extends Component {
   _renderPlayersScore({ holeNumber, index, par, players }, startFrom, endTo) {
     return (
       <View style={[AppStyles.flexRow, styles.scoreRowWrapper]}>
-        <View style={AppStyles.flex}>
+        <View style={{ ...AppStyles.flex }}>
           {players.map((playerItem, playerIndex) => {
             const mapData = playerItem.score.slice(startFrom, endTo);
             const mappedHoleNumber = holeNumber.slice(startFrom, endTo);
@@ -252,7 +253,7 @@ class ScoreCard extends Component {
               >
                 <View style={{ ...AppStyles.flex, justifyContent: 'center', alignItems: 'flex-start' }}>
                   <Text
-                    style={[styles.playerName, { left: 15 }]}
+                    style={[styles.playerName, { left: 5 }]}
                     size="small"
                     type="normal"
                   >
@@ -263,7 +264,7 @@ class ScoreCard extends Component {
                 <View style={AppStyles.flexRow}>
                   {mapData.map((scoreItem, itemIndex) => {
                     return (
-                      <View style={{ ...styles.width2, margin: 2 }} key={itemIndex}>
+                      <View style={{ ...styles.width2, }} key={itemIndex}>
                         <ScoreValue
                           size="small"
                           type="normal"
@@ -274,7 +275,7 @@ class ScoreCard extends Component {
                     );
                   })}
                 </View>
-                <View style={styles.width3}>
+                <View style={styles.width2}>
                   <Text color={Colors.text.secondary} size="small" type="normal">
                     {this._showSumOfArray(mapData, 0)}
                   </Text>
@@ -321,7 +322,7 @@ class ScoreCard extends Component {
         </View>
         {!_.isEmpty(scoreCardData) && (
           <View style={{ ...styles.innerWrapper, marginHorizontal: 50, right: 5, marginBottom: 10 }}>
-            <ScrollView contentContainerStyle={{ minWidth: 660 }}>
+            <ScrollView contentContainerStyle={{ width: 'auto' }}>
               {this._renderView(scoreCardData, 0, 9, "Out")}
               <View style={AppStyles.mBottom20} />
               {this._renderView(scoreCardData, 9, 18, "In")}

@@ -776,7 +776,7 @@ class EnterScore extends React.Component {
 
         </Swiper>
 
-        <View style={{ height: '100%', flex: 1, justifyContent: 'space-around', alignItems: 'center', flexDirection: 'row' }}>
+        <View style={{ height: '100%', flex: 1, justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
           {(this.state.showSubmitButton) ? (
 
             <ButtonView
@@ -1102,9 +1102,9 @@ class EnterScore extends React.Component {
   renderItem = ({ item }) => (
 
     <View key={item.key} style={{ flexDirection: 'row', marginBottom: 15 }}>
-      <Text style={{ width: '60%', fontSize: 10,textAlign: 'left' }} color={Colors.grey}>{item.name}</Text>
-      <Text style={{ width: '20%', fontSize: 10,textAlign: 'center'}} color={Colors.grey}>{item.adjusted_score}</Text>
-      <Text style={{ width: '20%', fontSize: 10, textAlign: 'center'}} color={Colors.grey}>{item.net_score}</Text>
+      <Text style={{ width: '60%', fontSize: 10, textAlign: 'left' }} color={Colors.grey}>{item.name}</Text>
+      <Text style={{ width: '20%', fontSize: 10, textAlign: 'center' }} color={Colors.grey}>{item.adjusted_score}</Text>
+      <Text style={{ width: '20%', fontSize: 10, textAlign: 'center' }} color={Colors.grey}>{item.net_score}</Text>
     </View>
 
   );
@@ -1114,12 +1114,12 @@ class EnterScore extends React.Component {
     return (
 
       <View>
-        <View style={{ flexDirection: 'row',marginRight:30,marginLeft:30}}>
-          <Text style={{ width: '60%', fontSize: 12}} color={Colors.grey}>Player</Text>
-          <Text style={{ width: '20%', fontSize: 12,marginLeft: 0,textAlign:'center' }} color={Colors.grey}>Gross</Text>
-          <Text style={{ width: '20%', fontSize: 12, marginLeft: 0,textAlign:'center' }} color={Colors.grey}>Net</Text>
+        <View style={{ flexDirection: 'row', marginRight: 30, marginLeft: 30 }}>
+          <Text style={{ width: '60%', fontSize: 12 }} color={Colors.grey}>Player</Text>
+          <Text style={{ width: '20%', fontSize: 12, marginLeft: 0, textAlign: 'center' }} color={Colors.grey}>Gross</Text>
+          <Text style={{ width: '20%', fontSize: 12, marginLeft: 0, textAlign: 'center' }} color={Colors.grey}>Net</Text>
         </View>
-        <View style={{ height: 1, width: 300, backgroundColor: Colors.greyTint,marginTop:10}} />
+        <View style={{ height: 1, width: 300, backgroundColor: Colors.greyTint, marginTop: 10 }} />
       </View>
     );
   }
@@ -1127,7 +1127,7 @@ class EnterScore extends React.Component {
   getData(data_) {
 
     const { current_match } = this.props;
-    const { id,group_id,schedule_id, match_id } = current_match[0];
+    const { id, group_id, schedule_id, match_id } = current_match[0];
 
     const AuthStr = util.getCurrentUserAccessToken();
     console.log("get data authentication key = >" + AuthStr);
@@ -1146,7 +1146,7 @@ class EnterScore extends React.Component {
   }
   sendData() {
     const { current_match } = this.props;
-    const { id,group_id,schedule_id, match_id } = current_match[0];
+    const { id, group_id, schedule_id, match_id } = current_match[0];
 
     const AuthStr = util.getCurrentUserAccessToken();
     console.log("send Data authentication key = >" + AuthStr);
@@ -1296,13 +1296,13 @@ class EnterScore extends React.Component {
             style={{ justifyContent: 'center', alignItems: 'center', width: Dimensions.get('window').width * .7, marginBottom: -55, }}
           >
             {/* Title start */}
-            <Text style={{ ...styles.titleHeader, marginBottom: 10, marginTop: 10 ,fontWeight:'base'}}>
+            <Text style={{ ...styles.titleHeader, marginBottom: 10, marginTop: 10, fontWeight: 'base' }}>
               Confirm Scores
               </Text>
             {/* Title End */}
 
             {/* header start */}
-            <View style={{height: '10%', alignItems: 'center', justifyContent: 'center' }}>
+            <View style={{ height: '10%', alignItems: 'center', justifyContent: 'center' }}>
               {
                 this._renderHeader()
               }
@@ -1310,7 +1310,7 @@ class EnterScore extends React.Component {
             {/* header start */}
 
             {/* Main Content to send start */}
-            <View style={{ width: '100%',marginTop:10}}>
+            <View style={{ width: '100%', marginTop: 10 }}>
               <FlatList
                 data={this.state.dataSource}
                 renderItem={this.renderItem}
