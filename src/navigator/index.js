@@ -38,9 +38,11 @@ import {
 } from "../containers";
 import PotyLeaderboardDB from "../containers/Dashboard/PotyLeaderboardDB";
 import { Alert } from "react-native";
+import Orientation from 'react-native-orientation';
 
 function onBackPress() {
   console.log("state is------>" + Actions.state.index);
+  Orientation.lockToPortrait();
   if (Actions.state.index === 0) {
     PotyLeaderboardDB.playInterval();
     return false;

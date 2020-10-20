@@ -60,8 +60,8 @@ class Dashboard extends Component {
   }
 
   componentWillUnmount() {
-    this.notificationListener();
-    this.notificationOpenedListener();
+    // this.notificationListener();
+    // this.notificationOpenedListener();
   }
 
 

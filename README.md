@@ -1,2 +1,0 @@
-# LegendsApp
-Hybrid Application

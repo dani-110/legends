@@ -1,38 +1,33 @@
-# Uncomment the next line to define a global platform for your project
+require_relative '../node_modules/react-native/scripts/react_native_pods'
+require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+
 platform :ios, '9.0'
 
-target 'LegendsTour' do
-  # Comment the next line if you don't want to use dynamic frameworks
-  
+target 'legendstourrr' do
+  config = use_native_modules!
+  pod 'Firebase/Core', '~> 6.13.0'
+  use_react_native!(:path => config["reactNativePath"])
 
-  # Pods for LegendsTour
-# Required by RNFirebase
-pod 'Firebase/Core', '~> 6.3.0'
-pod 'Firebase/Messaging', '~> 6.3.0'
-
-  target 'LegendsTour-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-    pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
-
-    pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
-
-    pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
-
-    pod 'react-native-viewpager', :path => '../node_modules/@react-native-community/viewpager'
-
-  end
-
-  target 'LegendsTourTests' do
-    inherit! :search_paths
+  target 'legendstourrrTests' do
+    inherit! :complete
     # Pods for testing
   end
 
+  # Enables Flipper.
+  #
+  # Note that if you have use_frameworks! enabled, Flipper will not work and
+  # you should disable these next few lines.
+  use_flipper!
+  post_install do |installer|
+    flipper_post_install(installer)
+  end
 end
 
-target 'LegendsTour-tvOS' do
-  # Comment the next line if you don't want to use dynamic frameworks
+target 'legendstourrr-tvOS' do
+  # Pods for legendstourrr-tvOS
 
- 
-
+  target 'legendstourrr-tvOSTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
 end

@@ -118,7 +118,7 @@ export default class ListItem extends React.Component {
             }}>
               <Text style={{
                 fontSize: 20,
-                fontWeight: Fonts.type.base,
+                fontWeight: 'normal',
                 marginBottom: 10,
               }} >Confirm registration</Text>
               <Text
