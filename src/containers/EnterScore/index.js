@@ -1013,7 +1013,7 @@ class EnterScore extends React.Component {
                           />
                         )
                   ) : (
-                      <Text textAlign="center" style={{ ...AppStyles.centerInner, fontType: Fonts.type.base, fontSize: Fonts.size.xxLarge }}>
+                      <Text textAlign="center" style={{ ...AppStyles.centerInner, height: '130%', fontType: Fonts.type.base, fontSize: Fonts.size.xxLarge }}>
                         {key === "Gross" || key === "Net"
                           ? rowItem === 0
                             ? "E"

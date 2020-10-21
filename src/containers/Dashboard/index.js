@@ -1,7 +1,7 @@
 // @flow
 import { connect } from "react-redux";
 import React, { Component } from "react";
-import { Dimensions, Text, View, ScrollView, Alert, StyleSheet } from "react-native";
+import { Dimensions, Text, View, ScrollView, Alert, StyleSheet, SafeAreaView } from "react-native";
 import firebase from "react-native-firebase";
 import PropTypes from "prop-types";
 import {
@@ -202,7 +202,7 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         {/* <CustomNavbar
           hasBack={false}
           title="POTY Leaderboard"
@@ -217,7 +217,7 @@ class Dashboard extends Component {
           {this.renderScores()}
           {this.renderLatestNews()}
         </ScrollView>
-      </View>
+      </SafeAreaView>
     );
   }
 }

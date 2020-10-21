@@ -79,7 +79,7 @@ export default class ListItem extends React.Component {
       >
         <Dialog
           visible={this.state.visible}
-          onHardwareBackPress={()=>{this.setState({ visible: false })}}
+          onHardwareBackPress={() => { this.setState({ visible: false }) }}
           onTouchOutside={() => {
             this.setState({ visible: false });
           }}
@@ -90,11 +90,13 @@ export default class ListItem extends React.Component {
                 {
                   backgroundColor: Colors.green,
                   bottom: 15,
-                }
+                  position: 'relative', justifyContent: 'center', alignItems: 'center'
+                }, { height: 40 }
               ]}>
 
+                <Text style={styles.buttonText}>Confirm</Text>
                 <DialogButton
-                  text="Confirm" textStyle={{ color: 'white', fontSize: 15 }}
+
                   onPress={() => this.sendData(data)}
                 />
               </View>
@@ -121,7 +123,7 @@ export default class ListItem extends React.Component {
                 fontSize: 20,
                 fontWeight: 'normal',
                 marginBottom: 10,
-              }} >Confirm registration</Text>
+              }} >Confirm Registration</Text>
               <Text
 
                 style={{
@@ -239,8 +241,8 @@ export default class ListItem extends React.Component {
     );
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     console.log("unmount")
-    this.setState({visible:false})
+    this.setState({ visible: false })
   }
 }

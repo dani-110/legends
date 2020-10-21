@@ -20,7 +20,11 @@ export default StyleSheet.create({
     height: 60,
     width: 200,
   },
-
+  buttonText: {
+    position: 'absolute',
+    color: Colors.white,
+    textAlign: 'center',
+  },
   dialogBoxStyle: {
     flexDirection: 'row',
     alignContent: 'center',

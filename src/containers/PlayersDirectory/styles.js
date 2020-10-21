@@ -11,6 +11,10 @@ export default StyleSheet.create({
   wholeNumber: {
     width: 45
   },
+  pickerTextStyle: {
+    marginBottom: 10,
+
+  },
   headerRow: {
     paddingVertical: 15,
     backgroundColor: Colors.background.secondary
@@ -99,7 +103,7 @@ export default StyleSheet.create({
   },
   searchIcon: {
     position: 'absolute',
-    top: 10,
+    top: 0,
     backgroundColor: 'yellow',
     right: 15,
     alignSelf: 'flex-end',

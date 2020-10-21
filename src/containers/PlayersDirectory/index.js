@@ -34,7 +34,7 @@ class playersDirectory extends Component {
   };
 
 
-  state = { playersDirectoryData: [], selectedValue: "java" };
+  state = { playersDirectoryData: [], selectedValue: "name", visible: false };
   playersDirectoryData = [];
 
   componentWillMount() {
@@ -54,10 +54,12 @@ class playersDirectory extends Component {
       <View style={{
         flexDirection: 'row',
       }}>
+
         <View style={{ flex: 2, ...styles.searchBox, marginLeft: 20 }}>
 
 
-          <View style={{ ...styles.searchshadow }}>
+          <View style={{ ...styles.searchshadow }}
+          >
             <TextInput style={{ height: 100 }}
               onChangeText={text => {
                 this._onSearchPress(text);
@@ -81,10 +83,21 @@ class playersDirectory extends Component {
 
         </View>
         <View style={{ flex: 1, marginTop: 10, ...styles.dropdownShadow }}>
-          <Text id style={{ height: 50, position: 'absolute', marginLeft: 10, fontSize: 12, color: Colors.grey, fontFamily: 'CircularStd-Book' }}>
-            Sort by:
-         </Text>
+          <TouchableOpacity
+            onPress={() => { this.setState({ visible: !this.state.visible }) }}>
+            <Text id style={{ height: 50, position: 'absolute', marginLeft: 10, fontSize: 12, color: Colors.grey, fontFamily: 'CircularStd-Book' }}>
+              Sort by:
+            </Text>
+            {this.state.visible === false ? (
+              <Text style={{ marginTop: 15, paddingLeft: 10 }}>
+                {this.state.selectedValue === "name" ? "Name" : "Index"}
+              </Text>
+            ) : null}
+
+          </TouchableOpacity>
+
           <View>
+            {/*          
             <Picker mode="dropdown"
               style={stylesPicker.pickerStyle}
 
@@ -96,7 +109,8 @@ class playersDirectory extends Component {
             >
               <Picker.Item label="Name" value="name" />
               <Picker.Item label="Index" value="index" />
-            </Picker>
+            </Picker> */}
+
 
           </View>
         </View>
@@ -237,8 +251,41 @@ class playersDirectory extends Component {
 
         {console.log("i am here ")}
         {/* {isFetching && playersDirectoryData.length === 0}
-        {!isFetching && this._renderPlayersList()} */}
+        {!isFetching && this._renderPlayersList()} 
+        
+        
+        selectedValue={this.state.selectedValue}
+              onValueChange={(itemValue, itemIndex) => {
+                this.setState({ selectedValue: itemValue });
+              }}
+        */}
         {this._renderPlayersList()}
+        {
+          (this.state.visible === true) ?
+            (<View style={{ width: 100, backgroundColor: Colors.WHITE, position: 'absolute', top: 150, right: 20 }}>
+              <TouchableOpacity
+                onPress={() => {
+                  this.setState({ visible: false });
+                  this.setState({ selectedValue: "name" });
+                }}
+              >
+                <Text style={styles.pickerTextStyle}>
+                  Name
+              </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  this.setState({ visible: false });
+                  this.setState({ selectedValue: "index" });
+                }}
+              >
+                <Text style={styles.pickerTextStyle}>
+                  Index
+              </Text>
+              </TouchableOpacity>
+            </View>
+            ) : null
+        }
       </View>
     );
   }
