@@ -52,7 +52,7 @@ class playersDirectory extends Component {
 
     return (
       <View style={{
-        flexDirection: 'row',
+        flexDirection: 'row', height: 50
       }}>
 
         <View style={{ flex: 2, ...styles.searchBox, marginLeft: 20 }}>
@@ -95,7 +95,32 @@ class playersDirectory extends Component {
             ) : null}
 
           </TouchableOpacity>
-
+          {
+            (this.state.visible === true) ?
+              (<View style={{ width: 100, backgroundColor: Colors.WHITE, position: 'absolute', left: 60, top: -2 }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.setState({ visible: false });
+                    this.setState({ selectedValue: "name" });
+                  }}
+                >
+                  <Text style={styles.pickerTextStyle}>
+                    Name
+              </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.setState({ visible: false });
+                    this.setState({ selectedValue: "index" });
+                  }}
+                >
+                  <Text style={styles.pickerTextStyle}>
+                    Index
+              </Text>
+                </TouchableOpacity>
+              </View>
+              ) : null
+          }
           <View>
             {/*          
             <Picker mode="dropdown"
@@ -240,6 +265,7 @@ class playersDirectory extends Component {
     } = this.props;
     const { playersDirectoryData } = this.state;
     return (
+
       <View style={styles.container}>
         <CustomNavbar
           title="Players Directory"
@@ -259,33 +285,10 @@ class playersDirectory extends Component {
                 this.setState({ selectedValue: itemValue });
               }}
         */}
+        {/* <TouchableOpacity
+          onPress={() => { this.setState({ visible: false }) }}> */}
         {this._renderPlayersList()}
-        {
-          (this.state.visible === true) ?
-            (<View style={{ width: 100, backgroundColor: Colors.WHITE, position: 'absolute', top: 150, right: 20 }}>
-              <TouchableOpacity
-                onPress={() => {
-                  this.setState({ visible: false });
-                  this.setState({ selectedValue: "name" });
-                }}
-              >
-                <Text style={styles.pickerTextStyle}>
-                  Name
-              </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  this.setState({ visible: false });
-                  this.setState({ selectedValue: "index" });
-                }}
-              >
-                <Text style={styles.pickerTextStyle}>
-                  Index
-              </Text>
-              </TouchableOpacity>
-            </View>
-            ) : null
-        }
+        {/* </TouchableOpacity> */}
       </View>
     );
   }

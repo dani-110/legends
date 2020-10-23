@@ -13,8 +13,11 @@ import {
   ScrollView,
   TouchableOpacity,
   BackHandler, Dimensions, Alert, FlatList,
-  CheckBox, StyleSheet, ActivityIndicator
+  StyleSheet, ActivityIndicator,
 } from "react-native";
+import CheckBox from 'react-native-checkbox';
+
+
 import Swiper from "react-native-swiper";
 import { Actions } from "react-native-router-flux";
 import _ from "lodash";
@@ -41,6 +44,7 @@ import { AppStyles, Colors, Fonts, Images } from "../../theme";
 import { setTabbarType } from "../../actions/GeneralActions";
 import { ViewPropTypes } from "react-native";
 import Util from "../../util";
+import { color } from "react-native-reanimated";
 
 let newIndex = 1;
 isAlreadyCalled = false;
@@ -113,7 +117,7 @@ class EnterScore extends React.Component {
       if (state.isLoading) {
         props.updateRefresh()
         console.log("next index is:" + newIndex);
-        return { isLoading: false, index: newIndex, colorChanged: props.enterScoreData.poty_complete === "not-complete" ? false : true }
+        return { isLoading: false, index: newIndex, colorChanged: props.enterScoreData.poty_complete === "not-complete" ? false : true, score_lock: props.enterScoreData.holeData.score_lock }
       }
     }
 
@@ -123,7 +127,8 @@ class EnterScore extends React.Component {
         prevEnterScoreData: props.enterScoreData,
         scoreCard: manipulateDataForScoreCard(props.enterScoreData.holeData, state),
         colorChanged: props.enterScoreData.holeData.AllPotyHole === "not-complete" ? false : true,
-        isLoading: false
+        isLoading: false,
+        score_lock: props.enterScoreData.holeData.score_lock
       };
     }
 
@@ -777,7 +782,7 @@ class EnterScore extends React.Component {
         </Swiper>
 
         <View style={{ height: '100%', flex: 1, justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
-          {(this.state.showSubmitButton) ? (
+          {(parseInt(this.state.score_lock) === 0 && this.state.showSubmitButton) ? (
 
             <ButtonView
               style={[styles.buttonSubmit, { backgroundColor: (this.state.colorChanged) ? "#9A0000" : Colors.grey, width: 250 }]}
@@ -1086,14 +1091,18 @@ class EnterScore extends React.Component {
 
     if (this.state.isLoading)
       return;
-    if (this.tmpData.length > 0 && this.tmpData.score_lock === 1)
+    if (this.tmpData.length > 0 && parseInt(this.tmpData.score_lock) === 1)
       return
     return (
       <CustomKeyboard
         visible={this.state.showKeyBoard}
         mini={this.state.miniKeyBoard}
         onKeyPress={text => {
-          this._keyPress(text);
+          if (parseInt(this.state.score_lock) === 1) {
+            this._hideKeyboard();
+            return
+          } else
+            this._keyPress(text);
         }}
       />
     )
@@ -1131,7 +1140,7 @@ class EnterScore extends React.Component {
 
     const AuthStr = util.getCurrentUserAccessToken();
     console.log("get data authentication key = >" + AuthStr);
-    URL = BASE_URL + `/getGrossScoreNetScore/${group_id}`;
+    URL = BASE_URL + `/getGrossScoreNetScore/${id}`;
 
     debugger
     axios.get(URL, { headers: { Authorization: AuthStr } }).then((response) => {
@@ -1153,7 +1162,7 @@ class EnterScore extends React.Component {
     URL = BASE_URL + '/SubmitGrossScoreNetScore';
 
     axios.post(URL, {
-      group_id: group_id,
+      id: id,
     },
       { headers: { Authorization: AuthStr } }).then((response) => {
         //debugger;
@@ -1162,7 +1171,9 @@ class EnterScore extends React.Component {
       .catch(function (error) {
         Alert.alert(error);
       });
-    this.setState({ visible: false })
+    this.setState({ visible: false, score_lock: 0 })
+    /////  NEED TO WORK ON IT //////
+    this.getLatestScores()
   }
 
   sendUserData() {
@@ -1296,7 +1307,7 @@ class EnterScore extends React.Component {
             style={{ justifyContent: 'center', alignItems: 'center', width: Dimensions.get('window').width * .7, marginBottom: -55, }}
           >
             {/* Title start */}
-            <Text style={{ ...styles.titleHeader, marginBottom: 10, marginTop: 10, fontWeight: 'base' }}>
+            <Text style={{ ...styles.titleHeader, marginBottom: 10, marginTop: 10, fontWeight: 'normal' }}>
               Confirm Scores
               </Text>
             {/* Title End */}
@@ -1319,12 +1330,29 @@ class EnterScore extends React.Component {
               {/* Main Content to send End */}
 
               {/* check Box Part */}
-              <View style={{ flexDirection: 'row', marginBottom: 20 }}>
-                <CheckBox
-                  value={this.state.checked}
-                  onValueChange={() => this.setState({ checked: !this.state.checked })}
-                  style={{ ...styles.checkbox, alignSelf: 'flex-start', }}
-                />
+              <View style={{ flexDirection: 'row', marginBottom: 20, }}>
+                <View style={{ width: '10%', height: '100%', }}>
+
+                  {/* <CheckBox checked={this.state.checked}
+                    color="green"
+
+                    onPress={() => this.setState({ checked: !this.state.checked })}
+                    style={{ ...styles.checkbox, alignSelf: 'flex-start', }}
+                  /> */}
+                  <TouchableOpacity
+                    onPress={() => this.setState({ checked: !this.state.checked })}>
+
+                    <View style={{ width: 20, height: 20, borderWidth: 1, borderRadius: 5, justifyContent: 'center', alignItems: 'center' }}>
+                      {(this.state.checked) ? (
+                        <RNImage
+                          style={{ height: 15, width: 15 }}
+                          source={Images.check}
+                        />
+                      ) : null}
+
+                    </View>
+                  </TouchableOpacity>
+                </View>
                 {/* */}
                 <View style={{ marginRight: 30 }}>
                   <Text style={{ color: Colors.grey, fontSize: 12, }}>
@@ -1337,13 +1365,13 @@ class EnterScore extends React.Component {
               {/* bootom button Start */}
               <View style={{ alignItems: 'center' }}>
                 <View style={[
-                  styles.buttonStyle,
+                  styles.buttonStyle, { justifyContent: 'center', alignItems: 'center' }
 
                 ]}>
-
+                  <Text style={{ color: 'white', fontSize: 15, position: 'absolute' }}>Confirm</Text>
                   <DialogButton
-                    text="Confirm" textStyle={{ color: 'white', fontSize: 15 }}
-                    onPress={() => this.sendData()}
+
+                    onPress={() => { (this.state.checked) ? this.sendData() : Alert.alert("please mark checkbox before confirmation") }}
                   />
                 </View>
 
@@ -1378,15 +1406,34 @@ class EnterScore extends React.Component {
 
               {/* check Box Part */}
               <View style={{ flexDirection: 'row', marginBottom: 20 }}>
-                <CheckBox
+                {/* <CheckBox
                   value={this.state.checked}
                   onValueChange={() => this.setState({ checked: !this.state.checked })}
                   style={{ ...styles.checkbox, alignSelf: 'flex-start', }}
-                />
+                /> */}
+                {/* <CheckBox
+                  value={true}
+                  // onValueChange={setSelection}
+                  style={styles.checkbox}
+                /> */}
+
+                <TouchableOpacity
+                  onPress={() => this.setState({ checked: !this.state.checked })}>
+
+                  <View style={{ width: 20, height: 20, borderWidth: 1, borderRadius: 5, marginRight: 5, top: 2, justifyContent: 'center', alignItems: 'center' }}>
+                    {(this.state.checked) ? (
+                      <RNImage
+                        style={{ height: 15, width: 15 }}
+                        source={Images.check}
+                      />
+                    ) : null}
+
+                  </View>
+                </TouchableOpacity>
                 {/* */}
                 <View style={{ marginRight: 30, }}>
                   <Text style={{ color: Colors.grey, fontSize: 15, }}>
-                    Are you sure to withdraw this player</Text>
+                    Are you sure to withdraw this player?</Text>
                 </View>
               </View>
               {/* End CheckBox */}
@@ -1394,13 +1441,12 @@ class EnterScore extends React.Component {
               {/* bootom button Start */}
               <View style={{ alignItems: 'center' }}>
                 <View style={[
-                  styles.buttonStyle,
+                  styles.buttonStyle, { justifyContent: 'center', alignItems: 'center' }
 
                 ]}>
-
+                  <Text style={{ color: 'white', fontSize: 15, position: 'absolute' }}>Confirm</Text>
                   <DialogButton
-                    text="Confirm" textStyle={{ color: 'white', fontSize: 15 }}
-                    onPress={() => this.sendUserData()}
+                    onPress={() => { (this.state.checked) ? this.sendUserData() : Alert.alert("please mark checkbox before confirmation") }}
                   />
                 </View>
 

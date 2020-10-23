@@ -24,7 +24,9 @@ export default StyleSheet.create({
     marginBottom: 20,
   },
   checkbox: {
-    alignSelf: "center",
+    left: 0,
+    height: 10,
+    width: 10,
   },
   label: {
     margin: 8,

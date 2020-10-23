@@ -6,7 +6,8 @@ import { Text } from "../../../components";
 import styles from "./styles";
 import { AppStyles, Colors } from "../../../theme";
 import Tooltip from 'react-native-walkthrough-tooltip';
-
+const playerOneColor = Colors.redDark;
+const playerTwoColor = Colors.blue2;
 export default class ProjectedScore extends React.Component {
   static propTypes = {
     liveScoreData: PropTypes.object.isRequired
@@ -18,8 +19,7 @@ export default class ProjectedScore extends React.Component {
   static defaultProps = {};
 
   _renderScores() {
-    const playerOneColor = Colors.redDark;
-    const playerTwoColor = Colors.blue2;
+
 
     const {
       liveScoreData: { team }
@@ -166,8 +166,8 @@ export default class ProjectedScore extends React.Component {
       liveScoreData: { score }
       , type } = this.props;
 
-    const playerOneColor = Colors.red3;
-    const playerTwoColor = Colors.blue2;
+    //const playerOneColor = Colors.red3;
+    //const playerTwoColor = Colors.blue2;
 
     const {
       liveScoreData: { players }

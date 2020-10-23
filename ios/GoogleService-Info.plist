@@ -13,21 +13,21 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.lwa.legendstour</string>
+	<string>com.lwl.legends</string>
 	<key>PROJECT_ID</key>
 	<string>legends-notification</string>
 	<key>STORAGE_BUCKET</key>
 	<string>legends-notification.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_GCM_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:943924828873:ios:4c18518bd4e88da3ce8b18</string>
 	<key>DATABASE_URL</key>

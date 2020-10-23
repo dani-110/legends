@@ -1,7 +1,7 @@
 // @flow
 import _ from "lodash";
 import React from "react";
-import { View, Image, Linking, Alert } from "react-native";
+import { View, Image, Linking, Alert, ScrollView } from "react-native";
 import { connect } from "react-redux";
 import { Actions } from "react-native-router-flux";
 import PropTypes from "prop-types";
@@ -134,26 +134,28 @@ class SideMenu extends React.PureComponent {
 
   renderOptionsList() {
     return (
-      <View style={[AppStyles.flex, { paddingLeft: 20 }]}>
-        <View>
-          {DRAWER_ITEMS.map((element, index) => (
-            <ButtonView
-              style={styles.listItem}
-              key={index}
-              onPress={() => {
-                Actions.drawerClose();
-                element.activeTab && this.props.setSelectedTab(element.activeTab);
-                element.onPress();
-              }}
-            >
-              <Text type="base" color={Colors.text.secondary}>
-                {element.text}
-              </Text>
-            </ButtonView>
-          ))}
-        </View>
+      <ScrollView>
+        <View style={[AppStyles.flex, { paddingLeft: 20 }]}>
+          <View>
+            {DRAWER_ITEMS.map((element, index) => (
+              <ButtonView
+                style={styles.listItem}
+                key={index}
+                onPress={() => {
+                  Actions.drawerClose();
+                  element.activeTab && this.props.setSelectedTab(element.activeTab);
+                  element.onPress();
+                }}
+              >
+                <Text type="base" color={Colors.text.secondary}>
+                  {element.text}
+                </Text>
+              </ButtonView>
+            ))}
+          </View>
 
-      </View>
+        </View>
+      </ScrollView>
     );
   }
 
@@ -173,7 +175,7 @@ class SideMenu extends React.PureComponent {
       <View style={styles.container}>
         {!_.isEmpty(userData) && this.renderUserDetails(userData.user_info[0])}
         {this.renderOptionsList()}
-        { this.renderVersionNumber()}
+        {/* { this.renderVersionNumber()} */}
       </View>
     );
   }
