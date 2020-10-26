@@ -11,7 +11,9 @@ import {
   getPotyUserScoreCardRequest,
   getHoleDataForTournamentRequest,
   getPotyGroupScoreCardRequest,
-  getLclGroupScoreCardRequest
+  getLclGroupScoreCardRequest,
+  getLmpGroupScoreCardRequest,
+  getDmpGroupScoreCardRequest,
 } from "../../actions/ScoreCardActions";
 import styles from "./styles";
 import { AppStyles, Colors, Fonts, Images } from "../../theme";
@@ -27,6 +29,8 @@ class ScoreCard extends Component {
     act: PropTypes.object,
     getPotyGroupScoreCardRequest: PropTypes.func.isRequired,
     getLclGroupScoreCardRequest: PropTypes.func.isRequired,
+    getLmpGroupScoreCardRequest: PropTypes.func.isRequired,
+    getDmpGroupScoreCardRequest: PropTypes.func.isRequired,
     getPotyUserScoreCardRequest: PropTypes.func.isRequired
   };
 
@@ -62,6 +66,7 @@ class ScoreCard extends Component {
 
   componentDidMount() {
     const { act } = this.props;
+    debugger
     if (act) {
       switch (act.action) {
         case "potySingleUSer": {
@@ -97,6 +102,33 @@ class ScoreCard extends Component {
               if (data) {
                 util.hideLoader(this);
                 const scoreCardData = util.generateScoreCardData(data);
+                this.setState({ scoreCardData });
+              }
+            });
+          }
+
+          else if (act.type === "lmp") {
+            util.showLoader(this);
+
+            const subroute = `${act.match_id}/${act.schedule_id}/${act.season_id}`;
+            this.props.getLmpGroupScoreCardRequest(subroute, data => {
+              if (data) {
+                util.hideLoader(this);
+                const scoreCardData = util.generateScoreCardData(data);
+
+                this.setState({ scoreCardData });
+              }
+            });
+          }
+          else if (act.type === "dmp") {
+            util.showLoader(this);
+
+            const subroute = `${act.match_id}/${act.schedule_id}/${act.season_id}/${act.team1_p1}/${act.team2_p1}/${act.team1_p2}/${act.team2_p2}`;
+            this.props.getDmpGroupScoreCardRequest(subroute, data => {
+              if (data) {
+                util.hideLoader(this);
+                const scoreCardData = util.generateScoreCardData(data);
+
                 this.setState({ scoreCardData });
               }
             });
@@ -345,7 +377,10 @@ const actions = {
   getPotyUserScoreCardRequest,
   getPotyGroupScoreCardRequest,
   getLclGroupScoreCardRequest,
-  getHoleDataForTournamentRequest
+  getLmpGroupScoreCardRequest,
+
+  getDmpGroupScoreCardRequest,
+  getHoleDataForTournamentRequest,
 };
 
 export default connect(

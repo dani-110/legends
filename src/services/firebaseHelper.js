@@ -42,10 +42,10 @@ const sendDeviceToken = (fcmToken) => {
     device_token: fcmToken
   },
     { headers: { Authorization: AuthStr } }).then((response) => {
-      console.log("response is:--<>------"+response)
+      console.log("response is:--<>------" + response)
     })
     .catch(function (error) {
-      console.log("error is:--<>------"+error);
+      console.log("error is:--<>------" + error);
     });
 
 }
@@ -63,6 +63,7 @@ const setChannelForAndroid = () => {
 
 const getPermissions = async () => {
   const enabled = await firebase.messaging().hasPermission();
+  debugger
   if (!enabled) {
     try {
       await firebase.messaging().requestPermission();

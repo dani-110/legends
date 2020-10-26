@@ -87,19 +87,24 @@ export default class ListItem extends React.Component {
                   <View style={[styles.container, { backgroundColor: 'rgba(255,255,255, 0.2)', flex: 1, padding: 14, flexDirection: 'row' }]}
                   >
                     <View style={{ flex: 3, flexDirection: 'column' }}>
-                      <Text type="bold" color={Colors.white} style={{ flex: 1, flexDirection: 'row', fontSize: 16 }}>
-                        {team1_name}
-                      </Text>
-                      <Text size="small" color={Colors.white} style={{ flex: 1, flexDirection: 'row', fontSize: 12 }}>
+                      {title_ !== MATCH_TYPES.DMP ? (
+                        <Text type="bold" color={Colors.white} style={{ flex: 1, flexDirection: 'row', fontSize: 16 }}>
+                          {team1_name}
+                        </Text>
+                      ) : null}
+                      <Text color={Colors.white} style={title_ === MATCH_TYPES.DMP ? (styles.textTitle) : (styles.textTitle2)}>
                         {team_1_initials}
                       </Text>
                       <Text size="small" color={Colors.whiteOpaque} style={{ flex: 1, flexDirection: 'row', fontSize: 14 }}>
                         VS
                       </Text>
-                      <Text type="bold" color={Colors.white} style={{ flex: 1, flexDirection: 'row', fontSize: 16 }}>
-                        {team2_name}
-                      </Text>
-                      <Text size="small" color={Colors.white} style={{ flex: 1, flexDirection: 'row', fontSize: 12 }}>
+                      {title_ !== MATCH_TYPES.DMP ? (
+                        <Text type="bold" color={Colors.white} style={{ flex: 1, flexDirection: 'row', fontSize: 16 }}>
+                          {team2_name}
+                        </Text>
+                      ) : null}
+
+                      <Text color={Colors.white} style={title_ === MATCH_TYPES.DMP ? (styles.textTitle) : (styles.textTitle2)}>
                         {team_2_initials}
                       </Text>
                     </View>

@@ -1,6 +1,6 @@
 // @flow
 import { StyleSheet } from "react-native";
-import { Colors, Metrics, AppStyles } from "../../../theme";
+import { Colors, Metrics, AppStyles, Fonts } from "../../../theme";
 
 export default StyleSheet.create({
   container: {
@@ -10,6 +10,20 @@ export default StyleSheet.create({
     // padding: 14,
     position: "relative",
     ...AppStyles.mBottom10
+  },
+  textTitle: {
+    flex: 1,
+    flexDirection: 'row',
+    fontSize: 15,
+    fontWeight: "bold",
+
+  },
+  textTitle2: {
+    flex: 1,
+    flexDirection: 'row',
+    fontSize: 12,
+    fontWeight: "normal",
+
   },
   arrow_right: {
     position: "absolute",

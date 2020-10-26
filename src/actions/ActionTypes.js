@@ -84,6 +84,12 @@ export const GET_LCL_GROUP_SCORCARD = createRequestTypes(
   "GET_LCL_GROUP_SCORCARD"
 );
 
+export const GET_LMP_GROUP_SCORCARD = createRequestTypes(
+  "GET_LMP_GROUP_SCORCARD"
+);
+export const GET_DMP_GROUP_SCORCARD = createRequestTypes(
+  "GET_DMP_GROUP_SCORCARD"
+);
 // Players Directory
 export const GET_PLAYERS_DIRECTORY = createRequestTypes(
   "GET_PLAYERS_DIRECTORY"

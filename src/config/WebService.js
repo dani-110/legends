@@ -137,6 +137,7 @@ export const GET_ENTER_SCORE_DATA_POTY = {
   access_token_required: true,
   type: REQUEST_TYPE.GET
 };
+// GetHoleDataForTournament($tournament_type, $tournament_id,$date, $schedule_id, $match_id)
 export const GET_ENTER_SCORE_DATA_LCL = {
   route: "GetHoleDataForTournament",//"GetHoleDataForLclTournament"
   access_token_required: true,
@@ -233,6 +234,18 @@ export const GET_POTY_GROUP_SCORCARD = {
   access_token_required: true,
   type: REQUEST_TYPE.GET
 };
+export const GET_LMP_GROUP_SCORCARD = {
+  route: "GetLMPFullScorecard",
+  access_token_required: true,
+  type: REQUEST_TYPE.GET
+};
+
+export const GET_DMP_GROUP_SCORCARD = {
+  route: "GetDMPFullScorecard",
+  access_token_required: true,
+  type: REQUEST_TYPE.GET
+};
+
 export const GET_LCL_GROUP_SCORCARD = {
   route: "GetLCLFullScorecard",
   access_token_required: true,

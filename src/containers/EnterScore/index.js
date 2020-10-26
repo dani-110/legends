@@ -13,7 +13,7 @@ import {
   ScrollView,
   TouchableOpacity,
   BackHandler, Dimensions, Alert, FlatList,
-  StyleSheet, ActivityIndicator,
+  StyleSheet, ActivityIndicator, RefreshControl
 } from "react-native";
 import CheckBox from 'react-native-checkbox';
 
@@ -77,7 +77,8 @@ class EnterScore extends React.Component {
     dataSource: [],
     checked: false,
     colorChanged: false,
-    score_lock: 0
+    score_lock: 0,
+    refreshing: false
   }
 
   //
@@ -211,6 +212,7 @@ class EnterScore extends React.Component {
     this.props.getEnterScoreDataRequest(param, type, data => {
       this.setState({
         lastUpdatedOn: moment().unix(),
+        refreshing: false
         //scoreCard: this.manipulateDataForScoreCard(data)
       });
     });
@@ -238,6 +240,11 @@ class EnterScore extends React.Component {
     }
 
     return false;
+  }
+
+  _onRefresh() {
+    this.setState({ refreshing: true });
+    this.getLatestScores()
   }
 
 
@@ -661,7 +668,7 @@ class EnterScore extends React.Component {
       }
     } = this.props;
     const { type, id, schedule_id, match_id } = current_match[0];
-
+    debugger
     return (
       <View style={{ paddingBottom: 10, paddingTop: 10, backgroundColor: Colors.green }}>
         <CustomNavbar
@@ -1221,6 +1228,12 @@ class EnterScore extends React.Component {
               ref={ref => {
                 this.myScroll = ref;
               }}
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.refreshing}
+                  onRefresh={this._onRefresh.bind(this)}
+                />
+              }
               scrollEventThrottle={5}
               onMomentumScrollBegin={(vale, text) => { }}
               onMomentumScrollEnd={(vale, text) => { }}
@@ -1229,6 +1242,7 @@ class EnterScore extends React.Component {
                   this._hideKeyboard();
                 }
               }}
+
             >
 
               {this._renderSwiper(players, holes, hole_starting)}
@@ -1371,7 +1385,7 @@ class EnterScore extends React.Component {
                   <Text style={{ color: 'white', fontSize: 15, position: 'absolute' }}>Confirm</Text>
                   <DialogButton
 
-                    onPress={() => { (this.state.checked) ? this.sendData() : Alert.alert("please mark checkbox before confirmation") }}
+                    onPress={() => { (this.state.checked) ? this.sendData() : Alert.alert("You must acknowledge to proceed") }}
                   />
                 </View>
 
@@ -1446,7 +1460,7 @@ class EnterScore extends React.Component {
                 ]}>
                   <Text style={{ color: 'white', fontSize: 15, position: 'absolute' }}>Confirm</Text>
                   <DialogButton
-                    onPress={() => { (this.state.checked) ? this.sendUserData() : Alert.alert("please mark checkbox before confirmation") }}
+                    onPress={() => { (this.state.checked) ? this.sendUserData() : Alert.alert("You must acknowledge to proceed") }}
                   />
                 </View>
 

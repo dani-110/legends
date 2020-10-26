@@ -10,8 +10,8 @@ export default StyleSheet.create({
     backgroundColor: Colors.background.primary,
     paddingTop: Metrics.statusBarHeight || 20,
     paddingBottom: Metrics.baseMargin,
-    height: Metrics.navBarHeight,
-    justifyContent: "center"
+    height: Metrics.navBarHeight * .5,
+    justifyContent: "center",
   },
   borderBottom: {
     borderBottomWidth: 0.5,

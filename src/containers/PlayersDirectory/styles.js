@@ -43,11 +43,11 @@ export default StyleSheet.create({
 
   },
   square: {
-    width: 100,
+    width: 50,
     height: 30,
-    marginLeft: 15,
-    borderRadius: 20,
-    backgroundColor: Colors.greenTint,
+    marginLeft: 5,
+    borderRadius: 10,
+    backgroundColor: Colors.white,
 
   },
   absoluteContainer: {

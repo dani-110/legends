@@ -120,10 +120,12 @@ class Util {
   getErrorText = err => ERROR_MESSAGES[err];
 
   isSuccessResponse = response => {
-    console.log("the response is:"+response.error);
-    return(_.isNull(response.error))        };
+    console.log("the response is:" + response.error);
+    return (_.isNull(response.error))
+  };
 
   generateScoreCardData(data, singlePlayerName = null) {
+    debugger
     if (singlePlayerName) {
       const holeNumber = [];
       const index = [];
@@ -159,10 +161,13 @@ class Util {
     const index = [];
     const par = [];
     const playersArray = [];
+
+
     const {
       course: { name, holes },
       players
     } = data;
+
     holes.forEach((hole, holeIndex) => {
       holeNumber[holeIndex] = hole.hole_number;
       index[holeIndex] = hole.index;

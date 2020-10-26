@@ -2,10 +2,11 @@
 import React from "react";
 import _, { toInteger } from "lodash";
 import PropTypes from "prop-types";
-import { View } from "react-native";
+import { Alert, View } from "react-native";
 import { Text } from "../";
 import styles from "./styles";
 import { Colors, Fonts } from "../../theme";
+import Orientation from 'react-native-orientation';
 
 function getScoreColor(score, par) {
 
@@ -48,10 +49,54 @@ export default class ScoreValue extends React.Component {
     this.borderRediousVal = getColor.border;
   }
 
+
   textColor = "";
   bgColor = "";
   borderRediousVal = 0;
 
+  componentWillMount() {
+    // The getOrientation method is async. It happens sometimes that
+    // you need the orientation at the moment the JS runtime starts running on device.
+    // `getInitialOrientation` returns directly because its a constant set at the
+    // beginning of the JS runtime.
+    const initial = Orientation.getInitialOrientation();
+    Orientation.lockToLandscape();
+
+    if (initial === 'PORTRAIT') {
+      // do something
+    } else {
+      // do something else
+    }
+  }
+
+  componentDidMount() {
+    // this locks the view to Portrait Mode
+    //Orientation.lockToPortrait();
+
+    // this locks the view to Landscape Mode
+    Orientation.lockToLandscape();
+
+    // this unlocks any previous locks to all Orientations
+    // Orientation.unlockAllOrientations();
+
+    Orientation.addOrientationListener(this._orientationDidChange);
+  }
+
+  _orientationDidChange = (orientation) => {
+
+    Orientation.lockToLandscape();
+  }
+
+
+  componentWillUnmount() {
+    Orientation.getOrientation((err, orientation) => {
+      console.log(`Current Device Orientation: ${orientation}`);
+    });
+
+    Orientation.lockToPortrait();
+    // Remember to remove listener
+    Orientation.removeOrientationListener(this._orientationDidChange);
+  }
   render() {
     const { score, ...rest } = this.props;
     return (

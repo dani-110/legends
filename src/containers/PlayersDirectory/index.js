@@ -368,14 +368,34 @@ renderItem = ({ item }, index) => {
             </View>
             <View style={{ flexDirection: "row", flex: 1 }}>
 
-              <View style={styles.square} >
+              <View style={{ ...styles.square, backgroundColor: Colors.blue }} >
+                <Text style={{
+                  textAlign: 'center', paddingTop: 3, fontSize: 15, color: Colors.white
+                }}>
+                  {/* index:9.6 */}
+                  {parseFloat(item.blue_course_handicap).toFixed(2)}
+                </Text>
+              </View>
+              <View style={{ ...styles.square, borderWidth: 1 }} >
                 <Text style={{
                   textAlign: 'center', paddingTop: 3, fontSize: 15, color: '#555'
                 }}>
                   {/* index:9.6 */}
-                INDEX {parseFloat(item.current_handicap).toFixed(2)}
+                  {parseFloat(item.white_course_handicap).toFixed(2)}
                 </Text>
               </View>
+              {
+                (item.yellow_course_handicap !== "") ? (
+                  <View style={{ ...styles.square, backgroundColor: Colors.yellow }} >
+                    <Text style={{
+                      textAlign: 'center', paddingTop: 3, fontSize: 15, color: Colors.white
+                    }}>
+                      {/* index:9.6 */}
+                      {parseFloat(item.yellow_course_handicap).toFixed(2)}
+                    </Text>
+                  </View>
+                ) : null
+              }
 
             </View>
           </View>

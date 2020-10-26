@@ -56,6 +56,7 @@ class Dashboard extends Component {
   }
 
   componentWillMount() {
+    debugger
     this.props.getDashboardDataRequest();
   }
 
@@ -82,6 +83,7 @@ class Dashboard extends Component {
     // ------------- CHANNEL INIT --------------
     if (Util.isPlatformAndroid()) setChannelForAndroid();
 
+    debugger
     // ------------- iOS Permission --------------
     if (!Util.isPlatformAndroid()) getPermissions();
 

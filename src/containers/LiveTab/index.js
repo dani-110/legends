@@ -29,7 +29,7 @@ class LiveTab extends Component {
   _renderSectionHeader({ section: { title, data } }) {
 
     return (
-      <View style={[AppStyles.mBottom10, AppStyles.mTop20]}>
+      <View style={[AppStyles.mBottom10, (title !== "LIVE" ? (AppStyles.mTop20) : (AppStyles.mTop0))]}>
         <Text type="bold" size="large">
           {title + " MATCHES"}
         </Text>

@@ -2,7 +2,7 @@
 import _ from "lodash";
 import React from "react";
 import PropTypes from "prop-types";
-import { View, Image } from "react-native";
+import { View, Image, SafeAreaView } from "react-native";
 import { Actions } from "react-native-router-flux";
 import { Text, ButtonView, SearchBar } from "../";
 import styles from "./styles";
@@ -166,7 +166,7 @@ export default class CustomNavbar extends React.Component {
       isLandscape
     } = this.props;
     return (
-      <View
+      <SafeAreaView
         style={[
           styles.container,
           style,
@@ -182,7 +182,7 @@ export default class CustomNavbar extends React.Component {
               paddingTop: Metrics.statusBarHeightLandscape
             }
             : {}
-          ,
+          , { marginTop: 30 }
         ]}
       >
         <View
@@ -202,7 +202,7 @@ export default class CustomNavbar extends React.Component {
             {this.renderSearch(onSearchText, isSearching)}
           </View>
         )}
-      </View>
+      </SafeAreaView>
     );
   }
 }

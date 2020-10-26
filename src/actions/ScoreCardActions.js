@@ -2,7 +2,9 @@ import {
   GET_POTY_USER_SCORE_CARD,
   GET_HOLE_DATA_FOR_TOURNAMENT,
   GET_POTY_GROUP_SCORCARD,
-  GET_LCL_GROUP_SCORCARD
+  GET_LCL_GROUP_SCORCARD,
+  GET_LMP_GROUP_SCORCARD,
+  GET_DMP_GROUP_SCORCARD,
 } from "./ActionTypes";
 
 export function getPotyUserScoreCardRequest(subroute, responseCallback) {
@@ -19,6 +21,7 @@ export function getPotyUserScoreCardSuccess(data) {
   };
 }
 export function getHoleDataForTournamentRequest(subroute, responseCallback) {
+  debugger
   return {
     subroute,
     responseCallback,
@@ -31,6 +34,24 @@ export function getPotyGroupScoreCardRequest(responseCallback) {
     type: GET_POTY_GROUP_SCORCARD.REQUEST
   };
 }
+
+export function getLmpGroupScoreCardRequest(subroute, responseCallback) {
+  return {
+    subroute,
+    responseCallback,
+    type: GET_LMP_GROUP_SCORCARD.REQUEST
+  };
+}
+
+
+export function getDmpGroupScoreCardRequest(subroute, responseCallback) {
+  return {
+    subroute,
+    responseCallback,
+    type: GET_DMP_GROUP_SCORCARD.REQUEST
+  };
+}
+
 export function getLclGroupScoreCardRequest(subroute, responseCallback) {
   return {
     subroute,
