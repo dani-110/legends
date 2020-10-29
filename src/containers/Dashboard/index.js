@@ -204,7 +204,7 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <SafeAreaView style={styles.container}>
+      <View style={{ ...styles.container }}>
         {/* <CustomNavbar
           hasBack={false}
           title="POTY Leaderboard"
@@ -219,7 +219,7 @@ class Dashboard extends Component {
           {this.renderScores()}
           {this.renderLatestNews()}
         </ScrollView>
-      </SafeAreaView>
+      </View>
     );
   }
 }

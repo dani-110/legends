@@ -2,7 +2,7 @@
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { View, FlatList, StyleSheet, Alert } from "react-native";
+import { View, FlatList, StyleSheet, Alert, SafeAreaView } from "react-native";
 import { Actions } from "react-native-router-flux";
 import ViewPager from '@react-native-community/viewpager';
 import styles2 from "../../../components/CustomNavbar/styles";
@@ -142,7 +142,7 @@ class PotyLeaderboardDB extends PureComponent {
     console.log("state is:-->" + this.state.sliderIndex)
     const { potyData, isFetchingData, lcl_leaderboard } = this.props;
     return (
-      <View style={[{ height: '52.5%', ...AppStyles.borderBottomGrey, }]}>
+      <SafeAreaView style={[{ height: '52.5%', ...AppStyles.borderBottomGrey, }]}>
         <ViewPager style={[styleViewPager.viewPager]} ref={(viewPager) => { this.viewPager = viewPager }} scrollEnabled={true}>
 
           <View
@@ -247,7 +247,7 @@ class PotyLeaderboardDB extends PureComponent {
           </View>
 
         </ViewPager>
-      </View>
+      </SafeAreaView>
     );
   }
 }
