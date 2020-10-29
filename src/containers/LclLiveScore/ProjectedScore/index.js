@@ -8,6 +8,10 @@ import { AppStyles, Colors } from "../../../theme";
 import Tooltip from 'react-native-walkthrough-tooltip';
 const playerOneColor = Colors.redDark;
 const playerTwoColor = Colors.blue2;
+
+let indexer = 0;
+let temp = "AS";
+let TempColor = Colors.darkBlue;
 export default class ProjectedScore extends React.Component {
   static propTypes = {
     liveScoreData: PropTypes.object.isRequired
@@ -97,6 +101,33 @@ export default class ProjectedScore extends React.Component {
       </View>
     )
   }
+
+  _updateScoreMain(score) {
+    indexer += 1;
+    debugger
+    for (var i = 0; i < score.length; i++) {
+      if (score[i].score !== "") {
+        temp = score[i].score
+      }
+    }
+    return temp
+  }
+
+  _updateColor(score) {
+
+    for (var i = 0; i < score.length; i++) {
+      console.log(score[i].scoredBy)
+      if (score[i].scoredBy === "1") {
+        TempColor = playerOneColor
+      } else if (score[i].scoredBy === "2") {
+        TempColor = playerTwoColor
+      } else if (score[i].scoredBy === "0") {
+        TempColor = Colors.darkBlue
+      }
+
+    }
+    return TempColor
+  }
   _headerController(playersData, score, type) {
     debugger
     if (playersData !== undefined) {
@@ -106,6 +137,7 @@ export default class ProjectedScore extends React.Component {
       player1Initials = this._splitString(playersData[0].team_1_players_initials, 0) + " & " + this._splitString(playersData[0].team_1_players_initials, 1)
       player2Initials = this._splitString(playersData[0].team_2_players_initials, 0) + " & " + this._splitString(playersData[0].team_2_players_initials, 1)
     }
+    indexer;
     return (
       <View  >
         {playersData &&
@@ -135,17 +167,19 @@ export default class ProjectedScore extends React.Component {
                   styles.score,
                   {
                     backgroundColor:
-                      score[score.length - 1].scoredBy == 1
-                        ? playerOneColor
-                        : score[score.length - 1].scoredBy == 2
-                          ? playerTwoColor
-                          : Colors.darkBlue,
+                      this._updateColor(score),
+                    // score[score.length - 1].scoredBy == 1
+                    //   ? playerOneColor
+                    //   : score[score.length - 1].scoredBy == 2
+                    //     ? playerTwoColor
+                    //     : Colors.darkBlue,
                     marginLeft: 10, right: 6
                   }
                 ]}
               >
                 <Text textAlign="center" style={{ color: Colors.white, }}>
-                  {score[score.length - 1].score.length === 0 ? 'AS' : score[score.length - 1].score}
+                  {this._updateScoreMain(score)}
+                  {/* {score[score.length - 1].score.length === 0 ? 'AS' : score[score.length - 1].score} */}
                 </Text>
               </View>
               : <Text></Text>

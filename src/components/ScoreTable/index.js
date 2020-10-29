@@ -87,6 +87,7 @@ class ScoreTable extends React.Component {
     const {
       liveScoreData: { players }
     } = this.props;
+    debugger
     return (
       <View
         style={[
@@ -148,6 +149,7 @@ class ScoreTable extends React.Component {
                 }
               ]}
             >
+
               <Text textAlign="center" color={Colors.white}>
                 {score[score.length - 1].score.length === 0 ? 'AS' : score[score.length - 1].score}
               </Text>
@@ -301,7 +303,8 @@ class ScoreTable extends React.Component {
   }
 
   render() {
-    return <View style={styles.container}>{this._renderTable()}</View>;
+    // return <View style={styles.container}>{this._renderTable()}</View>;
+    return <View style={{ ...styles.container, height: 1500 }}>{this._renderTable()}</View>;
   }
 }
 

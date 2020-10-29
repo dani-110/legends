@@ -19,6 +19,9 @@ import { setTabbarType, enableEnterScore } from "../../actions/GeneralActions";
 import { ScrollView } from "react-native-gesture-handler";
 import { POLLING_TIME } from "../../../src/constants/index";
 
+let indexer = 0;
+let temp = "AS";
+let TempColor = Colors.darkBlue;
 class LmpLiveScore extends React.Component {
   static propTypes = {
     liveScoreData: PropTypes.object.isRequired,
@@ -107,7 +110,31 @@ class LmpLiveScore extends React.Component {
   }
 
 
+  _updateScoreMain(score) {
+    indexer += 1;
+    debugger
+    for (var i = 0; i < score.length; i++) {
+      if (score[i].score !== "") {
+        temp = score[i].score
+      }
+    }
+    return temp
+  }
 
+  _updateColor(score) {
+
+    for (var i = 0; i < score.length; i++) {
+      console.log(score[i].scoredBy)
+      if (score[i].scoredBy === "1") {
+        TempColor = playerOneColor
+      } else if (score[i].scoredBy === "2") {
+        TempColor = playerTwoColor
+      } else if (score[i].scoredBy === "0") {
+        TempColor = Colors.darkBlue
+      }
+    }
+    return TempColor
+  }
 
   _headerController(playersData, score) {
     debugger
@@ -145,17 +172,19 @@ class LmpLiveScore extends React.Component {
                   styles.score,
                   {
                     backgroundColor:
-                      score[score.length - 1].scoredBy == 1
-                        ? playerOneColor
-                        : score[score.length - 1].scoredBy == 2
-                          ? playerTwoColor
-                          : Colors.darkBlue,
+                      this._updateColor(score),
+                    // score[score.length - 1].scoredBy == 1
+                    //   ? playerOneColor
+                    //   : score[score.length - 1].scoredBy == 2
+                    //     ? playerTwoColor
+                    //     : Colors.darkBlue,
                     margin: 10
                   }
                 ]}
               >
                 <Text textAlign="center" style={{ color: Colors.white, }}>
-                  {score[score.length - 1].score.length === 0 ? 'AS' : score[score.length - 1].score}
+                  {this._updateScoreMain(score)}
+                  {/* {score[score.length - 1].score.length === 0 ? 'AS' : score[score.length - 1].score} */}
                 </Text>
               </View>
               : <Text></Text>
