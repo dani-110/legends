@@ -111,7 +111,7 @@ class Dashboard extends Component {
         // when app is in background
         // console.log({ background: notificationOpen });
 
-        showLocalNotification(notification._data);
+        showLocalNotification(notificationOpen._data);
         debugger
         if (notificationOpen && notificationOpen.notification) {
           this.navigateOnNotificationTap(notificationOpen.notification._data);
@@ -124,7 +124,7 @@ class Dashboard extends Component {
 
         // when app is in foreground
         // console.log({ foreground: notification });
-
+        debugger
         const { title, deliveryId, body, type } = notification._data
         Alert.alert(title, body, [
           {

@@ -2,7 +2,7 @@
 // @flow
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { View, Image as RNImage, FlatList, TouchableOpacity } from "react-native";
+import { View, Image as RNImage, FlatList, TouchableOpacity, Alert } from "react-native";
 import { Text } from "../../../../components";
 import styles from "./styles";
 import { AppStyles, Colors, Images } from "../../../../theme";
@@ -74,8 +74,11 @@ export default function MatchesTable(props) {
 
   _renderPlayerItem = (item, index, arrIndex) => {
     console.log(item);
+
     items = item[3].details.map(exItems => {
+
       return <View style={{ backgroundColor: "rgba(242, 242, 242, 1)", marginBottom: 1, }}>
+
         <View
           style={[
             AppStyles.flexRow,
@@ -153,7 +156,6 @@ export default function MatchesTable(props) {
       </View >
     })
     return (
-
       <View>
 
         <TouchableOpacity activeOpacity={.7}
@@ -169,47 +171,47 @@ export default function MatchesTable(props) {
           ]}
         >
 
-          {/* right data */}
+          {/* {/ right data /} */}
           <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', }}>
             <View style={{ flex: 1, }}>
               <Text
                 style={AppStyles.flex2}
-                textAlign="center"
+                textAlign="right"
                 size={15}
                 color={Colors.grey5}
               >
                 {item[0]}
               </Text>
             </View>
-            <View style={styles.squir}>
-              <Text color={Colors.white} size={12}> {item[4]} </Text>
-            </View>
+
+            {item[1] !== "Bye" ?
+              (<View style={styles.squir}>
+                <Text color={Colors.white} size={12}> {item[4]} </Text>
+              </View>) : null}
           </View>
 
-          {/* text vs */}
+          {/* {/ text vs /} */}
           {item[1] === "Bye" ? (
             <View style={styles.playersSep}>
-              <Text color={Colors.white} size={13}>
-                vs
-            </Text>
+              <Text color={Colors.white} size={13}> vs</Text>
             </View>
           ) : (
               <View >
-                <Text color={Colors.grey} size={13}>
-                  vs
-            </Text>
+                <Text color={Colors.grey} size={13}> vs</Text>
               </View>
             )}
 
-          {/* left Item */}
+          {/* {/ left Item /} */}
+
           <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', }}>
-            <View style={styles.squir}>
-              <Text color={Colors.white} size={12}> {item[5]} </Text>
-            </View>
+            {item[1] !== "Bye" ?
+              (<View style={styles.squir}>
+                <Text color={Colors.white} size={12}> {item[5]} </Text>
+              </View>) : null}
             <View style={{ flex: 1, }}>
               <Text
                 style={AppStyles.flex2}
-                textAlign="center"
+                textAlign="left"
                 size={15}
                 color={Colors.grey5}
               >

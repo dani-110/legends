@@ -59,6 +59,8 @@ class GrossScoresTrend extends React.PureComponent {
     let YAxisData = [];
     let XAxisData = [];
 
+    if (user.Graph[activeGraph].length <= 0)
+      return
 
     const uniqByData = _.uniqBy(user.Graph[activeGraph], "year");
     YAxisData = uniqByData.map(element => parseInt(element.year));

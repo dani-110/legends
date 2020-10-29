@@ -25,7 +25,7 @@ export default class ListItem extends React.PureComponent {
           {data.team_name}
         </Text>
         <Text style={{ width: 85, paddingRight: 25, }} textAlign='center'>
-          {data.points}
+          {data.rounds}
         </Text>
         <Text style={{ width: 68, paddingRight: 19 }} textAlign='center'>
           {data.points}

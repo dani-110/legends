@@ -84,7 +84,7 @@ class PotyLeaderboardDB extends PureComponent {
 
   // }
 
-  _renderItem({ item, index }) {
+  _renderItem({ item }, currType) {
     return (
       <View style={[AppStyles.flexRow, AppStyles.pBottom5, AppStyles.mTop5, { flex: 1 }]}>
         <View style={{ flex: .4, marginRight: 25, justifyContent: 'center', alignItems: 'center', }} >
@@ -103,7 +103,7 @@ class PotyLeaderboardDB extends PureComponent {
         </View>
         <View style={styles.headerContant}>
           <Text type="bold" color={Colors.text.secondary}>
-            {item.rank}
+            {currType === "Events" ? item.events : item.rounds}
           </Text>
         </View>
         <View style={styles.headerContant}>
@@ -115,9 +115,9 @@ class PotyLeaderboardDB extends PureComponent {
     );
   }
 
-  _renderHeader() {
+  _renderHeader(currType) {
     return (
-      <View style={[AppStyles.flexRow, AppStyles.pBottom5, AppStyles.mTop5, { flex: 1 }]}>
+      <View style={[AppStyles.flexRow, AppStyles.mTop5, { flex: 1 }]}>
         <Text style={{ flex: 1.1, }} color={Colors.grey3}>
           Rank
         </Text>
@@ -126,8 +126,8 @@ class PotyLeaderboardDB extends PureComponent {
         </Text>
         <View style={styles.headerContant}>
           <Text color={Colors.grey3}>
-            Events
-        </Text>
+            {currType}
+          </Text>
         </View>
         <View style={styles.headerContant}>
           <Text color={Colors.grey3}>
@@ -169,9 +169,9 @@ class PotyLeaderboardDB extends PureComponent {
 
               <FlatList
                 data={potyData}
-                renderItem={this._renderItem}
+                renderItem={(data) => this._renderItem(data, "Events")}
                 keyExtractor={Util.keyExtractor}
-                ListHeaderComponent={this._renderHeader}
+                ListHeaderComponent={this._renderHeader("Events")}
                 stickyHeaderIndices={[0]}
               />
 
@@ -182,7 +182,7 @@ class PotyLeaderboardDB extends PureComponent {
             </View>
             {potyData.length > 0 && (
               <ButtonView
-                style={[AppStyles.alignItemsFlexEnd, AppStyles.pRight25, { marginTop: -15 }]}
+                style={[AppStyles.alignItemsFlexEnd, AppStyles.pRight25, { marginTop: -15, marginBottom: 10 }]}
                 onPress={Actions.poty}
               >
                 <Text
@@ -220,9 +220,9 @@ class PotyLeaderboardDB extends PureComponent {
 
               <FlatList
                 data={lcl_leaderboard}
-                renderItem={this._renderItem}
+                renderItem={(data) => this._renderItem(data, "Rounds")}
                 keyExtractor={Util.keyExtractor}
-                ListHeaderComponent={this._renderHeader}
+                ListHeaderComponent={this._renderHeader("Rounds")}
                 stickyHeaderIndices={[0]}
               />
 

@@ -6,6 +6,8 @@ platform :ios, '9.0'
 target 'legendstourrr' do
   config = use_native_modules!
   pod 'Firebase/Core', '~> 6.13.0'
+  pod 'Firebase/Messaging'
+
   use_react_native!(:path => config["reactNativePath"])
 
   target 'legendstourrrTests' do

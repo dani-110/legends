@@ -34,7 +34,8 @@ export default class CustomKeyboard extends React.PureComponent {
     visible: true,
     onKeyPress: () => {
       // console.log("Key pressed");
-    }
+    },
+    currentText: ""
   };
   toggleModal = visible => {
     Animated.spring(this.state.animation, {
@@ -47,7 +48,7 @@ export default class CustomKeyboard extends React.PureComponent {
   }
 
   render() {
-    const { mini, visible, onKeyPress } = this.props;
+    const { mini, visible, onKeyPress, currentText } = this.props;
     const miniKeys = [
       "DEL",
       <Image source={Images.cross} />,
@@ -108,7 +109,10 @@ export default class CustomKeyboard extends React.PureComponent {
                       key={`numeric-row--${index}`}
                       onPress={() => {
                         console.log("item is---------->" + item)
-                        onKeyPress(item)
+                        if (this.props.currentText === "1")
+                          onKeyPress(this.props.currentText + item)
+                        else
+                          onKeyPress(item)
                       }}
                       style={styles.numericButton}
                     >

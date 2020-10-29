@@ -45,9 +45,10 @@ class LclLiveScore extends Component {
 
   componentWillMount() {
     // 
-    this.props.enableEnterScore(
-      this.props.data.id === this.props.current_match[0].id
-    );
+    if (this.props.current_match.length > 0)
+      this.props.enableEnterScore(
+        this.props.data.id === this.props.current_match[0].id
+      );
   }
 
   _onEnter() {
@@ -85,10 +86,13 @@ class LclLiveScore extends Component {
     const {
       data: { title, name, venue }
     } = this.props;
+
+    teamName1 = this.props.current_match.length <= 0 ? this.props.data.team1_name : this.props.current_match[0].team1_name
+    teamName2 = this.props.current_match.length <= 0 ? this.props.data.team2_name : this.props.current_match[0].team2_name
     return (
       <View style={[styles.container]}>
         <CustomNavbar
-          title={title || this.props.current_match[0].team1_name + " vs " + this.props.current_match[0].team2_name}
+          title={title || teamName1 + " vs " + teamName2}
           subtitle={venue}
           hasBorder={false}
           theme={NAVBAR_THEME.WHITE}

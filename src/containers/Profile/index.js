@@ -120,7 +120,7 @@ class Profile extends Component {
   ];
 
   _uploadUserImage = uri => {
-
+    debugger
     const imageFormData = new FormData();
     const photo = {
       uri,
@@ -146,7 +146,7 @@ class Profile extends Component {
     return (
       <View style={{ ...styles.RectangleShapeView, flex: 1, alignSelf: 'center', alignContent: 'center' }}>
         <View>
-          <Text style={styles.headerText}>MY ROUNDS</Text>
+          <Text style={styles.headerText}>LAST 20 ROUNDS  </Text>
         </View>
         <View style={[AppStyles.flexRow, AppStyles.pBottom5, { justifyContent: 'space-around' }]}>
           <Text style={{ ...AppStyles.flex, marginLeft: 15, }} color={Colors.grey3}>

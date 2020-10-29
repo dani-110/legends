@@ -17,7 +17,7 @@ import {
 } from "react-native";
 import CheckBox from 'react-native-checkbox';
 
-
+12
 import Swiper from "react-native-swiper";
 import { Actions } from "react-native-router-flux";
 import _ from "lodash";
@@ -92,6 +92,40 @@ class EnterScore extends React.Component {
 
   static defaultProps = {};
 
+  static getLatestScores2(props) {
+    const { current_match } = props;
+    const { type, id, schedule_id, match_id, tee_off_time } = current_match[0];
+
+    let param = "";
+    if (type === "poty") {
+      param = `${type}/${id}`;
+    }
+    else if (type === "lmp") {
+      param = `${type}/${id}/${schedule_id && ` /${schedule_id}`}${match_id &&
+        `/${match_id}`}`;//${lastUpdatedOn ? `/${lastUpdatedOn}` : ``}
+    }
+    else if (type === "dmp") {
+      param = `${type}/${id}/${schedule_id && ` /${schedule_id}`}${match_id &&
+        `/${match_id}`}`;//${lastUpdatedOn ? `/${lastUpdatedOn}` : ``}
+    }
+    else if (type === "lcl") {
+      param = `${type}/${id}/${schedule_id && ` /${schedule_id}`}${match_id &&
+        `/${match_id}`}`;//${lastUpdatedOn ? `/${lastUpdatedOn}` : ``}
+    }
+    else {
+      param = `${type}/${id}${schedule_id && `/${schedule_id}`}${match_id &&
+        `/${match_id}`}${lastUpdatedOn ? `/${lastUpdatedOn}` : ``}`;
+    }
+
+    props.getEnterScoreDataRequest(param, type, data => {
+      // this.setState({
+      //   lastUpdatedOn: moment().unix(),
+      //   refreshing: false
+      //   //scoreCard: this.manipulateDataForScoreCard(data)
+      // });
+    });
+  };
+
   static onEnter() {
     if (EnterScore.instance) {
       EnterScore.instance._onEnter();
@@ -118,7 +152,9 @@ class EnterScore extends React.Component {
       if (state.isLoading) {
         props.updateRefresh()
         console.log("next index is:" + newIndex);
-        return { isLoading: false, index: newIndex, colorChanged: props.enterScoreData.poty_complete === "not-complete" ? false : true, score_lock: props.enterScoreData.holeData.score_lock }
+        //return { isLoading: false, index: newIndex, colorChanged: props.enterScoreData.poty_complete === "not-complete" ? false : true, score_lock: props.enterScoreData.holeData.score_lock }
+        EnterScore.getLatestScores2(props)//isLoading: false,
+        return { index: newIndex, colorChanged: props.enterScoreData.poty_complete === "not-complete" ? false : true, score_lock: props.enterScoreData.holeData.score_lock }
       }
     }
 
@@ -224,7 +260,7 @@ class EnterScore extends React.Component {
     this.dataPolling = setInterval(() => {
 
       this.getLatestScores();
-    }, POLLING_TIME);
+    }, 300000);
   }
 
   _onExit() {
@@ -312,6 +348,10 @@ class EnterScore extends React.Component {
   //this.setState({ visible: true });
   _keyPress(text) {
     console.log("keyboard data is:" + text)
+
+    text = _.includes(text, "DEL") ? "DEL" : text
+    text = _.includes(text, "-") ? "-" : text
+
     const { current_match } = this.props;
     const { type } = current_match[0];
     let swipe = false;
@@ -341,7 +381,7 @@ class EnterScore extends React.Component {
       current === "FIR" ||
       current === "GIR" ||
       current === "Putts" ||
-      (text !== "DEL" && text !== 1)
+      (text !== "DEL" && (parseInt(text) !== 1))
     ) {
       //let newIndex = index;
       newIndex = index;
@@ -1104,6 +1144,7 @@ class EnterScore extends React.Component {
       <CustomKeyboard
         visible={this.state.showKeyBoard}
         mini={this.state.miniKeyBoard}
+        currentText={this.state.scoreCard !== undefined ? this.state.scoreCard[this._swiper !== undefined ? this._swiper.state.index : 0].Stroke[this.state.index === -1 ? 0 : this.state.index] : ""}
         onKeyPress={text => {
           if (parseInt(this.state.score_lock) === 1) {
             this._hideKeyboard();

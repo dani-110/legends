@@ -24,13 +24,14 @@ export default StyleSheet.create({
     position: "absolute",
 
     width: 85,
-    height: 36,
+    height: 40,
     borderColor: Colors.greyTint,
-    borderTopWidth: 1,
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
+    borderTopWidth: 2,
+    borderLeftWidth: 2,
+    borderRightWidth: 2,
     borderBottomWidth: 5,
     borderBottomColor: Colors.white,
+    backgroundColor: Colors.greyTint,
     top: 5
   },
   icon: {

@@ -58,7 +58,7 @@ class playersDirectory extends Component {
         <View style={{ flex: 2, ...styles.searchBox, marginLeft: 20 }}>
 
 
-          <View style={{ ...styles.searchshadow }}
+          <View style={{ ...styles.searchshadow, width: '100%' }}
           >
             <TextInput style={{ height: 100 }}
               onChangeText={text => {
@@ -82,7 +82,7 @@ class playersDirectory extends Component {
           </View>
 
         </View>
-        <View style={{ flex: 1, marginTop: 10, ...styles.dropdownShadow }}>
+        {/* <View style={{ flex: 1, marginTop: 10, ...styles.dropdownShadow }}>
           <TouchableOpacity
             onPress={() => { this.setState({ visible: !this.state.visible }) }}>
             <Text id style={{ height: 50, position: 'absolute', marginLeft: 10, fontSize: 12, color: Colors.grey, fontFamily: 'CircularStd-Book' }}>
@@ -136,9 +136,12 @@ class playersDirectory extends Component {
               <Picker.Item label="Index" value="index" />
             </Picker> */}
 
+        {/*
+ </View>
+        </View > * /}
+ */}
 
-          </View>
-        </View>
+
       </View >
 
     );
@@ -373,7 +376,7 @@ renderItem = ({ item }, index) => {
                   textAlign: 'center', paddingTop: 3, fontSize: 15, color: Colors.white
                 }}>
                   {/* index:9.6 */}
-                  {parseFloat(item.blue_course_handicap).toFixed(2)}
+                  {item.blue_course_handicap}
                 </Text>
               </View>
               <View style={{ ...styles.square, borderWidth: 1 }} >
@@ -381,7 +384,7 @@ renderItem = ({ item }, index) => {
                   textAlign: 'center', paddingTop: 3, fontSize: 15, color: '#555'
                 }}>
                   {/* index:9.6 */}
-                  {parseFloat(item.white_course_handicap).toFixed(2)}
+                  {item.white_course_handicap}
                 </Text>
               </View>
               {
@@ -391,7 +394,7 @@ renderItem = ({ item }, index) => {
                       textAlign: 'center', paddingTop: 3, fontSize: 15, color: Colors.white
                     }}>
                       {/* index:9.6 */}
-                      {parseFloat(item.yellow_course_handicap).toFixed(2)}
+                      {item.yellow_course_handicap}
                     </Text>
                   </View>
                 ) : null

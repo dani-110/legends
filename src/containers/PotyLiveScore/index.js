@@ -84,7 +84,7 @@ class PotyLiveScore extends React.Component {
   componentWillMount() {
     this._getPotyScoreNetRequest();
 
-    if (this.props.current_match.length) {
+    if (this.props.current_match.length > 0) {
       this.props.enableEnterScore(
         this.props.data.id === this.props.current_match[0].id
       );
