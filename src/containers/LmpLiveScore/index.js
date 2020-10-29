@@ -19,6 +19,8 @@ import { setTabbarType, enableEnterScore } from "../../actions/GeneralActions";
 import { ScrollView } from "react-native-gesture-handler";
 import { POLLING_TIME } from "../../../src/constants/index";
 
+const playerOneColor = Colors.redDark;
+const playerTwoColor = Colors.blue2;
 let indexer = 0;
 let temp = "AS";
 let TempColor = Colors.darkBlue;
