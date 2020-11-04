@@ -431,7 +431,7 @@ class EnterScore extends React.Component {
         (newShowKeyboard = false), (newMini = false);
       }
 
-      console.log("next index increment:-->" + newIndex);
+      console.log("next index increment:-->" + newShowKeyboard);
 
       if (swipe) {
 

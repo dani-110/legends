@@ -157,7 +157,7 @@ class PotyLeaderboardDB extends PureComponent {
               ellipsizeMode="tail"
               size="large"
               type="base"
-              style={{ ...styles2.title, marginTop: 20, justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }}
+              style={{ ...styles2.title, marginTop: 0, justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }}
             >POTY Leaderboard</Text>
             <View
               style={[
@@ -182,7 +182,7 @@ class PotyLeaderboardDB extends PureComponent {
             </View>
             {potyData.length > 0 && (
               <ButtonView
-                style={[AppStyles.alignItemsFlexEnd, AppStyles.pRight25, { marginTop: -15, marginBottom: 10 }]}
+                style={[AppStyles.alignItemsFlexEnd, AppStyles.pRight25, { bottom: 15 }]}
                 onPress={Actions.poty}
               >
                 <Text
@@ -208,7 +208,7 @@ class PotyLeaderboardDB extends PureComponent {
               ellipsizeMode="tail"
               size="large"
               type="base"
-              style={{ ...styles2.title, marginTop: 20, justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }}
+              style={{ ...styles2.title, marginTop: 0, justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }}
             >LCL Leaderboard</Text>
             <View
               style={[
