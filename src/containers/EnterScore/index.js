@@ -151,21 +151,22 @@ class EnterScore extends React.Component {
       //console.log("case2-->" + state.isLoading)
       if (state.isLoading) {
         props.updateRefresh()
-        console.log("next index is:" + newIndex);
-        //return { isLoading: false, index: newIndex, colorChanged: props.enterScoreData.poty_complete === "not-complete" ? false : true, score_lock: props.enterScoreData.holeData.score_lock }
-        EnterScore.getLatestScores2(props)//isLoading: false,
-        return { index: newIndex, colorChanged: props.enterScoreData.poty_complete === "not-complete" ? false : true, score_lock: props.enterScoreData.holeData.score_lock }
+        console.log("next index is:" + newIndex);//isLoading: false,
+        return { index: newIndex, isLoading: false, showKeyBoard: true }// colorChanged: props.enterScoreData.poty_complete === "not-complete" ? false : true, score_lock: props.enterScoreData.holeData.score_lock }
+        //EnterScore.getLatestScores2(props)//
+        //return { isLoading: false,index: newIndex, colorChanged: props.enterScoreData.poty_complete === "not-complete" ? false : true, score_lock: props.enterScoreData.holeData.score_lock }
       }
     }
 
     if (!_.isEqual(props.enterScoreData, state.prevEnterScoreData)) {
-      debugger
       return {
         prevEnterScoreData: props.enterScoreData,
         scoreCard: manipulateDataForScoreCard(props.enterScoreData.holeData, state),
         colorChanged: props.enterScoreData.holeData.AllPotyHole === "not-complete" ? false : true,
         isLoading: false,
-        score_lock: props.enterScoreData.holeData.score_lock
+        showKeyBoard: true,
+        index: newIndex
+        // score_lock: props.enterScoreData.holeData.score_lock
       };
     }
 
@@ -308,7 +309,7 @@ class EnterScore extends React.Component {
     if ((hole_number).slice(-2) == 18 && toIndex_ == 1) {
       this._swiper.scrollTo(0, true);
     } else if ((hole_number).slice(-2) == 1 && toIndex_ == -1) {
-      this._swiper.scrollTo(18, true);
+      this._swiper.scrollTo(17, true);
     }
     else {
       this._swiper.scrollBy(toIndex_, true);
@@ -345,7 +346,6 @@ class EnterScore extends React.Component {
     }
   }
 
-  //this.setState({ visible: true });
   _keyPress(text) {
     console.log("keyboard data is:" + text)
 
@@ -701,14 +701,16 @@ class EnterScore extends React.Component {
   }
 
   _renderTitle() {
+
     const {
       current_match,
       enterScoreData: {
         holeData: { tournament_name, course_name, players }
       }
     } = this.props;
-    const { type, id, schedule_id, match_id } = current_match[0];
     debugger
+    const { type, id, schedule_id, match_id } = current_match[0];
+
     return (
       <View style={{ paddingBottom: 10, paddingTop: 10, backgroundColor: Colors.green }}>
         <CustomNavbar
@@ -753,6 +755,7 @@ class EnterScore extends React.Component {
   }
   _renderSwiper(players, holes, hole_starting) {
     let dataLength = 0;
+
     if (players) {
       players.map(player => {
         if (player.scorecard.length > dataLength) {
@@ -810,12 +813,28 @@ class EnterScore extends React.Component {
         </View>
       );
     }
+    const type = this.props.current_match[0].type;
 
     return (
       <View>
-        <Swiper
+        {type === "poty" ? (
+          <Swiper
+            style={{ height: 400 }}
+            index={this._updateIndex(hole_starting, 0)}
+            ref={swiper => {
+              this._swiper = swiper;
+            }}
+            loop={false}
+            showsButtons={false}
+            showsPagination={false}
+            onIndexChanged={() => this._onSwipe()}
+          >
+            {holeScreens}
+
+          </Swiper>
+
+        ) : (<Swiper
           style={{ height: 400 }}
-          //index={this._updateIndex(hole_starting, 0)}
           ref={swiper => {
             this._swiper = swiper;
           }}
@@ -826,7 +845,7 @@ class EnterScore extends React.Component {
         >
           {holeScreens}
 
-        </Swiper>
+        </Swiper>)}
 
         <View style={{ height: '100%', flex: 1, justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
           {(parseInt(this.state.score_lock) === 0 && this.state.showSubmitButton) ? (
@@ -982,6 +1001,13 @@ class EnterScore extends React.Component {
   _onSwipe() {
     if (this._swiper != undefined && this._swiper.state != undefined) {
       console.log("swiper index:" + this._swiper.state.index);
+
+      // if ((this._swiper.state.index) == 18 && toIndex_ == 1) {
+      //   this._swiper.scrollTo(0, true);
+      // } else if ((this._swiper.state.index) == 1 && toIndex_ == -1) {
+      //   this._swiper.scrollTo(17, true);
+      // }
+
     }
   }
 
@@ -1134,7 +1160,7 @@ class EnterScore extends React.Component {
 
   _renderKeyboard = () => {
     //if (this.tmpData.length > 0 && this.tmpData.score_lock === 1)
-    console.log("keyboard:")
+    console.log("keyboard:" + this.state.showKeyBoard)
 
     if (this.state.isLoading)
       return;
@@ -1190,7 +1216,7 @@ class EnterScore extends React.Component {
     console.log("get data authentication key = >" + AuthStr);
     URL = BASE_URL + `/getGrossScoreNetScore/${id}`;
 
-    debugger
+
     axios.get(URL, { headers: { Authorization: AuthStr } }).then((response) => {
 
       this.setState({ dataSource: response.data.data, visible: true });
@@ -1213,7 +1239,7 @@ class EnterScore extends React.Component {
       id: id,
     },
       { headers: { Authorization: AuthStr } }).then((response) => {
-        //debugger;
+
         console.log(response)
       })
       .catch(function (error) {
@@ -1251,9 +1277,17 @@ class EnterScore extends React.Component {
     const {
       enterScoreData: { isFetchingData, holeData }
     } = this.props;
+    let holes, players, hole_starting;
+    if (holeData === undefined || !holeData) {
+      holes = this.props.holes;
+      players = this.props.players;
+      hole_starting = this.props.hole_starting;
+    } else {
+      holes = holeData.holes;
+      players = holeData.players;
+      hole_starting = holeData.hole_starting;
+    }
 
-
-    const { holes, players, hole_starting } = holeData;
 
     const data = [1, 2, 3, 4, 5];
     return (
@@ -1565,9 +1599,7 @@ const actions = {
    */
 
 function manipulateDataForScoreCard(data, state) {
-
   debugger
-
   const rowValue = state.cardIndex !== -1 ? state.keyBoardText : "";
   const rowIndex = state.cardIndex !== -1 ? state.rowIndex : "";
   const cardIndex = state.cardIndex !== -1 ? parseInt(state.cardIndex) + 1 : "";

@@ -53,6 +53,7 @@ export default (state = initialState, action) => {
       });
     }
 
+    case POST_POTY_SCORE.SUCCESS:
     case GET_ENTER_SCORE_DATA.SUCCESS: {
       const tempData = _.cloneDeep(state.data);
       tempData.holeData = action.data;
@@ -81,7 +82,7 @@ export default (state = initialState, action) => {
         });
       });
       // }
-       debugger
+      debugger
       tempData.isFetchingData = false;
       return Immutable.merge(state, {
         data: tempData
@@ -112,11 +113,11 @@ export default (state = initialState, action) => {
     //   });
     // }
 
-    case POST_POTY_SCORE.SUCCESS:
+
     case POST_DMP_SCORE.SUCCESS:
     case POST_LMP_SCORE.SUCCESS:
     case POST_LCL_SCORE.SUCCESS: {
-      const tempData = _.cloneDeep(state.data);
+      const tempData = _.cloneDeep(action.data)//_.cloneDeep(state.data);
       tempData.named = REFRESH_DATA;
       debugger
       tempData.poty_complete = action.data;

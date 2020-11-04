@@ -66,7 +66,7 @@ class ScoreCard extends Component {
 
   componentDidMount() {
     const { act } = this.props;
-    debugger
+
     if (act) {
       switch (act.action) {
         case "potySingleUSer": {

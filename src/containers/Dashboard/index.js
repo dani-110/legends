@@ -56,7 +56,7 @@ class Dashboard extends Component {
   }
 
   componentWillMount() {
-    debugger
+
     this.props.getDashboardDataRequest();
   }
 
@@ -83,7 +83,7 @@ class Dashboard extends Component {
     // ------------- CHANNEL INIT --------------
     if (Util.isPlatformAndroid()) setChannelForAndroid();
 
-    debugger
+
     // ------------- iOS Permission --------------
     if (!Util.isPlatformAndroid()) getPermissions();
 
@@ -112,7 +112,7 @@ class Dashboard extends Component {
         // console.log({ background: notificationOpen });
 
         showLocalNotification(notificationOpen._data);
-        debugger
+
         if (notificationOpen && notificationOpen.notification) {
           this.navigateOnNotificationTap(notificationOpen.notification._data);
         }
@@ -124,7 +124,7 @@ class Dashboard extends Component {
 
         // when app is in foreground
         // console.log({ foreground: notification });
-        debugger
+
         const { title, deliveryId, body, type } = notification._data
         Alert.alert(title, body, [
           {
@@ -226,7 +226,7 @@ class Dashboard extends Component {
 
 
 const mapStateToProps = ({ user, general, }) => {
-  //debugger
+  // 
   return ({
     userData: user.userData.user ? JSON.parse(user.userData.user) : {}
   });

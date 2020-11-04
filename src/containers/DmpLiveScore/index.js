@@ -42,7 +42,7 @@ class DmpLiveScore extends React.Component {
   //////////////////////////////  INTERVALS ///////////////////////////////
 
   componentDidMount() {
-    debugger
+
     this.dataPolling = setInterval(() => {
       const { id, match_id, schedule_id, season_id } = this.props.data;
       this.props.getScoreDmpRequest(`${match_id}/${schedule_id}/${id}`);
@@ -59,7 +59,7 @@ class DmpLiveScore extends React.Component {
 
   _onRefresh() {
     this.setState({ refreshing: false });
-    debugger
+
     const { id, match_id, schedule_id, season_id } = this.props.data;
     this.props.getScoreDmpRequest(`${match_id}/${schedule_id}/${id}`);
 
@@ -91,7 +91,7 @@ class DmpLiveScore extends React.Component {
   }
 
   componentWillMount() {
-    debugger
+
     const { id, match_id, schedule_id, season_id } = this.props.data;
     this.props.getScoreDmpRequest(`${match_id}/${schedule_id}/${id}`);
 
@@ -147,7 +147,7 @@ class DmpLiveScore extends React.Component {
 
   _updateScoreMain(score) {
     indexer += 1;
-    debugger
+
     for (var i = 0; i < score.length; i++) {
       if (score[i].score !== "") {
         temp = score[i].score
@@ -244,7 +244,7 @@ class DmpLiveScore extends React.Component {
       liveScoreData
     } = this.props;
 
-    debugger
+
 
     teamName1 = this.props.current_match.length <= 0 ? this.props.data.team1_name : this.props.current_match[0].team1_name
     teamName2 = this.props.current_match.length <= 0 ? this.props.data.team2_name : this.props.current_match[0].team2_name

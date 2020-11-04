@@ -77,7 +77,7 @@ class SinglesTwo extends React.Component {
       team2_p2
     } = this.props.data;
 
-    debugger
+
     const { dataLastUpdatedOn } = this.state;
     // const param = `${match_id}/${schedule_id}/${season_id ||
     //   id}/${Util.removeSpaces(team1_p1)}/${Util.removeSpaces(team2_p1)}${

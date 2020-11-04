@@ -88,7 +88,7 @@ class LmpLiveScore extends React.Component {
   }
 
   componentWillMount() {
-    debugger
+
     const { id, match_id, schedule_id, season_id } = this.props.data;
     this.props.getScoreLmpRequest(
       `${match_id}/${schedule_id}/${season_id || id}`
@@ -107,14 +107,14 @@ class LmpLiveScore extends React.Component {
 
   _renderScoreTable() {
     const { liveScoreData } = this.props;
-    debugger
+
     return <ScoreTable liveScoreData={liveScoreData} />;
   }
 
 
   _updateScoreMain(score) {
     indexer += 1;
-    debugger
+
     for (var i = 0; i < score.length; i++) {
       if (score[i].score !== "") {
         temp = score[i].score
@@ -139,7 +139,7 @@ class LmpLiveScore extends React.Component {
   }
 
   _headerController(playersData, score) {
-    debugger
+
     if (playersData !== undefined) {
 
       player1Name = playersData[0].team_1_player
@@ -209,7 +209,7 @@ class LmpLiveScore extends React.Component {
       isFetchingData,
       liveScoreData
     } = this.props;
-    debugger
+
     console.log("title is:" + title + "\n venue is:" + venue);
     teamName1 = this.props.current_match.length <= 0 ? this.props.data.team1_name : this.props.current_match[0].team1_name
     teamName2 = this.props.current_match.length <= 0 ? this.props.data.team2_name : this.props.current_match[0].team2_name

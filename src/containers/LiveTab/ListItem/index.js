@@ -39,7 +39,7 @@ export default class ListItem extends React.Component {
     } else {
       bg = Colors.red5;
     }
-    //  debugger;
+    //   ;
 
 
 

@@ -81,7 +81,7 @@ class LclLiveScore extends Component {
   }
 
   render() {
-    debugger
+
     const { activeTabIndex } = this.state;
     const {
       data: { title, name, venue }

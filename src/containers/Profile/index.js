@@ -120,7 +120,7 @@ class Profile extends Component {
   ];
 
   _uploadUserImage = uri => {
-    debugger
+
     const imageFormData = new FormData();
     const photo = {
       uri,
@@ -302,7 +302,7 @@ class Profile extends Component {
   }
 
   render() {
-    debugger
+
     const { activeTabIndex, imageUri, uploadingImage } = this.state;
     const { isFetchingProfile, userData } = this.props;
     console.log(userData.grossss_table);

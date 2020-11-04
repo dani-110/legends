@@ -104,7 +104,7 @@ export default class ProjectedScore extends React.Component {
 
   _updateScoreMain(score) {
     indexer += 1;
-    debugger
+
     for (var i = 0; i < score.length; i++) {
       if (score[i].score !== "") {
         temp = score[i].score
@@ -129,7 +129,7 @@ export default class ProjectedScore extends React.Component {
     return TempColor
   }
   _headerController(playersData, score, type) {
-    debugger
+
     if (playersData !== undefined) {
 
       player1Name = playersData[0].team_1_players
@@ -207,7 +207,7 @@ export default class ProjectedScore extends React.Component {
       liveScoreData: { players }
     } = this.props;
 
-    debugger
+
     return <View>
       {this._renderScores()}
       {this._headerController(players, score, type)}

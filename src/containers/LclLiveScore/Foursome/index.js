@@ -88,7 +88,7 @@ class Foursome extends React.Component {
 
   _renderProjectedScore() {
     const { liveScoreData } = this.props;
-    debugger
+
     return <ProjectedScore liveScoreData={liveScoreData} type={"foursome"} />;
   }
 

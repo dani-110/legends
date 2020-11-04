@@ -104,11 +104,11 @@ export default class CustomKeyboard extends React.PureComponent {
               {numericKeys.map((row, current) => (
                 <View key={`numeric-keys-${current}`} style={styles.rowView}>
                   {row.map((item, index) => (
-                    // console.log({ rowss: row, currentsss: current });
+                    // console.log({this.props.currentText});
                     <TouchableOpacity
                       key={`numeric-row--${index}`}
                       onPress={() => {
-                        console.log("item is---------->" + item)
+                        console.log("item is---------->" + this.props.currentText)
                         if (this.props.currentText === "1")
                           onKeyPress(this.props.currentText + item)
                         else

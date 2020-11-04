@@ -185,7 +185,7 @@ class PotyLiveScore extends React.Component {
       isFetchingGross,
       data: { name, venue, id, type, match_id, schedule_id }
     } = this.props;
-    debugger
+
     const { activeTabIndex } = this.state;
 
     return (

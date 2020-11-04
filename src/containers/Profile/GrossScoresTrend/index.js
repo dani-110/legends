@@ -53,7 +53,7 @@ class GrossScoresTrend extends React.PureComponent {
     useShadowColorFromDataset: false // optional
   };
   _renderGraph() {
-    debugger
+
     const screenWidth = Dimensions.get("window").width;
     const { graphData, activeGraph, user } = this.props;
     let YAxisData = [];
@@ -103,7 +103,7 @@ class GrossScoresTrend extends React.PureComponent {
   }
 
   render() {
-    debugger
+
     return (
       <View>
         {/* <View style={{ flex: 1, flexDirection: 'row-reverse', width: '88%', height: 20, margin: 10, }}>

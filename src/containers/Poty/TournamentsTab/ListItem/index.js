@@ -55,7 +55,7 @@ export default class ListItem extends React.Component {
       }
     })
       .then((response) => {
-        debugger
+
         this.props.updateInputValue(data_.tournament_id)
       })
       .catch(function (error) {
