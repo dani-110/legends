@@ -33,7 +33,7 @@ class PointsTableTab extends Component {
         <Text style={{ width: 70, ...styles.Title }}>
           Rank
         </Text>
-        <Text style={{ ...AppStyles.flex, ...styles.Title }} textAlign="center">
+        <Text style={{ ...AppStyles.flex, ...styles.Title }} textAlign="left">
           Team
         </Text>
         <Text style={{ width: 85, ...styles.Title }}>

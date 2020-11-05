@@ -1279,6 +1279,7 @@ class EnterScore extends React.Component {
     const {
       enterScoreData: { isFetchingData, holeData }
     } = this.props;
+
     let holes, players, hole_starting;
     if (holeData === undefined || !holeData) {
       holes = this.props.holes;

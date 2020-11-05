@@ -15,6 +15,7 @@ export default StyleSheet.create({
   },
   pair: {
     position: "relative",
+    height: 150,
     marginRight: 10,
     paddingRight: 10,
     ...AppStyles.flex,
@@ -49,6 +50,7 @@ export default StyleSheet.create({
   },
   item: {
     width: 167,
+    height: 50,
     paddingTop: 7,
     paddingBottom: 7,
     borderRadius: 7,

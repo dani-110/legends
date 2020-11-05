@@ -21,7 +21,7 @@ export default class ListItem extends React.PureComponent {
         <Text style={{ width: 70, paddingLeft: 16, }}>
           {data.rank}
         </Text>
-        <Text style={{ ...AppStyles.flex, }} textAlign="center">
+        <Text style={{ ...AppStyles.flex, }} textAlign="left">
           {data.team_name}
         </Text>
         <Text style={{ width: 85, paddingRight: 25, }} textAlign='center'>

@@ -21,7 +21,7 @@ export default StyleSheet.create({
   textTitle2: {
     flex: 1,
     flexDirection: 'row',
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: "normal",
 
   },

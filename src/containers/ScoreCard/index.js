@@ -338,7 +338,7 @@ class ScoreCard extends Component {
     const { loading, scoreCardData } = this.state;
     return (
       <View style={styles.container}>
-        <View style={{ flexDirection: 'row', height: 30 }}>
+        <View style={{ flexDirection: 'row', height: 30, margin: 20, top: 10 }}>
           <TouchableOpacity onPress={() => { Actions.pop() }} style={{
             width: 40,
             height: '100%',

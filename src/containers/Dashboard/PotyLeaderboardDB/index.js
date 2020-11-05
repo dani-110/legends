@@ -92,7 +92,7 @@ class PotyLeaderboardDB extends PureComponent {
             {item.rank}
           </Text>
         </View>
-        <View style={{ flex: 1.4, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{ flex: 1.4, justifyContent: 'center', alignItems: 'flex-start' }}>
           <Text
             style={[AppStyles.capitalize,]}
             color={Colors.text.secondary}
@@ -118,10 +118,10 @@ class PotyLeaderboardDB extends PureComponent {
   _renderHeader(currType) {
     return (
       <View style={[AppStyles.flexRow, AppStyles.mTop5, { flex: 1 }]}>
-        <Text style={{ flex: 1.1, }} color={Colors.grey3}>
+        <Text style={{ flex: .7, }} color={Colors.grey3}>
           Rank
         </Text>
-        <Text style={{ flex: 1, }} color={Colors.grey3}>
+        <Text style={{ flex: 1.4, }} color={Colors.grey3}>
           Players
         </Text>
         <View style={styles.headerContant}>

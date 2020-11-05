@@ -15,7 +15,13 @@ import PotyLeaderboardDB from "../../containers/Dashboard/PotyLeaderboardDB";
 import { Poty } from "../../containers";
 
 const DRAWER_ITEMS = [
-
+  {
+    text: "Players Directory",
+    onPress: () => {
+      pauseInterval();
+      Actions.playersdirectory()
+    }
+  },
   {
     text: "POTY",
     onPress: () => {
@@ -40,13 +46,7 @@ const DRAWER_ITEMS = [
   },
   { text: "DMP", onPress: () => Actions.dmp(), activeTab: 1 },
 
-  {
-    text: "Players Directory",
-    onPress: () => {
-      pauseInterval();
-      Actions.playersdirectory()
-    }
-  },
+
   {
     text: "Rules",
     onPress: () => {

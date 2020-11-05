@@ -46,6 +46,7 @@ class Dmp extends React.Component {
     isFetchingData: PropTypes.bool.isRequired,
     getDmpResultsRequest: PropTypes.func.isRequired,
     setSelectedTab: PropTypes.func.isRequired
+
   };
 
   static defaultProps = {};
@@ -53,8 +54,6 @@ class Dmp extends React.Component {
   state = {
     selectedTabIndex: 0
   };
-
-  onTabChangeMode = false;
 
   componentWillMount() {
     Orientation.lockToLandscapeRight();
@@ -65,6 +64,8 @@ class Dmp extends React.Component {
   componentWillUnmount() {
     Orientation.lockToPortrait();
   }
+
+  onTabChangeMode = false;
 
   _onTabPress = index => {
     this.onTabChangeMode = true;
@@ -93,6 +94,7 @@ class Dmp extends React.Component {
       this.onTabChangeMode = false;
     }, 1000);
   };
+
   _onHorizontalScoll = event => {
     if (!this.onTabChangeMode) {
       const { selectedTabIndex } = this.state;
@@ -142,7 +144,7 @@ class Dmp extends React.Component {
   _renderChart = () => {
     const { dmpTournamentData } = this.props;
     const rounds = Object.keys(dmpTournamentData);
-    debugger
+
     return (
       <React.Fragment>
         {this._renderHeader()}
@@ -164,7 +166,7 @@ class Dmp extends React.Component {
 
   _renderPair = (pair, index) => (
     <View key={`pair-${index}`} style={[styles.pair]}>
-      {pair.team1_name && pair.team2_name && (
+      {pair.team_1_players && pair.team_2_players && (
         <React.Fragment>
           <View style={[styles.pairBorder]} />
           <View style={[styles.pairConnector]} />
@@ -181,7 +183,7 @@ class Dmp extends React.Component {
         <View key={`item-${item}`} style={[styles.itemWrapper]}>
           <View style={[styles.item, won && styles.itemWon]}>
             <Text color={Colors.white} size="xxSmall">
-              {item || ""}
+              {this.nameOfPlayers(item) || ""}
             </Text>
           </View>
         </View>
@@ -189,6 +191,16 @@ class Dmp extends React.Component {
     }
   }
 
+  nameOfPlayers(name_) {
+    var pieces = name_.split("&");
+    var newName = "";
+    if (pieces[1] === undefined || pieces[1] === "") {
+      newName = pieces[0]
+    } else {
+      newName = pieces[0] + "\n" + pieces[1]
+    }
+    return newName
+  }
   _renderTabs(selectedTabIndex) {
     return (
       <View
@@ -205,6 +217,7 @@ class Dmp extends React.Component {
               index === selectedTabIndex && styles.tabsSelectedItemWrapper
             ]}
             key={`tab-${index}`}
+            onPress={() => this._onTabPress(index)}
           >
             <Text
               color={index === selectedTabIndex ? Colors.white : Colors.black}
@@ -220,9 +233,7 @@ class Dmp extends React.Component {
   }
 
   render() {
-    const { selectedTabIndex } = this.state;
     const { dmpTournamentData, isFetchingData } = this.props;
-
     return (
       <View style={[styles.container]}>
         <CustomNavbar
