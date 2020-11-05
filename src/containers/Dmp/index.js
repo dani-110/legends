@@ -128,11 +128,10 @@ class Dmp extends React.Component {
             key={`sec-${index}`}
           >
             <Text color={Colors.grey6} textAlign="center" type="bold">
-              {`${ROUND_NAMES[item]} ${
-                dmpTournamentData[item].length > 1
-                  ? `(${dmpTournamentData[item].length})`
-                  : ""
-              }`}
+              {`${ROUND_NAMES[item]} ${dmpTournamentData[item].length > 1
+                ? `(${dmpTournamentData[item].length})`
+                : ""
+                }`}
             </Text>
           </View>
         ))}
@@ -143,7 +142,7 @@ class Dmp extends React.Component {
   _renderChart = () => {
     const { dmpTournamentData } = this.props;
     const rounds = Object.keys(dmpTournamentData);
-
+    debugger
     return (
       <React.Fragment>
         {this._renderHeader()}
@@ -171,8 +170,8 @@ class Dmp extends React.Component {
           <View style={[styles.pairConnector]} />
         </React.Fragment>
       )}
-      {this._renderItem(pair.team1_name, pair.winning_team == 1)}
-      {this._renderItem(pair.team2_name, pair.winning_team == 2)}
+      {this._renderItem(pair.team_1_players, pair.winning_team == 1)}
+      {this._renderItem(pair.team_2_players, pair.winning_team == 2)}
     </View>
   );
 

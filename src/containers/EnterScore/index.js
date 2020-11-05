@@ -49,6 +49,7 @@ import { color } from "react-native-reanimated";
 let newIndex = 1;
 isAlreadyCalled = false;
 let indexer = 0;
+let prevValue = 0;
 class EnterScore extends React.Component {
   static propTypes = {
     setTabbarType: PropTypes.func.isRequired,
@@ -117,18 +118,19 @@ class EnterScore extends React.Component {
         `/${match_id}`}${lastUpdatedOn ? `/${lastUpdatedOn}` : ``}`;
     }
 
-    props.getEnterScoreDataRequest(param, type, data => {
-      // this.setState({
-      //   lastUpdatedOn: moment().unix(),
-      //   refreshing: false
-      //   //scoreCard: this.manipulateDataForScoreCard(data)
-      // });
-    });
+    // props.getEnterScoreDataRequest(param, type, data => {
+    //   // this.setState({
+    //   //   lastUpdatedOn: moment().unix(),
+    //   //   refreshing: false
+    //   //   //scoreCard: this.manipulateDataForScoreCard(data)
+    //   // });
+    // });
   };
 
   static onEnter() {
     if (EnterScore.instance) {
       EnterScore.instance._onEnter();
+
     }
   }
 
@@ -152,7 +154,7 @@ class EnterScore extends React.Component {
       if (state.isLoading) {
         props.updateRefresh()
         console.log("next index is:" + newIndex);//isLoading: false,
-        return { index: newIndex, isLoading: false, showKeyBoard: true }// colorChanged: props.enterScoreData.poty_complete === "not-complete" ? false : true, score_lock: props.enterScoreData.holeData.score_lock }
+        return { index: newIndex, isLoading: false, colorChanged: props.enterScoreData.poty_complete === "not-complete" ? false : true, score_lock: props.enterScoreData.holeData.score_lock }
         //EnterScore.getLatestScores2(props)//
         //return { isLoading: false,index: newIndex, colorChanged: props.enterScoreData.poty_complete === "not-complete" ? false : true, score_lock: props.enterScoreData.holeData.score_lock }
       }
@@ -164,9 +166,8 @@ class EnterScore extends React.Component {
         scoreCard: manipulateDataForScoreCard(props.enterScoreData.holeData, state),
         colorChanged: props.enterScoreData.holeData.AllPotyHole === "not-complete" ? false : true,
         isLoading: false,
-        showKeyBoard: true,
-        index: newIndex
-        // score_lock: props.enterScoreData.holeData.score_lock
+        index: newIndex,
+        score_lock: props.enterScoreData.holeData.score_lock
       };
     }
 
@@ -175,6 +176,7 @@ class EnterScore extends React.Component {
 
   constructor(props) {
     super(props);
+
     this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
     this.state = {
       showKeyBoard: false,
@@ -259,7 +261,6 @@ class EnterScore extends React.Component {
 
     this.props.setTabbarType(false);
     this.dataPolling = setInterval(() => {
-
       this.getLatestScores();
     }, 300000);
   }
@@ -305,16 +306,16 @@ class EnterScore extends React.Component {
   }
 
   _onClickScroll(toIndex_, hole_number) {
-    //Alert.alert(("0" + hole_number).slice(-2))
-    if ((hole_number).slice(-2) == 18 && toIndex_ == 1) {
-      this._swiper.scrollTo(0, true);
-    } else if ((hole_number).slice(-2) == 1 && toIndex_ == -1) {
-      this._swiper.scrollTo(17, true);
-    }
-    else {
-      this._swiper.scrollBy(toIndex_, true);
-    }
-
+    // //Alert.alert(("0" + hole_number).slice(-2))
+    // if ((hole_number).slice(-2) == 18 && toIndex_ == 1) {
+    //   this._swiper.scrollTo(0, true);
+    // } else if ((hole_number).slice(-2) == 1 && toIndex_ == -1) {
+    //   this._swiper.scrollTo(17, true);
+    // }
+    // else {
+    //   this._swiper.scrollBy(toIndex_, true);
+    // }
+    this._swiper.scrollBy(toIndex_, true);
   }
 
   _CheckEntryPoint(entryPoint) {
@@ -337,6 +338,7 @@ class EnterScore extends React.Component {
   };
 
   _hideKeyboard() {
+
     if (this.state.showKeyBoard) {
       this.setState({
         showKeyBoard: false,
@@ -824,7 +826,7 @@ class EnterScore extends React.Component {
             ref={swiper => {
               this._swiper = swiper;
             }}
-            loop={false}
+            loop={true}
             showsButtons={false}
             showsPagination={false}
             onIndexChanged={() => this._onSwipe()}
@@ -838,7 +840,7 @@ class EnterScore extends React.Component {
           ref={swiper => {
             this._swiper = swiper;
           }}
-          loop={false}
+          loop={true}
           showsButtons={false}
           showsPagination={false}
           onIndexChanged={() => this._onSwipe()}
@@ -1002,12 +1004,6 @@ class EnterScore extends React.Component {
     if (this._swiper != undefined && this._swiper.state != undefined) {
       console.log("swiper index:" + this._swiper.state.index);
 
-      // if ((this._swiper.state.index) == 18 && toIndex_ == 1) {
-      //   this._swiper.scrollTo(0, true);
-      // } else if ((this._swiper.state.index) == 1 && toIndex_ == -1) {
-      //   this._swiper.scrollTo(17, true);
-      // }
-
     }
   }
 
@@ -1023,6 +1019,10 @@ class EnterScore extends React.Component {
     )
   }
   _withdrowPlayer(userID, userName, withdraw) {
+    const type = this.props.current_match[0].type;
+    if (type !== "poty") {
+      return
+    }
     if (withdraw !== "0") {
       return
     }
@@ -1039,6 +1039,7 @@ class EnterScore extends React.Component {
   _renderRowValues(data, key) {
     const { current, index, scoreCard } = this.state;
     const { Name } = scoreCard[0];
+    debugger
     return Name.map((nameItem, nameIndex) => {
       const rowItem = data[key][nameIndex];
       return (
@@ -1161,7 +1162,7 @@ class EnterScore extends React.Component {
   _renderKeyboard = () => {
     //if (this.tmpData.length > 0 && this.tmpData.score_lock === 1)
     console.log("keyboard:" + this.state.showKeyBoard)
-
+    debugger
     if (this.state.isLoading)
       return;
     if (this.tmpData.length > 0 && parseInt(this.tmpData.score_lock) === 1)
@@ -1177,6 +1178,7 @@ class EnterScore extends React.Component {
             return
           } else
             this._keyPress(text);
+
         }}
       />
     )
@@ -1264,7 +1266,7 @@ class EnterScore extends React.Component {
     },
       { headers: { Authorization: AuthStr } }).then((response) => {
         console.log(response);
-        this._hideKeyboard()
+        //this._hideKeyboard()
         this.setState({ isLoading: true });
         this.getLatestScores();
       })

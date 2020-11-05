@@ -48,15 +48,20 @@ export default (state = initialState, action) => {
         });
       });
 
+
       return Immutable.merge(state, {
         data: tempData
       });
     }
 
+    case POST_DMP_SCORE.SUCCESS:
+    case POST_LMP_SCORE.SUCCESS:
+    case POST_LCL_SCORE.SUCCESS:
     case POST_POTY_SCORE.SUCCESS:
     case GET_ENTER_SCORE_DATA.SUCCESS: {
       const tempData = _.cloneDeep(state.data);
       tempData.holeData = action.data;
+      tempData.named = REFRESH_DATA;
 
       //debugger;
       // if (_.isEmpty(tempData.holeData)) {
@@ -89,9 +94,14 @@ export default (state = initialState, action) => {
       });
     }
 
+    case POST_POTY_SCORE.FAILURE:
+    case POST_DMP_SCORE.FAILURE:
+    case POST_LMP_SCORE.FAILURE:
+    case POST_LCL_SCORE.FAILURE:
     case GET_ENTER_SCORE_DATA.FAILURE: {
       const tempData = _.cloneDeep(state.data);
       tempData.isFetchingData = false;
+      tempData.named = action.data.length > 1 ? action.data : ERROR_API
       return Immutable.merge(state, {
         data: tempData
       });
@@ -114,28 +124,28 @@ export default (state = initialState, action) => {
     // }
 
 
-    case POST_DMP_SCORE.SUCCESS:
-    case POST_LMP_SCORE.SUCCESS:
-    case POST_LCL_SCORE.SUCCESS: {
-      const tempData = _.cloneDeep(action.data)//_.cloneDeep(state.data);
-      tempData.named = REFRESH_DATA;
-      debugger
-      tempData.poty_complete = action.data;
-      return Immutable.merge(state, {
-        data: tempData
-      });
-    }
+    // case POST_DMP_SCORE.SUCCESS:
+    // case POST_LMP_SCORE.SUCCESS:
+    // case POST_LCL_SCORE.SUCCESS: {
+    //   const tempData = _.cloneDeep(action.data)//_.cloneDeep(state.data);
+    //   tempData.named = REFRESH_DATA;
+    //   debugger
+    //   tempData.poty_complete = action.data;
+    //   return Immutable.merge(state, {
+    //     data: tempData
+    //   });
+    // }
 
-    case POST_POTY_SCORE.FAILURE:
-    case POST_DMP_SCORE.FAILURE:
-    case POST_LMP_SCORE.FAILURE:
-    case POST_LCL_SCORE.FAILURE: {
-      const tempData = _.cloneDeep(state.data);
-      tempData.named = action.data.length > 1 ? action.data : ERROR_API
-      return Immutable.merge(state, {
-        data: tempData
-      });
-    }
+    // case POST_POTY_SCORE.FAILURE:
+    // case POST_DMP_SCORE.FAILURE:
+    // case POST_LMP_SCORE.FAILURE:
+    // case POST_LCL_SCORE.FAILURE: {
+    //   const tempData = _.cloneDeep(state.data);
+    //   tempData.named = action.data.length > 1 ? action.data : ERROR_API
+    //   return Immutable.merge(state, {
+    //     data: tempData
+    //   });
+    // }
 
     case UPDATE_REFRESH: {
       const tempData = _.cloneDeep(state.data);

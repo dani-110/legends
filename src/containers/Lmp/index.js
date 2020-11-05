@@ -129,11 +129,10 @@ class Lmp extends React.Component {
             key={`sec-${index}`}
           >
             <Text color={Colors.grey6} textAlign="center" type="bold">
-              {`${ROUND_NAMES[item]} ${
-                lmpTournamentData[item].length > 1
+              {`${ROUND_NAMES[item]} ${lmpTournamentData[item].length > 1
                   ? `(${lmpTournamentData[item].length})`
                   : ""
-              }`}
+                }`}
             </Text>
           </View>
         ))}

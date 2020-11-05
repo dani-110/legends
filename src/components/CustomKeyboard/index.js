@@ -48,6 +48,7 @@ export default class CustomKeyboard extends React.PureComponent {
   }
 
   render() {
+    debugger
     const { mini, visible, onKeyPress, currentText } = this.props;
     const miniKeys = [
       "DEL",
