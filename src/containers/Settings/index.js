@@ -2,12 +2,12 @@
 import { connect } from "react-redux";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { View, Switch } from "react-native";
+import { View, Switch, TouchableOpacity, Linking } from "react-native";
 import { CustomNavbar, Text } from "../../components";
 import styles from "./styles";
 import Util from "../../util";
 import { NAVBAR_THEME } from "../../constants";
-import { AppStyles } from "../../theme";
+import { AppStyles, Colors } from "../../theme";
 
 class Settings extends Component {
   static propTypes = {};
@@ -76,6 +76,13 @@ class Settings extends Component {
         />
         <View style={[AppStyles.paddingVerticalBase, AppStyles.flex]}>
           {this._renderSettings()}
+        </View>
+        <View style={{ bottom: 50, justifyContent: 'center', alignItems: 'center' }}>
+          <TouchableOpacity
+            onPress={() => { Linking.openURL("http://www.livewireapps.com/") }}>
+            <Text style={{ color: Colors.grey }}>Powered by Live Wire Apps</Text>
+          </TouchableOpacity>
+          <Text>Version 2.4</Text>
         </View>
       </View>
     );
