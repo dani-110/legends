@@ -39,7 +39,7 @@ export default StyleSheet.create({
   },
   textStyle:
   {
-    fontSize: 12,
+    fontSize: 10.5,
     textAlign: 'left',
     color: Colors.grey5,
     marginBottom: 15,
