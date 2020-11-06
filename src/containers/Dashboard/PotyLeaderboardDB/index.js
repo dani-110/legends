@@ -142,7 +142,7 @@ class PotyLeaderboardDB extends PureComponent {
     console.log("state is:-->" + this.state.sliderIndex)
     const { potyData, isFetchingData, lcl_leaderboard } = this.props;
     return (
-      <SafeAreaView style={[{ height: '52.5%', ...AppStyles.borderBottomGrey, }]}>
+      <SafeAreaView style={[{ ...AppStyles.borderBottomGrey, }]}>
         <ViewPager style={[styleViewPager.viewPager]} ref={(viewPager) => { this.viewPager = viewPager }} scrollEnabled={true}>
 
           <View
@@ -256,7 +256,7 @@ const styleViewPager = StyleSheet.create({
   viewPager: {
     flex: 1,
     backgroundColor: 'transparent',
-    minHeight: 450
+    minHeight: 350
   },
 });
 
