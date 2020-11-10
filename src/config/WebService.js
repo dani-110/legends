@@ -1,7 +1,7 @@
 import _ from "lodash";
 import Util from "../util";
 
-export const BASE_URL = "http://legend.livewireapps.info/public/api";//"https://legendstourgolf.com/api/";//
+export const BASE_URL = "https://legendstourgolf.com/api/";//"http://legend.livewireapps.info/public/api";//
 
 export const API_TIMEOUT = 30000;
 
@@ -174,7 +174,7 @@ export const POST_POTY_SCORE = {
 export const POST_LCL_SCORE = {
   route: "EnterScoreLCL",
   access_token_required: true,
-  type: REQUEST_TYPE.POST
+  type: REQUEST_TYPE.POST //03155485907
 };
 export const POST_LMP_SCORE = {
   route: "EnterScoreLMP",

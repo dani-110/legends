@@ -43,7 +43,9 @@ export default (state = initialState, action) => {
 
     case UPLOAD_USER_IMAGE.SUCCESS: {
       const tempProfile = _.cloneDeep(state.profileData);
+
       return Immutable.merge(state, {
+        isFetchingProfileData: true,
         profileData: { ...tempProfile, ...{ picture: action.url } }
       });
     }

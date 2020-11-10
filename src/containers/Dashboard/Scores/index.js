@@ -85,7 +85,7 @@ class Scores extends React.Component {
         winPercentage = 0
       }
     } = this.props;
-
+    debugger
     return (
       <View style={[AppStyles.mediumMargin, AppStyles.mTop20]}>
         <View>
@@ -97,9 +97,9 @@ class Scores extends React.Component {
           </Text>
           <View style={[AppStyles.flexRow, AppStyles.spaceBetween,]}>
             {this.getSingleScore(
-              "HCP",
+              "WHS",
               true,
-              Math.round(blue_tee_handicap * 10) / 10,
+              current_handicap,
               Colors.blue
             )}
             {/* {this.getSingleScore(

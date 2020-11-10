@@ -135,6 +135,7 @@ class Profile extends Component {
       if (newImageUrl) {
         // success
         this.setImage(uri);
+        this.props.getUserProfileRequest();
       } else {
         // error
         this.setImage(this.props.userData.user_info[0]);

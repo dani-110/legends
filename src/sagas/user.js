@@ -187,6 +187,7 @@ function* uploadUserImage() {
 
       if (Util.isSuccessResponse(response)) {
         if (responseCallback) responseCallback(response.image_url, null);
+
         yield put(uploadUserImageSuccess(response.image_url));
       } else {
         if (responseCallback) responseCallback(null, true);
