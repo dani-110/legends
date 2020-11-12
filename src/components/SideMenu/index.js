@@ -50,7 +50,7 @@ const DRAWER_ITEMS = [
   {
     text: "Rules",
     onPress: () => {
-      Linking.openURL("https://www.google.com");
+      Linking.openURL("https://www.usga.org/content/usga/home-page/handicapping/world-handicap-system/world-handicap-system--education-resources-for-club-administrators.html");
     }
   },
   {
