@@ -71,9 +71,22 @@ export default class ListItem extends React.Component {
           {
             !(title_ === MATCH_TYPES.LCL || title_ === MATCH_TYPES.DMP) ? (
               <View style={{ padding: 14, flex: 1, flexDirection: 'row', }}>
-                <Text type="bold" color={Colors.white} style={{ flex: 3, flexDirection: 'row' }}>
-                  {title_ === MATCH_TYPES.POTY ? (name) : (team1_name + " vs " + team2_name)}
-                </Text>
+                {title_ === MATCH_TYPES.POTY ? (
+                  <Text type="normal" color={Colors.white} style={{ flex: 3, flexDirection: 'row', fontSize: 15 }}>
+                    {name}</Text>
+                ) : //(team1_name + "\nVS \n" + team2_name)
+                  (
+                    <View style={{ flex: 3, flexDirection: 'column' }}>
+                      <Text type="normal" color={Colors.white} style={styles.lmpText} >
+                        {team1_name} </Text>
+                      <Text type="normal" color={Colors.whiteOpaque} >
+                        VS</Text>
+                      <Text type="normal" color={Colors.white} style={styles.lmpText} >
+                        {team2_name}</Text>
+                    </View>
+                  )
+                }
+
 
                 <View style={styles.RectangleShape}>
                   <Text style={{ alignSelf: 'center', paddingTop: 3, }} color={Colors.white} size="xSmall" type="bold">

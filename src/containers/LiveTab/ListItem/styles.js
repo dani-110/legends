@@ -11,6 +11,9 @@ export default StyleSheet.create({
     position: "relative",
     ...AppStyles.mBottom10
   },
+  lmpText: {
+    fontSize: 14
+  },
   textTitle: {
     flex: 1,
     flexDirection: 'row',
