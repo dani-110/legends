@@ -53,11 +53,18 @@ class Scores extends React.Component {
         >
           <AnimateNumber
             value={score}
-            formatter={val =>
-              suffix
-                ? `${Math.round(val * 10) / 10}${suffix}`
-                : `${Math.round(val * 10) / 10}`
+
+            formatter={label !== "WHS" ? (
+              val =>
+                suffix
+                  ? `${Math.round(val * 10) / 10}${suffix}`
+                  : `${Math.round(val * 10) / 10}`
+            ) : (
+                val =>
+                  val
+              )
             }
+
             countBy={1}
             interval={42}
           />

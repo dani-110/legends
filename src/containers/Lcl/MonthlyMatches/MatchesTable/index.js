@@ -89,7 +89,8 @@ export default function MatchesTable(props) {
           ]}
         >
           {/* right side Objects */}
-          <View style={[{ paddingTop: 10, flex: 1, height: '100%', width: '50%' }, { flexDirection: 'column' }, (exItems.match_winner_team !== "away_team") ? { backgroundColor: "rgba(102, 139, 249, .2)" } : { backgroundColor: 'rgba(0,0,0,0)' }]}>
+          <View style={[{ paddingTop: 10, flex: 1, height: '100%', width: '50%' },
+          { flexDirection: 'column' }, (exItems.match_winner_team === "home_team") ? { backgroundColor: "rgba(102, 139, 249, .2)" } : { backgroundColor: 'rgba(0,0,0,0)' }]}>
             {/* player 1 */}
             <View style={{ flexDirection: 'row-reverse', }}>
 
@@ -119,13 +120,15 @@ export default function MatchesTable(props) {
 
           </View>
           {/* Circle */}
-          <View style={{ ...styles.circle, }}>
+          <View style={{ ...styles.circle, backgroundColor: (exItems.match_winner_team === "home_team") ? Colors.blue : (exItems.match_winner_team === "away_team") ? Colors.redDark : Colors.darkBlue }}>
             <Text color={Colors.white} size={12}>
               {exItems.overall_match_score}
             </Text>
+
           </View>
+
           {/* Left side objects */}
-          <View style={[{ paddingTop: 10, flex: 1, height: '100%', width: '50%' }, { flexDirection: 'column' }, (exItems.match_winner_team === "away_team") ? { backgroundColor: "rgba(102, 139, 249, .2)" } : { backgroundColor: 'rgba(0,0,0,0)' }]}>
+          <View style={[{ paddingTop: 10, flex: 1, height: '100%', width: '50%' }, { flexDirection: 'column' }, (exItems.match_winner_team === "away_team") ? { backgroundColor: "#f6c2c1" } : { backgroundColor: 'rgba(0,0,0,0)' }]}>
             {/* player 2 */}
             <View style={{ flexDirection: 'row', marginLeft: -5, }}>
               <View style={{ ...styles.squir }}>

@@ -118,6 +118,7 @@ class Lmp extends React.Component {
   _renderHeader = () => {
     const { lmpTournamentData } = this.props;
     const rounds = Object.keys(lmpTournamentData);
+    debugger
     return (
       <View style={[AppStyles.flexRow, AppStyles.mBottom20]}>
         {rounds.map((item, index) => (
@@ -130,8 +131,8 @@ class Lmp extends React.Component {
           >
             <Text color={Colors.grey6} textAlign="center" type="bold">
               {`${ROUND_NAMES[item]} ${lmpTournamentData[item].length > 1
-                  ? `(${lmpTournamentData[item].length})`
-                  : ""
+                ? `(${lmpTournamentData[item].length})`
+                : ""
                 }`}
             </Text>
           </View>
@@ -144,6 +145,7 @@ class Lmp extends React.Component {
     const { lmpTournamentData } = this.props;
     const rounds = Object.keys(lmpTournamentData);
 
+    debugger
     return (
       <React.Fragment>
         {this._renderHeader()}
@@ -158,29 +160,34 @@ class Lmp extends React.Component {
   };
 
   _renderColumn = (col, index) => (
+
     <View key={`col-${index}`} style={styles.column}>
       {col.map((item, colIndex) => this._renderPair(item, colIndex))}
     </View>
   );
 
   _renderPair = (pair, index) => (
-    <View key={`pair-${index}`} style={[styles.pair]}>
-      {pair.team1_name && pair.team2_name && (
-        <React.Fragment>
-          <View style={[styles.pairBorder]} />
-          <View style={[styles.pairConnector]} />
-        </React.Fragment>
-      )}
-      {this._renderItem(pair.team1_name, pair.winning_team == 1)}
-      {this._renderItem(pair.team2_name, pair.winning_team == 2)}
-    </View>
+
+    <View key={`pair-${index}`} style={[styles.pair]} >
+      {
+        pair.team1_name && pair.team2_name && (
+          <React.Fragment>
+            <View style={[styles.pairBorder]} />
+            <View style={[styles.pairConnector]} />
+          </React.Fragment>
+        )
+      }
+
+      { this._renderItem(pair.team1_name, pair.winning_team == 1)}
+      { this._renderItem(pair.team2_name, pair.winning_team == 2)}
+    </View >
   );
 
   _renderItem(item, won) {
     if (item) {
       return (
         <View key={`item-${item}`} style={[styles.itemWrapper]}>
-          <View style={[styles.item, won && styles.itemWon]}>
+          <View style={[styles.item, won && styles.itemWon, { top: 5 }]}>
             <Text color={Colors.white} size="xxSmall">
               {item || ""}
             </Text>

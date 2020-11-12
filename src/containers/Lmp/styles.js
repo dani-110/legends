@@ -45,7 +45,7 @@ export default StyleSheet.create({
   },
   itemWrapper: {
     position: "relative",
-    ...AppStyles.mBottom5
+    ...AppStyles.mBottom15
   },
   item: {
     width: 167,
@@ -53,7 +53,7 @@ export default StyleSheet.create({
     paddingBottom: 7,
     borderRadius: 7,
     backgroundColor: Colors.grey2,
-    ...AppStyles.centerInner
+    ...AppStyles.centerInner,
   },
   itemWon: {
     backgroundColor: Colors.green

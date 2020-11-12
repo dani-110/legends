@@ -14,8 +14,8 @@ export default StyleSheet.create({
   textTitle: {
     flex: 1,
     flexDirection: 'row',
-    fontSize: 15,
-    fontWeight: "bold",
+    fontSize: 14,
+    fontWeight: "normal",
 
   },
   textTitle2: {
