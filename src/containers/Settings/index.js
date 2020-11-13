@@ -82,7 +82,7 @@ class Settings extends Component {
             onPress={() => { Linking.openURL("http://www.livewireapps.com/") }}>
             <Text style={{ color: Colors.grey }}>Powered by Live Wire Apps</Text>
           </TouchableOpacity>
-          <Text>Version 3.1.2</Text>
+          <Text>Version 3.2.0</Text>
         </View>
       </View>
     );

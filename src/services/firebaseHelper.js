@@ -34,7 +34,7 @@ const updateDeviceToken = async token => {
 };
 
 const sendDeviceToken = (fcmToken) => {
-
+  debugger
   const AuthStr = util.getCurrentUserAccessToken();
   console.log("authentication key =-----------------------234 >" + AuthStr);
   URL = BASE_URL + '/DeviceTokenUpdate';
