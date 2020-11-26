@@ -296,6 +296,7 @@ class EnterScore extends React.Component {
   }
 
   _showKeyBoard(mini, current, index) {
+
     this.setState({ showKeyBoard: true, miniKeyBoard: mini, current, index });
 
     setTimeout(() => {
@@ -710,7 +711,7 @@ class EnterScore extends React.Component {
         holeData: { tournament_name, course_name, players }
       }
     } = this.props;
-    debugger
+
     const { type, id, schedule_id, match_id } = current_match[0];
 
     return (
@@ -1039,7 +1040,7 @@ class EnterScore extends React.Component {
   _renderRowValues(data, key) {
     const { current, index, scoreCard } = this.state;
     const { Name } = scoreCard[0];
-    debugger
+
     return Name.map((nameItem, nameIndex) => {
       const rowItem = data[key][nameIndex];
       return (
@@ -1071,7 +1072,7 @@ class EnterScore extends React.Component {
                   ]}
 
                   onPress={() => {
-                    ;
+
                     if (nameItem.withdraw !== "0") {
                       return
                     }
@@ -1162,7 +1163,7 @@ class EnterScore extends React.Component {
   _renderKeyboard = () => {
     //if (this.tmpData.length > 0 && this.tmpData.score_lock === 1)
     console.log("keyboard:" + this.state.showKeyBoard)
-    debugger
+
     if (this.state.isLoading)
       return;
     if (this.tmpData.length > 0 && parseInt(this.tmpData.score_lock) === 1)
@@ -1213,16 +1214,16 @@ class EnterScore extends React.Component {
 
     const { current_match } = this.props;
     const { id, group_id, schedule_id, match_id } = current_match[0];
-
+    debugger
     const AuthStr = util.getCurrentUserAccessToken();
     console.log("get data authentication key = >" + AuthStr);
-    URL = BASE_URL + `/getGrossScoreNetScore/${id}`;
+    URL = BASE_URL + `getGrossScoreNetScore/${id}`;
 
-
+    debugger
     axios.get(URL, { headers: { Authorization: AuthStr } }).then((response) => {
-
       this.setState({ dataSource: response.data.data, visible: true });
-      //this.setState({ showConformPopUp: true });
+
+      this.setState({ showConformPopUp: true });
     })
       .catch(function (error) {
         Alert.alert(error);
@@ -1235,7 +1236,7 @@ class EnterScore extends React.Component {
 
     const AuthStr = util.getCurrentUserAccessToken();
     console.log("send Data authentication key = >" + AuthStr);
-    URL = BASE_URL + '/SubmitGrossScoreNetScore';
+    URL = BASE_URL + 'SubmitGrossScoreNetScore';
 
     axios.post(URL, {
       id: id,
@@ -1247,6 +1248,7 @@ class EnterScore extends React.Component {
       .catch(function (error) {
         Alert.alert(error);
       });
+
     this.setState({ visible: false, score_lock: 0 })
     /////  NEED TO WORK ON IT //////
     this.getLatestScores()
@@ -1602,7 +1604,7 @@ const actions = {
    */
 
 function manipulateDataForScoreCard(data, state) {
-  debugger
+
   const rowValue = state.cardIndex !== -1 ? state.keyBoardText : "";
   const rowIndex = state.cardIndex !== -1 ? state.rowIndex : "";
   const cardIndex = state.cardIndex !== -1 ? parseInt(state.cardIndex) + 1 : "";

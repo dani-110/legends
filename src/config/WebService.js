@@ -1,7 +1,7 @@
 import _ from "lodash";
 import Util from "../util";
 
-export const BASE_URL = "https://legendstourgolf.com/api/";//"http://legend.livewireapps.info/public/api";
+export const BASE_URL = "https://legendstourgolf.com/api/";//"http://legend.livewireapps.info/public/api";//
 
 export const API_TIMEOUT = 30000;
 
@@ -14,7 +14,7 @@ export const ERROR_SOMETHING_WENT_WRONG = {
 };
 export const ERROR_NETWORK_NOT_AVAILABLE = {
   message: "Please connect to the working Internet",
-  error: "Please connect to the working Internet"
+  error: "Please connect to the worhking Internet"
 };
 
 export const ERROR_TOKEN_EXPIRE = {

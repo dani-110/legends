@@ -2,7 +2,7 @@
 import { connect } from "react-redux";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Text, View, Image as RNImage, FlatList, ScrollView, RefreshControl } from "react-native";
+import { Text, View, Image as RNImage, FlatList, ScrollView, RefreshControl, Alert } from "react-native";
 import Swipeout from "react-native-swipeout";
 import { CustomNavbar, Button, SimpleLoader } from "../../components";
 import styles from "./styles";
@@ -118,7 +118,9 @@ class Notification extends Component {
         size="medium"
         background={Colors.darkBlue}
         onPress={() => {
+
           this.props.deleteAllNotificationsRequest();
+
         }}
       >
         Clear all notifications

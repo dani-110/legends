@@ -77,7 +77,7 @@ class ScoreTable extends React.Component {
     }
   }
   _renderHeader = () => {
-
+    debugger
     const {
       liveScoreData: { score }
     } = this.props;
@@ -137,16 +137,23 @@ class ScoreTable extends React.Component {
           {score.length > 1 ?
             <View
               style={[
-                styles.score,
-                {
-                  backgroundColor:
-                    score[score.length - 1].scoredBy == 1
-                      ? playerOneColor
-                      : score[score.length - 1].scoredBy == 2
-                        ? playerTwoColor
-                        : Colors.darkBlue,
-                  marginLeft: 10,
-                }
+
+                score[score.length - 1].score !== "" ? (
+
+                  styles.score,
+                  {
+                    backgroundColor:
+                      score[score.length - 1].scoredBy == 1
+                        ? playerOneColor
+                        : score[score.length - 1].scoredBy == 2
+                          ? playerTwoColor
+                          : Colors.darkBlue,
+                    marginLeft: 10,
+                  }
+                ) : (
+                    ""
+                  )
+
               ]}
             >
 
@@ -176,7 +183,20 @@ class ScoreTable extends React.Component {
       </View >
     );
   };
+  _updateColor(score) {
 
+    for (var i = 0; i < score.length; i++) {
+      console.log(score[i].scoredBy)
+      if (score[i].scoredBy === "1") {
+        TempColor = playerOneColor
+      } else if (score[i].scoredBy === "2") {
+        TempColor = playerTwoColor
+      } else if (score[i].scoredBy === "0") {
+        TempColor = Colors.darkBlue
+      }
+    }
+    return TempColor
+  }
   _renderRow({ item, index }) {
     const playerOneColor = Colors.redDark;
     const playerTwoColor = Colors.blue2;

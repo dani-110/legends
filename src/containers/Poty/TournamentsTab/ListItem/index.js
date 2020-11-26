@@ -44,8 +44,9 @@ export default class ListItem extends React.Component {
   static defaultProps = {};
 
   sendData(data_) {
-    console.log(BASE_URL + '/tournamentInvitationApi');
-    axios.post(BASE_URL + '/tournamentInvitationApi', {
+    debugger
+    console.log(BASE_URL + 'tournamentInvitationApi');
+    axios.post(BASE_URL + 'tournamentInvitationApi', {
       decesion: 1,
       tourId: data_.tournament_id
 

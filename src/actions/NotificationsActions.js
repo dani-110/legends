@@ -74,6 +74,7 @@ export function deleteAllNotificationsRequest(parameter) {
 }
 
 export function deleteAllNotificationsSuccess(data) {
+  debugger
   return {
     data,
     type: DELETE_ALL_NOTIFICATIONS.SUCCESS
@@ -81,6 +82,7 @@ export function deleteAllNotificationsSuccess(data) {
 }
 
 export function deleteAllNotificationsFailure() {
+  debugger
   return {
     type: DELETE_ALL_NOTIFICATIONS.FAILURE
   };
