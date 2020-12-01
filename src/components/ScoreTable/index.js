@@ -220,9 +220,9 @@ class ScoreTable extends React.Component {
           end={{ x: 1, y: 0 }}
           style={[AppStyles.flex, AppStyles.mTop5, AppStyles.mBottom5]}
           colors={[
-            item.scoredBy == 1 ? `${playerOneColor}1a` : Colors.transparent,
+            item.round_winner == 1 ? `${playerOneColor}1a` : Colors.transparent,
             Colors.transparent,
-            item.scoredBy == 2 ? `${playerTwoColor}1a` : Colors.transparent
+            item.round_winner == 2 ? `${playerTwoColor}1a` : Colors.transparent
           ]}>
           <View
             style={[
@@ -233,9 +233,9 @@ class ScoreTable extends React.Component {
               AppStyles.alignItemsCenter,
               {
                 borderLeftColor:
-                  item.scoredBy == 1 ? playerOneColor : Colors.transparent,
+                  item.round_winner == 1 ? playerOneColor : Colors.transparent,
                 borderRightColor:
-                  item.scoredBy == 2 ? playerTwoColor : Colors.transparent
+                  item.round_winner == 2 ? playerTwoColor : Colors.transparent
               }
             ]}
           >

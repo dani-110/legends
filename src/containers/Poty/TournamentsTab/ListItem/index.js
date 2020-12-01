@@ -45,7 +45,7 @@ export default class ListItem extends React.Component {
 
   sendData(data_) {
     debugger
-    console.log(BASE_URL + 'tournamentInvitationApi');
+    console.log(BASE_URL + 'tournamentInvitationApi for staging please add / before tournamentInvitationApi');
     axios.post(BASE_URL + 'tournamentInvitationApi', {
       decesion: 1,
       tourId: data_.tournament_id
@@ -68,6 +68,7 @@ export default class ListItem extends React.Component {
 
   render() {
     const { data, updateInputValue } = this.props;
+    console.log(data)
     console.log("render")
     return (
       <View

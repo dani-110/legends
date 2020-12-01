@@ -1,15 +1,16 @@
 // @flow
 import React from "react";
+import _ from "lodash";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { View, Image } from "react-native";
+import { View, Image, Alert, } from "react-native";
 import { Actions } from "react-native-router-flux";
 import { setSelectedTab } from "../../actions/GeneralActions";
 import { Text, ButtonView } from "../";
 import styles from "./styles";
 import { Images, Colors } from "../../theme";
 import PotyLeaderboardDB from "../../containers/Dashboard/PotyLeaderboardDB";
-
+import { getUserProfileRequest } from "../../actions/UserActions";
 
 const BUTTON_TYPES = {
   icon: "icon",
@@ -58,6 +59,7 @@ const tabsData = [
     image: Images.notification_outline,
     selectedImage: Images.notification_black,
     type: BUTTON_TYPES.icon,
+    tag: "notification",
     onPress: () => {
       PotyLeaderboardDB.pauseInterval();
       Actions.notification_tab()
@@ -126,12 +128,15 @@ const livematchtabsData = [
 
 class Tabbar extends React.PureComponent {
   static propTypes = {
+    userData: PropTypes.string.isRequired,
     selectedIndex: PropTypes.number.isRequired,
     setSelectedTab: PropTypes.func.isRequired,
     defaultTabbar: PropTypes.bool.isRequired,
     showTabbar: PropTypes.bool.isRequired,
     current_match: PropTypes.array.isRequired,
-    enable_enter_score: PropTypes.bool.isRequired
+    enable_enter_score: PropTypes.bool.isRequired,
+    getUserProfileRequest: PropTypes.func.isRequired,
+    isFetchingProfile: PropTypes.bool.isRequired
   };
 
   static defaultProps = {};
@@ -141,15 +146,53 @@ class Tabbar extends React.PureComponent {
   }
 
   render() {
-    const { selectedIndex, defaultTabbar, showTabbar } = this.props;
+    const { selectedIndex, defaultTabbar, showTabbar, userData } = this.props;
     // const selectedIndex = 4;
+    console.log("user Data : ", userData)
+    debugger
     const data = defaultTabbar ? tabsData : livematchtabsData;
-
     return (
       showTabbar && (
         <View style={styles.container}>
+
           {data.map((element, index) => {
+
             if (element.type === BUTTON_TYPES.icon) {
+              if (element.tag === "notification") {
+
+                return (
+                  <ButtonView
+                    key={index}
+                    style={styles.itemWrapper}
+                    onPress={() => {
+                      if (index !== 0) {
+                        this.props.setSelectedTab(index);
+                      }
+                      element.onPress(selectedIndex === index);
+                    }}
+                  >
+                    <View style={styles.btn1}>
+                      <Image
+                        source={
+                          selectedIndex === index
+                            ? element.selectedImage
+                            : element.image
+                        }
+                      />
+                      {parseInt(userData) > 0 ? (
+                        // {console.log("user data as int :", parseInt(userData))}
+                        < View style={{ justifyContent: 'center', alignItems: 'center', right: 5, top: 0, width: 18, height: 18, borderRadius: 40, backgroundColor: Colors.red, position: 'absolute' }}>
+                          <Text style={styles.notificationtext}>
+                            {userData.toString()}
+                          </Text>
+                        </View>
+                      ) : null}
+
+                    </View>
+                    { selectedIndex === index && this.renderSelectedBar()}
+                  </ButtonView>
+                )
+              }
               return (
                 <ButtonView
                   key={index}
@@ -170,8 +213,8 @@ class Tabbar extends React.PureComponent {
                       }
                     />
                   </View>
-                  {selectedIndex === index && this.renderSelectedBar()}
-                </ButtonView>
+                  { selectedIndex === index && this.renderSelectedBar()}
+                </ButtonView >
               );
             }
 
@@ -224,23 +267,28 @@ class Tabbar extends React.PureComponent {
               </ButtonView>
             );
           })}
-        </View>
+        </View >
       )
     );
   }
 }
 
-const mapStateToProps = ({ general }) => ({
+const mapStateToProps = ({ general, user }) => ({
   selectedIndex: general.selectedIndex,
   defaultTabbar: general.defaultTabbar,
   showTabbar: general.showTabbar,
   current_match: general.current_match,
-  enable_enter_score: general.enable_enter_score
+  enable_enter_score: general.enable_enter_score,
+  isFetchingProfile: user.isFetchingProfileData,
+  userData: !_.isEmpty(user.profileData) ? user.profileData.notification_count : {},
 });
 
-const actions = { setSelectedTab };
+const actions = { setSelectedTab, getUserProfileRequest };
+//const actions = {  };
+
 
 export default connect(
   mapStateToProps,
   actions
 )(Tabbar);
+

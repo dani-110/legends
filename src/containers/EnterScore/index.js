@@ -16,8 +16,6 @@ import {
   StyleSheet, ActivityIndicator, RefreshControl
 } from "react-native";
 import CheckBox from 'react-native-checkbox';
-
-12
 import Swiper from "react-native-swiper";
 import { Actions } from "react-native-router-flux";
 import _ from "lodash";
@@ -50,6 +48,7 @@ let newIndex = 1;
 isAlreadyCalled = false;
 let indexer = 0;
 let prevValue = 0;
+isRenderCalled = false;
 class EnterScore extends React.Component {
   static propTypes = {
     setTabbarType: PropTypes.func.isRequired,
@@ -350,6 +349,7 @@ class EnterScore extends React.Component {
   }
 
   _keyPress(text) {
+    debugger
     console.log("keyboard data is:" + text)
 
     text = _.includes(text, "DEL") ? "DEL" : text
@@ -757,8 +757,10 @@ class EnterScore extends React.Component {
     return indexer;
   }
   _renderSwiper(players, holes, hole_starting) {
-    let dataLength = 0;
 
+    isRenderCalled = true;
+    let dataLength = 0;
+    //Alert.alert("me here renderSwiper")
     if (players) {
       players.map(player => {
         if (player.scorecard.length > dataLength) {
@@ -812,7 +814,6 @@ class EnterScore extends React.Component {
             {this._renderHoleInfo(holes[i])}
             {this._renderScoreTable(holes[i], i)}
           </View>
-
         </View>
       );
     }
@@ -831,6 +832,9 @@ class EnterScore extends React.Component {
             showsButtons={false}
             showsPagination={false}
             onIndexChanged={() => this._onSwipe()}
+
+            scrollEnabled={true}
+            loadMinimal={true}
           >
             {holeScreens}
 
@@ -845,6 +849,8 @@ class EnterScore extends React.Component {
           showsButtons={false}
           showsPagination={false}
           onIndexChanged={() => this._onSwipe()}
+          scrollEnabled={true}
+          loadMinimal={true}
         >
           {holeScreens}
 
@@ -960,7 +966,9 @@ class EnterScore extends React.Component {
     );
   }
 
+
   _renderScoreTable(holeInfo, index) {
+    // Alert.alert("score info table is:" + index)
     const manipulatedData = this.state.scoreCard[index];
     return (
       manipulatedData && (
@@ -1003,8 +1011,7 @@ class EnterScore extends React.Component {
    */
   _onSwipe() {
     if (this._swiper != undefined && this._swiper.state != undefined) {
-      console.log("swiper index:" + this._swiper.state.index);
-
+      //Alert.alert("swiper index:" + this._swiper.state.index);
     }
   }
 
@@ -1259,7 +1266,7 @@ class EnterScore extends React.Component {
     const { id } = current_match[0];
     const AuthStr = util.getCurrentUserAccessToken();
     console.log("send Data authentication key = >" + AuthStr);
-    URL = BASE_URL + '/WithdrawGroupUser';
+    URL = BASE_URL + 'WithdrawGroupUser';
 
     axios.post(URL, {
       tournament_id: id,
@@ -1277,6 +1284,9 @@ class EnterScore extends React.Component {
       });
     this.setState({ showLongPressPopUp: false })
   }
+
+
+
   render() {
     const {
       enterScoreData: { isFetchingData, holeData }

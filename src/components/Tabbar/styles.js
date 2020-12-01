@@ -1,7 +1,7 @@
 // @flow
 import { StyleSheet } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
-import { Colors, Metrics, AppStyles } from "../../theme";
+import { Colors, Metrics, AppStyles, Fonts } from "../../theme";
 
 export default StyleSheet.create({
   container: {
@@ -23,6 +23,13 @@ export default StyleSheet.create({
     ...AppStyles.flexRow,
     ...AppStyles.spaceAround
     // ...AppStyles.alignItemsCenter
+  },
+
+  notificationtext: {
+    color: Colors.white,
+    fontWeight: 'bold',
+    fontSize: Fonts.size.xxSmall,
+    alignSelf: 'center'
   },
   btn1: {
     width: 50,
