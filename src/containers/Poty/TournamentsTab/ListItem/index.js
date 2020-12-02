@@ -17,12 +17,12 @@ export default class ListItem extends React.Component {
   static propTypes = {
     data: PropTypes.object.isRequired,
   };
-  state = { visible: false }
+  state = { visible: false, showButton: true }
   buttonClick(params, isParticipate) {
     if (params === "Registration")
-      this.setState({ visible: true });
+      this.setState({ visible: true, showButton: true });
     else {
-      Alert.alert("Already Registered");
+      this.setState({ visible: true, showButton: false });
     }
   }
 
@@ -87,21 +87,37 @@ export default class ListItem extends React.Component {
           }}
           footer={
             <View style={styles.dialogBoxStyle, { alignItems: 'center' }}>
-              <View style={[
-                styles.buttonStyle,
-                {
-                  backgroundColor: Colors.green,
-                  bottom: 15,
-                  position: 'relative', justifyContent: 'center', alignItems: 'center'
-                }, { height: 40 }
-              ]}>
+              {this.state.showButton ? (
+                <View style={[
+                  styles.buttonStyle,
+                  {
+                    backgroundColor: Colors.green,
+                    bottom: 15,
+                    position: 'relative', justifyContent: 'center', alignItems: 'center'
+                  }, { height: 40 }
+                ]}>
 
-                <Text style={styles.buttonText}>Confirm</Text>
-                <DialogButton
+                  <Text style={styles.buttonText}>Confirm</Text>
+                  <DialogButton
 
-                  onPress={() => this.sendData(data)}
-                />
-              </View>
+                    onPress={() => this.sendData(data)}
+                  />
+                </View>
+              ) : (
+                  <View style={[
+                    styles.buttonStyle,
+                    {
+                      backgroundColor: Colors.darkBlue,
+                      bottom: 15,
+                      position: 'relative', justifyContent: 'center', alignItems: 'center'
+                    }, { height: 40 }
+                  ]}>
+
+                    <Text style={styles.buttonText}>Already registered</Text>
+
+                  </View>
+                )}
+
 
             </View>
           }
@@ -120,12 +136,14 @@ export default class ListItem extends React.Component {
               flex: 1,
               marginTop: 15,
               marginBottom: 50,
+              justifyContent: 'center',
+              alignItems: 'center'
             }}>
               <Text style={{
                 fontSize: 20,
                 fontWeight: 'normal',
                 marginBottom: 10,
-              }} >Confirm Registration</Text>
+              }} > {this.state.showButton ? ("Confirm Registration") : ("Registered")}</Text>
               <Text
 
                 style={{

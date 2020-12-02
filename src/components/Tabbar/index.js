@@ -125,7 +125,7 @@ const livematchtabsData = [
     }
   }
 ];
-
+hasReadNotifications = false;
 class Tabbar extends React.PureComponent {
   static propTypes = {
     userData: PropTypes.string.isRequired,
@@ -169,6 +169,7 @@ class Tabbar extends React.PureComponent {
                         this.props.setSelectedTab(index);
                       }
                       element.onPress(selectedIndex === index);
+                      this.hasReadNotifications = true;
                     }}
                   >
                     <View style={styles.btn1}>
@@ -179,7 +180,7 @@ class Tabbar extends React.PureComponent {
                             : element.image
                         }
                       />
-                      {parseInt(userData) > 0 ? (
+                      {parseInt(userData) > 0 && !this.hasReadNotifications ? (
                         // {console.log("user data as int :", parseInt(userData))}
                         < View style={{ justifyContent: 'center', alignItems: 'center', right: 5, top: 0, width: 18, height: 18, borderRadius: 40, backgroundColor: Colors.red, position: 'absolute' }}>
                           <Text style={styles.notificationtext}>
