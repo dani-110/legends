@@ -13,16 +13,18 @@ import Tabbar from "./Tabbar";
 import GreenBgFlayer from "./GreenBgFlayer";
 import Image from "./Image";
 import TopTabs from "./TopTabs";
+import CourseSelection from "./CourseSelection";
 import ScoreValue from "./ScoreValue";
 import CustomKeyboard from "./CustomKeyboard";
 import SimpleLoader from "./SimpleLoader";
 import { ScoreTable, HeaderSection } from "./ScoreTable";
-
+import CustomPicker from './CustomPicker'
 export {
   Button,
   ButtonView,
   Text,
   TextInput,
+  CustomPicker,
   CustomNavbar,
   MessageBar,
   SearchBar,
@@ -33,6 +35,7 @@ export {
   GreenBgFlayer,
   Image,
   TopTabs,
+  CourseSelection,
   ScoreValue,
   CustomKeyboard,
   SimpleLoader,

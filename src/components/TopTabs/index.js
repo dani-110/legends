@@ -45,6 +45,7 @@ export default class TopTabs extends React.PureComponent {
     const { data, activeIndex } = this.props;
     return (
       <View style={[AppStyles.flexRow]}>
+
         {data.map((element, index) =>
           this._renderButton(element, index === activeIndex, index)
         )}

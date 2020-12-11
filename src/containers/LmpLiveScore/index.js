@@ -12,7 +12,8 @@ import {
   CustomNavbar,
   ScoreTable,
   SimpleLoader,
-  EmptyStateText
+  EmptyStateText,
+  CourseSelection
 } from "../../components";
 import { NAVBAR_THEME } from "../../constants";
 import { setTabbarType, enableEnterScore } from "../../actions/GeneralActions";
@@ -222,6 +223,7 @@ class LmpLiveScore extends React.Component {
           theme={NAVBAR_THEME.WHITE}
           titleAlign="center"
         />
+        <CourseSelection data={this.props} />
         {this._headerController(liveScoreData.players, liveScoreData.score)}
         <ScrollView refreshControl={
           <RefreshControl

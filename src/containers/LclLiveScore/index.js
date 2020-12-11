@@ -2,15 +2,16 @@
 import { connect } from "react-redux";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { View } from "react-native";
+import { Alert, View } from "react-native";
 import styles from "./styles";
-import { CustomNavbar, TopTabs } from "../../components";
+import { CustomNavbar, TopTabs, CourseSelection } from "../../components";
 import { NAVBAR_THEME } from "../../constants";
 import Util from "../../util";
 import SinglesOne from "./SinglesOne";
 import Foursome from "./Foursome";
 import SinglesTwo from "./SinglesTwo";
 import { setTabbarType, enableEnterScore } from "../../actions/GeneralActions";
+import { Images } from "../../theme";
 
 class LclLiveScore extends Component {
   static propTypes = {
@@ -76,12 +77,16 @@ class LclLiveScore extends Component {
 
   _renderTabsHeader() {
     return (
-      <TopTabs data={this.TABS_DATA} activeIndex={this.state.activeTabIndex} />
+      <>
+        <CourseSelection data={this.props} />
+        <TopTabs data={this.TABS_DATA} activeIndex={this.state.activeTabIndex} />
+      </>
     );
   }
 
-  render() {
 
+  render() {
+    debugger
     const { activeTabIndex } = this.state;
     const {
       data: { title, name, venue }
@@ -94,6 +99,8 @@ class LclLiveScore extends Component {
         <CustomNavbar
           title={title || teamName1 + " vs " + teamName2}
           subtitle={venue}
+          // rightBtnImage={Images.change_Icon}
+          // rightBtnPress={() => { <CourseSelection data={this.props} /> }}
           hasBorder={false}
           theme={NAVBAR_THEME.WHITE}
           titleAlign="center"

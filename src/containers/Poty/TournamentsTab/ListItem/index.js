@@ -21,7 +21,7 @@ export default class ListItem extends React.Component {
   buttonClick(params, isParticipate) {
     if (params === "Registration")
       this.setState({ visible: true, showButton: true });
-    else {
+    else if (params === "Registered") {
       this.setState({ visible: true, showButton: false });
     }
   }
@@ -117,8 +117,6 @@ export default class ListItem extends React.Component {
 
                   </View>
                 )}
-
-
             </View>
           }
           dialogAnimation={

@@ -13,6 +13,7 @@
     "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/picker": "^1.8.1",
     "@react-native-community/viewpager": "^4.1.6",
+    "@react-native-picker/picker": "^1.9.4",
     "apisauce": "^1.1.2",
     "lodash": "^4.17.20",
     "moment": "^2.29.1",

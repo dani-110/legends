@@ -7,6 +7,7 @@ const header_image = require("../assets/images/header/bg_header_profile.png");
 const back_icon = require("../assets/icon/back_icon/back_icon.png");
 //E:\Projects\github\react_native\LegendsApp\src\assets\icon\image_edit
 const image_edit = require("../assets/icon/image_edit/Change_DP.png");
+const change_Icon = require("../assets/icon/change_Icon/icon_change.png");
 const drawer_black = require("../assets/icon/drawer_black/drawer_black.png");
 const home_black = require("../assets/icon/home_black/home_black.png");
 const home_outline = require("../assets/icon/home_outline/home_outline.png");
@@ -104,6 +105,7 @@ export default {
   score_board_outline,
   check,
   cross,
+  change_Icon,
   tournament_selected,
   tournament_unselected,
   calendar_selected,

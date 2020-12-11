@@ -12,6 +12,7 @@ import {
   ScoreTable,
   SimpleLoader,
   CustomNavbar,
+  CourseSelection,
   EmptyStateText
 } from "../../components";
 import { getScoreDmpRequest } from "../../actions/LiveMatchesActions";
@@ -173,11 +174,11 @@ class DmpLiveScore extends React.Component {
 
   _headerController(playersData, score, type) {
     if (playersData !== undefined) {
-
+      debugger
       player1Name = playersData[0].team_1_players
       player2Name = playersData[0].team_2_players
-      player1Initials = this._splitString(playersData[0].team_1_players_initials, 0) + " & " + this._splitString(playersData[0].team_1_players_initials, 1)
-      player2Initials = this._splitString(playersData[0].team_2_players_initials, 0) + " & " + this._splitString(playersData[0].team_2_players_initials, 1)
+      player1Initials = playersData[0].team_1_players_initials//this._splitString(playersData[0].team_1_players_initials, 0) + " & " + this._splitString(playersData[0].team_1_players_initials, 1)
+      player2Initials = playersData[0].team_2_players_initials//this._splitString(playersData[0].team_2_players_initials, 0) + " & " + this._splitString(playersData[0].team_2_players_initials, 1)
     }
     return (
       <View  >
@@ -258,6 +259,7 @@ class DmpLiveScore extends React.Component {
           theme={NAVBAR_THEME.WHITE}
           titleAlign="center"
         />
+        <CourseSelection data={this.props} />
         {this._headerController(liveScoreData.players, liveScoreData.score, this.props.data.type)}
         <ScrollView refreshControl={
           <RefreshControl

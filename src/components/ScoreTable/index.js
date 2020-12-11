@@ -89,6 +89,7 @@ class ScoreTable extends React.Component {
     } = this.props;
     debugger
     return (
+
       <View
         style={[
           styles.header,
@@ -97,6 +98,7 @@ class ScoreTable extends React.Component {
           AppStyles.alignItemsCenter
         ]}
       >
+
         <View
           style={[styles.wholeNumber, AppStyles.paddingVerticalBase]}
           textAlign="center"

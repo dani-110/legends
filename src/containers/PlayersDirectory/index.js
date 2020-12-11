@@ -342,7 +342,7 @@ export default connect(
 let temp = 0;
 renderItem = ({ item }, index) => {
   temp += 1;
-  const colors = ["yellow", "redDark"];
+  const colors = ["redDark", "redDark"];
   return (
 
     <View>
@@ -351,7 +351,7 @@ renderItem = ({ item }, index) => {
         {/* //image View */}
         <View style={{ flexDirection: 'row', }}>
           <View style={{ ...styles.absoluteContainer, backgroundColor: Colors[colors[temp % 2]] }}>
-            <Text style={{ position: 'absolute', textAlign: 'center', color: Colors.white }}> {item.first_last_letter}</Text>
+            <Text style={{ position: 'absolute', left: 9, textAlign: 'center', color: Colors.white }}> {item.first_last_letter}</Text>
             <RNImage
               source={{ uri: item.picture }}
               style={{ width: 50, height: 50, borderRadius: 50, }}
