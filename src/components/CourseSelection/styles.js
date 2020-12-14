@@ -33,7 +33,7 @@ export default StyleSheet.create({
   },
   dialogStyle: {
     ...AppStyles.centerInner,
-    height: Dimensions.get('window').height * .5,
+    // height: Dimensions.get('window').height * .5,
     width: Dimensions.get('window').width * .9,
   },
   dropDownLargeStyle: {

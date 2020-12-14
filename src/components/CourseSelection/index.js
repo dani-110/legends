@@ -11,7 +11,6 @@ import util from "../../util";
 import { BASE_URL } from '../../config/WebService';
 import axios from "axios";
 import CustomPicker from '../CustomPicker'
-import { Picker } from '@react-native-picker/picker';
 
 export default class CourseSelection extends React.PureComponent {
   static propTypes = {
@@ -53,9 +52,9 @@ export default class CourseSelection extends React.PureComponent {
     debugger
     console.log("course change proops ", data.data)
     const AuthStr = util.getCurrentUserAccessToken();
-    URL = BASE_URL + `/getCoursesWithTee`;
+    URL = BASE_URL + `getCoursesWithTee`;
 
-    console.log("getData------------>", data.data.type, "    Schedual ", data.data.schedule_id, "    match Id", data.data.match_id)
+    console.log(URL, "   == >getData------------>", data.data.type, "    Schedual ", data.data.schedule_id, "    match Id", data.data.match_id)
     debugger
     axios.post(URL, {
       type: data.data.type,
@@ -120,7 +119,7 @@ export default class CourseSelection extends React.PureComponent {
     })
     this.setState({ playersID: newIds })
     const AuthStr = util.getCurrentUserAccessToken();
-    URL = BASE_URL + `/saveCourse`;
+    URL = BASE_URL + `saveCourse`;
 
     console.log(data.data.type, data.data.schedule_id, "    match Id", data.data.match_id)
     debugger
@@ -144,6 +143,7 @@ export default class CourseSelection extends React.PureComponent {
 
     }, { headers: { Authorization: AuthStr } }).then((response) => {
       this.setState({ showTees: false })
+      Alert.alert("Course and tee has been changed successfully")
       console.log("responce New ==>", response);
     })
 
@@ -156,123 +156,73 @@ export default class CourseSelection extends React.PureComponent {
   render() {
 
     const { data } = this.props;
+
     debugger
     return (
+      data.data.id === data.current_match[0]?.id ?
+        <View style={styles.container}>
+          <TouchableOpacity
+            style={styles.buttonStyle}
+            onPress={() => this.setState({ visible: true })}
 
-      <View style={styles.container}>
-        <TouchableOpacity
-          style={styles.buttonStyle}
-          onPress={() => this.setState({ visible: true })}
-
-        >
-          <Image
-            source={Images.change_Icon}
-          />
-        </TouchableOpacity>
-        <Dialog
-          visible={this.state.visible}
-          onTouchOutside={() => {
-            this.setState({ visible: false, showAllCourses: false });
-          }}
-        // dialogTitle={<DialogTitle title="You are playing\n"{data.current_match[0].name} />}
-        >
-          <DialogContent
-            style={{
-              ...AppStyles.centerInner,
-              minHeight: Dimensions.get('window').height * (this.state.dataSource.length === 0 ? .3 : (this.state.dataSource.length + 1) / 10),
-              width: Dimensions.get('window').width * .9,
+          >
+            <Image
+              source={Images.change_Icon}
+            />
+          </TouchableOpacity>
+          <Dialog
+            visible={this.state.visible}
+            onTouchOutside={() => {
+              this.setState({ visible: false, showAllCourses: false });
             }}
+          // dialogTitle={<DialogTitle title="You are playing\n"{data.current_match[0].name} />}
           >
-            <View style={{ top: 10, flex: 1 }}>
-              <Text
-
-                style={{ ...styles.titleHeader }}>
-                You are playing
-              {"\n" + data.current_match[0].name}
-              </Text>
-              <TouchableOpacity
-                onPress={() => { this.getData() }}
-              >
-                <View style={styles.dropDownLargeStyle}>
-                  <Text style={styles.textdropDown}>
-                    {this.state.currentSelected != '' ? this.state.currentSelected : "Course"}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-
-            </View>
-            {this.state.showAllCourses ? (
-              <View style={{ width: '100%', ...styles.containerInner }}>
-
-                <View>
-                  <FlatList
-                    data={this.state.dataSource}
-                    renderItem={({ item, index }) =>
-                      <Text style={styles.item}
-                        onPress={() => { this.setState({ selectedCourse: item.id, tees: item.tees, showAllCourses: false, currentSelected: item.name }) }}>{item.name}</Text>}
-
-                  />
-                </View>
-              </View>
-            ) : null}
-
-            <ButtonView style={{ bottom: 40, width: 300, height: 50, ...styles.buttonGreenStyle }}
-              onPress={() => { this.state.currentSelected != '' ? this.setState({ showTees: true, visible: false, }) : null }}
+            <DialogContent
+              style={{
+                ...AppStyles.centerInner,
+                minHeight: Dimensions.get('window').height * (this.state.dataSource.length === 0 ? .3 : (this.state.dataSource.length + 1) / 10),
+                width: Dimensions.get('window').width * .9,
+              }}
             >
-              <Text
-                color={Colors.white}
-                style={styles.buttonTitleText}
-              >
-                Confirm
-                </Text>
-            </ButtonView>
+              <View style={{
+                flexDirection: 'column', justifyContent: 'space-around', minHeight: 270
+              }}>
+                <View style={{ top: 10, flex: 1 }}>
+                  <Text
 
-          </DialogContent>
-        </Dialog>
-
-        <Dialog
-          visible={this.state.showTees}
-          onTouchOutside={() => {
-            this.setState({ showTees: false, showAllCourses: false });
-          }}
-        // dialogTitle={<DialogTitle title="You are playing\n"{data.current_match[0].name} />}
-        >
-          <DialogContent
-            style={{ ...styles.dialogStyle }}
-          >
-            <View style={AppStyles.centerInner}>
-              <Text
-                style={{ ...styles.titleTees, }}>
-                Select Tee for each player
-              </Text>
-
-            </View>
-
-
-            <View style={{ marginTop: 30, marginBottom: 30, width: '100%', flex: 1, flexDirection: 'column', justifyContent: 'space-around' }}>
-              {this.state.teesData.map((e, index) => (
-
-                this.state.players[index]?.name !== 0 ? (
-                  <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <View style={AppStyles.flex2}>
-
-                      <Text style={styles.PlayerNameStyle}>
-                        {this.state.players[index]?.name}
+                    style={{ ...styles.titleHeader }}>
+                    You are playing
+              {"\n" + data.current_match[0].venue}
+                  </Text>
+                  <TouchableOpacity
+                    onPress={() => { this.getData() }}
+                  >
+                    <View style={styles.dropDownLargeStyle}>
+                      <Text style={styles.textdropDown}>
+                        {this.state.currentSelected != '' ? this.state.currentSelected : "Course"}
                       </Text>
                     </View>
+                  </TouchableOpacity>
 
-                    <View style={{ justifyContent: 'flex-end', flex: 1, borderRadius: 15, borderWidth: 1, borderColor: Colors.grey, width: 300, height: 40 }}>
-                      <CustomPicker placeholder="Select Tee" items={this.state.tees} //category="category"
-                        label="name" value="id" selectedValue={this.state.teesSelected[index]} selectedValueName={this.state.teesSelected[index]} setSelectedValueName={(e) => this.handleteesChange(index, e)}
-                        setSelectedValue={(e) => this.handleteesChangeID(index, e)} />
+                </View>
+                {this.state.showAllCourses ? (
+                  <View style={{ width: '100%', ...styles.containerInner }}>
+
+                    <View>
+                      <FlatList
+                        data={this.state.dataSource}
+                        renderItem={({ item, index }) =>
+                          <Text style={styles.item}
+                            onPress={() => { this.setState({ selectedCourse: item.id, tees: item.tees, showAllCourses: false, currentSelected: item.name }) }}>{item.name}</Text>}
+
+                      />
+
                     </View>
                   </View>
-                ) : (null)
+                ) : null}
 
-              ))}
-              <View style={{ ...AppStyles.centerInner, ...AppStyles.flex }}>
-                <ButtonView style={{ height: 50, width: 250, ...styles.buttonGreenStyle }}
-                  onPress={() => { this._updateAndSendData(), this.setState({ showTees: true, visible: false }) }}
+                <ButtonView style={{ bottom: 40, width: 300, height: 50, ...styles.buttonGreenStyle }}
+                  onPress={() => { this.state.currentSelected != '' ? this.setState({ showTees: true, visible: false, }) : null }}
                 >
                   <Text
                     color={Colors.white}
@@ -282,13 +232,73 @@ export default class CourseSelection extends React.PureComponent {
                 </Text>
                 </ButtonView>
               </View>
-            </View>
+            </DialogContent>
+          </Dialog>
+
+          <Dialog
+            visible={this.state.showTees}
+            onTouchOutside={() => {
+              this.setState({ showTees: false, showAllCourses: false });
+            }}
+          // dialogTitle={<DialogTitle title="You are playing\n"{data.current_match[0].name} />}
+          >
+            <DialogContent
+              style={{
+                ...styles.dialogStyle,
+                height: Dimensions.get('window').height * ((this.state.players.length + 1) / 10),
+              }}
+            >
+              <View style={AppStyles.centerInner}>
+                <Text
+                  style={{ ...styles.titleTees, }}>
+                  Select Tee for each {'\n'} player
+              </Text>
+
+              </View>
+
+
+              <View style={{ marginTop: 30, marginBottom: 30, width: '100%', flex: 1, flexDirection: 'column', justifyContent: 'space-around' }}>
+                {this.state.teesData.map((e, index) => (
+
+                  this.state.players[index]?.name !== 0 ? (
+                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+                      <View style={AppStyles.flex2}>
+
+                        <Text style={styles.PlayerNameStyle}>
+                          {this.state.players[index]?.name}
+                        </Text>
+                      </View>
+
+                      <View style={{ justifyContent: 'flex-end', flex: 1, borderRadius: 15, borderWidth: 1, borderColor: Colors.grey, width: 300, height: 40 }}>
+                        <CustomPicker placeholder="Select Tee" items={this.state.tees} //category="category"
+                          label="name" value="id" selectedValue={this.state.teesSelected[index]} selectedValueName={this.state.teesSelected[index]} setSelectedValueName={(e) => this.handleteesChange(index, e)}
+                          setSelectedValue={(e) => this.handleteesChangeID(index, e)} />
+                      </View>
+                    </View>
+                  ) : (null)
+
+                ))}
+                <View style={{ ...AppStyles.centerInner, ...AppStyles.flex }}>
+                  <ButtonView style={{ height: 50, width: 250, ...styles.buttonGreenStyle }}
+                    onPress={() => { this._updateAndSendData(), this.setState({ showTees: true, visible: false }) }}
+                  >
+                    <Text
+                      color={Colors.white}
+                      style={styles.buttonTitleText}
+                    >
+                      Confirm
+                </Text>
+                  </ButtonView>
+                </View>
+              </View>
 
 
 
-          </DialogContent>
-        </Dialog>
-      </View>
-    );
+            </DialogContent>
+          </Dialog>
+        </View>
+
+        : null);
+
   }
 }
