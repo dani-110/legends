@@ -222,6 +222,7 @@ class LmpLiveScore extends React.Component {
           hasBorder={false}
           theme={NAVBAR_THEME.WHITE}
           titleAlign="center"
+          fontType="large"
         />
         <CourseSelection data={this.props} />
         {this._headerController(liveScoreData.players, liveScoreData.score)}
