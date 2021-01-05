@@ -41,7 +41,8 @@ class LclLiveScore extends Component {
   }
 
   state = {
-    activeTabIndex: 0
+    activeTabIndex: 0,
+    stateVenue: ""
   };
 
   componentWillMount() {
@@ -75,10 +76,13 @@ class LclLiveScore extends Component {
     }
   ];
 
+  updateTees(txt) {
+    this.setState({ stateVenue: txt })
+  }
   _renderTabsHeader() {
     return (
       <>
-        <CourseSelection data={this.props} />
+        <CourseSelection data={this.props} setTees={(e) => { this.updateTees(e) }} />
         <TopTabs data={this.TABS_DATA} activeIndex={this.state.activeTabIndex} />
       </>
     );
@@ -98,7 +102,7 @@ class LclLiveScore extends Component {
       <View style={[styles.container]}>
         <CustomNavbar
           title={title || teamName1 + " vs " + teamName2}
-          subtitle={venue}
+          subtitle={this.state.stateVenue || venue}
           // rightBtnImage={Images.change_Icon}
           // rightBtnPress={() => { <CourseSelection data={this.props} /> }}
           hasBorder={false}

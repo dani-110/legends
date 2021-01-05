@@ -29,6 +29,14 @@ class Scores extends React.Component {
     this.props.getUserProfileRequest();
   }
 
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.refresh) {
+      props.refreshUpdate(false)
+      props.getUserProfileRequest();
+    }
+  }
+
   getSingleScore = (label, labelOnTop, score, bgColor, suffix: null) => (
     <View style={labelOnTop && { marginTop: -30, }}>
       <View>

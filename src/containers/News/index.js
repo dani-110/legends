@@ -2,19 +2,38 @@
 import { connect } from "react-redux";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { View, FlatList } from "react-native";
+import { View, FlatList, RefreshControl, ScrollView } from "react-native";
 import { CustomNavbar, SimpleLoader, EmptyStateText } from "../../components";
 import { NAVBAR_THEME } from "../../constants";
 import styles from "./styles";
 import Util from "../../util";
 import NewsItem from "./NewsItem";
 import { AppStyles } from "../../theme";
+import { getNewsRequest } from "./../../actions/NewsActions";
+
 
 class News extends Component {
   static propTypes = {
     newsData: PropTypes.array.isRequired,
     isFetchingNews: PropTypes.bool.isRequired
   };
+  state = {
+    refreshing: false,
+  }
+
+
+  _onRefresh() {
+    this.setState({
+      refreshing: true,
+    });
+    this.props.getNewsRequest()
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (state.refreshing) {
+      return { refreshing: false }
+    }
+  }
 
   static defaultProps = {};
 
@@ -36,7 +55,14 @@ class News extends Component {
   render() {
     const { newsData, isFetchingNews } = this.props;
     return (
-      <View style={styles.container}>
+      <ScrollView
+        style={styles.container}
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh.bind(this)}
+          />
+        }>
         <CustomNavbar
           title="Latest News"
           hasBorder={false}
@@ -46,7 +72,7 @@ class News extends Component {
         {isFetchingNews && <SimpleLoader />}
         {newsData.length === 0 && !isFetchingNews && <EmptyStateText />}
         {!isFetchingNews && this._renderNews(newsData)}
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -59,7 +85,8 @@ const mapStateToProps = (data) => {
   });
 }
 
-const actions = {};
+const actions = { getNewsRequest };
+
 
 export default connect(
   mapStateToProps,

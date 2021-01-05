@@ -85,6 +85,7 @@ class LmpLiveScore extends React.Component {
     LmpLiveScore.instance = this;
     this.state = {
       refreshing: false,
+      stateVenue: ""
     };
   }
 
@@ -203,7 +204,9 @@ class LmpLiveScore extends React.Component {
 
   }
   // header Contant end
-
+  updateTees(txt) {
+    this.setState({ stateVenue: txt })
+  }
   render() {
     const {
       data: { title, venue },
@@ -218,13 +221,13 @@ class LmpLiveScore extends React.Component {
       <View style={styles.container}>
         <CustomNavbar
           title={title || teamName1 + " vs " + teamName2}
-          subtitle={venue}
+          subtitle={this.state.stateVenue || venue}
           hasBorder={false}
           theme={NAVBAR_THEME.WHITE}
           titleAlign="center"
           fontType="large"
         />
-        <CourseSelection data={this.props} />
+        <CourseSelection data={this.props} setTees={(e) => { this.updateTees(e) }} />
         {this._headerController(liveScoreData.players, liveScoreData.score)}
         <ScrollView refreshControl={
           <RefreshControl

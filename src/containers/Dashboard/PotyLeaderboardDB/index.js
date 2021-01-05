@@ -47,7 +47,12 @@ class PotyLeaderboardDB extends PureComponent {
   componentDidUpdate() {
     this.createInterVal();
   }
-
+  static getDerivedStateFromProps(props, state) {
+    if (props.refresh) {
+      props.refreshUpdate(false)
+      props.getPotyLeaderboardRequest();
+    }
+  }
   createInterVal() {
     if (isCalled === "") {
       // clearInterval(intervalId);

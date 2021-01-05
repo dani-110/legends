@@ -110,10 +110,12 @@ export default class CustomKeyboard extends React.PureComponent {
                       key={`numeric-row--${index}`}
                       onPress={() => {
                         console.log("item is---------->" + this.props.currentText)
-                        if (this.props.currentText === "1")
+                        if (this.props.currentText === "1") {
                           onKeyPress(this.props.currentText + item)
-                        else
+                        }
+                        else {
                           onKeyPress(item)
+                        }
                       }}
                       style={styles.numericButton}
                     >

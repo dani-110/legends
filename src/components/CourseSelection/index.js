@@ -11,7 +11,9 @@ import util from "../../util";
 import { BASE_URL } from '../../config/WebService';
 import axios from "axios";
 import CustomPicker from '../CustomPicker'
+import DropDownPicker from 'react-native-dropdown-picker';
 
+let tmpList = []
 export default class CourseSelection extends React.PureComponent {
   static propTypes = {
     data: PropTypes.array.isRequired,
@@ -21,7 +23,7 @@ export default class CourseSelection extends React.PureComponent {
 
 
   state = {
-
+    dataFached: false,
     teesData: [false, false, false, false],
     teesSelected: ['', '', '', '', ''],
     visible: false,
@@ -31,6 +33,7 @@ export default class CourseSelection extends React.PureComponent {
     tees: [],
     showTees: false,
     currentSelected: '',
+    currentDropdownIndex: 0,
     // to send to server 
     slectedtees: ['', '', '', ''],
     playersID: ['', '', '', ''],
@@ -50,6 +53,8 @@ export default class CourseSelection extends React.PureComponent {
   getData() {
     const { data } = this.props;
     debugger
+    this.setState({ dataFached: true })
+
     console.log("course change proops ", data.data)
     const AuthStr = util.getCurrentUserAccessToken();
     URL = BASE_URL + `getCoursesWithTee`;
@@ -62,7 +67,7 @@ export default class CourseSelection extends React.PureComponent {
       match_id: data.data.match_id
 
     }, { headers: { Authorization: AuthStr } }).then((response) => {
-      this.setState({ dataSource: response.data.data.courses, players: response.data.data.player, showAllCourses: true });
+      this.setState({ dataSource: response.data.data.courses, players: response.data.data.player });
 
       // this.setState({ dataSource: response.data.data })
       console.log("responce New ==>", response);
@@ -85,15 +90,15 @@ export default class CourseSelection extends React.PureComponent {
   }
 
 
-  handleChange(index) {
+  // handleChange(index) {
 
-    const newIds = [false, false, false, false]
-    // const newIds = this.state.teesData.slice() //copy the array
-    newIds[index] = !this.state.teesData[index]
-    this.setState({ teesData: newIds })
-    console.log(this.state.teesData)
+  //   const newIds = [false, false, false, false]
+  //   // const newIds = this.state.teesData.slice() //copy the array
+  //   newIds[index] = !this.state.teesData[index]
+  //   this.setState({ teesData: newIds })
+  //   console.log(this.state.teesData)
 
-  }
+  // }
   handleteesChange(index, data_) {
     const newIds = this.state.teesSelected.slice() //copy the array
     newIds[index] = data_
@@ -114,6 +119,7 @@ export default class CourseSelection extends React.PureComponent {
   _updateAndSendData() {
     const { data } = this.props;
     const newIds = this.state.playersID.slice();
+    console.log(this.state.slectedtees)
     this.state.playersID.map((e, index) => {
       newIds[index] = this.state.players[index].id
     })
@@ -144,6 +150,7 @@ export default class CourseSelection extends React.PureComponent {
     }, { headers: { Authorization: AuthStr } }).then((response) => {
       this.setState({ showTees: false })
       Alert.alert("Course and tee has been changed successfully")
+      this.props.setTees(this.state.currentSelected)
       console.log("responce New ==>", response);
     })
 
@@ -156,14 +163,35 @@ export default class CourseSelection extends React.PureComponent {
   render() {
 
     const { data } = this.props;
+    this.setState({ currentSelected: data.current_match[0].venue })
 
+    { !this.state.dataFached ? this.getData() : null }
+
+    this.tmpList = this.state.tees.map(element => ({
+
+      label: element.name,
+      value: element.id
+    })
+    )
+
+    this.courses = this.state.dataSource.map(element => ({
+
+      label: element.name,
+      value: element.id,
+      tempTee: element.tees
+    })
+    )
+
+
+
+    console.log(this.tmpList)
     debugger
     return (
       data.data.id === data.current_match[0]?.id ?
         <View style={styles.container}>
           <TouchableOpacity
             style={styles.buttonStyle}
-            onPress={() => this.setState({ visible: true })}
+            onPress={() => this.setState({ visible: true, dataFached: false })}
 
           >
             <Image
@@ -185,43 +213,37 @@ export default class CourseSelection extends React.PureComponent {
               }}
             >
               <View style={{
-                flexDirection: 'column', justifyContent: 'space-around', minHeight: 270
+                flexDirection: 'column', justifyContent: 'space-around', minHeight: 200
               }}>
-                <View style={{ top: 10, flex: 1 }}>
+                <View style={{ flex: 1, zIndex: 1 }}>
                   <Text
 
-                    style={{ ...styles.titleHeader }}>
+                    style={{ ...styles.titleHeader, marginBottom: 20 }}>
                     You are playing
-              {"\n" + data.current_match[0].venue}
+              {"\n" + this.state.currentSelected}
                   </Text>
-                  <TouchableOpacity
-                    onPress={() => { this.getData() }}
-                  >
-                    <View style={styles.dropDownLargeStyle}>
-                      <Text style={styles.textdropDown}>
-                        {this.state.currentSelected != '' ? this.state.currentSelected : "Course"}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
 
+                  <DropDownPicker
+                    placeholder="Select Course"
+                    items={this.courses}
+                    defaultValue={this.state.country}
+                    containerStyle={{ height: 50 }}
+                    style={{ backgroundColor: '#fafafa', }}
+                    itemStyle={{
+                      justifyContent: 'flex-start'
+                    }}
+                    dropDownStyle={{ backgroundColor: '#fafafa' }}
+                    onChangeItem={item =>
+                      this.setState({
+                        selectedCourse: item.value, tees: item.tempTee, currentSelected: item.label
+                      })
+                    }
+                  />
                 </View>
-                {this.state.showAllCourses ? (
-                  <View style={{ width: '100%', ...styles.containerInner }}>
 
-                    <View>
-                      <FlatList
-                        data={this.state.dataSource}
-                        renderItem={({ item, index }) =>
-                          <Text style={styles.item}
-                            onPress={() => { this.setState({ selectedCourse: item.id, tees: item.tees, showAllCourses: false, currentSelected: item.name }) }}>{item.name}</Text>}
 
-                      />
 
-                    </View>
-                  </View>
-                ) : null}
-
-                <ButtonView style={{ bottom: 40, width: 300, height: 50, ...styles.buttonGreenStyle }}
+                <ButtonView style={{ bottom: 0, width: 300, height: 50, ...styles.buttonGreenStyle }}
                   onPress={() => { this.state.currentSelected != '' ? this.setState({ showTees: true, visible: false, }) : null }}
                 >
                   <Text
@@ -245,7 +267,7 @@ export default class CourseSelection extends React.PureComponent {
             <DialogContent
               style={{
                 ...styles.dialogStyle,
-                height: Dimensions.get('window').height * ((this.state.players.length + 1) / 10),
+                height: Dimensions.get('window').height * ((this.state.players.length + 1) / 8),
               }}
             >
               <View style={AppStyles.centerInner}>
@@ -257,11 +279,17 @@ export default class CourseSelection extends React.PureComponent {
               </View>
 
 
-              <View style={{ marginTop: 30, marginBottom: 30, width: '100%', flex: 1, flexDirection: 'column', justifyContent: 'space-around' }}>
-                {this.state.teesData.map((e, index) => (
 
+
+              <View style={{ marginTop: 5, marginBottom: 5, width: '100%', flex: 1, flexDirection: 'column', justifyContent: 'space-around' }}>
+
+
+
+
+                {this.state.teesData.map((e, index) => (
                   this.state.players[index]?.name !== 0 ? (
-                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+
+                    <View style={{ ...{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }, ...(this.state.currentDropdownIndex === index) ? { zIndex: 1 } : { zIndex: 0 } }}>
                       <View style={AppStyles.flex2}>
 
                         <Text style={styles.PlayerNameStyle}>
@@ -269,10 +297,35 @@ export default class CourseSelection extends React.PureComponent {
                         </Text>
                       </View>
 
-                      <View style={{ justifyContent: 'flex-end', flex: 1, borderRadius: 15, borderWidth: 1, borderColor: Colors.grey, width: 300, height: 40 }}>
-                        <CustomPicker placeholder="Select Tee" items={this.state.tees} //category="category"
-                          label="name" value="id" selectedValue={this.state.teesSelected[index]} selectedValueName={this.state.teesSelected[index]} setSelectedValueName={(e) => this.handleteesChange(index, e)}
-                          setSelectedValue={(e) => this.handleteesChangeID(index, e)} />
+                      <View style={{ justifyContent: 'flex-end', flex: 1, zIndex: 0, width: 300, height: 40 }}>
+
+                        <DropDownPicker
+                          placeholder="Select Tee"
+                          items={this.tmpList}
+                          containerStyle={{ height: 40, width: 120, zIndex: 0 }}
+                          style={{}}
+
+                          itemStyle={{
+                            justifyContent: 'flex-start'
+                          }}
+                          dropDownStyle={{ backgroundColor: Colors.white, height: 100, position: 'absolute', zIndex: 1 }}
+                          onOpen={() => {
+                            this.setState({ ...this.state, currentDropdownIndex: index })
+                          }}
+                          onChangeItem={(item) => {
+                            this.handleteesChangeID(index, item.value)
+                            console.log("asdd" + item.value)
+
+                          }}
+                        />
+
+
+
+                        {/* <CustomPicker placeholder="Select Tee" items={this.tmpList} //category="category"
+                          label="name" value="id" selectedValue={this.state.teesSelected[index]} selectedValueName={this.state.teesSelected[index]}
+                          setSelectedValueName={(e) => this.handleteesChange(index, e)}
+                          positionZindex={(this.state.teesData.length - 1) - index}
+                          setSelectedValue={(e) => this.handleteesChangeID(index, e)} /> */}
                       </View>
                     </View>
                   ) : (null)

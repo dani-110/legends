@@ -81,5 +81,14 @@ export default StyleSheet.create({
   },
   icon: {
     marginRight: 5
+  },
+  overlay: {
+    flex: 1,
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    opacity: 0.5,
+    backgroundColor: 'black',
+    width: 100
   }
 });

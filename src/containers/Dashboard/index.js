@@ -1,7 +1,7 @@
 // @flow
 import { connect } from "react-redux";
 import React, { Component } from "react";
-import { Dimensions, Text, View, ScrollView, Alert, StyleSheet, SafeAreaView } from "react-native";
+import { Dimensions, Text, View, ScrollView, Alert, StyleSheet, SafeAreaView, RefreshControl } from "react-native";
 import firebase from "react-native-firebase";
 import PropTypes from "prop-types";
 import {
@@ -26,6 +26,9 @@ import {
 } from "../../constants";
 import Util from "../../util";
 import { Actions } from "react-native-router-flux";
+import { Colors } from "../../theme";
+
+
 
 class Dashboard extends Component {
   static propTypes = {
@@ -35,7 +38,25 @@ class Dashboard extends Component {
   };
 
   static defaultProps = {};
-  state = { showConformPopUp: false }
+  state = {
+    showConformPopUp: false,
+    refreshing: false,
+    potyRefresh: true,
+    newsRefresh: true,
+    profileRefresh: true
+  }
+
+  setPotyRefresh(value) {
+    this.setState({ potyRefresh: value, refreshing: false })
+  }
+
+  setProfileRefresh(value) {
+    this.setState({ profileRefresh: value })
+  }
+
+  setNewsRefresh(value) {
+    this.setState({ newsRefresh: value })
+  }
 
   static onEnter() {
     if (Dashboard.instance) {
@@ -44,6 +65,18 @@ class Dashboard extends Component {
     }
   }
 
+  _onRefresh() {
+    this.setState({
+      refreshing: true,
+      potyRefresh: true,
+      profileRefresh: true,
+      newsRefresh: true
+    });
+    this.props.getDashboardDataRequest();
+    this.renderLeaderboard()
+    this.renderScores()
+    this.renderLatestNews()
+  }
   // static onExit() {
   //   if (Dashboard.instance) {
   //     Dashboard.instance._onExit();
@@ -191,35 +224,36 @@ class Dashboard extends Component {
   };
 
   renderLeaderboard() {
-    return <PotyLeaderboardDB />;
+    return <PotyLeaderboardDB refresh={this.state.potyRefresh} refreshUpdate={(e) => { this.setPotyRefresh(e) }} />;
+
   }
 
   renderScores() {
-    return <Scores />;
+    return <Scores refresh={this.state.potyRefresh} refreshUpdate={(e) => { this.setProfileRefresh(e) }} />;
   }
 
   renderLatestNews() {
-    return <NewsItem />;
+    return <NewsItem refresh={this.state.potyRefresh} refreshUpdate={(e) => { this.setNewsRefresh(e) }} />;
+
   }
 
   render() {
     return (
-      <View style={{ ...styles.container }}>
-        {/* <CustomNavbar
-          hasBack={false}
-          title="POTY Leaderboard"
-          hasBorder={false}
-          theme={NAVBAR_THEME.GREEN}
-          titleAlign="left"
-        /> */}
+      <ScrollView
+        style={styles.container}
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh.bind(this)}
+          />
+        }>
+        <GreenBgFlayer />
+        {this.renderLeaderboard()}
+        {this.renderScores()}
+        {this.renderLatestNews()}
 
-        <ScrollView>
-          <GreenBgFlayer />
-          {this.renderLeaderboard()}
-          {this.renderScores()}
-          {this.renderLatestNews()}
-        </ScrollView>
-      </View>
+
+      </ScrollView>
     );
   }
 }
