@@ -249,7 +249,7 @@ class DmpLiveScore extends React.Component {
     } = this.props;
 
 
-
+    console.log(this.props)
     teamName1 = this.props.current_match.length <= 0 ? this.props.data.team1_name : this.props.current_match[0].team1_name
     teamName2 = this.props.current_match.length <= 0 ? this.props.data.team2_name : this.props.current_match[0].team2_name
     return (

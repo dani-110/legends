@@ -818,7 +818,7 @@
 				CODE_SIGN_ENTITLEMENTS = legendstourrr/legendstourrr.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 493C5CTRSM;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
@@ -904,7 +904,7 @@
 				CODE_SIGN_ENTITLEMENTS = legendstourrr/legendstourrr.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 493C5CTRSM;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",

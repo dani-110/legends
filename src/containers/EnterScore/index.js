@@ -384,7 +384,7 @@ class EnterScore extends React.Component {
       current === "FIR" ||
       current === "GIR" ||
       current === "Putts" ||
-      (text !== "DEL" && (parseInt(text) !== 1))
+      (text !== "DEL" && text !== 1)
     ) {
       //let newIndex = index;
       newIndex = index;
@@ -476,11 +476,13 @@ class EnterScore extends React.Component {
         }
       );
     } else {
+
       this.setState({ scoreCard: tempData }, () => {
         this._updateGrossNetScores().then(() => {
           this._postData(holeIndex, current, index, tempData, text);
         });
       });
+      newIndex = index
     }
 
   }

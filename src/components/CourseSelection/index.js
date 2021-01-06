@@ -163,7 +163,16 @@ export default class CourseSelection extends React.PureComponent {
   render() {
 
     const { data } = this.props;
-    this.setState({ currentSelected: data.current_match[0].venue })
+
+    debugger
+    // (!this.state.dataFached && data.current_match[0]?.venue===null )? this.setState({ currentSelected: data.venue }) : null
+    if (!this.state.dataFached) {
+      if (data.current_match[0]?.venue === null || data.current_match[0]?.venue === undefined) {
+        this.setState({ currentSelected: data.venue })
+      } else {
+        this.setState({ currentSelected: data.current_match[0]?.venue })
+      }
+    }
 
     { !this.state.dataFached ? this.getData() : null }
 
@@ -207,18 +216,17 @@ export default class CourseSelection extends React.PureComponent {
           >
             <DialogContent
               style={{
-                ...AppStyles.centerInner,
-                minHeight: Dimensions.get('window').height * (this.state.dataSource.length === 0 ? .3 : (this.state.dataSource.length + 1) / 10),
+                justifyContent: 'space-between', alignItems: 'center', minHeight: 300,
                 width: Dimensions.get('window').width * .9,
               }}
             >
               <View style={{
                 flexDirection: 'column', justifyContent: 'space-around', minHeight: 200
               }}>
-                <View style={{ flex: 1, zIndex: 1 }}>
+                <View style={{ flex: 1, zIndex: 1, }}>
                   <Text
 
-                    style={{ ...styles.titleHeader, marginBottom: 20 }}>
+                    style={{ ...styles.titleHeader, marginBottom: 20, marginTop: 20 }}>
                     You are playing
               {"\n" + this.state.currentSelected}
                   </Text>
@@ -243,7 +251,7 @@ export default class CourseSelection extends React.PureComponent {
 
 
 
-                <ButtonView style={{ bottom: 0, width: 300, height: 50, ...styles.buttonGreenStyle }}
+                <ButtonView style={{ top: 20, width: 300, height: 50, ...styles.buttonGreenStyle }}
                   onPress={() => { this.state.currentSelected != '' ? this.setState({ showTees: true, visible: false, }) : null }}
                 >
                   <Text
@@ -267,7 +275,7 @@ export default class CourseSelection extends React.PureComponent {
             <DialogContent
               style={{
                 ...styles.dialogStyle,
-                height: Dimensions.get('window').height * ((this.state.players.length + 1) / 8),
+                height: Dimensions.get('window').height * ((this.state.players.length + 1) / 10),
               }}
             >
               <View style={AppStyles.centerInner}>
