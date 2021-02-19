@@ -16,6 +16,7 @@ import { BASE_URL } from '../config/WebService';
 
 
 const updateDeviceToken = async token => {
+  debugger
   let fcmToken = "";
   if (_.isUndefined(token)) {
     fcmToken = await firebase.messaging().getToken();
@@ -37,7 +38,7 @@ const sendDeviceToken = (fcmToken) => {
   debugger
   const AuthStr = util.getCurrentUserAccessToken();
   console.log("authentication key =-----------------------234 >" + AuthStr);
-  URL = BASE_URL + '/DeviceTokenUpdate';
+  URL = BASE_URL + 'DeviceTokenUpdate';
   axios.post(URL, {
     device_token: fcmToken
   },

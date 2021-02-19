@@ -818,7 +818,7 @@
 				CODE_SIGN_ENTITLEMENTS = legendstourrr/legendstourrr.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 493C5CTRSM;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
@@ -880,7 +880,7 @@
 				);
 				INFOPLIST_FILE = legendstourrr/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 3.3.3;
+				MARKETING_VERSION = 3.3.4;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -904,7 +904,7 @@
 				CODE_SIGN_ENTITLEMENTS = legendstourrr/legendstourrr.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 493C5CTRSM;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -965,7 +965,7 @@
 				);
 				INFOPLIST_FILE = legendstourrr/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 3.3.3;
+				MARKETING_VERSION = 3.3.4;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

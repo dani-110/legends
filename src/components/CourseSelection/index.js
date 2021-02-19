@@ -328,12 +328,6 @@ export default class CourseSelection extends React.PureComponent {
                         />
 
 
-
-                        {/* <CustomPicker placeholder="Select Tee" items={this.tmpList} //category="category"
-                          label="name" value="id" selectedValue={this.state.teesSelected[index]} selectedValueName={this.state.teesSelected[index]}
-                          setSelectedValueName={(e) => this.handleteesChange(index, e)}
-                          positionZindex={(this.state.teesData.length - 1) - index}
-                          setSelectedValue={(e) => this.handleteesChangeID(index, e)} /> */}
                       </View>
                     </View>
                   ) : (null)
