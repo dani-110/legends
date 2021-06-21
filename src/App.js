@@ -10,6 +10,7 @@ import AppStyles from "./theme/AppStyles";
 import DataHandler from "./services/DataHandler";
 import firebase from 'react-native-firebase';
 import { AsyncStorage } from 'react-native';
+import { LogBox } from 'react-native';
 
 const reducers = require("./reducers").default;
 
@@ -26,6 +27,8 @@ export default class App extends Component {
   };
 
   componentWillMount() {
+    LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+    LogBox.ignoreAllLogs();//Ignore all log notifications
     console.warn('Askaksaksaks');
   }
 

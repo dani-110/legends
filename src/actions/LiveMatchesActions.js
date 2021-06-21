@@ -27,6 +27,7 @@ export function getPotyScoreNetSuccess(data) {
 }
 
 export function getPotyScoreNetFailure() {
+  debugger
   return {
     type: GET_POTY_SCORE_NET.FAILURE
   };

@@ -16,11 +16,12 @@ import { BASE_URL } from '../config/WebService';
 
 
 const updateDeviceToken = async token => {
-  debugger
+  //debugger
   let fcmToken = "";
   if (_.isUndefined(token)) {
     fcmToken = await firebase.messaging().getToken();
     sendDeviceToken(fcmToken)
+    console.log(fcmToken);
   }
 
   if (fcmToken || token)
@@ -43,10 +44,10 @@ const sendDeviceToken = (fcmToken) => {
     device_token: fcmToken
   },
     { headers: { Authorization: AuthStr } }).then((response) => {
-      console.log("response is:--<>------" + response)
+      console.log("device response is:--<>------" + response)
     })
     .catch(function (error) {
-      console.log("error is:--<>------" + error);
+      console.log("device response error is:--<>------" + error);
     });
 
 }
@@ -107,7 +108,8 @@ export {
   setChannelForAndroid,
   getPermissions,
   showLocalNotification,
-  clearBadgeNumber
+  clearBadgeNumber,
+  sendDeviceToken
 };
 
 

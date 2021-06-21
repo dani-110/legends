@@ -48,7 +48,7 @@ export default class CustomKeyboard extends React.PureComponent {
   }
 
   render() {
-    debugger
+    //debugger
     const { mini, visible, onKeyPress, currentText } = this.props;
     const miniKeys = [
       "DEL",
@@ -92,40 +92,45 @@ export default class CustomKeyboard extends React.PureComponent {
                   {React.isValidElement(item) ? (
                     <View>{item}</View>
                   ) : (
-                      <Text size={Fonts.size.xxLarge} type="bold">
-                        {item}
-                      </Text>
-                    )}
+                    <Text size={Fonts.size.xxLarge} type="bold">
+                      {item}
+                    </Text>
+                  )}
                 </TouchableOpacity>
               );
             })}
           </View>
         ) : (
-            <View style={styles.numericWraper}>
-              {numericKeys.map((row, current) => (
-                <View key={`numeric-keys-${current}`} style={styles.rowView}>
-                  {row.map((item, index) => (
-                    // console.log({this.props.currentText});
-                    <TouchableOpacity
-                      key={`numeric-row--${index}`}
-                      onPress={() => {
-                        console.log("item is---------->" + this.props.currentText)
-                        if (this.props.currentText === "1") {
-                          onKeyPress(this.props.currentText + item)
-                        }
-                        else {
-                          onKeyPress(item)
-                        }
-                      }}
-                      style={styles.numericButton}
-                    >
-                      <Text size={Fonts.size.xxLarge} type={Fonts.type.base}>{item}</Text>
-                    </TouchableOpacity>
-                  ))}
-                </View>
-              ))}
-            </View>
-          )}
+          <View style={styles.numericWraper}>
+            {numericKeys.map((row, current) => (
+              <View key={`numeric-keys-${current}`} style={styles.rowView}>
+                {row.map((item, index) => (
+                  // console.log({this.props.currentText});
+                  <TouchableOpacity
+                    key={`numeric-row--${index}`}
+                    onPress={() => {
+
+                      //FOR DOUBLE VALUES ONLY...
+                      //BUT NOT USED IN KEYBOARD. ONLY USE IN COMPONENT
+
+                      // if (this.props.currentText === 1) {
+                      //   let calValue = item + 10;
+                      //   console.log("keyboard is:---->" + (calValue))
+                      //   onKeyPress(calValue)
+                      // }
+                      // else {
+                      onKeyPress(item)
+                      //}
+                    }}
+                    style={styles.numericButton}
+                  >
+                    <Text size={Fonts.size.xxLarge} type={Fonts.type.base}>{item}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            ))}
+          </View>
+        )}
       </Animated.View>
     );
   }

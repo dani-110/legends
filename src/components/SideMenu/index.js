@@ -12,7 +12,8 @@ import { userSignOutRequest } from "../../actions/UserActions";
 import { Colors, AppStyles, Images } from "../../theme";
 import styles from "./styles";
 import PotyLeaderboardDB from "../../containers/Dashboard/PotyLeaderboardDB";
-import { Poty } from "../../containers";
+import { Poty, PotyLiveScore } from "../../containers";
+import { sendDeviceToken } from './../../services/firebaseHelper'
 
 const DRAWER_ITEMS = [
   {
@@ -39,7 +40,7 @@ const DRAWER_ITEMS = [
     activeTab: 1
   },
   {
-    text: "LMP", onPress: () => {
+    text: "SMP", onPress: () => {
       pauseInterval();
       Actions.lmp()
     }, activeTab: 1
@@ -86,9 +87,12 @@ const DRAWER_ITEMS = [
 ];
 
 function pauseInterval() {
-  PotyLeaderboardDB.pauseInterval();
+  PotyLeaderboardDB.pauseInterval;
 }
+
 function getLoggedOut() {
+  pauseInterval();
+  sendDeviceToken("")
   DataHandler.getStore().dispatch(
     userSignOutRequest(() => {
       Actions.reset("login");

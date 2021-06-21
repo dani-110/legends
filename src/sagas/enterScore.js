@@ -80,6 +80,7 @@ function* getEnterScoreData() {
 function* postPotyScore() {
   while (true) {
     const { payload, responseCallback } = yield take(POST_POTY_SCORE.REQUEST);
+    console.log("poty1 request--->", payload);
     try {
       const response = yield call(
         callRequest,
@@ -90,21 +91,28 @@ function* postPotyScore() {
         {},
         ApiSauce
       );
-      console.log("response", response);
+      console.log("response--->", response.config);
       if (Util.isSuccessResponse(response)) {
-        debugger
+        console.log("poty1 payload--->", payload);
+        console.log("poty1 success--->", response.data);
         responseCallback && responseCallback(response.data);
         yield put(postPotyScoreSuccess(response.data));
       } else {
+        debugger
+        console.log("poty1 payload--->", payload);
+        console.log("poty1 response failure--->", response);
         yield put(postPotyScoreFailure());
         //alert(response.error);
       }
     } catch (err) {
+      debugger
+      console.log("poty1 esponse catch failure--->", response);
       yield put(postPotyScoreFailure(NOT_SHOW_MSG));
       alert(err.message);
     }
   }
 }
+
 
 function* postLclScore() {
   while (true) {

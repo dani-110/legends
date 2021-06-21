@@ -40,6 +40,9 @@ const initialState = Immutable({
 });
 
 export default (state = initialState, action) => {
+
+  console.log("action-->", action.type);
+
   switch (action.type) {
     case GET_POTY_SCORE_NET.REQUEST: {
       const tempPoty = _.cloneDeep(state.poty);
@@ -59,6 +62,9 @@ export default (state = initialState, action) => {
     }
 
     case GET_POTY_SCORE_NET.FAILURE: {
+
+      debugger
+
       const tempPoty = _.cloneDeep(state.poty);
       tempPoty.isFetchingNet = false;
       return Immutable.merge(state, {

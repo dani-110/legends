@@ -18,6 +18,10 @@ import Util from "../../util";
 import { setTabbarType, enableEnterScore } from "../../actions/GeneralActions";
 import { AppStyles, Colors, Fonts, Images } from "../../theme";
 
+let dataPolling = {};
+let dataPollingNet = {};
+let dataPollingGross = {};
+
 class PotyLiveScore extends React.Component {
   static propTypes = {
     setTabbarType: PropTypes.func.isRequired,
@@ -37,7 +41,7 @@ class PotyLiveScore extends React.Component {
   //////////////////////////////  INTERVALS ///////////////////////////////
 
   componentDidMount() {
-    this.dataPolling = setInterval(() => {
+    dataPolling = setInterval(() => {
       if (this.state.activeTabIndex === 0)
         this._getPotyScoreNetRequest();
       else
@@ -46,7 +50,10 @@ class PotyLiveScore extends React.Component {
   }
 
   componentWillUnmount() {
-    clearInterval(this.dataPolling);
+
+    clearInterval(dataPolling);
+    clearInterval(dataPollingNet);
+    clearInterval(dataPollingGross);
   }
 
   _onRefresh() {
@@ -91,10 +98,6 @@ class PotyLiveScore extends React.Component {
     }
   }
 
-  componentWillUnmount() {
-    // clearInterval(this.dataPollingNet);
-    // clearInterval(this.dataPollingGross);
-  }
 
   _renderTabsHeader() {
     return (
@@ -155,6 +158,8 @@ class PotyLiveScore extends React.Component {
     const { netLastUpdatedOn } = this.state;
     const param = "";//netLastUpdatedOn ? `${netLastUpdatedOn}` : "";
     this.props.getPotyScoreNetRequest(param, data => {
+      console.log("poty data-->", "poty")
+      debugger
       this.setState({
         netLastUpdatedOn: moment().unix()
       });
@@ -162,10 +167,10 @@ class PotyLiveScore extends React.Component {
   }
 
   _onEnter() {
-    this.dataPollingNet = setInterval(() => {
+    dataPollingNet = setInterval(() => {
       this._getPotyScoreNetRequest();
     }, POLLING_TIME);
-    this.dataPollingGross = setInterval(() => {
+    dataPollingGross = setInterval(() => {
       this.props.getPotyScoreGrossRequest();
     }, POLLING_TIME);
     this.props.setTabbarType(false);
@@ -173,8 +178,8 @@ class PotyLiveScore extends React.Component {
 
   _onExit() {
     this.props.setTabbarType(true);
-    clearInterval(this.dataPollingNet);
-    clearInterval(this.dataPollingGross);
+    clearInterval(dataPollingNet);
+    clearInterval(dataPollingGross);
   }
 
   render() {
@@ -263,3 +268,4 @@ export default connect(
   mapStateToProps,
   actions
 )(PotyLiveScore);
+

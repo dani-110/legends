@@ -1,7 +1,7 @@
 import _ from "lodash";
 import Util from "../util";
 
-export const BASE_URL = "https://legendstourgolf.com/api/";//"http://legend.livewireapps.info/public/api/";//
+export const BASE_URL = "http://legend.livewireapps.info/public/api/";//"https://legendstourgolf.com/api/"
 
 export const API_TIMEOUT = 30000;
 

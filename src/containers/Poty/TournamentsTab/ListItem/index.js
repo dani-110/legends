@@ -44,7 +44,6 @@ export default class ListItem extends React.Component {
   static defaultProps = {};
 
   sendData(data_) {
-    debugger
     console.log(BASE_URL + 'tournamentInvitationApi for staging please add / before tournamentInvitationApi');
     axios.post(BASE_URL + 'tournamentInvitationApi', {
       decesion: 1,
@@ -104,19 +103,19 @@ export default class ListItem extends React.Component {
                   />
                 </View>
               ) : (
-                  <View style={[
-                    styles.buttonStyle,
-                    {
-                      backgroundColor: Colors.darkBlue,
-                      bottom: 15,
-                      position: 'relative', justifyContent: 'center', alignItems: 'center'
-                    }, { height: 40 }
-                  ]}>
+                <View style={[
+                  styles.buttonStyle,
+                  {
+                    backgroundColor: Colors.darkBlue,
+                    bottom: 15,
+                    position: 'relative', justifyContent: 'center', alignItems: 'center'
+                  }, { height: 40 }
+                ]}>
 
-                    <Text style={styles.buttonText}>Already registered</Text>
+                  <Text style={styles.buttonText}>Already registered</Text>
 
-                  </View>
-                )}
+                </View>
+              )}
             </View>
           }
           dialogAnimation={

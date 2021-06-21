@@ -9,6 +9,7 @@ import { createStore, applyMiddleware } from "redux";
 import createEngine from "redux-storage-engine-reactnativeasyncstorage";
 // import reducers from "../reducers";
 import sagas from "../sagas";
+//import promiseMiddleware from 'redux-promise'
 
 const isDebuggingInChrome = __DEV__ && !!window.navigator.userAgent;
 
@@ -38,7 +39,8 @@ export default function configureStore(reducers, onComplete: Function) {
   const store = createStore(
     storage.reducer(reducers),
     composeWithDevTools(
-      applyMiddleware(sagaMiddleware, storeMiddleware, logger)
+      //applyMiddleware(sagaMiddleware, storeMiddleware, logger)
+      applyMiddleware(sagaMiddleware, storeMiddleware)
     )
   );
 

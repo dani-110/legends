@@ -21,7 +21,7 @@ export function getPotyUserScoreCardSuccess(data) {
   };
 }
 export function getHoleDataForTournamentRequest(subroute, responseCallback) {
-  debugger
+  //debugger
   return {
     subroute,
     responseCallback,

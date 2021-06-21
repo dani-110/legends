@@ -15,6 +15,7 @@ import {
 } from "../../../components";
 import styles from "./styles";
 import { AppStyles, Colors, Images, Fonts } from "../../../theme";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 class NewsItem extends React.Component {
   static propTypes = {
@@ -47,54 +48,60 @@ class NewsItem extends React.Component {
         ]}
       >
         {data.picture && (
-          <Image
-            source={{ uri: data.picture }}
-            resizeMode="cover"
-            style={styles.image}
-          />
+          <TouchableOpacity onPress={() => Actions.news()}>
+            <Image
+              source={{ uri: data.picture }}
+              resizeMode="cover"
+              style={styles.image}
+            />
+          </TouchableOpacity>
         )}
-        <View style={[AppStyles.basePadding, AppStyles.flex]}>
-          <View style={[AppStyles.flexRow, AppStyles.alignItemsCenter]}>
-            <RNImage source={Images.clock} />
+
+        <TouchableOpacity style={{ ...AppStyles.basePadding, ...AppStyles.flex }} onPress={() => Actions.news()}>
+          <View >
+            <View style={[AppStyles.flexRow, AppStyles.alignItemsCenter]}>
+              <RNImage source={Images.clock} />
+
+              <Text
+                type="bold"
+                color={Colors.green}
+                style={[
+                  AppStyles.alignItemsCenter,
+                  { lineHeight: Fonts.size.normal }
+                ]}
+              >
+                {` ${moment(data.date).fromNow()}`}
+              </Text>
+            </View>
 
             <Text
               type="bold"
-              color={Colors.green}
-              style={[
-                AppStyles.alignItemsCenter,
-                { lineHeight: Fonts.size.normal }
-              ]}
+              style={AppStyles.mTop10}
+              numberOfLines={1}
+              ellipsizeMode="tail"
             >
-              {` ${moment(data.date).fromNow()}`}
+              {data.title}
             </Text>
+            <Text
+              size="xSmall"
+              color={Colors.grey3}
+              style={AppStyles.mTop5}
+              numberOfLines={2}
+              type="bold"
+            >
+              {data.description}
+            </Text>
+
+            <ButtonView style={[AppStyles.mTop15]} >
+              <Text
+                type="bold"
+                size="xSmall"
+                color={Colors.green}
+              >{`MORE NEWS >`}</Text>
+            </ButtonView>
           </View>
 
-          <Text
-            type="bold"
-            style={AppStyles.mTop10}
-            numberOfLines={1}
-            ellipsizeMode="tail"
-          >
-            {data.title}
-          </Text>
-          <Text
-            size="xSmall"
-            color={Colors.grey3}
-            style={AppStyles.mTop5}
-            numberOfLines={2}
-            type="bold"
-          >
-            {data.description}
-          </Text>
-
-          <ButtonView style={[AppStyles.mTop15]} onPress={() => Actions.news()}>
-            <Text
-              type="bold"
-              size="xSmall"
-              color={Colors.green}
-            >{`MORE NEWS >`}</Text>
-          </ButtonView>
-        </View>
+        </TouchableOpacity>
       </View>
     );
   }

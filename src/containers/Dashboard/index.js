@@ -13,7 +13,7 @@ import {
   setChannelForAndroid,
   getPermissions,
   showLocalNotification,
-
+  clearBadgeNumber
 } from "../../services/firebaseHelper";
 import { CustomNavbar, GreenBgFlayer } from "../../components";
 import PotyLeaderboardDB from "./PotyLeaderboardDB";
@@ -110,6 +110,7 @@ class Dashboard extends Component {
 
   async componentDidMount() {
     this._fcmInit();
+    clearBadgeNumber();
   }
 
   _fcmInit = async () => {
@@ -142,11 +143,12 @@ class Dashboard extends Component {
       .onNotificationOpened(notificationOpen => {
 
         // when app is in background
-        // console.log({ background: notificationOpen });
-
+        console.log({ background: notificationOpen });
+        debugger
         showLocalNotification(notificationOpen._data);
 
         if (notificationOpen && notificationOpen.notification) {
+          console.log("baclground-->", notificationOpen.notification)
           this.navigateOnNotificationTap(notificationOpen.notification._data);
         }
       });
@@ -156,9 +158,10 @@ class Dashboard extends Component {
       .onNotification(notification => {
 
         // when app is in foreground
-        // console.log({ foreground: notification });
-
+        console.log({ foreground: notification });
+        debugger
         const { title, deliveryId, body, type } = notification._data
+        console.log("foreground-->", notification._data)
         Alert.alert(title, body, [
           {
             text: "OK",
@@ -172,10 +175,10 @@ class Dashboard extends Component {
       .getInitialNotification();
     ;
     if (notificationOpen) {
-
+      debugger
       // when app is in closed, and opened by clicking notification
-      // console.log("getInitialNotification", notificationOpen);
-
+      console.log("getInitialNotification", notificationOpen);
+      console.log("getInitialNotification-->", notificationOpen.notification)
       if (notificationOpen && notificationOpen.notification) {
         this.navigateOnNotificationTap(notificationOpen.notification._data, true);
       }
@@ -183,6 +186,8 @@ class Dashboard extends Component {
   };
 
   navigateOnNotificationTap = (data, isFreshLaunch = false) => {
+
+    console.log("data----------->", data);
 
     firebase.notifications().removeAllDeliveredNotifications();
     switch (data.type) {

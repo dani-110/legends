@@ -10,7 +10,7 @@ import {
 } from "./ActionTypes";
 
 export function getPotyTournamentRequest(payload, responseCallback) {
-  debugger
+  //debugger
   return {
     payload,
     responseCallback,
@@ -19,7 +19,7 @@ export function getPotyTournamentRequest(payload, responseCallback) {
 }
 
 export function getPotyTournamentSuccess(data) {
-  debugger
+  //debugger
   return {
     data,
     type: GET_POTY_TOURNAMENT.SUCCESS

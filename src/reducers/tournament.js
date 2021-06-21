@@ -109,7 +109,7 @@ const initialState = Immutable({
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_POTY_TOURNAMENT.SUCCESS: {
-      debugger
+      //debugger
       const tempPotyTournaments = _.cloneDeep(state.poty);
       tempPotyTournaments.tournaments = action.data;
       return Immutable.merge(state, {

@@ -52,6 +52,7 @@ export function getEnterScoreDataFailure() {
 }
 
 export function postPotyScoreRequest(payload, responseCallback) {
+  console.log("poty1 action-->", payload + "--" + responseCallback);
   return {
     payload,
     responseCallback,
@@ -67,6 +68,7 @@ export function postPotyScoreSuccess(data) {
 }
 
 export function postPotyScoreFailure() {
+  console.log("poty1 action failure");
   return {
     data,
     type: POST_POTY_SCORE.FAILURE

@@ -68,9 +68,9 @@ class Scores extends React.Component {
                   ? `${Math.round(val * 10) / 10}${suffix}`
                   : `${Math.round(val * 10) / 10}`
             ) : (
-                val =>
-                  val
-              )
+              val =>
+                val
+            )
             }
 
             countBy={1}
@@ -100,7 +100,6 @@ class Scores extends React.Component {
         winPercentage = 0
       }
     } = this.props;
-    debugger
     return (
       <View style={[AppStyles.mediumMargin, AppStyles.mTop20]}>
         <View>

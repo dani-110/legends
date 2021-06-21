@@ -118,7 +118,6 @@ class Lmp extends React.Component {
   _renderHeader = () => {
     const { lmpTournamentData } = this.props;
     const rounds = Object.keys(lmpTournamentData);
-    debugger
     return (
       <View style={[AppStyles.flexRow, AppStyles.mBottom20]}>
         {rounds.map((item, index) => (
@@ -178,8 +177,8 @@ class Lmp extends React.Component {
         )
       }
 
-      { this._renderItem(pair.team1_name, pair.winning_team == 1)}
-      { this._renderItem(pair.team2_name, pair.winning_team == 2)}
+      {this._renderItem(pair.team1_name, pair.winning_team == 1)}
+      {this._renderItem(pair.team2_name, pair.winning_team == 2)}
     </View >
   );
 
@@ -233,7 +232,7 @@ class Lmp extends React.Component {
     return (
       <View style={[styles.container]}>
         <CustomNavbar
-          title="LMP Result"
+          title="SMP Result"
           hasBorder={false}
           theme={NAVBAR_THEME.WHITE}
           titleAlign="left"

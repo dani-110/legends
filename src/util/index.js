@@ -125,7 +125,7 @@ class Util {
   };
 
   generateScoreCardData(data, singlePlayerName = null) {
-    debugger
+    //debugger
     if (singlePlayerName) {
       const holeNumber = [];
       const index = [];

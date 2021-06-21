@@ -17,6 +17,7 @@ const initialState = Immutable({
 });
 
 export default (state = initialState, action) => {
+  console.log("poty1 reducer-->", action.type);
 
   switch (action.type) {
     case GET_ENTER_SCORE_DATA.REQUEST: {
@@ -59,14 +60,11 @@ export default (state = initialState, action) => {
     case POST_LCL_SCORE.SUCCESS:
     case POST_POTY_SCORE.SUCCESS:
     case GET_ENTER_SCORE_DATA.SUCCESS: {
+
       const tempData = _.cloneDeep(state.data);
       tempData.holeData = action.data;
       tempData.named = REFRESH_DATA;
 
-      //debugger;
-      // if (_.isEmpty(tempData.holeData)) {
-      //   tempData.holeData = action.data;
-      // } else {
       _.map(action.data.players, obj => {
         const playerIndex = _.findIndex(
           tempData.holeData.players,
@@ -87,7 +85,7 @@ export default (state = initialState, action) => {
         });
       });
       // }
-      debugger
+      //debugger
       tempData.isFetchingData = false;
       return Immutable.merge(state, {
         data: tempData
@@ -155,12 +153,12 @@ export default (state = initialState, action) => {
       })
     }
 
-    // case POST_POTY_SCORE.FAILURE: {
-    //   const tempData = _.cloneDeep(state.data);
-    //   return Immutable.merge(state, {
-    //     data: tempData
-    //   });
-    // }
+    case POST_POTY_SCORE.FAILURE: {
+      const tempData = _.cloneDeep(state.data);
+      return Immutable.merge(state, {
+        data: tempData
+      });
+    }
     default:
       return state;
   }

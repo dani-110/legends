@@ -152,8 +152,9 @@ class EnterScore extends React.Component {
       //console.log("case2-->" + state.isLoading)
       if (state.isLoading) {
         props.updateRefresh()
-        console.log("next index is:" + newIndex);//isLoading: false,
-        return { index: newIndex, isLoading: false, colorChanged: props.enterScoreData.poty_complete === "not-complete" ? false : true, score_lock: props.enterScoreData.holeData.score_lock }
+        console.log("next index is:" + newIndex);
+        return { index: newIndex, colorChanged: props.enterScoreData.poty_complete === "not-complete" ? false : true, score_lock: props.enterScoreData.holeData.score_lock }
+        //return { index: newIndex, isLoading: false, colorChanged: props.enterScoreData.poty_complete === "not-complete" ? false : true, score_lock: props.enterScoreData.holeData.score_lock }
         //EnterScore.getLatestScores2(props)//
         //return { isLoading: false,index: newIndex, colorChanged: props.enterScoreData.poty_complete === "not-complete" ? false : true, score_lock: props.enterScoreData.holeData.score_lock }
       }
@@ -164,7 +165,7 @@ class EnterScore extends React.Component {
         prevEnterScoreData: props.enterScoreData,
         scoreCard: manipulateDataForScoreCard(props.enterScoreData.holeData, state),
         colorChanged: props.enterScoreData.holeData.AllPotyHole === "not-complete" ? false : true,
-        isLoading: false,
+        //isLoading: false,
         index: newIndex,
         score_lock: props.enterScoreData.holeData.score_lock
       };
@@ -349,8 +350,11 @@ class EnterScore extends React.Component {
   }
 
   _keyPress(text) {
-    debugger
+    //debugger
     console.log("keyboard data is:" + text)
+
+    //FOR DOUBLE VALUES ONLY...
+    let valueCal = this.state.scoreCard !== undefined ? this.state.scoreCard[this._swiper !== undefined ? this._swiper.state.index : 0].Stroke[this.state.index === -1 ? 0 : this.state.index] : "";
 
     text = _.includes(text, "DEL") ? "DEL" : text
     text = _.includes(text, "-") ? "-" : text
@@ -459,7 +463,7 @@ class EnterScore extends React.Component {
           showKeyBoard: newShowKeyboard,
           cardIndex: holeIndex,
           rowIndex: index,
-          keyBoardText: text,
+          keyBoardText: (valueCal && valueCal === 1) ? text + 10 : text
         },
         () => {
           this._updateGrossNetScores().then(() => {
@@ -469,7 +473,7 @@ class EnterScore extends React.Component {
                 index: swipe ? newIndex : index
               },
               () => {
-                this._postData(holeIndex, current, index, tempData, text);
+                this._postData(holeIndex, current, index, tempData, (valueCal && valueCal === 1) ? text + 10 : text);
               }
             );
           });
@@ -479,7 +483,7 @@ class EnterScore extends React.Component {
 
       this.setState({ scoreCard: tempData }, () => {
         this._updateGrossNetScores().then(() => {
-          this._postData(holeIndex, current, index, tempData, text);
+          this._postData(holeIndex, current, index, tempData, (valueCal && valueCal === 1) ? text + 10 : text)
         });
       });
       newIndex = index
@@ -644,8 +648,17 @@ class EnterScore extends React.Component {
         opponent_id: scoreCard[0].Name[playerIndex[indexParam + 1][2]].id
       };
     }
+    console.log("poty1 type--->", type);
+    console.log("poty1 enterscore--->", payload);
     this._postDataByType[type](payload);
     this.setState({ isLoading: true });
+    setTimeout(() => {
+      this.setState({
+        isLoading: false,
+      });
+      this._showKeyBoard(false, this.state.current, this.state.index)
+    }, 2500);
+
   }
 
   _postDataByType = {
@@ -1096,22 +1109,22 @@ class EnterScore extends React.Component {
                     ) : rowItem === 0 ? (
                       <RNImage source={Images.cross} />
                     ) : (
-                          <RNImage
-                            style={{ height: 18, width: 38 }}
-                            source={Images.no_image}
-                          />
-                        )
+                      <RNImage
+                        style={{ height: 18, width: 38 }}
+                        source={Images.no_image}
+                      />
+                    )
                   ) : (
-                      <Text textAlign="center" style={{ ...AppStyles.centerInner, height: '130%', fontType: Fonts.type.base, fontSize: Fonts.size.xxLarge }}>
-                        {key === "Gross" || key === "Net"
-                          ? rowItem === 0
-                            ? "E"
-                            : Math.sign(rowItem) === 1
-                              ? `+${rowItem + 123}`
-                              : rowItem
-                          : rowItem}
-                      </Text>
-                    )}
+                    <Text textAlign="center" style={{ ...AppStyles.centerInner, height: '130%', fontType: Fonts.type.base, fontSize: Fonts.size.xxLarge }}>
+                      {key === "Gross" || key === "Net"
+                        ? rowItem === 0
+                          ? "E"
+                          : Math.sign(rowItem) === 1
+                            ? `+${rowItem + 123}`
+                            : rowItem
+                        : rowItem}
+                    </Text>
+                  )}
                 </TouchableOpacity>
               </View>
               <View style={{ height: 1, backgroundColor: Colors.greyTint }} />
@@ -1223,12 +1236,11 @@ class EnterScore extends React.Component {
 
     const { current_match } = this.props;
     const { id, group_id, schedule_id, match_id } = current_match[0];
-    debugger
     const AuthStr = util.getCurrentUserAccessToken();
     console.log("get data authentication key = >" + AuthStr);
     URL = BASE_URL + `getGrossScoreNetScore/${id}`;
 
-    debugger
+    //debugger
     axios.get(URL, { headers: { Authorization: AuthStr } }).then((response) => {
       this.setState({ dataSource: response.data.data, visible: true });
 
@@ -1347,8 +1359,8 @@ class EnterScore extends React.Component {
 
 
         ) : (
-              <EmptyStateText />
-            )}
+          <EmptyStateText />
+        )}
         {/* Confirmation popup */}
         <Dialog
           showConformPopUp={this.state.showConformPopUp}
@@ -1364,7 +1376,7 @@ class EnterScore extends React.Component {
             <Text style={{ ...styles.titleHeader, marginBottom: 10, marginTop: 10 }}>
               Congratulations on finishing
               your round!
-              </Text>
+            </Text>
             {/* Title End */}
 
 
@@ -1415,7 +1427,7 @@ class EnterScore extends React.Component {
             {/* Title start */}
             <Text style={{ ...styles.titleHeader, marginBottom: 10, marginTop: 10, fontWeight: 'normal' }}>
               Confirm Scores
-              </Text>
+            </Text>
             {/* Title End */}
 
             {/* header start */}
@@ -1463,7 +1475,7 @@ class EnterScore extends React.Component {
                 <View style={{ marginRight: 30 }}>
                   <Text style={{ color: Colors.grey, fontSize: 12, }}>
                     I have confirmed with each player their gross and net score and acknowledge once I submit, this scorecard cannot be amended.
-                </Text>
+                  </Text>
                 </View>
               </View>
               {/* End CheckBox */}
@@ -1571,6 +1583,8 @@ class EnterScore extends React.Component {
             </View>
           )
         }
+
+
       </View >
     );
   }
@@ -1622,7 +1636,7 @@ function manipulateDataForScoreCard(data, state) {
   const cardIndex = state.cardIndex !== -1 ? parseInt(state.cardIndex) + 1 : "";
 
   console.log("rowIndex:" + rowIndex + "cardIndex:" + cardIndex);
-  this.tmpData = data;
+  //this.tmpData = data;
 
   const { players } = data;
   console.log("----------||-==players" + players)
