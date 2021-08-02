@@ -23,7 +23,7 @@ import {
 import * as shape from "d3-shape";
 import { Text } from "../../../components";
 import styles from "./styles";
-import { AppStyles, Colors } from "../../../theme";
+import { AppStyles, Colors, Fonts } from "../../../theme";
 
 class GrossScoresTrend extends React.PureComponent {
   static propTypes = {

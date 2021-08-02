@@ -17,13 +17,6 @@ import { sendDeviceToken } from './../../services/firebaseHelper'
 
 const DRAWER_ITEMS = [
   {
-    text: "Players Directory",
-    onPress: () => {
-      pauseInterval();
-      Actions.playersdirectory()
-    }
-  },
-  {
     text: "POTY",
     onPress: () => {
       pauseInterval();
@@ -46,6 +39,22 @@ const DRAWER_ITEMS = [
     }, activeTab: 1
   },
   { text: "DMP", onPress: () => Actions.dmp(), activeTab: 1 },
+
+  {
+    text: "Players Directory",
+    onPress: () => {
+      pauseInterval();
+      Actions.playersdirectory()
+    }
+  },
+
+  {
+    text: "Handicap Calculator",
+    onPress: () => {
+      pauseInterval();
+      Actions.HandicapCalculator()
+    }
+  },
 
 
   {

@@ -1,7 +1,7 @@
 // @flow
 import React from "react";
 import PropTypes from "prop-types";
-import { View, Image } from "react-native";
+import { View, Image, TouchableOpacity } from "react-native";
 import { Actions } from "react-native-router-flux";
 import { Text, ButtonView } from "../../../components";
 import { TIME_FORMAT1, MATCH_TYPES } from "../../../constants";
@@ -10,6 +10,7 @@ import { Colors, AppStyles, Images, Fonts } from "../../../theme";
 import Util from "../../../util";
 import { debug } from "react-native-reanimated";
 import { iteratee } from "lodash";
+import { Alert } from "react-native";
 
 export default class ListItem extends React.Component {
   static propTypes = {
@@ -70,66 +71,70 @@ export default class ListItem extends React.Component {
         >
           {
             !(title_ === MATCH_TYPES.LCL || title_ === MATCH_TYPES.DMP) ? (
-              <View style={{ padding: 14, flex: 1, flexDirection: 'row', }}>
-                {title_ === MATCH_TYPES.POTY ? (
-                  <Text type="normal" color={Colors.white} style={{ flex: 3, flexDirection: 'row', fontSize: 15 }}>
-                    {name}</Text>
-                ) : //(team1_name + "\nVS \n" + team2_name)
-                  (
-                    <View style={{ flex: 3, flexDirection: 'column' }}>
-                      <Text type="normal" color={Colors.white} style={styles.lmpText} >
-                        {team1_name} </Text>
-                      <Text type="normal" color={Colors.whiteOpaque} >
-                        VS</Text>
-                      <Text type="normal" color={Colors.white} style={styles.lmpText} >
-                        {team2_name}</Text>
-                    </View>
-                  )
-                }
+              <TouchableOpacity
+                onPress={() => Actions.jump("EditMatch")} >
+                <View style={{ padding: 14, flex: 1, flexDirection: 'row', }}>
+                  {title_ === MATCH_TYPES.POTY ? (
+                    <Text type="normal" color={Colors.white} style={{ flex: 3, flexDirection: 'row', fontSize: 15 }}>
+                      {name}</Text>
+                  ) : //(team1_name + "\nVS \n" + team2_name)
+                    (
+                      <View style={{ flex: 3, flexDirection: 'column' }}>
+                        <Text type="normal" color={Colors.white} style={styles.lmpText} >
+                          {team1_name} </Text>
+                        <Text type="normal" color={Colors.whiteOpaque} >
+                          VS</Text>
+                        <Text type="normal" color={Colors.white} style={styles.lmpText} >
+                          {team2_name}</Text>
+                      </View>
+                    )
+                  }
 
 
-                <View style={styles.RectangleShape}>
-                  <Text style={{ alignSelf: 'center', paddingTop: 3, }} color={Colors.white} size="xSmall" type="bold">
-                    {title_}
-                  </Text>
-                </View>
-
-              </View>
-            ) : (
-                <>
-                  <View style={[styles.container, { backgroundColor: 'rgba(255,255,255, 0.2)', flex: 1, padding: 14, flexDirection: 'row' }]}
-                  >
-                    <View style={{ flex: 3, flexDirection: 'column' }}>
-                      {title_ !== MATCH_TYPES.DMP ? (
-                        <Text type="bold" color={Colors.white} style={{ flex: 1, flexDirection: 'row', fontSize: 16 }}>
-                          {team1_name}
-                        </Text>
-                      ) : null}
-                      <Text color={Colors.white} style={title_ === MATCH_TYPES.DMP ? (styles.textTitle) : (styles.textTitle2)}>
-                        {team_1_initials}
-                      </Text>
-                      <Text size="small" color={Colors.whiteOpaque} style={{ flex: 1, flexDirection: 'row', fontSize: 14 }}>
-                        VS
-                      </Text>
-                      {title_ !== MATCH_TYPES.DMP ? (
-                        <Text type="bold" color={Colors.white} style={{ flex: 1, flexDirection: 'row', fontSize: 16 }}>
-                          {team2_name}
-                        </Text>
-                      ) : null}
-
-                      <Text color={Colors.white} style={title_ === MATCH_TYPES.DMP ? (styles.textTitle) : (styles.textTitle2)}>
-                        {team_2_initials}
-                      </Text>
-                    </View>
-
-                    <View style={styles.RectangleShape}>
-                      <Text style={{ alignSelf: 'center', paddingTop: 3, }} color={Colors.white} size="xSmall" type="bold">
-                        {title_}
-                      </Text>
-                    </View>
+                  <View style={styles.RectangleShape}>
+                    <Text style={{ alignSelf: 'center', paddingTop: 3, }} color={Colors.white} size="xSmall" type="bold">
+                      {title_}
+                    </Text>
                   </View>
-                </>
-              )
+
+                </View>
+              </TouchableOpacity>
+
+            ) : (
+              <>
+                <View style={[styles.container, { backgroundColor: 'rgba(255,255,255, 0.2)', flex: 1, padding: 14, flexDirection: 'row' }]}
+                >
+                  <View style={{ flex: 3, flexDirection: 'column' }}>
+                    {title_ !== MATCH_TYPES.DMP ? (
+                      <Text type="bold" color={Colors.white} style={{ flex: 1, flexDirection: 'row', fontSize: 16 }}>
+                        {team1_name}
+                      </Text>
+                    ) : null}
+                    <Text color={Colors.white} style={title_ === MATCH_TYPES.DMP ? (styles.textTitle) : (styles.textTitle2)}>
+                      {team_1_initials}
+                    </Text>
+                    <Text size="small" color={Colors.whiteOpaque} style={{ flex: 1, flexDirection: 'row', fontSize: 14 }}>
+                      VS
+                    </Text>
+                    {title_ !== MATCH_TYPES.DMP ? (
+                      <Text type="bold" color={Colors.white} style={{ flex: 1, flexDirection: 'row', fontSize: 16 }}>
+                        {team2_name}
+                      </Text>
+                    ) : null}
+
+                    <Text color={Colors.white} style={title_ === MATCH_TYPES.DMP ? (styles.textTitle) : (styles.textTitle2)}>
+                      {team_2_initials}
+                    </Text>
+                  </View>
+
+                  <View style={styles.RectangleShape}>
+                    <Text style={{ alignSelf: 'center', paddingTop: 3, }} color={Colors.white} size="xSmall" type="bold">
+                      {title_}
+                    </Text>
+                  </View>
+                </View>
+              </>
+            )
           }
 
           {/* <Image source={Images.clock_white} style={AppStyles.mRight5} /> */}
