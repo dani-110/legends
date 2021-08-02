@@ -657,7 +657,7 @@ class EnterScore extends React.Component {
         isLoading: false,
       });
       this._showKeyBoard(false, this.state.current, this.state.index)
-    }, 2500);
+    }, 3500);
 
   }
 
