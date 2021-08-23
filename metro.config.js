@@ -5,6 +5,16 @@
  * @format
  */
 
+// module.exports = {
+//   transformer: {
+//     getTransformOptions: async () => ({
+//       transform: {
+//         experimentalImportSupport: false,
+//         inlineRequires: false,
+//       },
+//     }),
+//   },
+// };
 module.exports = {
   transformer: {
     getTransformOptions: async () => ({
@@ -14,4 +24,5 @@ module.exports = {
       },
     }),
   },
+  resolver: { sourceExts: ['js', 'json', 'jsx', 'ts', 'tsx'], }
 };

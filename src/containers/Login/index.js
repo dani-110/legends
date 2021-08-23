@@ -12,6 +12,7 @@ import { Images, AppStyles, Colors } from "../../theme";
 import styles from "./styles";
 import Util from "../../util";
 import { ERROR_MESSAGES } from "../../constants";
+import { AsyncStorage } from 'react-native';
 
 class Login extends Component {
   static propTypes = {
@@ -20,8 +21,8 @@ class Login extends Component {
   state = {
     errors: {},
     loading: false,
-    email: "javedfarooq@gmail.com",
-    password: "farooq77",
+    email: "arsalan@livewiregroup.co",//javedfarooq@gmail.com",
+    password: "Amdani001",
     hidePassword: true
   };
 
@@ -83,10 +84,14 @@ class Login extends Component {
         email,
         password
       };
+
       Util.showLoader(this);
       this.props.userSigninRequest(payload, data => {
         Util.hideLoader(this);
-        if (data && data.token) Actions.reset("drawerMenu");
+        if (data && data.token) {
+          this._storeData(data)
+          Actions.reset("drawerMenu");
+        }
       });
     }
   };
@@ -187,6 +192,18 @@ class Login extends Component {
       </View>
     );
   }
+
+  _storeData = async (data) => {
+    debugger
+    try {
+      await AsyncStorage.setItem(
+        'userData',
+        JSON.stringify(JSON.parse(data.user))
+      );
+    } catch (error) {
+      // Error saving data
+    }
+  };
 }
 
 const mapStateToProps = () => ({});

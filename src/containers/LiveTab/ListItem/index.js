@@ -24,11 +24,16 @@ export default class ListItem extends React.Component {
   static defaultProps = {};
 
   render() {
+
+    debugger
+
     const { sectionTitle, data, matchFoo } = this.props;
     const { match_date_format, match_date, round_text, type, name, title, venue, team1_name, team2_name, team_1_initials, team_2_initials, desc } = data;
     const navigateTO = (sectionTitle === "LIVE") ? `${type}livescore` : null;
 
-    title_ = type.toUpperCase();
+    debugger
+
+    let title_ = type.toUpperCase();
     let bg = "";
     if (title_ === MATCH_TYPES.POTY) {
       bg = Colors.blue2;
@@ -72,7 +77,7 @@ export default class ListItem extends React.Component {
           {
             !(title_ === MATCH_TYPES.LCL || title_ === MATCH_TYPES.DMP) ? (
               <TouchableOpacity
-                onPress={() => Actions.jump("EditMatch")} >
+                onPress={() => Actions.jump("EditMatch", { data })} >
                 <View style={{ padding: 14, flex: 1, flexDirection: 'row', }}>
                   {title_ === MATCH_TYPES.POTY ? (
                     <Text type="normal" color={Colors.white} style={{ flex: 3, flexDirection: 'row', fontSize: 15 }}>

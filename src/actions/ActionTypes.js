@@ -104,3 +104,6 @@ export const DELETE_NOTIFICATION = createRequestTypes("DELETE_NOTIFICATION");
 export const DELETE_ALL_NOTIFICATIONS = createRequestTypes(
   "DELETE_ALL_NOTIFICATIONS"
 );
+
+///////////////////  EDIT MATCHES      //////////////
+export const GET_SCHEDULE_PLAYERS = createRequestTypes("GET_SCHEDULE_PLAYERS");

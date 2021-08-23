@@ -7,7 +7,7 @@ import {
   GET_SCORE_LCL_SINGLES2,
   GET_SCORE_LCL_FOURSOME,
   GET_SCORE_DMP,
-  GET_SCORE_LMP
+  GET_SCORE_LMP, GET_SCHEDULE_PLAYERS
 } from "../actions/ActionTypes";
 import { SAGA_ALERT_TIMEOUT } from "../constants";
 import {
@@ -26,7 +26,10 @@ import {
   getScoreDmpSuccess,
   getScoreDmpFailure,
   getScoreLmpSuccess,
-  getScoreLmpFailure
+  getScoreLmpFailure,
+  getScheduleMatchesRequest,
+  getScheduleMatchesSuccess,
+  getScheduleMatchesFailure
 } from "../actions/LiveMatchesActions";
 import {
   GET_POTY_SCORE_NET as GET_POTY_SCORE_NET_URL,
@@ -37,10 +40,12 @@ import {
   GET_SCORE_LCL_FOURSOME as GET_SCORE_LCL_FOURSOME_URL,
   GET_SCORE_DMP as GET_SCORE_DMP_URL,
   GET_SCORE_LMP as GET_SCORE_LMP_URL,
+  GET_SCHEDULE_DATA_URL,
   callRequest
 } from "../config/WebService";
 import ApiSauce from "../services/ApiSauce";
 import Util from "../util";
+import _ from "lodash";
 
 function alert(message, type = "error") {
   setTimeout(() => {
@@ -116,6 +121,8 @@ function* getLiveData() {
         ApiSauce
       );
       if (Util.isSuccessResponse(response)) {
+
+        debugger
         yield put(
           getLivedataSuccess(Util.getManipulatedLiveMatchesData(response.data))
         );
@@ -125,6 +132,37 @@ function* getLiveData() {
       }
     } catch (err) {
       yield put(getLivedataFailure());
+      alert(err.message);
+    }
+  }
+}
+
+function* getSchedulingData() {
+  while (true) {
+    const { payload, responseCallback } = yield take(GET_SCHEDULE_PLAYERS.REQUEST);
+    console.log("payload-->", payload);
+    try {
+      const response = yield call(
+        callRequest,
+        GET_SCHEDULE_DATA_URL,
+        payload,
+        "",
+        {},
+        ApiSauce
+      );
+
+      debugger
+      if (!_.isNull(response) && !response.error) {
+        yield put(
+          getScheduleMatchesSuccess((response.data))
+        );
+        if (responseCallback) responseCallback(response)
+      } else {
+        yield put(getScheduleMatchesFailure());
+        alert(response.error);
+      }
+    } catch (err) {
+      yield put(getScheduleMatchesFailure());
       alert(err.message);
     }
   }
@@ -273,4 +311,5 @@ export default function* root() {
   yield fork(getScoreLclFoursome);
   yield fork(getScoreDmp);
   yield fork(getScoreLmp);
+  yield fork(getSchedulingData);
 }

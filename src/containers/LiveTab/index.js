@@ -28,6 +28,7 @@ class LiveTab extends Component {
 
   _renderSectionHeader({ section: { title, data } }) {
 
+    debugger
     return (
       <View style={[AppStyles.mBottom10, (title !== "LIVE" ? (AppStyles.mTop20) : (AppStyles.mTop0))]}>
         <Text type="bold" size="large">
@@ -49,9 +50,15 @@ class LiveTab extends Component {
 
 
   _renderItem({ item, index, section }) {
+
+    debugger
+
     arrPrevData.push(item.match_date_format);
-    foo = loop > 0 ? arrPrevData[loop - 1] : "";
+    let foo = loop > 0 ? arrPrevData[loop - 1] : "";
     loop++;
+
+    debugger
+
     return <ListItem data={item} matchDate={item.match_date} sectionTitle={section.title} matchFoo={foo} />;
   }
 
@@ -59,6 +66,9 @@ class LiveTab extends Component {
     const { liveMatches, isFetchingData } = this.props;
     loop = 0;
     arrPrevData = [];
+
+    debugger
+
     return (
       <View style={[AppStyles.basePadding, AppStyles.flex]}>
         <SectionList
