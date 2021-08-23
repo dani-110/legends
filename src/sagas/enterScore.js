@@ -102,13 +102,14 @@ function* postPotyScore() {
         console.log("poty1 payload--->", payload);
         console.log("poty1 response failure--->", response);
         yield put(postPotyScoreFailure());
-        //alert(response.error);
+        alert(response.error);
       }
     } catch (err) {
       debugger
-      console.log("poty1 esponse catch failure--->", response);
-      yield put(postPotyScoreFailure(NOT_SHOW_MSG));
       alert(err.message);
+      console.log("poty1 esponse catch failure--->", err.message);
+      yield put(postPotyScoreFailure(NOT_SHOW_MSG));
+
     }
   }
 }

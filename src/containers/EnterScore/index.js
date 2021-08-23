@@ -43,6 +43,7 @@ import { setTabbarType } from "../../actions/GeneralActions";
 import { ViewPropTypes } from "react-native";
 import Util from "../../util";
 import { color } from "react-native-reanimated";
+import { Platform } from "react-native";
 
 let newIndex = 1;
 isAlreadyCalled = false;
@@ -81,6 +82,7 @@ class EnterScore extends React.Component {
     refreshing: false
   }
 
+  intervalLoader;
   //
   /***
     check current hole of team and update to that position  */
@@ -140,8 +142,8 @@ class EnterScore extends React.Component {
   }
 
   /***
-   *-----------------------  condition changed -----------------------
-   */
+  *-----------------------  condition changed -----------------------
+  */
   static getDerivedStateFromProps(props, state) {
     //console.log("case1-->" + props.enterScoreData.named)
     if (props.enterScoreData.named === NOT_SHOW_MSG || props.enterScoreData.named === ERROR_API || props.enterScoreData.named === REFRESH_DATA) {
@@ -157,6 +159,14 @@ class EnterScore extends React.Component {
         //return { index: newIndex, isLoading: false, colorChanged: props.enterScoreData.poty_complete === "not-complete" ? false : true, score_lock: props.enterScoreData.holeData.score_lock }
         //EnterScore.getLatestScores2(props)//
         //return { isLoading: false,index: newIndex, colorChanged: props.enterScoreData.poty_complete === "not-complete" ? false : true, score_lock: props.enterScoreData.holeData.score_lock }
+      }
+
+      //ADDED ON 4TH AUGUST 2021
+      if (props.enterScoreData.named === NOT_SHOW_MSG || props.enterScoreData.named === ERROR_API) {
+        clearInterval(this.intervalLoader)
+        return {
+          isLoading: false
+        }
       }
     }
 
@@ -651,13 +661,35 @@ class EnterScore extends React.Component {
     console.log("poty1 type--->", type);
     console.log("poty1 enterscore--->", payload);
     this._postDataByType[type](payload);
+
+    //ADDED ON 4TH AUGUST 2021
+    let count = 0;
+    this.intervalLoader = setInterval(() => {
+      if (this.state.index === newIndex) {
+        this.setState({
+          isLoading: false,
+        });
+        this._showKeyBoard(false, this.state.current, this.state.index)
+        clearInterval(this.intervalLoader)
+      }
+
+      if (count === 10)
+        this.setState({
+          isLoading: false,
+        });
+
+      count++;
+
+    }, 2000);
+
+    // COMMENT ON 4TH AUGUST 2021
+    // setTimeout(() => {
+    //   this.setState({
+    //     isLoading: false,
+    //   });
+    //   this._showKeyBoard(false, this.state.current, this.state.index)
+    // }, 3500);
     this.setState({ isLoading: true });
-    setTimeout(() => {
-      this.setState({
-        isLoading: false,
-      });
-      this._showKeyBoard(false, this.state.current, this.state.index)
-    }, 3500);
 
   }
 

@@ -3,7 +3,7 @@ import Util from "../util";
 
 export const BASE_URL = "http://legend.livewireapps.info/public/api/";//"https://legendstourgolf.com/api/"
 
-export const API_TIMEOUT = 30000;
+export const API_TIMEOUT = 20000;//30000;
 
 // API USER ROUTES
 export const API_LOG = true;

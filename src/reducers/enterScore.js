@@ -153,12 +153,12 @@ export default (state = initialState, action) => {
       })
     }
 
-    case POST_POTY_SCORE.FAILURE: {
-      const tempData = _.cloneDeep(state.data);
-      return Immutable.merge(state, {
-        data: tempData
-      });
-    }
+    // case POST_POTY_SCORE.FAILURE: {
+    //   const tempData = _.cloneDeep(state.data);
+    //   return Immutable.merge(state, {
+    //     data: tempData
+    //   });
+    // }
     default:
       return state;
   }
