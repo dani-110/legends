@@ -1020,7 +1020,7 @@ class EnterScore extends React.Component {
     return (
       manipulatedData && (
         <View style={{ height: '100%', }}>
-          {Object.keys(manipulatedData).map((key, index) => (
+          {Object.keys(manipulatedData).map((key, rowIndex) => (
             <View
             // key={`row-${key}`}
             // style={[
@@ -1033,7 +1033,7 @@ class EnterScore extends React.Component {
               {key === "Name" ?
                 this._renderRowHeader()
                 //:this._renderRowValues(manipulatedData, key)
-                : key === "Stroke" ? this._renderRowValues(manipulatedData, key) : null
+                : key === "Stroke" ? this._renderRowValues(manipulatedData, key, index, rowIndex) : null
               }
 
               {/* {this._renderRowValues(manipulatedData, key)} */}
@@ -1091,12 +1091,17 @@ class EnterScore extends React.Component {
     return (withdrow > 0) ? Colors.grey2 : Colors.transparent
 
   }
-  _renderRowValues(data, key) {
-    const { current, index, scoreCard } = this.state;
+  _renderRowValues(data, key, holeNumber, currentRowIndex) {
+    const { current, index, scoreCard, rowIndex, cardIndex } = this.state;
     const { Name } = scoreCard[0];
 
     return Name.map((nameItem, nameIndex) => {
       const rowItem = data[key][nameIndex];
+
+      if (holeNumber === cardIndex && rowIndex > 0 && rowIndex - 1 === nameIndex) {
+        if (!rowItem)
+          util.topAlertError("Server error. Reenter previous score.")
+      }
       return (
 
         <View style={{}}>
