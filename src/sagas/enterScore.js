@@ -135,7 +135,7 @@ function* postLclScore() {
       } else {
         yield put(postLclScoreFailure());
         console.log("error=========>", "lcl_score");
-        //alert("Not update. Please enter again")
+        alert(response.error)
       }
     } catch (err) {
       yield put(postLclScoreFailure(NOT_SHOW_MSG));
@@ -164,7 +164,7 @@ function* postLmpScore() {
         yield put(postLmpScoreSuccess(response.data));
       } else {
         yield put(postLmpScoreFailure());
-        //alert(response.error);
+        alert(response.error);
       }
     } catch (err) {
       yield put(postLmpScoreFailure(NOT_SHOW_MSG));
@@ -176,6 +176,7 @@ function* postLmpScore() {
 function* postDmpScore() {
   while (true) {
     const { payload, responseCallback } = yield take(POST_DMP_SCORE.REQUEST);
+    console.log("dmp-->payload--->", payload);
     try {
       const response = yield call(
         callRequest,
@@ -185,18 +186,17 @@ function* postDmpScore() {
         {},
         ApiSauce
       );
-      console.log("response", response);
       if (Util.isSuccessResponse(response)) {
-        console.log("response----->success", response);
+        console.log("dmp-->response----->success", response.data);
         responseCallback && responseCallback(response.data);
         yield put(postDmpScoreSuccess(response.data));
       } else {
-        console.log("response----->fail", response);
+        console.log("dmp-->response----->fail", response.error);
         yield put(postDmpScoreFailure());
-        //alert(response.error);
+        alert(response.error);
       }
     } catch (err) {
-      console.log("response----->catch", response);
+      console.log("dmp-->response----->catch", response);
       yield put(postDmpScoreFailure(NOT_SHOW_MSG));
       alert(err.message);
     }
