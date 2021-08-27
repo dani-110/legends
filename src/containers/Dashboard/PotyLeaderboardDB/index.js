@@ -231,13 +231,13 @@ class PotyLeaderboardDB extends PureComponent {
                 stickyHeaderIndices={[0]}
               />
 
-              {isFetchingData && potyData.length === 0 && <SimpleLoader />}
-              {!isFetchingData && potyData.length === 0 && (
+              {isFetchingData && lcl_leaderboard && lcl_leaderboard.length === 0 && <SimpleLoader />}
+              {!isFetchingData && lcl_leaderboard && lcl_leaderboard.length === 0 && (
                 <EmptyStateText containerStyle={AppStyles.justifyFlexStart} />
               )}
             </View>
 
-            {potyData.length > 0 && (
+            {lcl_leaderboard && lcl_leaderboard.length > 0 && (
               <ButtonView
                 style={[AppStyles.alignItemsFlexEnd, AppStyles.pRight25, { marginTop: -15, marginBottom: 10 }]}
                 onPress={Actions.lcl}
