@@ -3,7 +3,7 @@ import _ from "lodash";
 import { connect } from "react-redux";
 import React, { Component } from "react";
 import {
-  View, ImageBackground,
+  View,
   Image as RNImage,
   ScrollView,
   ActivityIndicator, FlatList, TouchableOpacity, Alert
@@ -12,7 +12,6 @@ import { Actions } from "react-native-router-flux";
 import { setSelectedTab } from "../../actions/GeneralActions";
 import BottomSheet from "react-native-bottomsheet";
 import PropTypes from "prop-types";
-import Dialog, { SlideAnimation, DialogContent, DialogFooter, DialogButton } from 'react-native-popup-dialog';
 import {
   CustomNavbar,
   Image,
@@ -28,20 +27,11 @@ import {
   uploadUserImageRequest
 } from "../../actions/UserActions";
 import styles from "./styles";
-import { Images, AppStyles, Colors, Fonts } from "../../theme";
+import { Images, AppStyles, Colors } from "../../theme";
 import Scores from "../Dashboard/Scores";
 import Util from "../../util";
 import GrossScoresTrend from "./GrossScoresTrend";
 import PotyLeaderboardDB from "../Dashboard/PotyLeaderboardDB";
-import { Dimensions } from "react-native";
-import SwitchSelector from "react-native-switch-selector";
-import { App } from "react-native-firebase";
-
-const options = [
-  { label: "About", value: "1" },
-  { label: "HCP", value: "2" },
-  { label: "Stats", value: "3" }
-];
 
 class Profile extends Component {
   static propTypes = {
@@ -58,9 +48,7 @@ class Profile extends Component {
     this.state = {
       activeTabIndex: 0,
       imageUri: props.userData.user_info[0].picture,
-      uploadingImage: false,
-      visibility: false,
-      categotyOptions: '1'
+      uploadingImage: false
     };
   }
 
@@ -74,12 +62,6 @@ class Profile extends Component {
   setImage = uri => {
     this.setState({
       imageUri: uri
-    });
-  };
-
-  setVisibleDialog = (status) => {
-    this.setState({
-      visibility: status
     });
   };
 
@@ -160,234 +142,34 @@ class Profile extends Component {
       }
     });
   };
-
-  _renderUserProfile() {
-    const { userData } = this.props;
-    console.log("userData-->", userData.user_info[0].name)
-    return (
-      this.state.categotyOptions === '1' ?
-        <View style={{
-          flex: 1, alignContent: 'center', marginStart: 25
-          , marginEnd: 25
-        }}>
-          <View style={{ justifyContent: 'flex-start', alignItems: 'flex-start', flexDirection: 'row', backgroundColor: Colors.background.secondary, borderRadius: 10, height: 70 }}>
-            <View style={{ paddingStart: 20, justifyContent: 'center', width: '88%', height: '100%' }}>
-
-              <Text style={{ fontFamily: Fonts.type.base, fontSize: 18 }} color={Colors.grey}>
-                Email
-              </Text>
-              <Text style={{ fontFamily: Fonts.type.base, fontSize: 18 }} color={Colors.black}>
-                test@abc.com
-              </Text>
-            </View>
-            <RNImage
-              style={{ alignSelf: 'center' }}
-              source={Images.phone_icon}
-            />
-          </View>
-
-          <View style={{ marginTop: 15, justifyContent: 'flex-start', alignItems: 'flex-start', flexDirection: 'row', backgroundColor: Colors.background.secondary, borderRadius: 10, height: 70 }}>
-            <View style={{ paddingStart: 20, justifyContent: 'center', width: '88%', height: '100%' }}>
-
-              <Text style={{ fontFamily: Fonts.type.base, fontSize: 18 }} color={Colors.grey}>
-                Mobile
-              </Text>
-              <Text style={{ fontFamily: Fonts.type.base, fontSize: 18 }} color={Colors.black}>
-                123090
-              </Text>
-            </View>
-            <RNImage
-              style={{ alignSelf: 'center' }}
-              source={Images.phone_icon}
-            />
-          </View>
-
-          <View style={{ marginTop: 15, justifyContent: 'flex-start', alignItems: 'flex-start', flexDirection: 'row', backgroundColor: Colors.background.secondary, borderRadius: 10, height: 70 }}>
-            <View style={{ paddingStart: 20, justifyContent: 'center', width: '88%', height: '100%' }}>
-
-              <Text style={{ fontFamily: Fonts.type.base, fontSize: 18 }} color={Colors.grey}>
-                Default TEE
-              </Text>
-              <Text style={{ fontFamily: Fonts.type.base, fontSize: 18 }} color={Colors.black}>
-                white
-              </Text>
-            </View>
-            <RNImage
-              style={{ alignSelf: 'center' }}
-              source={Images.phone_icon}
-            />
-          </View>
-
-          <View style={{ marginTop: 15, justifyContent: 'flex-start', alignItems: 'flex-start', flexDirection: 'row', backgroundColor: Colors.background.secondary, borderRadius: 10, height: 70 }}>
-            <View style={{ paddingStart: 20, justifyContent: 'center', width: '88%', height: '100%' }}>
-
-              <Text style={{ fontFamily: Fonts.type.base, fontSize: 18 }} color={Colors.grey}>
-                Designation
-              </Text>
-              <Text style={{ fontFamily: Fonts.type.base, fontSize: 18 }} color={Colors.black}>
-                Founder & CEO
-              </Text>
-            </View>
-            <RNImage
-              style={{ alignSelf: 'center' }}
-              source={Images.phone_icon}
-            />
-          </View>
-
-          <View style={{ marginTop: 15, justifyContent: 'flex-start', alignItems: 'flex-start', flexDirection: 'row', backgroundColor: Colors.background.secondary, borderRadius: 10, height: 70 }}>
-            <View style={{ paddingStart: 20, justifyContent: 'center', width: '88%', height: '100%' }}>
-
-              <Text style={{ fontFamily: Fonts.type.base, fontSize: 18 }} color={Colors.grey}>
-                Company
-              </Text>
-              <Text style={{ fontFamily: Fonts.type.base, fontSize: 18 }} color={Colors.black}>
-                Founder & CEO
-              </Text>
-            </View>
-            <RNImage
-              style={{ alignSelf: 'center' }}
-              source={Images.phone_icon}
-            />
-          </View>
-
-          <View style={{ marginTop: 15, justifyContent: 'flex-start', alignItems: 'flex-start', flexDirection: 'row', backgroundColor: Colors.background.secondary, borderRadius: 10, height: 70 }}>
-            <View style={{ paddingStart: 20, justifyContent: 'center', width: '88%', height: '100%' }}>
-
-              <Text style={{ fontFamily: Fonts.type.base, fontSize: 18 }} color={Colors.grey}>
-                Website
-              </Text>
-              <Text style={{ fontFamily: Fonts.type.base, fontSize: 18 }} color={Colors.black}>
-                Founder & CEO
-              </Text>
-            </View>
-            <RNImage
-              style={{ alignSelf: 'center' }}
-              source={Images.phone_icon}
-            />
-          </View>
-
-
-        </View> : null
-
-    );
-  }
   _renderHeader() {
     const { userData } = this.props;
     return (
-      this.state.categotyOptions === '2' ?
-        <View style={{ flex: 1, alignSelf: 'center', alignContent: 'center' }}>
-
-          <View style={{
-            flexDirection: 'row', backgroundColor: '#1740B4',
-            borderRadius: 10, height: 50, alignItems: 'center', padding: 15
-          }}>
-            <Text style={{
-              alignItems: 'center', fontSize: 18, color: Colors.white, flex: 5
-            }}>HCP Index</Text>
-
-            <Text style={{
-              alignItems: 'center', fontSize: 18, color: Colors.white, flex: 5, textAlign: 'center'
-            }}>13.3</Text>
-          </View>
-
-          <View style={{
-            flexDirection: 'row', backgroundColor: Colors.background.secondary, marginTop: 10,
-            borderRadius: 10, height: 50, alignItems: 'center', padding: 15, justifyContent: 'center'
-          }}>
-            <Text style={{
-              alignItems: 'center', fontSize: 18, color: Colors.grey5, flex: 5
-            }}>Playing HCP</Text>
-
-            <View style={{ marginTop: 3, width: 10, height: 10, borderRadius: 5, borderColor: '#1740B4', backgroundColor: 'white', borderWidth: 2 }} />
-
-            <Text style={{
-              marginStart: 10,
-              alignItems: 'center', fontSize: 18, color: Colors.grey5, textAlign: 'center'
-            }}>15</Text>
-            <View style={{
-              marginTop: 3, marginStart: 10,
-              width: 10, height: 10, borderRadius: 5, borderColor: '#D4D4D4', backgroundColor: Colors.white, borderWidth: 2
-            }} />
-
-            <Text style={{
-              flex: 1, marginStart: 0,
-
-              alignItems: 'center', fontSize: 18, color: Colors.grey5, textAlign: 'center'
-            }}>13</Text>
-            <View style={{
-              marginTop: 3, marginStart: 0,
-              width: 10, height: 10, borderRadius: 5, borderColor: Colors.yellow, backgroundColor: 'white', borderWidth: 2
-            }} />
-
-            <Text style={{
-              flex: 1, marginStart: 0,
-
-              alignItems: 'center', fontSize: 18, color: Colors.grey5, textAlign: 'center'
-            }}>11</Text>
-          </View>
+      <View style={{ ...styles.RectangleShapeView, flex: 1, alignSelf: 'center', alignContent: 'center' }}>
+        <View>
+          <Text style={styles.headerText}>LAST 20 ROUNDS  </Text>
+        </View>
+        <View style={[AppStyles.flexRow, AppStyles.pBottom5, { justifyContent: 'space-around' }]}>
+          <Text style={{ ...AppStyles.flex, marginLeft: 15, }} color={Colors.grey3}>
+            Round #
+        </Text>
+          <Text style={AppStyles.flex} color={Colors.grey3}>
+            Score
+        </Text>
+          <Text style={{ ...AppStyles.flex, marginLeft: 15, }} color={Colors.grey3}>
+            Date
+        </Text>
+        </View>
 
 
-          <View style={{
-            ...styles.RectangleShapeView, height: 320, flex: 1, alignSelf: 'center',
-            alignContent: 'center', marginTop: 15
-          }}>
-            <Text style={styles.headerText}>LAST 20 ROUNDS  </Text>
-            <View style={[AppStyles.flexRow, AppStyles.pBottom5, { justifyContent: 'space-around' }]}>
-              <Text style={{ ...AppStyles.flex, marginLeft: 15, }} color={Colors.grey3}>
-                Round #
-              </Text>
-              <Text style={AppStyles.flex} color={Colors.grey3}>
-                Score
-              </Text>
-              <Text style={{ ...AppStyles.flex, marginLeft: 15, }} color={Colors.grey3}>
-                Date
-              </Text>
-            </View>
+        <FlatList
+          nestedScrollEnabled={true}
+          data={userData.grossss_table}
+          renderItem={this._renderItem}
+          keyExtractor={Util.keyExtractor}
+        />
 
-
-            <FlatList
-              nestedScrollEnabled={true}
-              data={userData.grossss_table}
-              renderItem={({ item, index }) => {
-                console.log("data is-->", item)
-                return (
-                  <TouchableOpacity onPress={() => { this.setVisibleDialog(true) }}>
-                    <View style={[AppStyles.flexRow, { justifyContent: 'space-around' }]} >
-                      <Text type="bold" color={Colors.text.secondary}>
-                        {index + 1}
-                      </Text>
-                      {
-                        item.is_selected === true ? (
-                          <View style={{ ...styles.innerCircle, borderColor: Colors.green }}>
-                            <Text type="bold" color={Colors.text.secondary}>
-                              {Math.trunc(item.adjusted_score)}
-                            </Text>
-                          </View>
-                        ) : (
-                          <View style={{ ...styles.innerCircle, borderColor: Colors.white }}>
-                            <Text type="bold" color={Colors.text.secondary}>
-                              {Math.trunc(item.adjusted_score)}
-                            </Text>
-                          </View>
-                        )
-                      }
-
-                      <Text type="bold" style={{ width: 90, }} color={Colors.text.secondary}>
-                        {item.match_date}
-                      </Text>
-
-                    </View>
-                  </TouchableOpacity>
-                )
-              }
-              }
-              ///{this._renderItem}
-              keyExtractor={Util.keyExtractor}
-            />
-          </View>
-        </View >
-        : null
-
+      </View>
     );
   }
   _renderUserDetails({ name, picture }, imageUri, uploadingImage) {
@@ -442,35 +224,6 @@ class Profile extends Component {
       </View>
     );
   }
-
-  _renderCategoryTabs() {
-    return (
-      <View style={{
-        ...styles.userDetailsWrapper, borderBottomWidth: 0, marginStart: 20
-        , marginEnd: 20, marginBottom: 0
-      }}>
-
-        <SwitchSelector
-          initial={0}
-          onPress={value => this.setState({ categotyOptions: value })}
-          buttonColor='#292F45'
-          hasPadding
-          style={{ alignItems: 'flex-start', marginBottom: 15 }}
-          selectedTextStyle={{
-            fontSize: 16
-          }}
-          textStyle={{
-            fontSize: 16,
-          }}
-          options={options}
-          testID="gender-switch-selector"
-          accessibilityLabel="gender-switch-selector"
-        />
-
-
-      </View>
-    );
-  }
   backtoMain() {
 
   }
@@ -480,33 +233,29 @@ class Profile extends Component {
 
   _renderItem({ item, index }) {
     return (
-      <TouchableOpacity onPress={() => { this.setVisibleDialog(true) }}>
-        <View style={[AppStyles.flexRow, { justifyContent: 'space-around' }]} >
-          <Text type="bold" color={Colors.text.secondary}>
-            {index + 1}
-          </Text>
-          {
-            item.is_selected === true ? (
-              <View style={{ ...styles.innerCircle, borderColor: Colors.green }}>
-                <Text type="bold" color={Colors.text.secondary}>
-                  {Math.trunc(item.adjusted_score)}
-                </Text>
-              </View>
-            ) : (
-              <View style={{ ...styles.innerCircle, borderColor: Colors.white }}>
-                <Text type="bold" color={Colors.text.secondary}>
-                  {Math.trunc(item.adjusted_score)}
-                </Text>
-              </View>
-            )
-          }
+      <View style={[AppStyles.flexRow, { justifyContent: 'space-around' }]}>
+        <Text type="bold" color={Colors.text.secondary}>
+          {index + 1}
+        </Text>
+        {item.is_selected === true ? (
+          <View style={{ ...styles.innerCircle, borderColor: Colors.green }}>
+            <Text type="bold" color={Colors.text.secondary}>
+              {Math.trunc(item.adjusted_score)}
+            </Text>
+          </View>
+        ) : (
+            <View style={{ ...styles.innerCircle, borderColor: Colors.white }}>
+              <Text type="bold" color={Colors.text.secondary}>
+                {Math.trunc(item.adjusted_score)}
+              </Text>
+            </View>
+          )}
 
-          <Text type="bold" style={{ width: 90, }} color={Colors.text.secondary}>
-            {item.match_date}
-          </Text>
+        <Text type="bold" style={{ width: 90, }} color={Colors.text.secondary}>
+          {item.match_date}
+        </Text>
 
-        </View>
-      </TouchableOpacity>
+      </View>
     );
   }
   _renderLatestScorecardButton() {
@@ -553,107 +302,11 @@ class Profile extends Component {
     );
   }
 
-  renderGraph() {
-    const { activeTabIndex } = this.state
-
-    if (activeTabIndex === 0)
-      return (
-        <GrossScoresTrend activeGraph="handicap" user={this.props.userData} />
-      )
-
-
-    else if (activeTabIndex === 1)
-      return (
-        <GrossScoresTrend activeGraph="fir" user={this.props.userData} />
-      )
-
-
-    else if (activeTabIndex === 2)
-      return (
-        <GrossScoresTrend activeGraph="gir" user={this.props.userData} />
-      )
-
-    else if (activeTabIndex === 3)
-      return (
-        <GrossScoresTrend activeGraph="putts" user={this.props.userData} />
-      )
-
-  }
-
-  getStats() {
-    return (<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 10, marginBottom: 10 }}>
-      <View>
-
-        <View style={{
-          borderRadius: 10, backgroundColor: Colors.greenTint
-        }}>
-          <Text style={{
-            paddingStart: 15, paddingEnd: 15, textAlign: 'center',
-            fontSize: 16, fontFamily: Fonts.type.bold, color: Colors.green
-          }}>FIR</Text>
-        </View>
-        <Text style={{
-          paddingStart: 15, paddingEnd: 15,
-          fontSize: 20, fontFamily: Fonts.type.bold, color: Colors.black
-        }}>30.5</Text>
-      </View>
-
-      <View style={{ marginStart: 30 }}>
-
-        <View style={{
-          borderRadius: 10, backgroundColor: Colors.greenTint
-        }}>
-          <Text style={{
-            paddingStart: 15, paddingEnd: 15, textAlign: 'center',
-            fontSize: 16, fontFamily: Fonts.type.bold, color: Colors.green
-          }}>GIR</Text>
-        </View>
-        <Text style={{
-          paddingStart: 15, paddingEnd: 15,
-          fontSize: 20, fontFamily: Fonts.type.bold, color: Colors.black
-        }}>30.5</Text>
-      </View>
-
-      <View style={{ marginStart: 30 }}>
-
-        <View style={{
-          borderRadius: 10, backgroundColor: Colors.greenTint
-        }}>
-          <Text style={{
-            paddingStart: 15, paddingEnd: 15, textAlign: 'center',
-            fontSize: 16, fontFamily: Fonts.type.bold, color: Colors.green
-          }}>PPR</Text>
-        </View>
-        <Text style={{
-          paddingStart: 15, paddingEnd: 15,
-          fontSize: 20, fontFamily: Fonts.type.bold, color: Colors.black
-        }}>30.5</Text>
-      </View>
-      <View style={{ marginStart: 30 }}>
-
-        <View style={{
-          borderRadius: 10, backgroundColor: Colors.greenTint
-        }}>
-          <Text style={{
-            paddingStart: 15, paddingEnd: 15, textAlign: 'center',
-            fontSize: 16, fontFamily: Fonts.type.bold, color: Colors.green
-          }}>Win%</Text>
-        </View>
-        <Text style={{
-          paddingStart: 15, paddingEnd: 15,
-          fontSize: 20, fontFamily: Fonts.type.bold, color: Colors.black
-        }}>30.5</Text>
-      </View>
-    </View>
-    );
-  }
-
   render() {
 
-    const { activeTabIndex, imageUri, uploadingImage, visibility } = this.state;
+    const { activeTabIndex, imageUri, uploadingImage } = this.state;
     const { isFetchingProfile, userData } = this.props;
     console.log(userData.grossss_table);
-
     return (
       <View style={[AppStyles.flex]}>
 
@@ -667,72 +320,29 @@ class Profile extends Component {
                 imageUri,
                 uploadingImage
               )}
-              {
-                this._renderCategoryTabs()
-              }
-              {this._renderUserProfile()}
-
               {this._renderHeader()}
-              {/* {this.state.categotyOptions === 1
-                && this._renderUserProfile()
-              } */}
-              {/* {this._renderHeader()} */}
               {/* {this._renderScores()}
             {this._renderLatestScorecardButton()} */}
 
-              {this.state.categotyOptions === '3' ? this.getStats() : null}
-              {this.state.categotyOptions === '3' ? this._renderTabsHeader() : null}
-              {this.state.categotyOptions === '3' ? this.renderGraph() : null}
+              {this._renderTabsHeader()}
+
+              {activeTabIndex === 0 && (
+                <GrossScoresTrend activeGraph="handicap" user={this.props.userData} />
+              )}
+              {activeTabIndex === 1 && (
+                <GrossScoresTrend activeGraph="fir" user={this.props.userData} />
+              )}
+              {activeTabIndex === 2 && (
+                <GrossScoresTrend activeGraph="gir" user={this.props.userData} />
+              )}
+              {activeTabIndex === 3 && (
+                <GrossScoresTrend activeGraph="putts" user={this.props.userData} />
+              )}
             </ScrollView>
           </View>
         )}
 
-
-        <Dialog
-          height='30%'
-          width={Dimensions.get('window').width * .8}
-          visible={this.state.visibility}
-          onTouchOutside={() => {
-            this.setState({ visibility: false });
-          }}
-        >
-          {/* DialogContent start */}
-          <DialogContent
-            style={{ flex: 1, alignItems: 'center' }}
-          >
-            <View style={{ margin: 40, width: '100%', alignItems: 'flex-start', height: '100%' }}>
-              <View style={{ alignItems: 'center', justifyContent: 'center', marginStart: 20, marginBottom: 20, width: '100%', flexDirection: 'row' }}>
-                <Text color={Colors.black} style={{ fontSize: 25, flex: 6 }}>
-                  Round Info
-                </Text>
-
-                <ImageBackground style={{ width: 30, height: 30, alignSelf: 'flex-end', alignItems: 'flex-start', marginEnd: 30, marginBottom: 5 }} resizeMode="contain"
-                  source={Images.scoreCardBlackWithBg} />
-              </View>
-              <Text style={{ color: Colors.grey3, marginLeft: 20 }}>
-                Season
-              </Text>
-              <Text style={{ color: 'black', marginLeft: 20, marginBottom: 10 }} color={Colors.black}>
-                Player of the year
-              </Text>
-              <Text style={{ color: Colors.grey3, marginLeft: 20 }}>
-                Event
-              </Text>
-              <Text style={{ color: 'black', marginLeft: 20, marginBottom: 10 }} color={Colors.black}>
-                Player of the year
-              </Text>
-              <Text style={{ color: Colors.grey3, marginLeft: 20 }}>
-                Date
-              </Text>
-              <Text style={{ color: 'black', marginLeft: 20, marginBottom: 10 }} color={Colors.black}>
-                Player of the year
-              </Text>
-            </View>
-
-          </DialogContent>
-        </Dialog>
-
-      </View >
+      </View>
 
     );
   }
