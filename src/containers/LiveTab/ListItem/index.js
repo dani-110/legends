@@ -4,13 +4,9 @@ import PropTypes from "prop-types";
 import { View, Image, TouchableOpacity } from "react-native";
 import { Actions } from "react-native-router-flux";
 import { Text, ButtonView } from "../../../components";
-import { TIME_FORMAT1, MATCH_TYPES } from "../../../constants";
+import { MATCH_TYPES } from "../../../constants";
 import styles from "./styles";
-import { Colors, AppStyles, Images, Fonts } from "../../../theme";
-import Util from "../../../util";
-import { debug } from "react-native-reanimated";
-import { iteratee } from "lodash";
-import { Alert } from "react-native";
+import { Colors, Images } from "../../../theme";
 
 export default class ListItem extends React.Component {
   static propTypes = {
@@ -28,7 +24,7 @@ export default class ListItem extends React.Component {
     debugger
 
     const { sectionTitle, data, matchFoo } = this.props;
-    const { match_date_format, match_date, round_text, type, name, title, venue, team1_name, team2_name, team_1_initials, team_2_initials, desc } = data;
+    const { is_edit, match_date_format, match_date, round_text, type, name, title, venue, team1_name, team2_name, team_1_initials, team_2_initials, desc } = data;
     const navigateTO = (sectionTitle === "LIVE") ? `${type}livescore` : null;
 
     debugger
@@ -57,7 +53,7 @@ export default class ListItem extends React.Component {
     return (<ButtonView
       onPress={() => Actions.jump(navigateTO, { data })} >
       <View>
-        {((sectionTitle !== "LIVE")) && (matchFoo !== match_date_format) ? (
+        {((sectionTitle === "UPCOMING")) && (matchFoo !== match_date_format) ? (
 
           <Text size="large" color={Colors.black2Tinted}>
             {match_date_format}
@@ -69,15 +65,14 @@ export default class ListItem extends React.Component {
         style={[[styles.container, { backgroundColor: bg }]]}>
         <View
           style={[
-            AppStyles.flexRow,
-            AppStyles.alignItemsCenter,
-            { flex: 1 }
+            //  AppStyles.flexRow,
+            //  AppStyles.alignItemsCenter,
+
+            { flex: 1, height: title_ === MATCH_TYPES.POTY ? 100 : null }
           ]}
         >
           {
-            !(title_ === MATCH_TYPES.LCL || title_ === MATCH_TYPES.DMP) ? (
-              <TouchableOpacity
-                onPress={() => Actions.jump("EditMatch", { data })} >
+            !(title_ === MATCH_TYPES.LCL || title_ === MATCH_TYPES.DMP || title_ === MATCH_TYPES.LMP) ? (
                 <View style={{ padding: 14, flex: 1, flexDirection: 'row', }}>
                   {title_ === MATCH_TYPES.POTY ? (
                     <Text type="normal" color={Colors.white} style={{ flex: 3, flexDirection: 'row', fontSize: 15 }}>
@@ -85,8 +80,7 @@ export default class ListItem extends React.Component {
                   ) : //(team1_name + "\nVS \n" + team2_name)
                     (
                       <View style={{ flex: 3, flexDirection: 'column' }}>
-                        <Text type="normal" color={Colors.white} style={styles.lmpText} >
-                          {team1_name} </Text>
+                        <Text type="normal" color={Colors.white} style={styles.lmpText} >{team1_name}</Text>
                         <Text type="normal" color={Colors.whiteOpaque} >
                           VS</Text>
                         <Text type="normal" color={Colors.white} style={styles.lmpText} >
@@ -95,27 +89,25 @@ export default class ListItem extends React.Component {
                     )
                   }
 
-
-                  <View style={styles.RectangleShape}>
-                    <Text style={{ alignSelf: 'center', paddingTop: 3, }} color={Colors.white} size="xSmall" type="bold">
-                      {title_}
-                    </Text>
+                  <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'flex-end' }}>
+                    <View style={{ ...styles.RectangleShape }}>
+                      <Text style={{ textAlign: 'center', paddingTop: 3, }} color={Colors.white} size="xSmall" type="bold">
+                        {title_}
+                      </Text>
+                    </View>
                   </View>
 
                 </View>
-              </TouchableOpacity>
-
+      
             ) : (
               <>
                 <View style={[styles.container, { backgroundColor: 'rgba(255,255,255, 0.2)', flex: 1, padding: 14, flexDirection: 'row' }]}
                 >
                   <View style={{ flex: 3, flexDirection: 'column' }}>
                     {title_ !== MATCH_TYPES.DMP ? (
-                      <Text type="bold" color={Colors.white} style={{ flex: 1, flexDirection: 'row', fontSize: 16 }}>
-                        {team1_name}
-                      </Text>
+                      <Text type="bold" color={Colors.white} style={{ flex: 1, flexDirection: 'row', fontSize: 16 }}>{team1_name}</Text>
                     ) : null}
-                    <Text color={Colors.white} style={title_ === MATCH_TYPES.DMP ? (styles.textTitle) : (styles.textTitle2)}>
+                    <Text color={Colors.white} style={title_ === MATCH_TYPES.DMP ? (styles.textTitle) : { ...styles.textTitle2, marginTop: 0 }}>
                       {team_1_initials}
                     </Text>
                     <Text size="small" color={Colors.whiteOpaque} style={{ flex: 1, flexDirection: 'row', fontSize: 14 }}>
@@ -127,35 +119,76 @@ export default class ListItem extends React.Component {
                       </Text>
                     ) : null}
 
-                    <Text color={Colors.white} style={title_ === MATCH_TYPES.DMP ? (styles.textTitle) : (styles.textTitle2)}>
+                    <Text color={Colors.white} style={title_ === MATCH_TYPES.DMP ? (styles.textTitle) : { ...styles.textTitle2, marginTop: 0 }}>
                       {team_2_initials}
                     </Text>
                   </View>
 
-                  <View style={styles.RectangleShape}>
-                    <Text style={{ alignSelf: 'center', paddingTop: 3, }} color={Colors.white} size="xSmall" type="bold">
-                      {title_}
-                    </Text>
-                  </View>
+                    <View style={styles.RectangleShape}>
+                      <Text style={{ alignSelf: 'center', paddingTop: 3, }} color={Colors.white} size="xSmall" type="bold">
+                        {title_}
+                      </Text>
+                    </View>
                 </View>
               </>
             )
           }
 
-          {/* <Image source={Images.clock_white} style={AppStyles.mRight5} /> */}
+          {title_ === MATCH_TYPES.POTY ?
+            (<View style={{
+              width: '80%',
+              position: 'absolute',
+              padding: 14,
+              justifyContent: 'center',
+              height: '100%'
+
+            }}>
+              <Text type="bold" color={Colors.white} style={{ flexDirection: 'row' }}>
+                {round_text}
+              </Text>
+              <Text size="small" color={Colors.windowTintWhite}>
+                {venue}
+              </Text>
+            </View>)
+
+            : null}
+
 
         </View>
-        <View style={{ paddingBottom: 14, paddingLeft: 14, }}>
-          <Text type="bold" color={Colors.white} style={{ flex: 3, flexDirection: 'row' }}>
-            {round_text}
-          </Text>
-          <Text size="small" color={Colors.windowTintWhite}>
-            {venue}
-          </Text>
-        </View>
-        {/* <Image source={Images.arrow_right_white} style={styles.arrow_right} /> */}
+
+        {title_ !== MATCH_TYPES.POTY ?
+          <View style={{ flexDirection: 'row' }}>
+
+
+            <View style={{
+              paddingBottom: 14,
+              paddingLeft: 14,
+              flex: 0.95,
+            }}>
+              <Text type="bold" color={Colors.white} style={{ flex: 3, flexDirection: 'row' }}>
+                {round_text}
+              </Text>
+              <Text size="small" color={Colors.windowTintWhite}>
+                {venue}
+              </Text>
+            </View>
+            {
+              (sectionTitle.toLowerCase() === 'my_matches' || is_edit) ? (sectionTitle.toLowerCase() === 'my_matches' || is_edit === 1 ?
+
+                (<TouchableOpacity
+                  style={{ alignSelf: 'center' }}
+                  onPress={() => Actions.jump("EditMatch", { data })} >
+                  <Image source={Images.icon_change_game} />
+                </TouchableOpacity>)
+                :null):null
+            }
+          </View>
+
+
+          : <View />}
+
       </View>
-    </ButtonView >);
+    </ButtonView>);
 
   }
 

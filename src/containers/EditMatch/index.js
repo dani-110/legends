@@ -29,6 +29,10 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from "moment";
 import util from "../../util";
 import { BASE_URL } from "../../config/WebService";
+import { ActivityIndicator } from "react-native";
+import { Dimensions } from "react-native";
+import { TouchableHighlight } from "react-native-gesture-handler";
+import { getLivedataRequest } from "../../actions/LiveMatchesActions";
 
 class EditMatch extends Component {
 
@@ -55,7 +59,10 @@ class EditMatch extends Component {
       courseId: -1
     },
     playerTees: [],
-    matchDate: ""
+    matchDate: "",
+
+    //send scheduling
+    postingData: false
   };
 
   //SCHEDULING DATA...
@@ -91,7 +98,7 @@ class EditMatch extends Component {
         <DateTimePickerModal
           isVisible={this.state.isDatePickerVisible}
           mode="date"
-          date={new Date(this.state.matchDate)}
+          date={this.state.matchDate ? new Date(this.state.matchDate) : new Date()}
           onConfirm={this.handleConfirm}
           onCancel={this.hideDatePicker}
         />
@@ -137,18 +144,19 @@ class EditMatch extends Component {
 
     return (
       <View>
-        <View style={{ zIndex: 1, width: '90%', marginTop: 20, alignSelf: 'center' }}>
+        <View style={{ zIndex: 2, width: '90%', marginTop: 20, alignSelf: 'center' }}>
+
           <View style={{ backgroundColor: '#06623B', opacity: 0.11, width: '100%', height: '100%', borderRadius: 10, position: 'absolute' }} />
 
-          <View style={{ zIndex: 1, flexDirection: 'row', marginBottom: 10, margin: 20, alignItems: 'center' }}>
-            <Text style={{ ...styles.innerText, flex: 3 }}>Course</Text>
+          <View style={{ zIndex: 2, flexDirection: 'row', marginBottom: 10, margin: 20, alignItems: 'center' }}>
+            <Text style={{ ...styles.innerText, flex: 2 }}>Course</Text>
             <DropDownPicker
               items={mainDropDownPicker}
               placeholder={this.state.mainCourse.courseName}
               //defaultValue={}
               containerStyle={{ height: 40, borderColor: 'red' }}
               style={{
-                backgroundColor: '#fafafa', width: 170, zIndex: 1,
+                backgroundColor: '#fafafa', width: 230, zIndex: 1,
                 borderTopLeftRadius: 10, borderTopRightRadius: 10,
                 borderBottomLeftRadius: 10, borderBottomRightRadius: 10
               }}
@@ -165,11 +173,11 @@ class EditMatch extends Component {
               }}
             />
           </View>
-          <View style={{ flexDirection: 'row', marginLeft: 20, marginRight: 20, marginBottom: 20, alignItems: 'center' }}>
-            <Text style={{ ...styles.innerText, flex: 3 }}>Date</Text>
+          <View style={{ zIndex: 1, flexDirection: 'row', marginLeft: 20, marginRight: 20, marginBottom: 20, alignItems: 'center' }}>
+            <Text style={{ ...styles.innerText, flex: 2 }}>Date</Text>
             <View
               style={{
-                width: 170, zIndex: 1,
+                width: 230, zIndex: 1,
                 height: 38, backgroundColor: 'white',
                 borderRadius: 10, justifyContent: 'center'
               }}
@@ -188,24 +196,51 @@ class EditMatch extends Component {
         {/*  next view */}
 
         <View style={{
-          width: '90%',
+          width: '90%', zIndex: 1,
+
           marginTop: 10, borderRadius: 10, alignSelf: 'center'
         }}>
-          <View style={{ backgroundColor: '#06623B', opacity: 0.11, width: '100%', height: '100%', borderRadius: 10, position: 'absolute' }} />
+          <View style={{
+            backgroundColor: '#06623B', opacity: 0.11, width: '100%', height: '100%',
+            borderRadius: 10, position: 'absolute'
+          }} />
 
           {
             this.getPlayerView()
           }
         </View>
         {/*  next view */}
-        <TouchableOpacity
-          onPress={() => { this.saveScheduling() }}
+        <TouchableHighlight
+          onPress={() => {
+
+            if (!this.state.matchDate) {
+              alert("Please select date for proceeding.")
+              return;
+            }
+
+            this.setState({ postingData: true })
+            this.saveScheduling()
+          }}
           style={{
-            alignSelf: 'center',
-            width: '50%', height: '10%', padding: 10, backgroundColor: '#06623B', borderRadius: 10, margin: 20, alignItems: 'center'
+            alignSelf: 'center', zIndex: 1,
+            width: '50%', height: 45, padding: 10, backgroundColor: '#06623B', borderRadius: 10, margin: 20, alignItems: 'center'
           }}>
           <Text style={{ ...styles.innerText, flex: 7, color: 'white' }}>Confirm</Text>
-        </TouchableOpacity>
+        </TouchableHighlight>
+
+
+        <ActivityIndicator
+          style={{
+            position: 'absolute',
+            alignItems: 'center',
+            justifyContent: 'center',
+            top: Dimensions.get("window").height / 3,
+            left: 0,
+            right: 0,
+          }}
+          animating={this.state.postingData}
+          size="large"
+        />
 
       </View>)
   }
@@ -229,7 +264,7 @@ class EditMatch extends Component {
     console.log("send Data authentication key = >" + AuthStr);
     URL = BASE_URL + 'save_Schdule_Player';
 
-    var data = {
+    var data = this.state.matchDate ? {
 
       "match_date": this.state.matchDate,
       "course_id": this.state.mainCourse.courseId,
@@ -238,16 +273,30 @@ class EditMatch extends Component {
       "type": type === "lmp" ? "smp" : type,
       players
 
+    } : {
+
+      "course_id": this.state.mainCourse.courseId,
+      "schedule_id": schedule_id,
+      "match_id": match_id,
+      "type": type === "lmp" ? "smp" : type,
+      players
     }
+
+    console.log("data-------->", data);
 
     axios.post(URL,
       { data },
 
       { headers: { Authorization: AuthStr, "Content-Type": "application/json", } }).then((response) => {
 
-        console.log("ponka--------->", response)
+        if (response.status === 200)
+          alert("Saved Successfully")
+
+        this.props.getLivedataRequest();
+        this.setState({ postingData: false })
       })
       .catch(function (error) {
+        this.setState({ postingData: false })
         alert(error);
       });
 
@@ -334,7 +383,7 @@ class EditMatch extends Component {
           //FIRST TIME TO PUT ALL COURSE DATA...
           this.courses = data.data[0].data.courses;
 
-          this.setCoursesWithPlayers(data.data[0].data, false)
+          this.setCoursesWithPlayers(data.data[0].data, false, data.data[0].course_id)
 
 
         });
@@ -346,6 +395,7 @@ class EditMatch extends Component {
   };
 
   setCoursesWithPlayers(schedulingData, isByPass, courseId) {
+
     let mainCourseData = this.setMainCourseTees(courseId);
 
     let tmpPlayerTees = this.getPlayerTees(schedulingData.players, isByPass);
@@ -359,7 +409,7 @@ class EditMatch extends Component {
         courseId: mainCourseData[0].id
       },
       playerTees: tmpPlayerTees,
-      matchDate: this.state.matchDate.length === 0 ? this.props.data.match_date : this.state.matchDate
+      matchDate: this.props.data.match_date ? (this.state.matchDate.length === 0 ? this.props.data.match_date : this.state.matchDate) : ""
 
     });
 
@@ -396,9 +446,12 @@ class EditMatch extends Component {
 
     let chooseValue = !courseId ? this.props.data.venue : courseId;
 
+    console.log("courseId--->", chooseValue)
+    console.log("courses--->", this.courses)
+
     //FILTER COURSE TEES W.R.T SELECTED TEES
     let filterCourse = this.courses.filter((value) => {
-      return value.name === chooseValue
+      return (value.id === chooseValue || value.name === chooseValue)
     })
 
     console.log("filter course", filterCourse)
@@ -424,7 +477,7 @@ const mapStateToProps = ({ liveMatches }) => ({
   liveMatches
 });
 
-const actions = { setSelectedTab, getScheduleMatchesRequest };
+const actions = { setSelectedTab, getScheduleMatchesRequest, getLivedataRequest };
 
 export default connect(
   mapStateToProps,

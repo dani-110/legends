@@ -21,8 +21,8 @@ class Login extends Component {
   state = {
     errors: {},
     loading: false,
-    email: "arsalan@livewiregroup.co",//javedfarooq@gmail.com",
-    password: "Amdani001",
+    email: '',//"arsalan@livewiregroup.co",//javedfarooq@gmail.com",
+    password: '',//"Amdani001",
     hidePassword: true
   };
 
