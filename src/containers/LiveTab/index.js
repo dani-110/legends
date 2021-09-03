@@ -28,10 +28,12 @@ class LiveTab extends Component {
 
   _renderSectionHeader({ section: { title, data } }) {
 
+    console.log("title-->",title);
+    debugger
     return (
-      <View style={[AppStyles.mBottom10, (title !== "LIVE" ? (AppStyles.mTop20) : (AppStyles.mTop0))]}>
+      <View style={[AppStyles.mBottom10, (title === "LIVE" ? (AppStyles.mTop0) : (AppStyles.mTop20))]}>
         <Text type="bold" size="large">
-          {title + " MATCHES"}
+          {(title.startsWith("MY_MATCHES")?"MY":title)+ " MATCHES"}
         </Text>
         {/* {(title !== "LIVE") ? (
           <Text size="large" color={Colors.black2Tinted}>
@@ -49,16 +51,28 @@ class LiveTab extends Component {
 
 
   _renderItem({ item, index, section }) {
+
+    debugger
+
     arrPrevData.push(item.match_date_format);
-    foo = loop > 0 ? arrPrevData[loop - 1] : "";
+    let foo = loop > 0 ? arrPrevData[loop - 1] : "";
     loop++;
+
+    debugger
+
     return <ListItem data={item} matchDate={item.match_date} sectionTitle={section.title} matchFoo={foo} />;
   }
 
   renderMatchesList() {
+    console.log("mymatches-->", this.props)
+
     const { liveMatches, isFetchingData } = this.props;
     loop = 0;
     arrPrevData = [];
+
+    console.log("mymatches-->",liveMatches)
+    debugger
+
     return (
       <View style={[AppStyles.basePadding, AppStyles.flex]}>
         <SectionList

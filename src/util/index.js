@@ -241,7 +241,9 @@ class Util {
 
   getManipulatedLiveMatchesData = data => {
 
-    const matchesType = ["live", "upcoming"];
+    console.log("data-->",data)
+    debugger
+    const matchesType = data.my_matches ? ["live", "upcoming", "my_matches"] : ["live", "upcoming"];
     const myData = [];
     matchesType.forEach(element => {
       const innerData = [];

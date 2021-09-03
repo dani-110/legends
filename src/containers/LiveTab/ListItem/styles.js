@@ -12,7 +12,7 @@ export default StyleSheet.create({
     ...AppStyles.mBottom10
   },
   lmpText: {
-    fontSize: 14
+    fontSize: 16
   },
   textTitle: {
     flex: 1,
@@ -26,7 +26,6 @@ export default StyleSheet.create({
     flexDirection: 'row',
     fontSize: 14,
     fontWeight: "normal",
-
   },
   arrow_right: {
     position: "absolute",

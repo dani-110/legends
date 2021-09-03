@@ -80,9 +80,10 @@ class Settings extends Component {
         <View style={{ bottom: 50, justifyContent: 'center', alignItems: 'center' }}>
           <TouchableOpacity
             onPress={() => { Linking.openURL("http://www.livewireapps.com/") }}>
-            <Text style={{ color: Colors.grey }}>Powered by Live Wire Apps</Text>
+            <Text style={{ color: Colors.grey }}></Text>
+            {/* Powered by Live Wire Apps */}
           </TouchableOpacity>
-          <Text>Version 3.3.5</Text>
+          <Text>Version 3.3.7</Text>
         </View>
       </View>
     );

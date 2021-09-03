@@ -34,7 +34,7 @@ import {
   EnterScore,
   Lmp,
   Dmp,
-  PlayersDirectory
+  PlayersDirectory, HCPCalculator, EditMatch
 } from "../containers";
 import PotyLeaderboardDB from "../containers/Dashboard/PotyLeaderboardDB";
 import { Alert } from "react-native";
@@ -62,6 +62,7 @@ const navigator = Actions.create(
     <Scene key="login" component={Login} hideNavBar />
     <Scene key="forgotPassword" component={ForgotPassword} hideNavBar />
     <Scene key="scorecard" component={ScoreCard} hideNavBar />
+    <Scene key="EditMatch" component={EditMatch} hideNavBar />
 
     <Drawer
       hideNavBar
@@ -88,6 +89,11 @@ const navigator = Actions.create(
             <Scene
               key="playersdirectory"
               component={PlayersDirectory}
+              hideNavBar
+            />
+            <Scene
+              key="HandicapCalculator"
+              component={HCPCalculator}
               hideNavBar
             />
             <Scene

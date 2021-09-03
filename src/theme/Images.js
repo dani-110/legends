@@ -57,8 +57,9 @@ const splash_new = require("../assets/images/splash_logo/splash_logo.png");
 const scoreCard = require("../assets/icon/ScoreCard/ScoreCard.png");
 const scoreCardWhite = require("../assets/icon/scoreCardWhite/score.png");
 const scoreCardBlackWithBg = require("../assets/icon/scoreCardBlackScreen/scoreWhite.png");
-//scoreCardBlackScreen
+const icon_change_game = require("../assets/icon/icon_change_game/icon_change_game.png");
 export default {
+  icon_change_game,
   logo,
   splash_new,
   scoreCardBlackWithBg,

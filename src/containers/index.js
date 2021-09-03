@@ -20,6 +20,8 @@ import EnterScore from "./EnterScore";
 import Lmp from "./Lmp";
 import Dmp from "./Dmp";
 import PlayersDirectory from "./PlayersDirectory";
+import HCPCalculator from './HcpCalculator'
+import EditMatch from './EditMatch'
 
 export {
   Login,
@@ -42,5 +44,7 @@ export {
   EnterScore,
   Lmp,
   Dmp,
-  PlayersDirectory
+  PlayersDirectory,
+  HCPCalculator,
+  EditMatch
 };

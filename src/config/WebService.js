@@ -1,7 +1,7 @@
 import _ from "lodash";
 import Util from "../util";
 
-export const BASE_URL = "https://legendstourgolf.com/api/"; //"http://legend.livewireapps.info/public/api/"
+export const BASE_URL = "https://legendstourgolf.com/api/";//"http://legend.livewireapps.info/public/api/"
 
 export const API_TIMEOUT = 40000;//30000;
 
@@ -159,6 +159,19 @@ export const GET_LIVE_DATA = {
   access_token_required: true,
   type: REQUEST_TYPE.GET
 };
+
+
+//////////////////   SCHEDULING PLAYERS  //////////////////////
+
+export const GET_SCHEDULE_DATA_URL = {
+  route: "get_Schdule_Players",
+  access_token_required: true,
+  type: REQUEST_TYPE.POST
+};
+
+
+/////////////////////////   SCHEDULING PLAYERS          //////////////////////////
+
 
 export const GET_SCORE_LCL_SINGLES1 = {
   route: "GetScoresLCLSingles1",

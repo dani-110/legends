@@ -8,7 +8,8 @@ import {
   GET_SCORE_LCL_SINGLES2,
   GET_SCORE_LCL_FOURSOME,
   GET_SCORE_DMP,
-  GET_SCORE_LMP
+  GET_SCORE_LMP,
+  GET_SCHEDULE_PLAYERS,
 } from "./ActionTypes";
 
 export function getPotyScoreNetRequest(subroute, responseCallback) {
@@ -59,6 +60,9 @@ export function getLivedataRequest() {
 }
 
 export function getLivedataSuccess(data) {
+
+  debugger
+
   return {
     data,
     type: GET_LIVE_DATA.SUCCESS
@@ -70,6 +74,34 @@ export function getLivedataFailure() {
     type: GET_LIVE_DATA.FAILURE
   };
 }
+
+/////////////////////  SCHEDULING //////////////////////
+export function getScheduleMatchesRequest(payload, responseCallback) {
+  return {
+    responseCallback,
+    type: GET_SCHEDULE_PLAYERS.REQUEST,
+    payload
+  };
+}
+
+export function getScheduleMatchesSuccess(data) {
+
+  console.log("actions--->", data)
+  debugger
+  return {
+    data,
+    type: GET_SCHEDULE_PLAYERS.SUCCESS
+  };
+}
+
+export function getScheduleMatchesFailure() {
+
+  debugger
+  return {
+    type: GET_SCHEDULE_PLAYERS.FAILURE
+  };
+}
+////////////////////////////////////////////////////////////////
 
 export function getScoreLclSingles1Request(subRoute, responseCallback) {
   return {

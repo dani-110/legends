@@ -177,12 +177,12 @@ class Lmp extends React.Component {
         )
       }
 
-      {this._renderItem(pair.team1_name, pair.winning_team == 1)}
-      {this._renderItem(pair.team2_name, pair.winning_team == 2)}
+      {this._renderItem(pair.team1_name, pair.winning_team == 1, index)}
+      {this._renderItem(pair.team2_name, pair.winning_team == 2, index)}
     </View >
   );
 
-  _renderItem(item, won) {
+  _renderItem(item, won, index) {
     if (item) {
       return (
         <View key={`item-${item}`} style={[styles.itemWrapper]}>
@@ -191,6 +191,8 @@ class Lmp extends React.Component {
               {item || ""}
             </Text>
           </View>
+          {/* KINDLY ADD KEY SO IF ITS EMPTY SO NO DATA SHOW OTHERWISE SHOW
+          {index === 5 ? <Text>sdsdfsdf</Text> : null} */}
         </View>
       );
     }
