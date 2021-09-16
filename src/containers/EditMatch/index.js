@@ -325,8 +325,8 @@ class EditMatch extends Component {
             </View>
             <DropDownPicker
               items={this.courseTees}
-              placeholder={this.state.playerTees[index].label}
-              defaultValue={this.state.playerTees[index].value}
+              placeholder={this.state.playerTees.length>0?this.state.playerTees[index].label:""}
+              defaultValue={this.state.playerTees.length > 0?this.state.playerTees[index].value:""}
               containerStyle={{ height: 40, borderColor: 'red' }}
               style={{
                 backgroundColor: '#fafafa', width: 130, zIndex: 1,
@@ -349,7 +349,7 @@ class EditMatch extends Component {
 
               }
               }
-              value={this.state.playerTees[index].value}
+              value={this.state.playerTees.length > 0?this.state.playerTees[index].value:""}
               labelStyle={{
                 ...styles.innerText,
                 fontSize: 16
