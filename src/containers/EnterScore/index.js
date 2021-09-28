@@ -163,7 +163,8 @@ class EnterScore extends React.Component {
 
       //ADDED ON 4TH AUGUST 2021
       if (props.enterScoreData.named === NOT_SHOW_MSG || props.enterScoreData.named === ERROR_API) {
-        clearInterval(this.intervalLoader)
+        if (this.intervalLoader)
+          clearInterval(this.intervalLoader)
         return {
           isLoading: false
         }
@@ -403,29 +404,6 @@ class EnterScore extends React.Component {
       //let newIndex = index;
       newIndex = index;
       let newCurrent = current;
-
-      // if (type === "poty") {
-      //   if (current === "Stroke") {
-      //     newCurrent = "FIR";
-      //   } else if (current === "FIR") {
-      //     newCurrent = "GIR";
-      //   } else if (current === "GIR") {
-      //     newCurrent = "Putts";
-      //   } else if (current === "Putts") {
-      //     newIndex = index + 1;
-      //     newCurrent = "Stroke";
-      //     if (index === scoreCard[0].Name.length - 1 && holeIndex < 17) {
-      //       newIndex = 0;
-      //       swipe = true;
-      //     }
-      //   }
-      // } else {
-      //   newIndex = index + 1;
-      //   if (index === scoreCard[0].Name.length - 1 && holeIndex < 17) {
-      //     newIndex = 0;
-      //     swipe = true;
-      //   }
-      // }
 
       if (withdrawPos === "0") {
         newIndex = index + 1;
@@ -825,32 +803,6 @@ class EnterScore extends React.Component {
         </View>
       );
     }
-
-    /**
-     * TODO: This needs to be handled properly.
-     */
-
-    // for (let i = 0, l = scoreCard.length; i < l; i++) {
-    //   const { Stroke, FIR, GIR, Putts } = scoreCard[i];
-
-    //   if (
-    //     (((this._arrayHasScores(Stroke) === this._arrayHasScores(FIR)) ===
-    //       this._arrayHasScores(GIR)) ===
-    //       this._arrayHasScores(Putts)) ===
-    //     2
-    //   ) {
-    //     dataLength = dataLength < 17 ? i + 1 : dataLength;
-    //   } else if (
-    //     (((this._arrayHasScores(Stroke) === this._arrayHasScores(FIR)) ===
-    //       this._arrayHasScores(GIR)) ===
-    //       this._arrayHasScores(Putts)) ===
-    //     1
-    //   ) {
-    //     dataLength = i;
-    //   } else {
-    //     break;
-    //   }
-    // }
 
     const holeScreens = [];
 
@@ -1712,13 +1664,6 @@ function manipulateDataForScoreCard(data, state) {
     player.scorecard.map((score, inn) => {
 
       if (score || rowValue) {
-        // if (playerIndex === rowIndex) {
-        //   console.log("----------condition1 is true");
-        //   if (parseInt(cardIndex) === parseInt(score.hole_number)) {
-        //     updatedData[score.hole_number - 1].Stroke[playerIndex] = rowValue
-        //   }
-        // }
-        // else
         updatedData[score.hole_number - 1].Stroke[playerIndex] = score.strokes;
 
         updatedData[score.hole_number - 1].FIR[playerIndex] = score.fir;

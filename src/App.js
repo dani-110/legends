@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from "react";
 import { Provider } from "react-redux";
-import { AppRegistry, View } from "react-native";
+import { AppRegistry, View, YellowBox } from "react-native";
 import { MessageBar } from "./components";
 import configureStore from "./store";
 import AppNavigator from "./navigator";
@@ -42,7 +42,9 @@ export default class App extends Component {
     if (this.state.isLoading) {
       return null;
     }
-    console.disableYellowBox = true
+    LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+    LogBox.ignoreAllLogs(true);//Ignore all log notifications
+    YellowBox.ignoreWarnings(['Warning: ...']);
     return (
       <View style={AppStyles.flex}>
         <Provider store={this.state.store}>
