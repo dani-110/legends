@@ -12,6 +12,7 @@ import Foursome from "./Foursome";
 import SinglesTwo from "./SinglesTwo";
 import { setTabbarType, enableEnterScore } from "../../actions/GeneralActions";
 import { Images } from "../../theme";
+import { Actions } from "react-native-router-flux";
 
 class LclLiveScore extends Component {
   static propTypes = {
@@ -82,7 +83,7 @@ class LclLiveScore extends Component {
   _renderTabsHeader() {
     return (
       <>
-        <CourseSelection data={this.props} setTees={(e) => { this.updateTees(e) }} />
+        {/* <CourseSelection data={this.props} setTees={(e) => { this.updateTees(e) }} /> */}
         <TopTabs data={this.TABS_DATA} activeIndex={this.state.activeTabIndex} />
       </>
     );
@@ -95,6 +96,9 @@ class LclLiveScore extends Component {
       data: { title, name, venue }
     } = this.props;
 
+    const { id, match_id, schedule_id,type,team1_p1, team1_p2, team2_p1, team2_p2}=this.props.data
+    console.log("props--->",this.props);
+
     teamName1 = this.props.current_match.length <= 0 ? this.props.data.team1_name : this.props.current_match[0].team1_name
     teamName2 = this.props.current_match.length <= 0 ? this.props.data.team2_name : this.props.current_match[0].team2_name
     return (
@@ -102,6 +106,24 @@ class LclLiveScore extends Component {
         <CustomNavbar
           title={title || teamName1 + " vs " + teamName2}
           subtitle={this.state.stateVenue || venue}
+          rightBtnImage={Images.scoreCardBlackWithBg}
+          rightBtnPress={() => {
+            Actions.scorecard({
+              act: {
+                action: "GetHoleDataForTournament",
+                id,
+                type,
+                season_id: parseInt(id, 10),
+                match_id,
+                schedule_id,
+                team1_p1: team1_p1.trim(),
+                team2_p1: team2_p1.trim(),
+                team1_p2: team1_p2.trim(),
+                team2_p2: team2_p2.trim()
+
+              }
+            });
+          }}
           // rightBtnImage={Images.change_Icon}
           // rightBtnPress={() => { <CourseSelection data={this.props} /> }}
           hasBorder={false}

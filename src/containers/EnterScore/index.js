@@ -1050,7 +1050,7 @@ class EnterScore extends React.Component {
     return Name.map((nameItem, nameIndex) => {
       const rowItem = data[key][nameIndex];
 
-      if (holeNumber === cardIndex && rowIndex > 0 && rowIndex - 1 === nameIndex) {
+      if (nameItem.withdraw === '0' && holeNumber === cardIndex && rowIndex > 0 && rowIndex - 1 === nameIndex) {
         if (!rowItem)
           util.topAlertError("Server error. Reenter previous score.")
       }

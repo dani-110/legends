@@ -199,7 +199,7 @@ class PotyLiveScore extends React.Component {
           title={name}
           subtitle={venue}
           hasBorder={false}
-          //rightBtnImage={Images.scoreCardBlackWithBg}
+          rightBtnImage={Images.scoreCardBlackWithBg}
           theme={NAVBAR_THEME.WHITE}
           titleAlign="center"
           rightBtnPress={() => {

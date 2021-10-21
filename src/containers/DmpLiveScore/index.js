@@ -1,6 +1,6 @@
 // @flow
 
-import { AppStyles, Colors } from "../../theme";
+import { AppStyles, Colors, Images } from "../../theme";
 import Tooltip from 'react-native-walkthrough-tooltip';
 import _ from "lodash";
 import { connect } from "react-redux";
@@ -21,6 +21,7 @@ import { NAVBAR_THEME } from "../../constants";
 import { setTabbarType, enableEnterScore } from "../../actions/GeneralActions";
 import { ScrollView } from "react-native-gesture-handler";
 import { POLLING_TIME } from "../../../src/constants/index";
+import { Actions } from "react-native-router-flux";
 
 const playerOneColor = Colors.redDark;
 const playerTwoColor = Colors.blue2;
@@ -174,6 +175,7 @@ class DmpLiveScore extends React.Component {
   }
 
   _headerController(playersData, score, type) {
+    let player1Name, player2Name=''
     if (playersData !== undefined) {
       debugger
       player1Name = playersData[0].team_1_players
@@ -248,10 +250,11 @@ class DmpLiveScore extends React.Component {
       liveScoreData
     } = this.props;
 
-
-    console.log(this.props)
-    teamName1 = this.props.current_match.length <= 0 ? this.props.data.team1_name : this.props.current_match[0].team1_name
-    teamName2 = this.props.current_match.length <= 0 ? this.props.data.team2_name : this.props.current_match[0].team2_name
+    const { id, match_id, schedule_id, type, team1_p1, team1_p2, team2_p1, team2_p2 } = this.props.data
+    console.log("props--->", this.props);
+    
+    let teamName1 = this.props.current_match.length <= 0 ? this.props.data.team1_name : this.props.current_match[0].team1_name
+    let teamName2 = this.props.current_match.length <= 0 ? this.props.data.team2_name : this.props.current_match[0].team2_name
     return (
 
       <View style={styles.container}>
@@ -262,8 +265,26 @@ class DmpLiveScore extends React.Component {
           theme={NAVBAR_THEME.WHITE}
           titleAlign="center"
           fontType="large"
+          rightBtnImage={Images.scoreCardBlackWithBg}
+          rightBtnPress={() => {
+            Actions.scorecard({
+              act: {
+                action: "GetHoleDataForTournament",
+                id,
+                type,
+                season_id: parseInt(id, 10),
+                match_id,
+                schedule_id,
+                team1_p1: team1_p1.trim(),
+                team2_p1: team2_p1.trim(),
+                team1_p2: team1_p2.trim(),
+                team2_p2: team2_p2.trim()
+
+              }
+            });
+          }}
         />
-        <CourseSelection data={this.props} setTees={(e) => { this.updateTees(e) }} />
+        {/* <CourseSelection data={this.props} setTees={(e) => { this.updateTees(e) }} /> */}
         {this._headerController(liveScoreData.players, liveScoreData.score, this.props.data.type)}
         <ScrollView refreshControl={
           <RefreshControl

@@ -5,7 +5,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { View, RefreshControl, Text } from "react-native";
 import styles from "./styles";
-import { AppStyles, Colors } from "../../theme";
+import { AppStyles, Colors, Images } from "../../theme";
 import { getScoreLmpRequest } from "../../actions/LiveMatchesActions";
 import Tooltip from 'react-native-walkthrough-tooltip';
 import {
@@ -19,6 +19,7 @@ import { NAVBAR_THEME } from "../../constants";
 import { setTabbarType, enableEnterScore } from "../../actions/GeneralActions";
 import { ScrollView } from "react-native-gesture-handler";
 import { POLLING_TIME } from "../../../src/constants/index";
+import { Actions } from "react-native-router-flux";
 
 const playerOneColor = Colors.redDark;
 const playerTwoColor = Colors.blue2;
@@ -214,6 +215,8 @@ class LmpLiveScore extends React.Component {
       liveScoreData
     } = this.props;
 
+    const{id,match_id,schedule_id}=this.props.data
+
     console.log("title is:" + title + "\n venue is:" + venue);
     teamName1 = this.props.current_match.length <= 0 ? this.props.data.team1_name : this.props.current_match[0].team1_name
     teamName2 = this.props.current_match.length <= 0 ? this.props.data.team2_name : this.props.current_match[0].team2_name
@@ -226,8 +229,22 @@ class LmpLiveScore extends React.Component {
           theme={NAVBAR_THEME.WHITE}
           titleAlign="center"
           fontType="large"
+          rightBtnImage={Images.scoreCardBlackWithBg}
+          rightBtnPress={() => {
+            Actions.scorecard({
+              act: {
+                action: "GetHoleDataForTournament",
+                id,
+                type:'lmp',
+                season_id: parseInt(id, 10),
+                match_id,
+                schedule_id,
+               
+              }
+            });
+          }}
         />
-        <CourseSelection data={this.props} setTees={(e) => { this.updateTees(e) }} />
+        {/* <CourseSelection data={this.props} setTees={(e) => { this.updateTees(e) }} /> */}
         {this._headerController(liveScoreData.players, liveScoreData.score)}
         <ScrollView refreshControl={
           <RefreshControl
