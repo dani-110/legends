@@ -126,7 +126,7 @@ export default class ListItem extends React.Component {
 
                     <View style={styles.RectangleShape}>
                       <Text style={{ alignSelf: 'center', paddingTop: 3, }} color={Colors.white} size="xSmall" type="bold">
-                        {title_}
+                        {title_==='LMP'?'SMP':title_}
                       </Text>
                     </View>
                 </View>
