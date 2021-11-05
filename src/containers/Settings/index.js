@@ -83,7 +83,7 @@ class Settings extends Component {
             <Text style={{ color: Colors.grey }}></Text>
             {/* Powered by Live Wire Apps */}
           </TouchableOpacity>
-          <Text>Version 3.3.8</Text>
+          <Text>Version 3.3.9</Text>
         </View>
       </View>
     );

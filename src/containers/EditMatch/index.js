@@ -156,20 +156,21 @@ class EditMatch extends Component {
               //defaultValue={}
               containerStyle={{ height: 40, borderColor: 'red' }}
               style={{
-                backgroundColor: '#fafafa', width: 230, zIndex: 1,
+                backgroundColor: 'white', width: 230, zIndex: 1,
                 borderTopLeftRadius: 10, borderTopRightRadius: 10,
                 borderBottomLeftRadius: 10, borderBottomRightRadius: 10
               }}
               itemStyle={{
                 justifyContent: 'flex-start'
               }}
-              dropDownStyle={{ backgroundColor: '#fafafa' }}
+              dropDownStyle={{ backgroundColor: 'white' }}
               onChangeItem={item => {
                 this.setCoursesWithPlayers(this.state.playersDirectoryData, true, item.label)
               }}
               labelStyle={{
                 ...styles.innerText,
-                fontSize: 16
+                fontSize: 16,
+                fontWeight:'500'
               }}
             />
           </View>
@@ -185,7 +186,8 @@ class EditMatch extends Component {
               <TouchableOpacity onPress={() => this.showDatePicker()}>
                 <Text style={{
                   ...styles.innerText, textAlign: 'center',
-                  padding: 10
+                  padding: 10,
+                  fontWeight:'100'
                 }}>{this.state.matchDate}</Text>
               </TouchableOpacity>
             </View>
@@ -294,6 +296,7 @@ class EditMatch extends Component {
 
         this.props.getLivedataRequest();
         this.setState({ postingData: false })
+        this.props.navigation.pop();
       })
       .catch(function (error) {
         this.setState({ postingData: false })
@@ -329,14 +332,14 @@ class EditMatch extends Component {
               defaultValue={this.state.playerTees.length > 0?this.state.playerTees[index].value:""}
               containerStyle={{ height: 40, borderColor: 'red' }}
               style={{
-                backgroundColor: '#fafafa', width: 130, zIndex: 1,
+                backgroundColor: 'white', width: 130, zIndex: 1,
                 borderTopLeftRadius: 10, borderTopRightRadius: 10,
                 borderBottomLeftRadius: 10, borderBottomRightRadius: 10
               }}
               itemStyle={{
-                justifyContent: 'flex-start'
+                justifyContent: 'flex-start', fontWeight: 'bold'
               }}
-              dropDownStyle={{ backgroundColor: '#fafafa' }}
+              dropDownStyle={{ backgroundColor: 'white' }}
               onChangeItem={item => {
 
                 let tmpPlayerTees = this.state.playerTees;
@@ -352,7 +355,8 @@ class EditMatch extends Component {
               value={this.state.playerTees.length > 0?this.state.playerTees[index].value:""}
               labelStyle={{
                 ...styles.innerText,
-                fontSize: 16
+                fontSize: 16,
+                fontWeight:'500'
               }}
             />
           </View>
