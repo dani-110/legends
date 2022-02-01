@@ -291,8 +291,10 @@ class EditMatch extends Component {
 
       { headers: { Authorization: AuthStr, "Content-Type": "application/json", } }).then((response) => {
 
-        if (response.status === 200)
+        if (response.status === 200){
+          console.log("response save schedule-------->", response);
           alert("Saved Successfully")
+        }
 
         this.props.getLivedataRequest();
         this.setState({ postingData: false })
